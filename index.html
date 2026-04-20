@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FairFares — Travel Cost Benchmark Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a1628;
+  --navy-mid: #162240;
+  --teal: #0d9e8a;
+  --teal-light: #e6f7f5;
+  --teal-dark: #0a7a6a;
+  --amber: #f5a623;
+  --red: #e53e3e;
+  --green: #2f855a;
+  --green-bg: #f0fff4;
+  --amber-bg: #fffbeb;
+  --red-bg: #fff5f5;
+  --gray-50: #f8f9fa;
+  --gray-100: #f1f3f5;
+  --gray-200: #e9ecef;
+  --gray-400: #adb5bd;
+  --gray-600: #6c757d;
+  --gray-800: #343a40;
+  --white: #ffffff;
+  --font-display: 'DM Serif Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  --radius: 10px;
+  --radius-lg: 16px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);color:var(--navy);background:var(--white);line-height:1.6}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--gray-200);padding:0 2rem}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:var(--font-display);font-size:1.4rem;color:var(--navy);text-decoration:none;letter-spacing:-.01em}
+.logo span{color:var(--teal)}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-links a{font-size:.9rem;color:var(--gray-600);text-decoration:none;font-weight:400}
+.nav-links a:hover{color:var(--navy)}
+.nav-cta{background:var(--navy);color:var(--white)!important;padding:.45rem 1.1rem;border-radius:6px;font-weight:500!important}
+.nav-cta:hover{background:var(--navy-mid)!important;opacity:1}
+
+/* HERO */
+.hero{background:var(--navy);color:var(--white);padding:7rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,158,138,.18) 0%,transparent 70%)}
+.hero-eyebrow{display:inline-block;font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);background:rgba(13,158,138,.12);border:1px solid rgba(13,158,138,.25);padding:.3rem .9rem;border-radius:20px;margin-bottom:1.5rem}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.15;max-width:820px;margin:0 auto 1.25rem;font-weight:400}
+.hero h1 em{color:var(--teal);font-style:italic}
+.hero-sub{font-size:1.1rem;color:rgba(255,255,255,.7);max-width:560px;margin:0 auto 2.5rem;font-weight:300;line-height:1.7}
+.hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--teal);color:var(--white);padding:.75rem 2rem;border-radius:8px;font-size:.95rem;font-weight:500;text-decoration:none;border:none;cursor:pointer;transition:background .2s}
+.btn-primary:hover{background:var(--teal-dark)}
+.btn-ghost{background:transparent;color:var(--white);padding:.75rem 2rem;border-radius:8px;font-size:.95rem;font-weight:400;text-decoration:none;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition:all .2s}
+.btn-ghost:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.05)}
+.hero-stats{display:flex;justify-content:center;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
+.hero-stat .num{font-family:var(--font-display);font-size:2rem;color:var(--teal)}
+.hero-stat .lbl{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:.2rem}
+
+/* HOW IT WORKS */
+.section{padding:5rem 2rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-tag{font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);line-height:1.2;margin-bottom:1rem;font-weight:400}
+.section-sub{font-size:1rem;color:var(--gray-600);max-width:520px;line-height:1.7}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2rem;margin-top:3.5rem}
+.step{padding:1.75rem;border:1px solid var(--gray-200);border-radius:var(--radius-lg);position:relative}
+.step-num{width:36px;height:36px;background:var(--navy);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:500;margin-bottom:1.25rem}
+.step h3{font-size:1rem;font-weight:500;margin-bottom:.5rem;color:var(--navy)}
+.step p{font-size:.9rem;color:var(--gray-600);line-height:1.6}
+
+/* FEATURES */
+.features-bg{background:var(--gray-50)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
+.feature{background:var(--white);padding:1.5rem;border-radius:var(--radius-lg);border:1px solid var(--gray-200)}
+.feature-icon{width:40px;height:40px;background:var(--teal-light);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
+.feature-icon svg{width:20px;height:20px;stroke:var(--teal);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.feature h3{font-size:.95rem;font-weight:500;margin-bottom:.4rem;color:var(--navy)}
+.feature p{font-size:.875rem;color:var(--gray-600);line-height:1.6}
+
+/* TOOL SECTION */
+.tool-section{background:var(--white)}
+.tool-wrapper{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden;margin-top:2.5rem}
+.tool-nav{display:flex;border-bottom:1px solid var(--gray-200);background:var(--gray-50)}
+.tool-tab{padding:.875rem 1.5rem;font-size:.875rem;font-weight:500;color:var(--gray-600);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tool-tab.active{color:var(--navy);border-bottom-color:var(--teal);background:var(--white)}
+.tool-body{padding:1.75rem}
+.tpage{display:none}.tpage.active{display:block}
+.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
+.field label{display:block;font-size:.75rem;font-weight:500;color:var(--gray-600);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.field input,.field select{width:100%;padding:.6rem .8rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.9rem;font-family:var(--font-body);color:var(--navy);background:var(--white);outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus{border-color:var(--teal)}
+.lookup-btn{width:100%;padding:.75rem;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:.9rem;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:background .2s;margin-top:4px}
+.lookup-btn:hover{background:var(--navy-mid)}
+.lookup-btn:disabled{opacity:.45;cursor:not-allowed}
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.metric-box{background:var(--gray-50);border-radius:10px;padding:14px 16px}
+.metric-box .mlbl{font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-600);margin-bottom:4px}
+.metric-box .mval{font-size:1.5rem;font-weight:500;color:var(--navy);font-family:var(--font-display)}
+.metric-box .msub{font-size:.75rem;color:var(--gray-400);margin-top:2px}
+.check-row{display:flex;align-items:center;gap:10px;margin-top:14px}
+.check-row label{font-size:.875rem;color:var(--gray-600);white-space:nowrap}
+.check-row input{max-width:110px}
+.check-btn{padding:.55rem 1.1rem;background:var(--white);border:1px solid var(--gray-200);border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--font-body);color:var(--navy);white-space:nowrap;transition:all .15s}
+.check-btn:hover{border-color:var(--teal);color:var(--teal)}
+.verdict-box{border-radius:10px;padding:14px 16px;border:1px solid;margin-top:12px}
+.verdict-box.ok{background:var(--green-bg);border-color:#9ae6b4}
+.verdict-box.warn{background:var(--amber-bg);border-color:#fbd38d}
+.verdict-box.over{background:var(--red-bg);border-color:#feb2b2}
+.verdict-title{font-size:.875rem;font-weight:500;margin-bottom:3px}
+.verdict-title.ok{color:var(--green)}.verdict-title.warn{color:#b7791f}.verdict-title.over{color:var(--red)}
+.verdict-body{font-size:.825rem;color:var(--gray-600)}
+.tool-note{font-size:.75rem;color:var(--gray-400);margin-top:10px}
+.err-msg{font-size:.8rem;color:var(--red);margin-top:6px;display:none}
+.fallback{background:var(--teal-light);border:1px solid rgba(13,158,138,.2);border-radius:10px;padding:14px 16px;margin-top:12px;display:none}
+.fallback p{font-size:.85rem;color:#0a5a50;margin-bottom:10px}
+.fallback-btn{padding:.5rem 1rem;background:var(--teal);color:var(--white);border:none;border-radius:7px;font-size:.825rem;font-weight:500;cursor:pointer;font-family:var(--font-body)}
+
+/* PDF RESULT */
+.pdf-section{display:none;margin-top:1.5rem}
+.pdf-card{border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden}
+.pdf-header{background:var(--navy);color:var(--white);padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+.pdf-header .pdf-logo{font-family:var(--font-display);font-size:1.1rem}
+.pdf-header .pdf-logo span{color:var(--teal)}
+.pdf-header .pdf-meta{font-size:.75rem;color:rgba(255,255,255,.6);text-align:right}
+.pdf-body{padding:1.5rem}
+.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.pdf-field{font-size:.8rem}
+.pdf-field .pf-label{color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;font-size:.7rem;margin-bottom:2px}
+.pdf-field .pf-value{font-weight:500;color:var(--navy)}
+.pdf-verdict-stripe{padding:1rem 1.25rem;border-radius:8px;display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.pdf-verdict-stripe.ok{background:var(--green-bg);border:1px solid #9ae6b4}
+.pdf-verdict-stripe.warn{background:var(--amber-bg);border:1px solid #fbd38d}
+.pdf-verdict-stripe.over{background:var(--red-bg);border:1px solid #feb2b2}
+.pdf-verdict-text{font-size:.9rem;font-weight:500}
+.pdf-verdict-text.ok{color:var(--green)}.pdf-verdict-text.warn{color:#b7791f}.pdf-verdict-text.over{color:var(--red)}
+.pdf-footer{font-size:.7rem;color:var(--gray-400);border-top:1px solid var(--gray-200);padding-top:.75rem;display:flex;justify-content:space-between}
+.print-btn{padding:.6rem 1.25rem;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:.825rem;font-weight:500;cursor:pointer;font-family:var(--font-body);margin-top:1rem}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:3rem}
+.price-card{border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.75rem;position:relative}
+.price-card.featured{border-color:var(--teal);border-width:2px}
+.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--teal);color:var(--white);font-size:.7rem;font-weight:500;padding:.25rem .75rem;border-radius:20px;white-space:nowrap}
+.price-tier{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-600);margin-bottom:.75rem}
+.price-amount{font-family:var(--font-display);font-size:2.2rem;color:var(--navy);margin-bottom:.25rem}
+.price-amount span{font-size:1rem;font-family:var(--font-body);color:var(--gray-600);font-weight:300}
+.price-desc{font-size:.85rem;color:var(--gray-600);margin-bottom:1.25rem;line-height:1.5}
+.price-features{list-style:none;margin-bottom:1.5rem}
+.price-features li{font-size:.85rem;color:var(--gray-600);padding:.3rem 0;display:flex;align-items:flex-start;gap:.5rem}
+.price-features li::before{content:'✓';color:var(--teal);font-weight:500;flex-shrink:0;margin-top:.05rem}
+.price-cta{width:100%;padding:.7rem;border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:all .2s;text-align:center;display:block;text-decoration:none}
+.price-cta-outline{background:var(--white);color:var(--navy);border:1px solid var(--gray-200)}
+.price-cta-outline:hover{border-color:var(--navy)}
+.price-cta-solid{background:var(--navy);color:var(--white);border:none}
+.price-cta-solid:hover{background:var(--navy-mid)}
+
+/* FOOTER */
+footer{background:var(--navy);color:rgba(255,255,255,.6);padding:3rem 2rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-logo{font-family:var(--font-display);font-size:1.2rem;color:var(--white)}
+.footer-logo span{color:var(--teal)}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
+.footer-links a{font-size:.8rem;color:rgba(255,255,255,.4);text-decoration:none}
+.footer-links a:hover{color:rgba(255,255,255,.8)}
+.footer-copy{font-size:.75rem;color:rgba(255,255,255,.3);margin-top:.75rem;width:100%}
+
+/* ADMIN */
+.admin-grid{display:grid;grid-template-columns:1fr;gap:1rem}
+.admin-table-wrap{overflow-x:auto}
+table.rtable{width:100%;border-collapse:collapse;font-size:.825rem}
+table.rtable th{text-align:left;font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-600);padding:6px 8px;border-bottom:1px solid var(--gray-200)}
+table.rtable td{padding:6px 8px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
+table.rtable tr:last-child td{border:none}
+table.rtable input{width:65px;padding:3px 5px;border:1px solid var(--gray-200);border-radius:5px;font-size:.8rem}
+.del-btn{background:none;border:none;color:var(--gray-400);cursor:pointer;font-size:.75rem;padding:2px 6px}
+.del-btn:hover{color:var(--red)}
+.add-form{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;margin-top:12px}
+.add-form label{font-size:.7rem;color:var(--gray-600);display:block;margin-bottom:3px}
+.add-form input{width:100%;padding:4px 6px;border:1px solid var(--gray-200);border-radius:5px;font-size:.8rem}
+.add-form-btn{padding:6px 10px;background:var(--navy);color:var(--white);border:none;border-radius:6px;font-size:.8rem;cursor:pointer;font-family:var(--font-body)}
+.export-row{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap}
+.exp-btn{padding:.5rem 1rem;font-size:.825rem;border:1px solid var(--gray-200);border-radius:7px;background:var(--white);cursor:pointer;font-family:var(--font-body);color:var(--navy)}
+.exp-btn:hover{border-color:var(--navy)}
+.admin-note{font-size:.75rem;color:var(--gray-400);margin-top:.5rem}
+
+@media(max-width:600px){
+  .form-grid-2,.form-grid-3{grid-template-columns:1fr}
+  .metrics-row{grid-template-columns:1fr 1fr}
+  .hero-stats{gap:1.5rem}
+  .add-form{grid-template-columns:1fr 1fr}
+  .pdf-grid{grid-template-columns:1fr}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Fair<span>Fares</span></a>
+    <div class="nav-links">
+      <a href="#how-it-works">How it works</a>
+      <a href="#tool">Try it free</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#tool" class="nav-cta">Get started</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Travel expense compliance</div>
+  <h1>Was that flight fare <em>actually</em> reasonable?</h1>
+  <p class="hero-sub">FairFares gives finance teams, travel managers, and expense reviewers instant, defensible benchmarks for flights and hotels worldwide.</p>
+  <div class="hero-actions">
+    <a href="#tool" class="btn-primary">Try it free — no signup</a>
+    <a href="#how-it-works" class="btn-ghost">See how it works</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">34+</div><div class="lbl">Routes covered</div></div>
+    <div class="hero-stat"><div class="num">$0</div><div class="lbl">Cost to start</div></div>
+    <div class="hero-stat"><div class="num">GSA</div><div class="lbl">Hotel data source</div></div>
+    <div class="hero-stat"><div class="num">PDF</div><div class="lbl">Shareable records</div></div>
+  </div>
+</section>
+
+<section class="section" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-tag">How it works</div>
+    <h2 class="section-title">Three steps to a defensible answer</h2>
+    <p class="section-sub">No API keys, no subscriptions to start. Just enter the route and get a benchmark range backed by real data sources.</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Enter the trip details</h3><p>Origin, destination, travel date, cabin class, and trip type. City names or IATA codes both work.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Get the benchmark range</h3><p>FairFares returns a low, typical, and high estimate drawn from BTS historical data and curated market rates.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Enter the submitted amount</h3><p>FairFares gives an instant verdict — within benchmark, borderline, or over — and generates a shareable PDF record.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section features-bg">
+  <div class="section-inner">
+    <div class="section-tag">Features</div>
+    <h2 class="section-title">Built for compliance, not booking</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <h3>Instant verdict</h3>
+        <p>Green, amber, or red verdict in seconds. No guesswork, no spreadsheets.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <h3>Shareable PDF record</h3>
+        <p>Every lookup generates a timestamped compliance document to attach to the expense report.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+        <h3>Global coverage</h3>
+        <p>US flights via BTS data, US hotels via GSA per diem, international destinations via curated benchmarks.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Policy-grade sources</h3>
+        <p>GSA per diem rates are used by the US federal government — hard to dispute in an audit.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
+        <h3>Admin panel</h3>
+        <p>Update fare tables quarterly in minutes. No developer needed. Export and import as JSON.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <h3>Free to start</h3>
+        <p>No credit card, no signup required to try. Free tier covers most small teams indefinitely.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section tool-section" id="tool">
+  <div class="section-inner">
+    <div class="section-tag">Live tool</div>
+    <h2 class="section-title">Look up a benchmark now</h2>
+    <p class="section-sub">Free to use. No account required.</p>
+
+    <div class="tool-wrapper">
+      <div class="tool-nav">
+        <button class="tool-tab active" onclick="switchTab('flights',this)">Flights</button>
+        <button class="tool-tab" onclick="switchTab('hotels',this)">Hotels</button>
+        <button class="tool-tab" onclick="switchTab('admin',this)">Admin</button>
+      </div>
+      <div class="tool-body">
+
+        <!-- FLIGHTS -->
+        <div class="tpage active" id="tpage-flights">
+          <div class="form-grid-2">
+            <div class="field"><label>From (city or IATA)</label><input type="text" id="f-origin" placeholder="San Francisco or SFO"></div>
+            <div class="field"><label>To (city or IATA)</label><input type="text" id="f-dest" placeholder="Chicago or ORD"></div>
+          </div>
+          <div class="form-grid-3">
+            <div class="field"><label>Travel date</label><input type="date" id="f-date"></div>
+            <div class="field"><label>Cabin</label>
+              <select id="f-cabin">
+                <option value="economy">Economy</option>
+                <option value="premium_economy">Premium economy</option>
+                <option value="business">Business</option>
+              </select>
+            </div>
+            <div class="field"><label>Trip type</label>
+              <select id="f-type">
+                <option value="roundtrip">Round trip</option>
+                <option value="oneway">One way</option>
+              </select>
+            </div>
+          </div>
+          <div class="err-msg" id="f-err">Please enter origin and destination.</div>
+          <button class="lookup-btn" onclick="lookupFlight()">Look up flight benchmark</button>
+
+          <div id="f-results" style="display:none;margin-top:1.25rem">
+            <div style="font-size:.875rem;font-weight:500;margin-bottom:.875rem;color:var(--navy)" id="f-route-lbl"></div>
+            <div class="metrics-row">
+              <div class="metric-box"><div class="mlbl">Low estimate</div><div class="mval" id="f-low">—</div><div class="msub" id="f-cabin-lbl">economy</div></div>
+              <div class="metric-box"><div class="mlbl">Typical fare</div><div class="mval" id="f-mid">—</div><div class="msub">benchmark</div></div>
+              <div class="metric-box"><div class="mlbl">High estimate</div><div class="mval" id="f-high">—</div><div class="msub">still reasonable</div></div>
+            </div>
+            <div class="check-row">
+              <label>Submitted amount:</label>
+              <input type="number" id="f-sub" placeholder="e.g. 420" min="0" class="field" style="max-width:110px;padding:.5rem .7rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.9rem">
+              <button class="check-btn" onclick="checkFlight()">Check</button>
+            </div>
+            <div id="f-verdict"></div>
+            <p class="tool-note" id="f-note"></p>
+          </div>
+
+          <div class="fallback" id="f-fallback">
+            <p>This route isn't in the benchmark table yet. Open Google Flights to get a current price range and attach a screenshot to the expense record.</p>
+            <button class="fallback-btn" onclick="openGF()">Open Google Flights search</button>
+          </div>
+
+          <!-- PDF RECORD -->
+          <div class="pdf-section" id="f-pdf">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+              <span style="font-size:.8rem;font-weight:500;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em">Compliance record</span>
+              <button class="print-btn" onclick="printRecord()">Download / Print PDF</button>
+            </div>
+            <div class="pdf-card" id="pdf-content">
+              <div class="pdf-header">
+                <div class="pdf-logo">Fair<span>Fares</span></div>
+                <div class="pdf-meta"><div id="pdf-timestamp"></div><div>getfairfares.com</div></div>
+              </div>
+              <div class="pdf-body">
+                <div class="pdf-grid">
+                  <div class="pdf-field"><div class="pf-label">Route</div><div class="pf-value" id="pdf-route"></div></div>
+                  <div class="pdf-field"><div class="pf-label">Travel date</div><div class="pf-value" id="pdf-date"></div></div>
+                  <div class="pdf-field"><div class="pf-label">Cabin / trip type</div><div class="pf-value" id="pdf-cabin"></div></div>
+                  <div class="pdf-field"><div class="pf-label">Submitted amount</div><div class="pf-value" id="pdf-submitted"></div></div>
+                  <div class="pdf-field"><div class="pf-label">Benchmark range</div><div class="pf-value" id="pdf-range"></div></div>
+                  <div class="pdf-field"><div class="pf-label">Data source</div><div class="pf-value">FairFares v1.0 — BTS/GSA Q2 2026</div></div>
+                </div>
+                <div class="pdf-verdict-stripe" id="pdf-verdict-stripe">
+                  <div class="pdf-verdict-text" id="pdf-verdict-text"></div>
+                  <div style="font-size:.75rem;color:var(--gray-600)" id="pdf-verdict-detail"></div>
+                </div>
+                <div class="pdf-footer">
+                  <span>Generated by FairFares — getfairfares.com</span>
+                  <span id="pdf-id"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOTELS -->
+        <div class="tpage" id="tpage-hotels">
+          <div class="form-grid-2">
+            <div class="field"><label>City</label><input type="text" id="h-city" placeholder="Chicago"></div>
+            <div class="field"><label>Country</label>
+              <select id="h-country">
+                <option value="US">United States</option>
+                <option value="GB">United Kingdom</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+                <option value="JP">Japan</option>
+                <option value="SG">Singapore</option>
+                <option value="CH">Switzerland</option>
+                <option value="NL">Netherlands</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid-3">
+            <div class="field"><label>State (US only)</label><input type="text" id="h-state" placeholder="IL" maxlength="2" style="text-transform:uppercase"></div>
+            <div class="field"><label>Check-in</label><input type="date" id="h-checkin"></div>
+            <div class="field"><label>Check-out</label><input type="date" id="h-checkout"></div>
+          </div>
+          <div class="err-msg" id="h-err">Please enter a city and check-in date.</div>
+          <button class="lookup-btn" id="h-btn" onclick="lookupHotel()">Look up hotel benchmark</button>
+
+          <div id="h-results" style="display:none;margin-top:1.25rem">
+            <div style="font-size:.875rem;font-weight:500;margin-bottom:.875rem" id="h-city-lbl"></div>
+            <div class="metrics-row">
+              <div class="metric-box"><div class="mlbl" id="h-lbl1">GSA per diem</div><div class="mval" id="h-rate1">—</div><div class="msub" id="h-sub1">federal rate</div></div>
+              <div class="metric-box"><div class="mlbl">Market estimate</div><div class="mval" id="h-rate2">—</div><div class="msub">avg nightly</div></div>
+              <div class="metric-box"><div class="mlbl">Stay duration</div><div class="mval" id="h-nights">—</div><div class="msub">nights</div></div>
+            </div>
+            <div class="check-row">
+              <label>Submitted per night:</label>
+              <input type="number" id="h-sub" placeholder="e.g. 220" min="0" class="field" style="max-width:110px;padding:.5rem .7rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.9rem">
+              <button class="check-btn" onclick="checkHotel()">Check</button>
+            </div>
+            <div id="h-verdict"></div>
+            <p class="tool-note" id="h-note"></p>
+          </div>
+        </div>
+
+        <!-- ADMIN -->
+        <div class="tpage" id="tpage-admin">
+          <div style="font-size:.8rem;color:var(--gray-600);margin-bottom:1rem">Update fare tables quarterly. Changes apply immediately to lookups on this page.</div>
+          <div class="admin-table-wrap">
+            <table class="rtable" id="admin-table">
+              <thead><tr><th>From</th><th>To</th><th>Low ($)</th><th>Mid ($)</th><th>High ($)</th><th>RT mult</th><th></th></tr></thead>
+              <tbody id="admin-tbody"></tbody>
+            </table>
+          </div>
+          <div class="add-form" id="add-form">
+            <div><label>From</label><input type="text" id="new-from" placeholder="SFO" maxlength="3" style="text-transform:uppercase"></div>
+            <div><label>To</label><input type="text" id="new-to" placeholder="ORD" maxlength="3" style="text-transform:uppercase"></div>
+            <div><label>Low</label><input type="number" id="new-low" placeholder="280"></div>
+            <div><label>Mid</label><input type="number" id="new-mid" placeholder="420"></div>
+            <div><label>High</label><input type="number" id="new-high" placeholder="650"></div>
+            <div><label>RT mult</label><input type="number" id="new-rt" placeholder="1.7" step="0.1"></div>
+            <div><label>&nbsp;</label><button class="add-form-btn" onclick="addRoute()">Add</button></div>
+          </div>
+          <div class="err-msg" id="add-err">Fill in all fields.</div>
+          <div class="export-row">
+            <button class="exp-btn" onclick="exportData()">Export JSON</button>
+            <button class="exp-btn" onclick="document.getElementById('import-file').click()">Import JSON</button>
+            <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+          </div>
+          <p class="admin-note">Export before each quarterly update and keep the previous version as a backup record.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section features-bg" id="pricing">
+  <div class="section-inner">
+    <div class="section-tag">Pricing</div>
+    <h2 class="section-title">Start free, scale when you're ready</h2>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">Free</div>
+        <div class="price-amount">$0</div>
+        <div class="price-desc">For individual reviewers and small teams trialling the tool.</div>
+        <ul class="price-features">
+          <li>50 lookups per month</li>
+          <li>US flights and hotels</li>
+          <li>Standard benchmark table</li>
+          <li>PDF compliance record</li>
+        </ul>
+        <a href="#tool" class="price-cta price-cta-outline">Try it now</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-badge">Most popular</div>
+        <div class="price-tier">Pro</div>
+        <div class="price-amount">$49<span>/month</span></div>
+        <div class="price-desc">For finance teams and travel managers needing full coverage.</div>
+        <ul class="price-features">
+          <li>Unlimited lookups</li>
+          <li>International routes and hotels</li>
+          <li>Custom fare table</li>
+          <li>Verdict history and audit log</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="mailto:hello@getfairfares.com" class="price-cta price-cta-solid">Get started</a>
+      </div>
+      <div class="price-card">
+        <div class="price-tier">Enterprise</div>
+        <div class="price-amount">Custom</div>
+        <div class="price-desc">For universities, health systems, and large organisations.</div>
+        <ul class="price-features">
+          <li>Everything in Pro</li>
+          <li>SSO and user management</li>
+          <li>Concur / expense system integration</li>
+          <li>Dedicated fare table updates</li>
+          <li>SLA and dedicated support</li>
+        </ul>
+        <a href="mailto:hello@getfairfares.com" class="price-cta price-cta-outline">Contact us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Fair<span>Fares</span></div>
+      <div class="footer-copy">© 2026 FairFares. Travel expense compliance made simple.</div>
+    </div>
+    <div class="footer-links">
+      <a href="mailto:hello@getfairfares.com">Contact</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#tool">Tool</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const ROUTES=[
+  {from:'SFO',to:'LAX',low:59,mid:120,high:220,rt:1.4},
+  {from:'SFO',to:'ORD',low:180,mid:320,high:520,rt:1.7},
+  {from:'SFO',to:'JFK',low:200,mid:360,high:560,rt:1.7},
+  {from:'SFO',to:'BOS',low:210,mid:370,high:580,rt:1.7},
+  {from:'SFO',to:'DCA',low:220,mid:380,high:590,rt:1.7},
+  {from:'SFO',to:'IAD',low:220,mid:375,high:585,rt:1.7},
+  {from:'SFO',to:'SEA',low:80,mid:160,high:280,rt:1.5},
+  {from:'SFO',to:'PDX',low:70,mid:140,high:260,rt:1.5},
+  {from:'SFO',to:'LAS',low:60,mid:110,high:200,rt:1.4},
+  {from:'SFO',to:'PHX',low:70,mid:130,high:230,rt:1.4},
+  {from:'SFO',to:'DEN',low:100,mid:200,high:360,rt:1.6},
+  {from:'SFO',to:'ATL',low:200,mid:350,high:540,rt:1.7},
+  {from:'SFO',to:'MIA',low:210,mid:370,high:560,rt:1.7},
+  {from:'SFO',to:'HOU',low:180,mid:310,high:490,rt:1.7},
+  {from:'SFO',to:'MSP',low:160,mid:290,high:460,rt:1.7},
+  {from:'SFO',to:'DTW',low:180,mid:320,high:500,rt:1.7},
+  {from:'SFO',to:'CLT',low:200,mid:360,high:550,rt:1.7},
+  {from:'SFO',to:'SAN',low:55,mid:100,high:190,rt:1.4},
+  {from:'SFO',to:'SMF',low:40,mid:80,high:150,rt:1.3},
+  {from:'SFO',to:'LHR',low:480,mid:780,high:1200,rt:1.8},
+  {from:'SFO',to:'CDG',low:500,mid:820,high:1280,rt:1.8},
+  {from:'SFO',to:'FRA',low:490,mid:800,high:1250,rt:1.8},
+  {from:'SFO',to:'NRT',low:550,mid:900,high:1380,rt:1.8},
+  {from:'SFO',to:'SYD',low:700,mid:1100,high:1650,rt:1.9},
+  {from:'SFO',to:'SIN',low:620,mid:980,high:1480,rt:1.9},
+  {from:'SFO',to:'YVR',low:120,mid:230,high:380,rt:1.6},
+  {from:'SFO',to:'YYZ',low:240,mid:400,high:620,rt:1.7},
+  {from:'LAX',to:'JFK',low:180,mid:320,high:510,rt:1.7},
+  {from:'LAX',to:'ORD',low:160,mid:290,high:480,rt:1.7},
+  {from:'LAX',to:'LHR',low:460,mid:760,high:1180,rt:1.8},
+  {from:'OAK',to:'LAX',low:55,mid:110,high:200,rt:1.4},
+  {from:'OAK',to:'JFK',low:195,mid:345,high:545,rt:1.7},
+  {from:'SJC',to:'LAX',low:55,mid:110,high:195,rt:1.4},
+  {from:'SJC',to:'ORD',low:175,mid:315,high:510,rt:1.7},
+];
+const INTL_HOTELS=[
+  {city:'London',country:'GB',low:180,mid:280,high:420},
+  {city:'Paris',country:'FR',low:170,mid:270,high:400},
+  {city:'Frankfurt',country:'DE',low:140,mid:220,high:340},
+  {city:'Berlin',country:'DE',low:110,mid:180,high:280},
+  {city:'Amsterdam',country:'NL',low:150,mid:240,high:370},
+  {city:'Zurich',country:'CH',low:220,mid:340,high:500},
+  {city:'Tokyo',country:'JP',low:130,mid:210,high:330},
+  {city:'Singapore',country:'SG',low:180,mid:280,high:420},
+  {city:'Sydney',country:'AU',low:160,mid:250,high:380},
+  {city:'Toronto',country:'CA',low:150,mid:240,high:370},
+  {city:'Vancouver',country:'CA',low:140,mid:230,high:360},
+];
+let routes=JSON.parse(JSON.stringify(ROUTES));
+let flightBench=null,hotelBench=null;
+const CITY_MAP={'SAN FRANCISCO':'SFO','SF':'SFO','CHICAGO':'ORD','NEW YORK':'JFK','NYC':'JFK','BOSTON':'BOS','WASHINGTON':'DCA','DC':'DCA','SEATTLE':'SEA','PORTLAND':'PDX','LAS VEGAS':'LAS','PHOENIX':'PHX','DENVER':'DEN','ATLANTA':'ATL','MIAMI':'MIA','HOUSTON':'HOU','MINNEAPOLIS':'MSP','DETROIT':'DTW','CHARLOTTE':'CLT','SAN DIEGO':'SAN','SACRAMENTO':'SMF','LOS ANGELES':'LAX','LA':'LAX','LONDON':'LHR','PARIS':'CDG','FRANKFURT':'FRA','TOKYO':'NRT','SYDNEY':'SYD','SINGAPORE':'SIN','VANCOUVER':'YVR','TORONTO':'YYZ','OAKLAND':'OAK','SAN JOSE':'SJC'};
+
+function norm(s){return(s||'').trim().toUpperCase();}
+function fmt(n){return'$'+Math.round(n).toLocaleString();}
+function findRoute(a,b){
+  const ra=CITY_MAP[norm(a)]||norm(a),rb=CITY_MAP[norm(b)]||norm(b);
+  return routes.find(x=>x.from===ra&&x.to===rb)||routes.find(x=>x.from===rb&&x.to===ra)||null;
+}
+function switchTab(t,el){
+  document.querySelectorAll('.tool-tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tpage').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('tpage-'+t).classList.add('active');
+  if(t==='admin')renderAdmin();
+}
+function lookupFlight(){
+  const o=document.getElementById('f-origin').value,d=document.getElementById('f-dest').value;
+  document.getElementById('f-err').style.display='none';
+  document.getElementById('f-fallback').style.display='none';
+  document.getElementById('f-results').style.display='none';
+  document.getElementById('f-pdf').style.display='none';
+  if(!o||!d){document.getElementById('f-err').style.display='block';document.getElementById('f-err').textContent='Please enter origin and destination.';return;}
+  const r=findRoute(o,d);
+  if(!r){document.getElementById('f-err').style.display='block';document.getElementById('f-err').textContent='Route not in table yet.';document.getElementById('f-fallback').style.display='block';return;}
+  const type=document.getElementById('f-type').value,cabin=document.getElementById('f-cabin').value;
+  const mult=(type==='roundtrip')?r.rt:1;
+  const cm={economy:1,premium_economy:1.8,business:3.5}[cabin]||1;
+  flightBench={low:r.low*mult*cm,mid:r.mid*mult*cm,high:r.high*mult*cm,from:r.from,to:r.to,type,cabin};
+  document.getElementById('f-low').textContent=fmt(flightBench.low);
+  document.getElementById('f-mid').textContent=fmt(flightBench.mid);
+  document.getElementById('f-high').textContent=fmt(flightBench.high);
+  document.getElementById('f-cabin-lbl').textContent=cabin.replace('_',' ');
+  document.getElementById('f-route-lbl').textContent=r.from+' → '+r.to+' · '+(type==='roundtrip'?'Round trip':'One way')+' · '+cabin.replace('_',' ');
+  document.getElementById('f-note').textContent='Source: FairFares benchmark table v1.0 (Q2 2026). Based on BTS historical averages.';
+  document.getElementById('f-verdict').innerHTML='';
+  document.getElementById('f-sub').value='';
+  document.getElementById('f-results').style.display='block';
+}
+function checkFlight(){
+  if(!flightBench)return;
+  const s=parseFloat(document.getElementById('f-sub').value);
+  if(isNaN(s))return;
+  const{low,mid,high}=flightBench;
+  let cls,title,body;
+  if(s<=mid){cls='ok';title='Within benchmark';body=fmt(s)+' is at or below the typical fare of '+fmt(mid)+'. Approvable.';}
+  else if(s<=high*1.1){cls='warn';title='Above typical — within range';body=fmt(s)+' exceeds the typical fare ('+fmt(mid)+') but is within the high estimate ('+fmt(high)+'). Consider requesting a brief justification.';}
+  else{cls='over';title='Exceeds benchmark';body=fmt(s)+' significantly exceeds the high estimate of '+fmt(high)+'. Strong justification required.';}
+  document.getElementById('f-verdict').innerHTML='<div class="verdict-box '+cls+'"><div class="verdict-title '+cls+'">'+title+'</div><div class="verdict-body">'+body+'</div></div>';
+  showPDF(s,cls,title,body);
+}
+function showPDF(submitted,cls,title,body){
+  const now=new Date();
+  document.getElementById('pdf-timestamp').textContent=now.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});
+  document.getElementById('pdf-route').textContent=flightBench.from+' → '+flightBench.to;
+  document.getElementById('pdf-date').textContent=document.getElementById('f-date').value||'Not specified';
+  document.getElementById('pdf-cabin').textContent=flightBench.cabin.replace('_',' ')+' / '+(flightBench.type==='roundtrip'?'Round trip':'One way');
+  document.getElementById('pdf-submitted').textContent=fmt(submitted);
+  document.getElementById('pdf-range').textContent=fmt(flightBench.low)+' – '+fmt(flightBench.high)+' (typical: '+fmt(flightBench.mid)+')';
+  const stripe=document.getElementById('pdf-verdict-stripe');
+  stripe.className='pdf-verdict-stripe '+cls;
+  document.getElementById('pdf-verdict-text').textContent=title;
+  document.getElementById('pdf-verdict-text').className='pdf-verdict-text '+cls;
+  document.getElementById('pdf-verdict-detail').textContent=body;
+  document.getElementById('pdf-id').textContent='Record ID: FF-'+Date.now();
+  document.getElementById('f-pdf').style.display='block';
+}
+function printRecord(){window.print();}
+function openGF(){
+  const o=document.getElementById('f-origin').value,d=document.getElementById('f-dest').value;
+  window.open('https://www.google.com/travel/flights?q=flights+from+'+encodeURIComponent(o)+'+to+'+encodeURIComponent(d),'_blank');
+}
+async function lookupHotel(){
+  const city=document.getElementById('h-city').value.trim();
+  const country=document.getElementById('h-country').value;
+  const state=document.getElementById('h-state').value.trim().toUpperCase();
+  const checkin=document.getElementById('h-checkin').value;
+  const checkout=document.getElementById('h-checkout').value;
+  document.getElementById('h-err').style.display='none';
+  document.getElementById('h-results').style.display='none';
+  if(!city){document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='Please enter a city.';return;}
+  const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
+  if(country==='US'){
+    if(!state||state.length!==2){document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='Please enter a 2-letter state code for US lookups.';return;}
+    const btn=document.getElementById('h-btn');btn.disabled=true;btn.textContent='Looking up…';
+    try{
+      const yr=checkin?new Date(checkin).getFullYear():new Date().getFullYear();
+      const fy=checkin&&new Date(checkin).getMonth()>=9?yr+1:yr;
+      const res=await fetch('https://api.gsa.gov/travel/perdiem/v2/rates/city/'+encodeURIComponent(city)+'/state/'+state+'/year/'+fy);
+      const data=await res.json();
+      let gsa=0;
+      if(data.request?.Rates?.length>0){
+        const rates=data.request.Rates[0].rate;
+        const mo=checkin?new Date(checkin).getMonth()+1:null;
+        const mr=mo?rates.find(r=>r.months?.month==mo||(Array.isArray(r.months?.month)&&r.months.month.includes(String(mo)))):null;
+        gsa=mr?parseFloat(mr.rate||0):parseFloat(rates[0]?.rate||0);
+      }
+      if(!gsa||gsa<50)gsa=159;
+      hotelBench={r1:gsa,r2:Math.round(gsa*1.35),lbl1:'GSA per diem',sub1:'federal rate'};
+      document.getElementById('h-note').textContent='Source: GSA Per Diem FY'+fy+'. Market estimate is ~35% above GSA. UCSF policy aligns with GSA rates.';
+    }catch(e){
+      document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='GSA lookup failed. Check city/state spelling.';
+      btn.disabled=false;btn.textContent='Look up hotel benchmark';return;
+    }
+    btn.disabled=false;btn.textContent='Look up hotel benchmark';
+  } else {
+    const m=INTL_HOTELS.find(h=>h.city.toUpperCase()===city.toUpperCase()&&h.country===country);
+    if(!m){document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='City not in international table. Add via Admin panel.';return;}
+    hotelBench={r1:m.low,r2:m.mid,lbl1:'Budget estimate',sub1:'low end'};
+    document.getElementById('h-note').textContent='Source: FairFares international benchmark table. Mid: '+fmt(m.mid)+', High: '+fmt(m.high)+'.';
+  }
+  document.getElementById('h-lbl1').textContent=hotelBench.lbl1;
+  document.getElementById('h-rate1').textContent=fmt(hotelBench.r1);
+  document.getElementById('h-sub1').textContent=hotelBench.sub1;
+  document.getElementById('h-rate2').textContent=fmt(hotelBench.r2);
+  document.getElementById('h-nights').textContent=nights;
+  document.getElementById('h-city-lbl').textContent=city+(country==='US'?', '+state:', '+country);
+  document.getElementById('h-verdict').innerHTML='';
+  document.getElementById('h-sub').value='';
+  document.getElementById('h-results').style.display='block';
+}
+function checkHotel(){
+  if(!hotelBench)return;
+  const s=parseFloat(document.getElementById('h-sub').value);
+  if(isNaN(s))return;
+  const{r1,r2}=hotelBench;
+  let cls,title,body;
+  if(s<=r1){cls='ok';title='Within benchmark';body=fmt(s)+'/night is at or below the '+hotelBench.lbl1+' of '+fmt(r1)+'. Approvable.';}
+  else if(s<=r2*1.1){cls='warn';title='Above baseline — within market range';body=fmt(s)+'/night exceeds the baseline ('+fmt(r1)+') but is within market estimate ('+fmt(r2)+'). May require an exception note.';}
+  else{cls='over';title='Exceeds market benchmark';body=fmt(s)+'/night is above both the baseline ('+fmt(r1)+') and market estimate ('+fmt(r2)+'). Strong justification required.';}
+  document.getElementById('h-verdict').innerHTML='<div class="verdict-box '+cls+'"><div class="verdict-title '+cls+'">'+title+'</div><div class="verdict-body">'+body+'</div></div>';
+}
+function renderAdmin(){
+  const tb=document.getElementById('admin-tbody');tb.innerHTML='';
+  routes.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML='<td>'+r.from+'</td><td>'+r.to+'</td><td><input type="number" value="'+r.low+'" onchange="routes['+i+'].low=+this.value"></td><td><input type="number" value="'+r.mid+'" onchange="routes['+i+'].mid=+this.value"></td><td><input type="number" value="'+r.high+'" onchange="routes['+i+'].high=+this.value"></td><td><input type="number" value="'+r.rt+'" step="0.1" onchange="routes['+i+'].rt=+this.value"></td><td><button class="del-btn" onclick="routes.splice('+i+',1);renderAdmin()">✕</button></td>';
+    tb.appendChild(tr);
+  });
+}
+function addRoute(){
+  const f=norm(document.getElementById('new-from').value),t=norm(document.getElementById('new-to').value);
+  const lo=+document.getElementById('new-low').value,mi=+document.getElementById('new-mid').value,hi=+document.getElementById('new-high').value,rt=+document.getElementById('new-rt').value||1.7;
+  if(!f||!t||!lo||!mi||!hi){document.getElementById('add-err').style.display='block';return;}
+  document.getElementById('add-err').style.display='none';
+  routes.push({from:f,to:t,low:lo,mid:mi,high:hi,rt});
+  ['new-from','new-to','new-low','new-mid','new-high','new-rt'].forEach(id=>document.getElementById(id).value='');
+  renderAdmin();
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify({version:'1.0',updated:'Q2 2026',routes},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fairfares-benchmarks.json';a.click();
+}
+function importData(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.routes)routes=d.routes;renderAdmin();}catch{alert('Invalid JSON file.');}};
+  reader.readAsText(file);
+}
+document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
+document.getElementById('h-checkin').value=new Date().toISOString().split('T')[0];
+</script>
+</body>
+</html>
