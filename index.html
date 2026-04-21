@@ -309,7 +309,7 @@ table tbody tr td:last-child{text-align:right;color:var(--navy)}
 
 <section class="hero">
   <div class="hero-tag">Travel reimbursement benchmarking</div>
-  <h1>The <em>smarter</em> way to price flights after the fact</h1>
+  <h1>The <em>smarter</em> way to price flights, lodging and taxis after the fact</h1>
   <p class="hero-sub">Built for the exact scenario where a traveler extended their trip, upgraded their seat, or rented a car — didn't get comps at the time of booking, and now, to reimburse them, you need to know what UC <strong>would have paid</strong>. Benchmarks sourced from the <strong>Bureau of Transportation Statistics (BTS)</strong> — the US government's official air fare database. No more guesswork. <strong>No more "I couldn't find a comp."</strong></p>
   <div class="hero-btns">
     <a href="#tool" class="btn-p">Look up a past fare</a>
@@ -514,23 +514,17 @@ table tbody tr td:last-child{text-align:right;color:var(--navy)}
             <div class="f"><label>Authorized check-in — 24hrs prior to first meeting</label><input type="date" id="ih-in"></div>
             <div class="f"><label>Authorized check-out date</label><input type="date" id="ih-out"></div>
           </div>
-          <div class="errmsg" id="ih-err"></div>
-          <button class="lbtn" onclick="lookupIntlHotel()">Look up hotel + per diem</button>
           <div id="ih-res" style="display:none;margin-top:1rem">
             <div style="font-size:.85rem;font-weight:500;margin-bottom:.75rem" id="ih-lbl"></div>
             <div class="mrow">
-              <div class="mbox"><div class="ml">Budget estimate</div><div class="mv" id="ih-r1">—</div><div class="ms">low end</div></div>
-              <div class="mbox"><div class="ml">Market rate</div><div class="mv" id="ih-r2">—</div><div class="ms">typical nightly</div></div>
+              <div class="mbox"><div class="ml">Average market rate</div><div class="mv" id="ih-r2">—</div><div class="ms">typical nightly (USD)</div></div>
               <div class="mbox"><div class="ml">Authorized nights</div><div class="mv" id="ih-n">—</div><div class="ms"></div></div>
+              <div class="mbox"><div class="ml">Data source</div><div class="mv" style="font-size:.9rem">DoD</div><div class="ms"><a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank" style="color:var(--teal);font-size:.68rem">travel.dod.mil</a></div></div>
             </div>
-            <div class="check-row">
-              <label>Submitted per night:</label>
-              <input type="number" id="ih-sub" placeholder="e.g. 280" min="0">
-              <button class="cbtn" onclick="checkIntlHotel()">Check</button>
-            </div>
-            <div id="ih-verd"></div>
             <p class="tnote" id="ih-note"></p>
           </div>
+          <div class="errmsg" id="ih-err"></div>
+          <button class="lbtn" onclick="lookupIntlHotel()">Look up hotel + per diem</button>
           <div class="pd-exp" id="pd-exp">
             <h4>DoD per diem rates — <span id="pd-city-name">this destination</span></h4>
             <table id="pd-table" style="width:100%;border-collapse:collapse;font-size:.875rem;margin-bottom:.875rem;display:none">
@@ -557,8 +551,12 @@ table tbody tr td:last-child{text-align:right;color:var(--navy)}
           <div class="info-box" style="margin-bottom:1rem"><strong>G-28 Transportation Policy</strong>"Transportation expenses shall be reimbursed based on the most economical mode of transportation and the most commonly traveled route consistent with the authorized purpose of the trip." If a traveler chose a rental car when a taxi or rideshare would have sufficed, reimbursement is capped at the taxi equivalent.</div>
 
           <div class="fg2">
-            <div class="f"><label>City</label>
-              <select id="gt-city" onchange="loadPresets()">
+            <div class="f"><label>From (e.g. SFO Airport)</label><input type="text" id="gt-from" placeholder="e.g. SFO Airport, Terminal 2"></div>
+            <div class="f"><label>To (e.g. Downtown Chicago)</label><input type="text" id="gt-to" placeholder="e.g. 233 S Wacker Dr, Chicago"></div>
+          </div>
+          <div class="fg2">
+            <div class="f"><label>City / region</label>
+              <select id="gt-city">
                 <option value="sf">San Francisco / Bay Area</option>
                 <option value="la">Los Angeles</option>
                 <option value="nyc">New York City</option>
@@ -580,12 +578,12 @@ table tbody tr td:last-child{text-align:right;color:var(--navy)}
                 <option value="sin">Singapore</option>
               </select>
             </div>
-            <div class="f"><label>Select route</label>
-              <select id="gt-preset" onchange="applyPreset()">
-                <option value="">— pick a route —</option>
-              </select>
+            <div class="f"><label>Approx. distance (miles)</label>
+              <input type="number" id="gt-miles" placeholder="e.g. 14" min="1" step="1">
+              <div style="font-size:.7rem;color:var(--gray-400);margin-top:3px">Tip: check Google Maps for the distance between the two addresses above</div>
             </div>
           </div>
+          <button class="lbtn" onclick="calcGTFares()">Get fare estimates</button>
 
           <div id="gt-map-wrap" style="display:none;margin-bottom:1rem">
             <div id="gt-map" style="width:100%;height:280px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--gray-200);background:var(--gray-50);display:flex;align-items:center;justify-content:center">
@@ -4892,12 +4890,11 @@ function lookupFlight(pfx){
   const err=document.getElementById(pfx+'-err');
   const nf=document.getElementById(pfx+'-nf');
   const res=document.getElementById(pfx+'-res');
-  const pdf=document.getElementById(pfx===  'df'?'df-pdf':null);
 
   err.style.display='none';
   nf.style.display='none';
   res.style.display='none';
-  if(pfx==='df')document.getElementById('df-pdf').style.display='none';
+  if(pfx==='df'){const pdfEl=document.getElementById('df-pdf');if(pdfEl)pdfEl.style.display='none';}
 
   if(!o||!d){err.textContent='Please enter origin and destination.';err.style.display='block';return;}
   const r=findRoute(o,d);
@@ -4907,12 +4904,11 @@ function lookupFlight(pfx){
   const cm=cabMult(cab);
   activeBench={low:r.low*mult*cm,mid:r.mid*mult*cm,high:r.high*mult*cm,from:r.from,to:r.to,type,cab,dep,pfx};
 
-  document.getElementById(pfx+'-low').textContent=fmt(activeBench.low);
   document.getElementById(pfx+'-mid').textContent=fmt(activeBench.mid);
-  document.getElementById(pfx+'-high').textContent=fmt(activeBench.high);
   document.getElementById(pfx+'-csub').textContent=cabLabel(cab);
   document.getElementById(pfx+'-lbl').textContent=r.from+' → '+r.to+' · '+(type==='rt'?'Round trip':'One way')+' · '+cabLabel(cab)+(cab==='biz'?' — pre-approval required':'');
-  document.getElementById(pfx+'-note').textContent='Source: FairFares benchmark table v6.0 (Q2 2026) — BTS historical averages. Policy basis: UCOP G-28 authorized dates, non-refundable '+(cab==='biz'?'business class (pre-approved, one of four G-28 circumstances required)':'economy class')+'.';
+  const noteEl=document.getElementById(pfx+'-note');
+  noteEl.innerHTML='Source: <a href="https://www.bts.gov/air-fares" target="_blank" style="color:var(--teal)">Bureau of Transportation Statistics (BTS)</a> — US DOT official air fare database. UCOP G-28 authorized dates, non-refundable '+(cab==='biz'?'business class':'economy class')+'.';
   document.getElementById(pfx+'-verd') && (document.getElementById(pfx+'-verd').innerHTML='');
   res.style.display='block';
   if(pfx==='df')showPDF();
@@ -4962,7 +4958,7 @@ async function lookupHotel(){
     }
     if(!gsa||gsa<50)gsa=159;
     const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
-    document.getElementById('dh-r1').textContent=fmt(gsa);
+    // dh-r1 removed
     document.getElementById('dh-r2').textContent=fmt(Math.round(gsa*1.35));
     document.getElementById('dh-n').textContent=nights;
     document.getElementById('dh-lbl').textContent=city;
@@ -5021,7 +5017,7 @@ function lookupIntlHotel(){
   const m=INTL_HOTELS.find(h=>h.city.toUpperCase()===city.toUpperCase()&&h.country===ctry);
   if(!m){err.textContent='City not in our table yet. Use the DoD per diem link below for exact rates.';err.style.display='block';showPDExp(null);document.getElementById('pd-exp').style.display='block';return;}
   const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
-  document.getElementById('ih-r1').textContent=fmt(m.low);
+  // ih-r1 removed
   document.getElementById('ih-r2').textContent=fmt(m.mid);
   document.getElementById('ih-n').textContent=nights;
   document.getElementById('ih-lbl').textContent=city+', '+ctry;
@@ -5047,104 +5043,90 @@ function checkIntlHotel(){
 
 // GROUND TRANSPORT
 
-function loadPresets(){
+function calcGTFares(){
   const city=document.getElementById('gt-city').value;
-  const sel=document.getElementById('gt-preset');
-  sel.innerHTML='<option value="">— pick a route —</option>';
-  (GT_PRESETS[city]||[]).forEach((p,i)=>{
-    const o=document.createElement('option');o.value=i;o.textContent=p.n;sel.appendChild(o);
-  });
-  document.getElementById('gt-res').style.display='none';
-  document.getElementById('gt-map-wrap').style.display='none';
-}
-function applyPreset(){
-  const city=document.getElementById('gt-city').value;
-  const idx=document.getElementById('gt-preset').value;
-  if(idx==='')return;
-  const p=GT_PRESETS[city][idx];
-  calcFares(city,p);
-}
-function makeRow(label,val){
-  return '<tr><td>'+label+'</td><td>'+val+'</td></tr>';
-}
-function calcFares(city,p){
-  const r=GT_RATES[city];if(!r)return;
-  const miles=p.mi, mins=p.mn;
+  const fromAddr=document.getElementById('gt-from').value.trim();
+  const toAddr=document.getElementById('gt-to').value.trim();
+  const miles=parseFloat(document.getElementById('gt-miles').value)||0;
 
-  // Taxi
+  if(!fromAddr||!toAddr){
+    document.getElementById('gt-res').style.display='none';
+    alert('Please enter pickup and dropoff locations.');return;
+  }
+  if(!miles||miles<0.5){
+    alert('Please enter the approximate distance in miles (check Google Maps).');return;
+  }
+
+  const r=GT_RATES[city];if(!r)return;
+
+  // Estimate drive time from distance and city avg speed
+  const SPEEDS={sf:18,la:16,nyc:14,chi:20,bos:18,dc:20,sea:20,mia:22,den:25,atl:22,hou:25,phx:28,dal:28,msp:25,lon:12,par:14,tok:12,syd:22,sin:20};
+  const avgSpeed=SPEEDS[city]||20;
+  const mins=Math.round((miles/avgSpeed)*60);
+
+  // Taxi fare breakdown
   const tBase=r.base;
   const tMeter=parseFloat((miles*r.mile).toFixed(2));
   const tTime=parseFloat((mins*r.min).toFixed(2));
-  const tAirport=p.airport?parseFloat((r.base*1.5).toFixed(2)):0;
-  const tTotal=tBase+tMeter+tTime+tAirport;
+  const tTotal=tBase+tMeter+tTime;
 
-  // Uber X (approx 20% less than taxi, no meter - distance+time based)
-  const uBase=1.30;
-  const uDist=parseFloat((miles*1.45).toFixed(2));
-  const uTime=parseFloat((mins*0.28).toFixed(2));
-  const uAirport=p.airport?5.50:0;
-  const uSafe=1.80;
-  const uTotal=uBase+uDist+uTime+uAirport+uSafe;
+  // Uber X
+  const uBase=1.30,uDist=parseFloat((miles*1.45).toFixed(2)),uTime=parseFloat((mins*0.28).toFixed(2)),uSafe=1.80;
+  const uTotal=uBase+uDist+uTime+uSafe;
 
-  // Lyft (similar to Uber)
-  const lBase=1.20;
-  const lDist=parseFloat((miles*1.42).toFixed(2));
-  const lTime=parseFloat((mins*0.26).toFixed(2));
-  const lAirport=p.airport?4.50:0;
-  const lSafe=1.75;
-  const lTotal=lBase+lDist+lTime+lAirport+lSafe;
+  // Lyft
+  const lBase=1.20,lDist=parseFloat((miles*1.42).toFixed(2)),lTime=parseFloat((mins*0.26).toFixed(2)),lSafe=1.75;
+  const lTotal=lBase+lDist+lTime+lSafe;
 
   // Build taxi table
-  let taxiRows='';
-  taxiRows+=makeRow('Initial charge',fmt(tBase));
+  let taxiRows=makeRow('Initial charge',fmt(tBase));
   taxiRows+=makeRow('Metered fare ('+miles+' mi @ '+fmt(r.mile)+'/mi)',fmt(tMeter));
-  taxiRows+=makeRow('Time charge ('+mins+' min @ $'+r.min.toFixed(2)+'/min)',fmt(tTime));
-  if(tAirport>0)taxiRows+=makeRow('Airport fee',fmt(tAirport));
+  taxiRows+=makeRow('Time charge (~'+mins+' min @ $'+r.min.toFixed(2)+'/min)',fmt(tTime));
   document.getElementById('gt-taxi-rows').innerHTML=taxiRows;
   document.getElementById('gt-taxi-total').textContent=fmt(tTotal);
-  document.getElementById('gt-taxi-note').textContent='Based on '+r.note+'. Metered estimate — actual fare varies by traffic and time of day.';
+  document.getElementById('gt-taxi-note').textContent='Based on '+r.note+'. Estimate only — actual fares vary by traffic.';
 
-  // Build uber table
-  let uberRows='';
-  uberRows+=makeRow('Base fare',fmt(uBase));
+  // Uber table
+  let uberRows=makeRow('Base fare',fmt(uBase));
   uberRows+=makeRow('Distance ('+miles+' mi)',fmt(uDist));
-  uberRows+=makeRow('Time ('+mins+' min)',fmt(uTime));
-  if(uAirport>0)uberRows+=makeRow('Airport surcharge',fmt(uAirport));
+  uberRows+=makeRow('Time (~'+mins+' min)',fmt(uTime));
   uberRows+=makeRow('Safe rides fee',fmt(uSafe));
   document.getElementById('gt-uber-rows').innerHTML=uberRows;
   document.getElementById('gt-uber-total').textContent=fmt(uTotal);
 
-  // Build lyft table
-  let lyftRows='';
-  lyftRows+=makeRow('Base fare',fmt(lBase));
+  // Lyft table
+  let lyftRows=makeRow('Base fare',fmt(lBase));
   lyftRows+=makeRow('Distance ('+miles+' mi)',fmt(lDist));
-  lyftRows+=makeRow('Time ('+mins+' min)',fmt(lTime));
-  if(lAirport>0)lyftRows+=makeRow('Airport surcharge',fmt(lAirport));
+  lyftRows+=makeRow('Time (~'+mins+' min)',fmt(lTime));
   lyftRows+=makeRow('Trust & service fee',fmt(lSafe));
   document.getElementById('gt-lyft-rows').innerHTML=lyftRows;
   document.getElementById('gt-lyft-total').textContent=fmt(lTotal);
 
-  // Policy verdict - use lowest of the three
+  // Verdict
   const lowest=Math.min(tTotal,uTotal,lTotal);
   const lowestName=lowest===tTotal?'Taxi':lowest===uTotal?'Uber X':'Lyft';
   document.getElementById('gt-verdict-title').textContent='G-28 reimbursement benchmark: '+fmt(lowest);
-  document.getElementById('gt-verdict-body').textContent='The most economical option for this route is '+lowestName+' at an estimated '+fmt(lowest)+'. Under G-28, reimbursement for any ground transport is capped at the most economical mode for the same route. If a rental car was used, the total rental cost (including gas, parking, and tolls) must be less than '+fmt(lowest)+' to be fully reimbursable.';
+  document.getElementById('gt-verdict-body').textContent=lowestName+' is the most economical option at an estimated '+fmt(lowest)+' for '+fromAddr+' to '+toAddr+'. Under G-28, reimbursement is capped at the most economical mode. If a rental car was used, the full cost (rental + gas + parking + tolls) must be less than '+fmt(lowest)+' to be reimbursable.';
 
-  // Show map using OpenStreetMap via iframe
-  const from=encodeURIComponent(p.from_addr||p.n.split(' → ')[0]);
-  const to=encodeURIComponent(p.n.split(' → ')[1]||p.to_addr||'');
-  const mapSrc='https://www.openstreetmap.org/export/embed.html?bbox='+p.bbox+'&layer=mapnik&marker='+p.lat+','+p.lon;
-  const routeUrl='https://www.openstreetmap.org/directions?engine=fossgis_osrm_car&route='+p.route;
+  // Show map
+  const encodedFrom=encodeURIComponent(fromAddr);
+  const encodedTo=encodeURIComponent(toAddr);
+  const mapSrc='https://maps.google.com/maps?q=from:'+encodedFrom+'+to:'+encodedTo+'&t=&z=13&ie=UTF8&iwloc=&output=embed';
+  document.getElementById('gt-map-frame').src='https://www.google.com/maps/embed/v1/directions?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&origin='+encodedFrom+'&destination='+encodedTo+'&mode=driving';
 
-  // Use a static map approach that works without API key
-  const centerLat=p.clat||37.7;
-  const centerLon=p.clon||-122.4;
-  const zoom=p.zoom||12;
-  document.getElementById('gt-map-frame').src='https://www.openstreetmap.org/export/embed.html?bbox='+(centerLon-0.05)+','+(centerLat-0.03)+','+(centerLon+0.05)+','+(centerLat+0.03)+'&layer=mapnik';
+  // Show OSM area map for the city as a reference
+  const cityCoords={sf:'37.75,-122.42',la:'34.05,-118.35',nyc:'40.72,-73.95',chi:'41.88,-87.75',bos:'42.36,-71.06',dc:'38.90,-77.04',sea:'47.61,-122.33',mia:'25.79,-80.22',den:'39.74,-104.98',atl:'33.75,-84.39',hou:'29.76,-95.37',phx:'33.45,-112.07',dal:'32.77,-96.80',msp:'44.98,-93.27',lon:'51.51,-0.13',par:'48.85,2.35',tok:'35.68,139.76',syd:'-33.87,151.21',sin:'1.35,103.82'};
+  const coords=cityCoords[city]||'37.75,-122.42';
+  const lat=parseFloat(coords.split(',')[0]),lon=parseFloat(coords.split(',')[1]);
+  document.getElementById('gt-map-frame').src='https://www.openstreetmap.org/export/embed.html?bbox='+(lon-0.06)+','+(lat-0.04)+','+(lon+0.06)+','+(lat+0.04)+'&layer=mapnik';
+
   document.getElementById('gt-map-wrap').style.display='block';
   document.getElementById('gt-res').style.display='block';
+  logUse('Ground transport',fromAddr+' to '+toAddr);
+}
 
-  logUse('Ground transport',p.n);
+function makeRow(label,val){
+  return '<tr><td>'+label+'</td><td>'+val+'</td></tr>';
 }
 
 function switchGtTab(type,el){
