@@ -28,9 +28,11 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-
 .nav-links a:hover{color:var(--navy)}
 .nav-cta{background:var(--navy);color:var(--white)!important;padding:.4rem 1rem;border-radius:6px;font-weight:500!important}
 /* INSTITUTION MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(10,22,40,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem}
-.modal-overlay.hidden{display:none}
-.modal{background:var(--white);border-radius:var(--radius-lg);padding:2rem;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-overlay{position:fixed;inset:0;background:rgba(10,22,40,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;transition:opacity .5s ease}
+.modal-overlay.hidden{display:none!important}
+.modal-overlay.showing{opacity:1}
+.modal{background:var(--white);border-radius:var(--radius-lg);padding:2rem;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:translateY(20px);transition:transform .5s ease,opacity .5s ease;opacity:0}
+.modal-overlay.showing .modal{transform:translateY(0);opacity:1}
 .modal-logo{font-family:var(--font-display);font-size:1.3rem;margin-bottom:.5rem}
 .modal-logo span{color:var(--teal)}
 .modal h2{font-size:1.1rem;font-weight:500;margin-bottom:.4rem}
@@ -294,7 +296,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
 <body>
 
 <!-- INSTITUTION MODAL -->
-<div class="modal-overlay" id="inst-modal">
+<div class="modal-overlay hidden" id="inst-modal">
   <div class="modal">
     <div class="modal-logo">Fair<span>Fares</span></div>
     <h2>Welcome — tell us where you're from</h2>
@@ -687,39 +689,74 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
 
         <!-- GROUND TRANSPORT -->
         <div class="tp" id="tp-ground">
-          <p style="font-size:.9rem;color:var(--gray-600);line-height:1.7;margin-bottom:1rem">Under UCOP G-28, travelers should use the most economical ground transport. If a traveler rented a car when a taxi or rideshare would have sufficed, reimbursement is limited to what the taxi <em>would have cost</em> along the same route. Remember: rental cost + gas + parking + tolls must all be included in any comparison.</p>
-          <div class="fg2">
-            <div class="field"><label>Pickup location</label><input type="text" id="gt-from" placeholder="e.g. SFO Airport"></div>
-            <div class="field"><label>Dropoff location</label><input type="text" id="gt-to" placeholder="e.g. Downtown Chicago"></div>
-          </div>
+          <p style="font-size:.9rem;color:var(--gray-600);line-height:1.7;margin-bottom:1.25rem">Under UCOP G-28, travelers must use the most economical ground transport. If a traveler rented a car when a taxi would have sufficed, reimbursement is capped at the taxi equivalent. Use this calculator to estimate the taxi fare — then compare against the full rental car cost including gas, parking, and tolls.</p>
+
           <div class="fg2">
             <div class="field"><label>City</label>
-              <select id="gt-city">
-                <option value="san-francisco">San Francisco</option>
-                <option value="los-angeles">Los Angeles</option>
-                <option value="chicago">Chicago</option>
-                <option value="new-york-city">New York City</option>
-                <option value="boston">Boston</option>
-                <option value="washington-dc">Washington DC</option>
-                <option value="seattle">Seattle</option>
-                <option value="miami">Miami</option>
-                <option value="denver">Denver</option>
-                <option value="atlanta">Atlanta</option>
-                <option value="london">London</option>
-                <option value="paris">Paris</option>
-                <option value="tokyo">Tokyo</option>
+              <select id="gt-city" onchange="updateGtPresets()">
+                <option value="sf">San Francisco / Bay Area</option>
+                <option value="la">Los Angeles</option>
+                <option value="nyc">New York City</option>
+                <option value="chi">Chicago</option>
+                <option value="bos">Boston</option>
+                <option value="dc">Washington DC</option>
+                <option value="sea">Seattle</option>
+                <option value="mia">Miami</option>
+                <option value="den">Denver</option>
+                <option value="atl">Atlanta</option>
+                <option value="hou">Houston</option>
+                <option value="phx">Phoenix</option>
+                <option value="dal">Dallas</option>
+                <option value="msp">Minneapolis</option>
+                <option value="lon">London</option>
+                <option value="par">Paris</option>
+                <option value="tok">Tokyo</option>
+                <option value="syd">Sydney</option>
+                <option value="sin">Singapore</option>
               </select>
             </div>
-            <div class="field"><label>Travel date</label><input type="date" id="gt-date"></div>
-          </div>
-          <button class="lbtn" onclick="lookupGround()">Get taxi fare estimate</button>
-          <div class="gt-info" id="gt-info">
-            <p id="gt-text"></p>
-            <div class="gt-links">
-              <button class="fbtn" id="gt-tflink">Open TaxiFareFinder</button>
-              <button class="fbtn" style="background:var(--navy)" id="gt-gmlink">Open Google Maps route</button>
+            <div class="field"><label>Common routes</label>
+              <select id="gt-preset" onchange="applyPreset()">
+                <option value="">— select a common route —</option>
+              </select>
             </div>
-            <p class="tnote" style="margin-top:8px">TaxiFareFinder uses actual metered rates by city. Screenshot the result and attach as your comp document. Remember to add parking, gas, and tolls to any rental car total before comparing.</p>
+          </div>
+
+          <div class="fg3">
+            <div class="field"><label>Distance (miles)</label><input type="number" id="gt-miles" placeholder="e.g. 14" min="0.5" step="0.5" oninput="calcTaxi()"></div>
+            <div class="field"><label>Travel time (minutes)</label><input type="number" id="gt-mins" placeholder="e.g. 25" min="1" step="1" oninput="calcTaxi()"></div>
+            <div class="field"><label>Passengers</label>
+              <select id="gt-pax" onchange="calcTaxi()">
+                <option value="1">1 traveler</option>
+                <option value="2">2 travelers (split fare)</option>
+                <option value="3">3 travelers (split fare)</option>
+                <option value="4">4 travelers (split fare)</option>
+              </select>
+            </div>
+          </div>
+
+          <p class="tnote" style="margin-bottom:12px">Tip: use Google Maps to get the distance and estimated drive time for the route, then enter the numbers above.</p>
+
+          <div id="gt-result" style="display:none">
+            <div class="mrow">
+              <div class="mbox"><div class="ml">Taxi estimate</div><div class="mv" id="gt-taxi">—</div><div class="ms">metered rate</div></div>
+              <div class="mbox"><div class="ml">Per traveler</div><div class="mv" id="gt-per">—</div><div class="ms">if splitting</div></div>
+              <div class="mbox"><div class="ml">Policy cap</div><div class="mv" id="gt-cap">—</div><div class="ms">max reimbursable</div></div>
+            </div>
+            <p class="tnote" id="gt-rate-note" style="margin-bottom:14px"></p>
+
+            <div class="tab-section-label" style="border-top:0.5px solid var(--gray-200);padding-top:10px;margin-top:4px">Rental car comparison</div>
+            <p style="font-size:.825rem;color:var(--gray-600);margin-bottom:10px">Enter all rental costs to see if the rental was justified. Reimbursement is capped at the lower amount.</p>
+            <div class="fg2" style="max-width:500px">
+              <div class="field"><label>Rental car cost ($)</label><input type="number" id="rc-rental" placeholder="e.g. 85" min="0" oninput="calcComparison()"></div>
+              <div class="field"><label>Gas cost ($)</label><input type="number" id="rc-gas" placeholder="e.g. 22" min="0" oninput="calcComparison()"></div>
+            </div>
+            <div class="fg2" style="max-width:500px">
+              <div class="field"><label>Parking ($)</label><input type="number" id="rc-park" placeholder="e.g. 40" min="0" oninput="calcComparison()"></div>
+              <div class="field"><label>Tolls ($)</label><input type="number" id="rc-tolls" placeholder="e.g. 8" min="0" oninput="calcComparison()"></div>
+            </div>
+            <div id="gt-comparison"></div>
+            <p class="tnote" style="margin-top:8px">Rates are estimates based on published metered rates for each city. Actual fares vary by time of day and traffic. Use as a benchmark comparison — not a quoted price.</p>
           </div>
         </div>
 
@@ -836,12 +873,17 @@ function saveInstitution(){
   localStorage.setItem('ff_inst',inst);
   localStorage.setItem('ff_dept',dept||'Not specified');
   localStorage.setItem('ff_seen','1');
-  document.getElementById('inst-modal').classList.add('hidden');
+  hideModal();
   updateBadge();
 }
 function skipInstitution(){
   localStorage.setItem('ff_seen','1');
-  document.getElementById('inst-modal').classList.add('hidden');
+  hideModal();
+}
+function hideModal(){
+  const mo=document.getElementById('inst-modal');
+  mo.classList.remove('showing');
+  setTimeout(()=>mo.classList.add('hidden'),500);
 }
 function updateBadge(){
   const inst=localStorage.getItem('ff_inst');
@@ -4778,18 +4820,7 @@ function checkIntlHotel(){
   else{cls='over';title='Exceeds 300% DoD cap';body=fmt(s)+'/night exceeds the absolute G-28 maximum for this destination. This will not be approved under any circumstances.';}
   document.getElementById('ih-verdict').innerHTML='<div class="vbox '+cls+'"><div class="vt '+cls+'">'+title+'</div><div class="vb">'+body+'</div></div>';
 }
-function lookupGround(){
-  const from=document.getElementById('gt-from').value.trim(),to=document.getElementById('gt-to').value.trim();
-  const city=document.getElementById('gt-city').value;
-  if(!from||!to)return;
-  const tfUrl='https://www.taxifarefinder.com/main.php?city='+encodeURIComponent(city)+'&from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
-  const gmUrl='https://www.google.com/maps/dir/'+encodeURIComponent(from)+'/'+encodeURIComponent(to);
-  document.getElementById('gt-text').textContent='Under G-28, reimbursement is capped at the taxi equivalent for this route if a rental car was not more cost-effective. Get the metered taxi fare for '+city.replace(/-/g,' ')+' using TaxiFareFinder, then compare against rental cost + gas + parking + tolls.';
-  document.getElementById('gt-tflink').onclick=()=>window.open(tfUrl,'_blank');
-  document.getElementById('gt-gmlink').onclick=()=>window.open(gmUrl,'_blank');
-  document.getElementById('gt-info').style.display='block';
-  logUsage('Ground transport',from+' to '+to);
-}
+
 
 const POLICY_SYSTEM=`You are FairFares, a travel reimbursement policy assistant. Your purpose is to help expense reviewers and finance teams determine what a traveler should have been reimbursed under UC travel policy (UCOP G-28). You are neutral and non-judgmental.
 
@@ -4889,20 +4920,6 @@ function toggleAcc(btn){
   if(!isOpen){btn.classList.add('open');body.classList.add('open');}
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-  if(!localStorage.getItem('ff_seen')){
-    setTimeout(function(){
-      document.getElementById('inst-modal').classList.remove('hidden');
-    }, 1500);
-  } else {
-    document.getElementById('inst-modal').classList.add('hidden');
-    updateBadge();
-    if(localStorage.getItem('ff_inst')){
-      document.getElementById('modal-inst').value=localStorage.getItem('ff_inst');
-      document.getElementById('modal-dept').value=localStorage.getItem('ff_dept')||'';
-    }
-  }
-});
 
 const ADV_LEVELS = {
   1: {label:'Level 1 — Exercise Normal Precautions', badge:'Level 1', cls:'l1'},
@@ -5007,6 +5024,128 @@ function quickAdv(el){
   lookupAdvisory();
 }
 
+
+document.addEventListener('DOMContentLoaded',function(){
+  const seen=localStorage.getItem('ff_seen');
+  if(!seen){
+    setTimeout(function(){
+      const mo=document.getElementById('inst-modal');
+      mo.classList.remove('hidden');
+      requestAnimationFrame(()=>requestAnimationFrame(()=>mo.classList.add('showing')));
+    },1500);
+  } else {
+    updateBadge();
+    if(localStorage.getItem('ff_inst')){
+      document.getElementById('modal-inst').value=localStorage.getItem('ff_inst')||'';
+      document.getElementById('modal-dept').value=localStorage.getItem('ff_dept')||'';
+    }
+  }
+});
+
+const GT_RATES={
+  sf: {base:3.50,mile:2.75,min:0.55,note:'SF metered rate'},
+  la: {base:3.10,mile:2.70,min:0.35,note:'LA metered rate'},
+  nyc:{base:3.00,mile:2.50,min:0.50,note:'NYC TLC metered rate'},
+  chi:{base:3.25,mile:1.80,min:0.38,note:'Chicago metered rate'},
+  bos:{base:2.60,mile:2.55,min:0.40,note:'Boston metered rate'},
+  dc: {base:3.25,mile:2.16,min:0.42,note:'DC metered rate'},
+  sea:{base:2.60,mile:2.70,min:0.48,note:'Seattle metered rate'},
+  mia:{base:2.95,mile:2.40,min:0.38,note:'Miami-Dade rate'},
+  den:{base:2.70,mile:2.25,min:0.38,note:'Denver metered rate'},
+  atl:{base:2.50,mile:2.00,min:0.35,note:'Atlanta metered rate'},
+  hou:{base:2.85,mile:2.20,min:0.36,note:'Houston metered rate'},
+  phx:{base:2.50,mile:2.15,min:0.35,note:'Phoenix rate'},
+  dal:{base:2.25,mile:2.00,min:0.35,note:'Dallas rate'},
+  msp:{base:2.50,mile:2.20,min:0.36,note:'Minneapolis rate'},
+  lon:{base:3.80,mile:4.20,min:0.72,note:'London Black Cab (USD equiv)'},
+  par:{base:2.80,mile:3.10,min:0.55,note:'Paris taxi (USD equiv)'},
+  tok:{base:4.20,mile:3.50,min:0.75,note:'Tokyo taxi (USD equiv)'},
+  syd:{base:3.60,mile:3.00,min:0.58,note:'Sydney taxi (USD equiv)'},
+  sin:{base:3.20,mile:2.60,min:0.50,note:'Singapore taxi (USD equiv)'},
+};
+const GT_PRESETS={
+  sf: [{n:'SFO → Downtown SF',mi:14,mn:25},{n:'SFO → UCSF Mission Bay',mi:12,mn:22},{n:'SFO → UC Berkeley',mi:22,mn:35},{n:'OAK → Downtown SF',mi:12,mn:25},{n:'SJC → Palo Alto',mi:12,mn:20},{n:'SFO → Stanford',mi:18,mn:28}],
+  la: [{n:'LAX → Downtown LA',mi:17,mn:35},{n:'LAX → UCLA',mi:10,mn:22},{n:'LAX → Beverly Hills',mi:12,mn:25},{n:'LAX → Pasadena',mi:28,mn:45}],
+  nyc:[{n:'JFK → Midtown Manhattan',mi:16,mn:40},{n:'LGA → Midtown Manhattan',mi:9,mn:30},{n:'EWR → Midtown',mi:16,mn:35},{n:'JFK → Brooklyn',mi:12,mn:35}],
+  chi:[{n:'ORD → Downtown Chicago',mi:17,mn:35},{n:'MDW → Downtown Chicago',mi:10,mn:25},{n:'ORD → Evanston',mi:20,mn:40},{n:'ORD → Northwestern',mi:25,mn:42}],
+  bos:[{n:'BOS → Downtown Boston',mi:3,mn:15},{n:'BOS → Harvard/MIT',mi:6,mn:22},{n:'BOS → Brookline',mi:5,mn:18}],
+  dc: [{n:'DCA → Downtown DC',mi:5,mn:18},{n:'IAD → Downtown DC',mi:27,mn:45},{n:'BWI → Downtown DC',mi:32,mn:50},{n:'DCA → NIH Bethesda',mi:12,mn:28}],
+  sea:[{n:'SEA → Downtown Seattle',mi:14,mn:30},{n:'SEA → UW Campus',mi:16,mn:32},{n:'SEA → Bellevue',mi:18,mn:35}],
+  mia:[{n:'MIA → Downtown Miami',mi:8,mn:20},{n:'MIA → South Beach',mi:9,mn:25},{n:'FLL → Miami Beach',mi:28,mn:40}],
+  den:[{n:'DEN → Downtown Denver',mi:24,mn:35},{n:'DEN → Boulder',mi:40,mn:55},{n:'DEN → Aurora Medical',mi:20,mn:28}],
+  atl:[{n:'ATL → Downtown Atlanta',mi:10,mn:20},{n:'ATL → Emory University',mi:15,mn:28},{n:'ATL → CDC',mi:14,mn:26}],
+  hou:[{n:'IAH → Medical Center',mi:22,mn:32},{n:'IAH → Downtown Houston',mi:24,mn:35},{n:'HOU → Downtown Houston',mi:7,mn:18}],
+  phx:[{n:'PHX → Downtown Phoenix',mi:4,mn:12},{n:'PHX → ASU Tempe',mi:6,mn:15},{n:'PHX → Scottsdale',mi:12,mn:22}],
+  dal:[{n:'DFW → Downtown Dallas',mi:20,mn:30},{n:'DAL → Downtown Dallas',mi:8,mn:20},{n:'DFW → Fort Worth',mi:15,mn:25}],
+  msp:[{n:'MSP → Downtown Minneapolis',mi:12,mn:22},{n:'MSP → U of Minnesota',mi:14,mn:25},{n:'MSP → St Paul',mi:10,mn:20}],
+  lon:[{n:'LHR → Central London',mi:15,mn:45},{n:'LGW → Central London',mi:28,mn:60},{n:'LHR → Canary Wharf',mi:20,mn:55}],
+  par:[{n:'CDG → Central Paris',mi:19,mn:45},{n:'ORY → Central Paris',mi:11,mn:35},{n:'CDG → Versailles',mi:28,mn:55}],
+  tok:[{n:'NRT → Central Tokyo',mi:40,mn:90},{n:'HND → Central Tokyo',mi:12,mn:35},{n:'NRT → Shinjuku',mi:42,mn:95}],
+  syd:[{n:'SYD → CBD Sydney',mi:6,mn:25},{n:'SYD → North Sydney',mi:8,mn:30},{n:'SYD → Parramatta',mi:18,mn:40}],
+  sin:[{n:'SIN → Orchard Road',mi:12,mn:25},{n:'SIN → Marina Bay',mi:13,mn:28},{n:'SIN → NUS Campus',mi:8,mn:20}],
+};
+
+function updateGtPresets(){
+  const city=document.getElementById('gt-city').value;
+  const sel=document.getElementById('gt-preset');
+  sel.innerHTML='<option value="">— select a common route —</option>';
+  (GT_PRESETS[city]||[]).forEach((p,i)=>{
+    const opt=document.createElement('option');
+    opt.value=i;opt.textContent=p.n;sel.appendChild(opt);
+  });
+  document.getElementById('gt-result').style.display='none';
+}
+function applyPreset(){
+  const city=document.getElementById('gt-city').value;
+  const idx=document.getElementById('gt-preset').value;
+  if(idx==='')return;
+  const p=GT_PRESETS[city][idx];
+  document.getElementById('gt-miles').value=p.mi;
+  document.getElementById('gt-mins').value=p.mn;
+  calcTaxi();
+}
+function calcTaxi(){
+  const city=document.getElementById('gt-city').value;
+  const miles=parseFloat(document.getElementById('gt-miles').value)||0;
+  const mins=parseFloat(document.getElementById('gt-mins').value)||0;
+  const pax=parseInt(document.getElementById('gt-pax').value)||1;
+  if(!miles||!mins)return;
+  const r=GT_RATES[city];
+  if(!r)return;
+  const fare=r.base+(miles*r.mile)+(mins*r.min);
+  const perPax=fare/pax;
+  document.getElementById('gt-taxi').textContent=fmt(fare);
+  document.getElementById('gt-per').textContent=pax>1?fmt(perPax):'N/A';
+  document.getElementById('gt-cap').textContent=fmt(perPax);
+  document.getElementById('gt-rate-note').textContent='Based on '+r.note+'. Estimate only — actual metered fares vary by traffic and time of day.';
+  document.getElementById('gt-result').style.display='block';
+  document.getElementById('gt-comparison').innerHTML='';
+  ['rc-rental','rc-gas','rc-park','rc-tolls'].forEach(id=>document.getElementById(id).value='');
+  logUsage('Ground transport',city+' '+miles+'mi');
+}
+function calcComparison(){
+  const taxiEl=document.getElementById('gt-cap');
+  if(!taxiEl.textContent||taxiEl.textContent==='—')return;
+  const taxi=parseFloat(taxiEl.textContent.replace(/[$,]/g,''));
+  const rental=parseFloat(document.getElementById('rc-rental').value)||0;
+  const gas=parseFloat(document.getElementById('rc-gas').value)||0;
+  const park=parseFloat(document.getElementById('rc-park').value)||0;
+  const tolls=parseFloat(document.getElementById('rc-tolls').value)||0;
+  const total=rental+gas+park+tolls;
+  if(!total)return;
+  const cap=Math.min(total,taxi);
+  const diff=total-taxi;
+  let cls,title,body;
+  if(total<=taxi){
+    cls='ok';title='Rental car justified';
+    body='Total rental cost of '+fmt(total)+' (rental '+fmt(rental)+' + gas '+fmt(gas)+' + parking '+fmt(park)+' + tolls '+fmt(tolls)+') is less than or equal to the taxi equivalent of '+fmt(taxi)+'. Rental car is reimbursable in full under G-28.';
+  } else {
+    cls='over';title='Rental car exceeds taxi equivalent';
+    body='Total rental cost of '+fmt(total)+' exceeds the taxi equivalent of '+fmt(taxi)+' by '+fmt(diff)+'. Under G-28, reimbursement is capped at the taxi equivalent of '+fmt(taxi)+'. The traveler is responsible for the '+fmt(diff)+' difference.';
+  }
+  document.getElementById('gt-comparison').innerHTML='<div class="vbox '+cls+'" style="margin-top:10px"><div class="vt '+cls+'">'+title+'</div><div class="vb">'+body+'</div></div>';
+}
+updateGtPresets();
 </script>
 </body>
 </html>
