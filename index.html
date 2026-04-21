@@ -4913,26 +4913,13 @@ function lookupFlight(pfx){
   document.getElementById(pfx+'-csub').textContent=cabLabel(cab);
   document.getElementById(pfx+'-lbl').textContent=r.from+' → '+r.to+' · '+(type==='rt'?'Round trip':'One way')+' · '+cabLabel(cab)+(cab==='biz'?' — pre-approval required':'');
   document.getElementById(pfx+'-note').textContent='Source: FairFares benchmark table v6.0 (Q2 2026) — BTS historical averages. Policy basis: UCOP G-28 authorized dates, non-refundable '+(cab==='biz'?'business class (pre-approved, one of four G-28 circumstances required)':'economy class')+'.';
-  document.getElementById(pfx+'-verd').innerHTML='';
-  document.getElementById(pfx+'-sub').value='';
+  document.getElementById(pfx+'-verd') && (document.getElementById(pfx+'-verd').innerHTML='');
   res.style.display='block';
+  if(pfx==='df')showPDF();
   logUse((pfx==='df'?'Domestic':'International')+' flight',r.from+'→'+r.to);
 }
 
-function checkVerdict(pfx){
-  if(!activeBench||activeBench.pfx!==pfx)return;
-  const s=parseFloat(document.getElementById(pfx+'-sub').value);
-  if(isNaN(s))return;
-  const{low,mid,high}=activeBench;
-  let cls,title,body;
-  if(s<=mid){cls='ok';title='Within benchmark';body=fmt(s)+' is at or below the typical fare of '+fmt(mid)+'. Approvable under G-28.';}
-  else if(s<=high*1.1){cls='warn';title='Above typical — within range';body=fmt(s)+' exceeds the typical fare ('+fmt(mid)+') but is within the high estimate ('+fmt(high)+'). Consider requesting a brief justification.';}
-  else{cls='over';title='Exceeds benchmark';body=fmt(s)+' significantly exceeds the high estimate of '+fmt(high)+'. Under G-28, reimbursement should be limited to the benchmark equivalent.';}
-  document.getElementById(pfx+'-verd').innerHTML='<div class="vbox '+cls+'"><div class="vt '+cls+'">'+title+'</div><div class="vb">'+body+'</div></div>';
-  if(pfx==='df')showPDF(s,cls,title,body);
-}
-
-function showPDF(sub,cls,title,body){
+function showPDF(sub,cls,title,body){ if(sub===undefined){sub=activeBench.mid;cls="ok";title="Benchmark fare";body="Average fare for this route and cabin class based on BTS data.";}
   const b=activeBench;
   const now=new Date();
   document.getElementById('pdf-ts').textContent=now.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});
