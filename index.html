@@ -3,202 +3,191 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FairFares — Travel Cost Benchmark Tool</title>
+<title>FairFares — Travel Reimbursement Benchmark Tool</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy: #0a1628;
-  --navy-mid: #162240;
-  --teal: #0d9e8a;
-  --teal-light: #e6f7f5;
-  --teal-dark: #0a7a6a;
-  --amber: #f5a623;
-  --red: #e53e3e;
-  --green: #2f855a;
-  --green-bg: #f0fff4;
-  --amber-bg: #fffbeb;
-  --red-bg: #fff5f5;
-  --gray-50: #f8f9fa;
-  --gray-100: #f1f3f5;
-  --gray-200: #e9ecef;
-  --gray-400: #adb5bd;
-  --gray-600: #6c757d;
-  --gray-800: #343a40;
-  --white: #ffffff;
-  --font-display: 'DM Serif Display', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
-  --radius: 10px;
-  --radius-lg: 16px;
-  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.06);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,.12);
+:root{
+  --navy:#0a1628;--navy-mid:#162240;--teal:#0d9e8a;--teal-light:#e6f7f5;--teal-dark:#0a7a6a;
+  --amber:#f5a623;--red:#e53e3e;--green:#276749;--green-bg:#f0fff4;--amber-bg:#fffbeb;--red-bg:#fff5f5;
+  --gray-50:#f8f9fa;--gray-100:#f1f3f5;--gray-200:#e9ecef;--gray-400:#adb5bd;--gray-600:#6c757d;--gray-800:#343a40;
+  --white:#ffffff;--font-display:'DM Serif Display',Georgia,serif;--font-body:'DM Sans',system-ui,sans-serif;
+  --radius:10px;--radius-lg:16px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--font-body);color:var(--navy);background:var(--white);line-height:1.6}
-
-/* NAV */
-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--gray-200);padding:0 2rem}
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--gray-200);padding:0 2rem}
 .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
-.logo{font-family:var(--font-display);font-size:1.4rem;color:var(--navy);text-decoration:none;letter-spacing:-.01em}
+.logo{font-family:var(--font-display);font-size:1.4rem;color:var(--navy);text-decoration:none}
 .logo span{color:var(--teal)}
 .nav-links{display:flex;align-items:center;gap:2rem}
-.nav-links a{font-size:.9rem;color:var(--gray-600);text-decoration:none;font-weight:400}
+.nav-links a{font-size:.875rem;color:var(--gray-600);text-decoration:none}
 .nav-links a:hover{color:var(--navy)}
-.nav-cta{background:var(--navy);color:var(--white)!important;padding:.45rem 1.1rem;border-radius:6px;font-weight:500!important}
-.nav-cta:hover{background:var(--navy-mid)!important;opacity:1}
-
-/* HERO */
+.nav-cta{background:var(--navy);color:var(--white)!important;padding:.4rem 1rem;border-radius:6px;font-weight:500!important}
 .hero{background:var(--navy);color:var(--white);padding:7rem 2rem 5rem;text-align:center;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,158,138,.18) 0%,transparent 70%)}
-.hero-eyebrow{display:inline-block;font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);background:rgba(13,158,138,.12);border:1px solid rgba(13,158,138,.25);padding:.3rem .9rem;border-radius:20px;margin-bottom:1.5rem}
-.hero h1{font-family:var(--font-display);font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.15;max-width:820px;margin:0 auto 1.25rem;font-weight:400}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,158,138,.15) 0%,transparent 70%)}
+.hero-eyebrow{display:inline-block;font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);background:rgba(13,158,138,.1);border:1px solid rgba(13,158,138,.2);padding:.3rem .9rem;border-radius:20px;margin-bottom:1.5rem}
+.hero h1{font-family:var(--font-display);font-size:clamp(2.2rem,4.5vw,3.4rem);line-height:1.18;max-width:800px;margin:0 auto 1.25rem;font-weight:400}
 .hero h1 em{color:var(--teal);font-style:italic}
-.hero-sub{font-size:1.1rem;color:rgba(255,255,255,.7);max-width:560px;margin:0 auto 2.5rem;font-weight:300;line-height:1.7}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.72);max-width:600px;margin:0 auto 2.5rem;font-weight:300;line-height:1.75}
+.hero-sub strong{color:rgba(255,255,255,.95);font-weight:400}
 .hero-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.btn-primary{background:var(--teal);color:var(--white);padding:.75rem 2rem;border-radius:8px;font-size:.95rem;font-weight:500;text-decoration:none;border:none;cursor:pointer;transition:background .2s}
+.btn-primary{background:var(--teal);color:var(--white);padding:.75rem 2rem;border-radius:8px;font-size:.95rem;font-weight:500;text-decoration:none;border:none;cursor:pointer;transition:background .2s;font-family:var(--font-body)}
 .btn-primary:hover{background:var(--teal-dark)}
 .btn-ghost{background:transparent;color:var(--white);padding:.75rem 2rem;border-radius:8px;font-size:.95rem;font-weight:400;text-decoration:none;border:1px solid rgba(255,255,255,.25);cursor:pointer;transition:all .2s}
-.btn-ghost:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.05)}
+.btn-ghost:hover{border-color:rgba(255,255,255,.5)}
 .hero-stats{display:flex;justify-content:center;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
-.hero-stat .num{font-family:var(--font-display);font-size:2rem;color:var(--teal)}
-.hero-stat .lbl{font-size:.8rem;color:rgba(255,255,255,.5);margin-top:.2rem}
-
-/* HOW IT WORKS */
+.hero-stat .num{font-family:var(--font-display);font-size:1.9rem;color:var(--teal)}
+.hero-stat .lbl{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:.2rem}
 .section{padding:5rem 2rem}
 .section-inner{max-width:1100px;margin:0 auto}
-.section-tag{font-size:.75rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem}
-.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.6rem);color:var(--navy);line-height:1.2;margin-bottom:1rem;font-weight:400}
-.section-sub{font-size:1rem;color:var(--gray-600);max-width:520px;line-height:1.7}
-.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2rem;margin-top:3.5rem}
-.step{padding:1.75rem;border:1px solid var(--gray-200);border-radius:var(--radius-lg);position:relative}
-.step-num{width:36px;height:36px;background:var(--navy);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:500;margin-bottom:1.25rem}
-.step h3{font-size:1rem;font-weight:500;margin-bottom:.5rem;color:var(--navy)}
-.step p{font-size:.9rem;color:var(--gray-600);line-height:1.6}
-
-/* FEATURES */
-.features-bg{background:var(--gray-50)}
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:3rem}
-.feature{background:var(--white);padding:1.5rem;border-radius:var(--radius-lg);border:1px solid var(--gray-200)}
-.feature-icon{width:40px;height:40px;background:var(--teal-light);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
-.feature-icon svg{width:20px;height:20px;stroke:var(--teal);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.feature h3{font-size:.95rem;font-weight:500;margin-bottom:.4rem;color:var(--navy)}
-.feature p{font-size:.875rem;color:var(--gray-600);line-height:1.6}
-
-/* TOOL SECTION */
-.tool-section{background:var(--white)}
-.tool-wrapper{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);overflow:hidden;margin-top:2.5rem}
-.tool-nav{display:flex;border-bottom:1px solid var(--gray-200);background:var(--gray-50)}
-.tool-tab{padding:.875rem 1.5rem;font-size:.875rem;font-weight:500;color:var(--gray-600);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px}
-.tool-tab.active{color:var(--navy);border-bottom-color:var(--teal);background:var(--white)}
+.section-tag{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.6rem}
+.section-title{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.5rem);color:var(--navy);line-height:1.2;margin-bottom:.9rem;font-weight:400}
+.section-sub{font-size:.975rem;color:var(--gray-600);max-width:540px;line-height:1.7}
+.gray-bg{background:var(--gray-50)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:3rem}
+.step{padding:1.5rem;border:1px solid var(--gray-200);border-radius:var(--radius-lg)}
+.step-num{width:32px;height:32px;background:var(--navy);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:500;margin-bottom:1rem}
+.step h3{font-size:.95rem;font-weight:500;margin-bottom:.4rem}
+.step p{font-size:.875rem;color:var(--gray-600);line-height:1.6}
+/* TOOL */
+.tool-wrap{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;margin-top:2rem}
+.tool-tabs{display:flex;border-bottom:1px solid var(--gray-200);background:var(--gray-50);overflow-x:auto}
+.ttab{padding:.8rem 1.25rem;font-size:.85rem;font-weight:500;color:var(--gray-600);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:var(--font-body)}
+.ttab.active{color:var(--navy);border-bottom-color:var(--teal);background:var(--white)}
 .tool-body{padding:1.75rem}
-.tpage{display:none}.tpage.active{display:block}
-.form-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
-.form-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px}
-.field label{display:block;font-size:.75rem;font-weight:500;color:var(--gray-600);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
-.field input,.field select{width:100%;padding:.6rem .8rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.9rem;font-family:var(--font-body);color:var(--navy);background:var(--white);outline:none;transition:border-color .15s}
-.field input:focus,.field select:focus{border-color:var(--teal)}
-.lookup-btn{width:100%;padding:.75rem;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:.9rem;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:background .2s;margin-top:4px}
-.lookup-btn:hover{background:var(--navy-mid)}
-.lookup-btn:disabled{opacity:.45;cursor:not-allowed}
-.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.metric-box{background:var(--gray-50);border-radius:10px;padding:14px 16px}
-.metric-box .mlbl{font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-600);margin-bottom:4px}
-.metric-box .mval{font-size:1.5rem;font-weight:500;color:var(--navy);font-family:var(--font-display)}
-.metric-box .msub{font-size:.75rem;color:var(--gray-400);margin-top:2px}
-.check-row{display:flex;align-items:center;gap:10px;margin-top:14px}
-.check-row label{font-size:.875rem;color:var(--gray-600);white-space:nowrap}
-.check-row input{max-width:110px}
-.check-btn{padding:.55rem 1.1rem;background:var(--white);border:1px solid var(--gray-200);border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--font-body);color:var(--navy);white-space:nowrap;transition:all .15s}
-.check-btn:hover{border-color:var(--teal);color:var(--teal)}
-.verdict-box{border-radius:10px;padding:14px 16px;border:1px solid;margin-top:12px}
-.verdict-box.ok{background:var(--green-bg);border-color:#9ae6b4}
-.verdict-box.warn{background:var(--amber-bg);border-color:#fbd38d}
-.verdict-box.over{background:var(--red-bg);border-color:#feb2b2}
-.verdict-title{font-size:.875rem;font-weight:500;margin-bottom:3px}
-.verdict-title.ok{color:var(--green)}.verdict-title.warn{color:#b7791f}.verdict-title.over{color:var(--red)}
-.verdict-body{font-size:.825rem;color:var(--gray-600)}
-.tool-note{font-size:.75rem;color:var(--gray-400);margin-top:10px}
-.err-msg{font-size:.8rem;color:var(--red);margin-top:6px;display:none}
-.fallback{background:var(--teal-light);border:1px solid rgba(13,158,138,.2);border-radius:10px;padding:14px 16px;margin-top:12px;display:none}
-.fallback p{font-size:.85rem;color:#0a5a50;margin-bottom:10px}
-.fallback-btn{padding:.5rem 1rem;background:var(--teal);color:var(--white);border:none;border-radius:7px;font-size:.825rem;font-weight:500;cursor:pointer;font-family:var(--font-body)}
-
-/* PDF RESULT */
-.pdf-section{display:none;margin-top:1.5rem}
+.tp{display:none}.tp.active{display:block}
+.fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.field label{display:block;font-size:.72rem;font-weight:500;color:var(--gray-600);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.field input,.field select,.field textarea{width:100%;padding:.58rem .8rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.9rem;font-family:var(--font-body);color:var(--navy);background:var(--white);outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal)}
+.lbtn{width:100%;padding:.72rem;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:.9rem;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:background .2s;margin-top:4px}
+.lbtn:hover{background:var(--navy-mid)}
+.lbtn:disabled{opacity:.4;cursor:not-allowed}
+.mrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.mbox{background:var(--gray-50);border-radius:10px;padding:12px 14px}
+.mbox .ml{font-size:.68rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-600);margin-bottom:3px}
+.mbox .mv{font-size:1.45rem;font-weight:500;font-family:var(--font-display);color:var(--navy)}
+.mbox .ms{font-size:.72rem;color:var(--gray-400);margin-top:1px}
+.crow{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.crow label{font-size:.875rem;color:var(--gray-600);white-space:nowrap}
+.crow input{max-width:110px;padding:.5rem .7rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.9rem;font-family:var(--font-body)}
+.cbtn{padding:.52rem 1rem;background:var(--white);border:1px solid var(--gray-200);border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--font-body);color:var(--navy);white-space:nowrap}
+.cbtn:hover{border-color:var(--teal);color:var(--teal)}
+.vbox{border-radius:10px;padding:12px 14px;border:1px solid;margin-top:10px}
+.vbox.ok{background:var(--green-bg);border-color:#9ae6b4}
+.vbox.warn{background:var(--amber-bg);border-color:#fbd38d}
+.vbox.over{background:var(--red-bg);border-color:#feb2b2}
+.vt{font-size:.875rem;font-weight:500;margin-bottom:2px}
+.vt.ok{color:var(--green)}.vt.warn{color:#b7791f}.vt.over{color:var(--red)}
+.vb{font-size:.825rem;color:var(--gray-600)}
+.tnote{font-size:.73rem;color:var(--gray-400);margin-top:8px}
+.errmsg{font-size:.8rem;color:var(--red);margin-top:6px;display:none}
+.fallback{background:var(--teal-light);border:1px solid rgba(13,158,138,.2);border-radius:10px;padding:12px 14px;margin-top:10px;display:none}
+.fallback p{font-size:.85rem;color:#0a5a50;margin-bottom:8px}
+.fbtn{padding:.48rem .9rem;background:var(--teal);color:var(--white);border:none;border-radius:7px;font-size:.825rem;font-weight:500;cursor:pointer;font-family:var(--font-body);margin-right:6px;margin-bottom:4px}
+/* PDF */
+.pdf-sec{display:none;margin-top:1.5rem}
 .pdf-card{border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden}
-.pdf-header{background:var(--navy);color:var(--white);padding:1.25rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
-.pdf-header .pdf-logo{font-family:var(--font-display);font-size:1.1rem}
-.pdf-header .pdf-logo span{color:var(--teal)}
-.pdf-header .pdf-meta{font-size:.75rem;color:rgba(255,255,255,.6);text-align:right}
-.pdf-body{padding:1.5rem}
-.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
-.pdf-field{font-size:.8rem}
-.pdf-field .pf-label{color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;font-size:.7rem;margin-bottom:2px}
-.pdf-field .pf-value{font-weight:500;color:var(--navy)}
-.pdf-verdict-stripe{padding:1rem 1.25rem;border-radius:8px;display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.pdf-verdict-stripe.ok{background:var(--green-bg);border:1px solid #9ae6b4}
-.pdf-verdict-stripe.warn{background:var(--amber-bg);border:1px solid #fbd38d}
-.pdf-verdict-stripe.over{background:var(--red-bg);border:1px solid #feb2b2}
-.pdf-verdict-text{font-size:.9rem;font-weight:500}
-.pdf-verdict-text.ok{color:var(--green)}.pdf-verdict-text.warn{color:#b7791f}.pdf-verdict-text.over{color:var(--red)}
-.pdf-footer{font-size:.7rem;color:var(--gray-400);border-top:1px solid var(--gray-200);padding-top:.75rem;display:flex;justify-content:space-between}
-.print-btn{padding:.6rem 1.25rem;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:.825rem;font-weight:500;cursor:pointer;font-family:var(--font-body);margin-top:1rem}
-
-/* PRICING */
-.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-top:3rem}
-.price-card{border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.75rem;position:relative}
-.price-card.featured{border-color:var(--teal);border-width:2px}
-.price-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--teal);color:var(--white);font-size:.7rem;font-weight:500;padding:.25rem .75rem;border-radius:20px;white-space:nowrap}
-.price-tier{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-600);margin-bottom:.75rem}
-.price-amount{font-family:var(--font-display);font-size:2.2rem;color:var(--navy);margin-bottom:.25rem}
-.price-amount span{font-size:1rem;font-family:var(--font-body);color:var(--gray-600);font-weight:300}
-.price-desc{font-size:.85rem;color:var(--gray-600);margin-bottom:1.25rem;line-height:1.5}
-.price-features{list-style:none;margin-bottom:1.5rem}
-.price-features li{font-size:.85rem;color:var(--gray-600);padding:.3rem 0;display:flex;align-items:flex-start;gap:.5rem}
-.price-features li::before{content:'✓';color:var(--teal);font-weight:500;flex-shrink:0;margin-top:.05rem}
-.price-cta{width:100%;padding:.7rem;border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:all .2s;text-align:center;display:block;text-decoration:none}
-.price-cta-outline{background:var(--white);color:var(--navy);border:1px solid var(--gray-200)}
-.price-cta-outline:hover{border-color:var(--navy)}
-.price-cta-solid{background:var(--navy);color:var(--white);border:none}
-.price-cta-solid:hover{background:var(--navy-mid)}
-
-/* FOOTER */
-footer{background:var(--navy);color:rgba(255,255,255,.6);padding:3rem 2rem}
-.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.footer-logo{font-family:var(--font-display);font-size:1.2rem;color:var(--white)}
-.footer-logo span{color:var(--teal)}
-.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap}
-.footer-links a{font-size:.8rem;color:rgba(255,255,255,.4);text-decoration:none}
-.footer-links a:hover{color:rgba(255,255,255,.8)}
-.footer-copy{font-size:.75rem;color:rgba(255,255,255,.3);margin-top:.75rem;width:100%}
-
+.pdf-hd{background:var(--navy);color:var(--white);padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center}
+.pdf-hd .plogo{font-family:var(--font-display);font-size:1.05rem}
+.pdf-hd .plogo span{color:var(--teal)}
+.pdf-hd .pmeta{font-size:.72rem;color:rgba(255,255,255,.55);text-align:right}
+.pdf-bd{padding:1.25rem}
+.pdf-grid{display:grid;grid-template-columns:1fr 1fr;gap:.875rem;margin-bottom:1rem}
+.pf .pfl{color:var(--gray-400);text-transform:uppercase;letter-spacing:.06em;font-size:.68rem;margin-bottom:2px}
+.pf .pfv{font-weight:500;font-size:.875rem;color:var(--navy)}
+.pvstripe{padding:.875rem 1rem;border-radius:8px;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.875rem;flex-wrap:wrap}
+.pvstripe.ok{background:var(--green-bg);border:1px solid #9ae6b4}
+.pvstripe.warn{background:var(--amber-bg);border:1px solid #fbd38d}
+.pvstripe.over{background:var(--red-bg);border:1px solid #feb2b2}
+.pvt{font-size:.875rem;font-weight:500}
+.pvt.ok{color:var(--green)}.pvt.warn{color:#b7791f}.pvt.over{color:var(--red)}
+.pvd{font-size:.78rem;color:var(--gray-600);max-width:340px}
+.pfooter{font-size:.68rem;color:var(--gray-400);border-top:1px solid var(--gray-200);padding-top:.6rem;display:flex;justify-content:space-between}
+.print-btn{padding:.55rem 1.1rem;background:var(--navy);color:var(--white);border:none;border-radius:7px;font-size:.8rem;font-weight:500;cursor:pointer;font-family:var(--font-body);margin-top:.875rem}
+/* GROUND TRANSPORT */
+.gt-info{background:var(--teal-light);border:1px solid rgba(13,158,138,.2);border-radius:10px;padding:1rem 1.1rem;margin-top:1rem;display:none}
+.gt-info p{font-size:.875rem;color:#0a5a50;margin-bottom:.75rem;line-height:1.6}
+.gt-links{display:flex;gap:8px;flex-wrap:wrap}
+/* AI CHAT */
+.ai-wrap{display:flex;flex-direction:column;gap:0}
+.chat-history{min-height:200px;max-height:400px;overflow-y:auto;border:1px solid var(--gray-200);border-radius:10px;padding:1rem;margin-bottom:10px;background:var(--gray-50)}
+.msg{margin-bottom:12px;display:flex;gap:8px;align-items:flex-start}
+.msg.user{flex-direction:row-reverse}
+.msg-bubble{padding:.6rem .9rem;border-radius:10px;font-size:.875rem;line-height:1.6;max-width:85%}
+.msg.ai .msg-bubble{background:var(--white);border:1px solid var(--gray-200);color:var(--navy)}
+.msg.user .msg-bubble{background:var(--navy);color:var(--white)}
+.msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:500;flex-shrink:0;margin-top:2px}
+.msg.ai .msg-avatar{background:var(--teal-light);color:var(--teal-dark)}
+.msg.user .msg-avatar{background:var(--navy-mid);color:var(--white)}
+.chat-input-row{display:flex;gap:8px}
+.chat-input-row input{flex:1;padding:.65rem .9rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.9rem;font-family:var(--font-body);outline:none}
+.chat-input-row input:focus{border-color:var(--teal)}
+.send-btn{padding:.65rem 1.1rem;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--font-body);white-space:nowrap}
+.send-btn:disabled{opacity:.4;cursor:not-allowed}
+.suggested-qs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.sq{padding:.38rem .8rem;background:var(--white);border:1px solid var(--gray-200);border-radius:20px;font-size:.78rem;cursor:pointer;color:var(--navy);font-family:var(--font-body)}
+.sq:hover{border-color:var(--teal);color:var(--teal)}
 /* ADMIN */
-.admin-grid{display:grid;grid-template-columns:1fr;gap:1rem}
-.admin-table-wrap{overflow-x:auto}
-table.rtable{width:100%;border-collapse:collapse;font-size:.825rem}
-table.rtable th{text-align:left;font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-600);padding:6px 8px;border-bottom:1px solid var(--gray-200)}
-table.rtable td{padding:6px 8px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
-table.rtable tr:last-child td{border:none}
-table.rtable input{width:65px;padding:3px 5px;border:1px solid var(--gray-200);border-radius:5px;font-size:.8rem}
-.del-btn{background:none;border:none;color:var(--gray-400);cursor:pointer;font-size:.75rem;padding:2px 6px}
-.del-btn:hover{color:var(--red)}
-.add-form{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;margin-top:12px}
-.add-form label{font-size:.7rem;color:var(--gray-600);display:block;margin-bottom:3px}
-.add-form input{width:100%;padding:4px 6px;border:1px solid var(--gray-200);border-radius:5px;font-size:.8rem}
-.add-form-btn{padding:6px 10px;background:var(--navy);color:var(--white);border:none;border-radius:6px;font-size:.8rem;cursor:pointer;font-family:var(--font-body)}
-.export-row{display:flex;gap:8px;margin-top:1rem;flex-wrap:wrap}
-.exp-btn{padding:.5rem 1rem;font-size:.825rem;border:1px solid var(--gray-200);border-radius:7px;background:var(--white);cursor:pointer;font-family:var(--font-body);color:var(--navy)}
-.exp-btn:hover{border-color:var(--navy)}
-.admin-note{font-size:.75rem;color:var(--gray-400);margin-top:.5rem}
-
+.atbl{width:100%;border-collapse:collapse;font-size:.82rem}
+.atbl th{text-align:left;font-size:.68rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-600);padding:5px 7px;border-bottom:1px solid var(--gray-200)}
+.atbl td{padding:5px 7px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
+.atbl tr:last-child td{border:none}
+.atbl input{width:62px;padding:3px 5px;border:1px solid var(--gray-200);border-radius:5px;font-size:.78rem}
+.delbtn{background:none;border:none;color:var(--gray-400);cursor:pointer;font-size:.75rem;padding:2px 5px}
+.delbtn:hover{color:var(--red)}
+.addform{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;align-items:end;margin-top:10px}
+.addform label{font-size:.68rem;color:var(--gray-600);display:block;margin-bottom:2px}
+.addform input{width:100%;padding:4px 5px;border:1px solid var(--gray-200);border-radius:5px;font-size:.78rem}
+.addbtn{padding:5px 9px;background:var(--navy);color:var(--white);border:none;border-radius:5px;font-size:.78rem;cursor:pointer;font-family:var(--font-body)}
+.exprow{display:flex;gap:7px;margin-top:.875rem;flex-wrap:wrap}
+.expbtn{padding:.45rem .9rem;font-size:.82rem;border:1px solid var(--gray-200);border-radius:7px;background:var(--white);cursor:pointer;font-family:var(--font-body);color:var(--navy)}
+.expbtn:hover{border-color:var(--navy)}
+/* PRICING */
+.pg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.5rem;margin-top:3rem}
+.pc{border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:1.6rem;position:relative}
+.pc.feat{border-color:var(--teal);border-width:2px}
+.pbadge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--teal);color:var(--white);font-size:.68rem;font-weight:500;padding:.22rem .7rem;border-radius:20px;white-space:nowrap}
+.ptier{font-size:.72rem;font-weight:500;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-600);margin-bottom:.6rem}
+.pamt{font-family:var(--font-display);font-size:2.1rem;color:var(--navy);margin-bottom:.2rem}
+.pamt span{font-size:.95rem;font-family:var(--font-body);color:var(--gray-600);font-weight:300}
+.pdesc{font-size:.84rem;color:var(--gray-600);margin-bottom:1.1rem;line-height:1.5}
+.plist{list-style:none;margin-bottom:1.4rem}
+.plist li{font-size:.84rem;color:var(--gray-600);padding:.28rem 0;display:flex;align-items:flex-start;gap:.45rem}
+.plist li::before{content:'✓';color:var(--teal);font-weight:500;flex-shrink:0}
+.pcta{width:100%;padding:.65rem;border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--font-body);text-align:center;display:block;text-decoration:none}
+.pcta-o{background:var(--white);color:var(--navy);border:1px solid var(--gray-200)}
+.pcta-o:hover{border-color:var(--navy)}
+.pcta-s{background:var(--navy);color:var(--white);border:none}
+.pcta-s:hover{background:var(--navy-mid)}
+footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
+.fi{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.flogo{font-family:var(--font-display);font-size:1.15rem;color:var(--white)}
+.flogo span{color:var(--teal)}
+.flinks{display:flex;gap:1.5rem;flex-wrap:wrap}
+.flinks a{font-size:.78rem;color:rgba(255,255,255,.4);text-decoration:none}
+.flinks a:hover{color:rgba(255,255,255,.8)}
+.fcopy{font-size:.72rem;color:rgba(255,255,255,.28);margin-top:.6rem;width:100%}
+.typing{display:flex;gap:4px;padding:.4rem .6rem}
+.typing span{width:6px;height:6px;background:var(--gray-400);border-radius:50%;animation:bounce .9s infinite}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
 @media(max-width:600px){
-  .form-grid-2,.form-grid-3{grid-template-columns:1fr}
-  .metrics-row{grid-template-columns:1fr 1fr}
+  .fg2,.fg3{grid-template-columns:1fr}
+  .mrow{grid-template-columns:1fr 1fr}
   .hero-stats{gap:1.5rem}
-  .add-form{grid-template-columns:1fr 1fr}
+  .addform{grid-template-columns:1fr 1fr}
   .pdf-grid{grid-template-columns:1fr}
   .nav-links{display:none}
+}
+@media print{
+  nav,.tool-tabs,.hero,.section:not(.tool-section),.print-btn,footer{display:none!important}
+  .pdf-sec{display:block!important}
+  .tool-wrap{border:none;box-shadow:none}
 }
 </style>
 </head>
@@ -217,17 +206,17 @@ table.rtable input{width:65px;padding:3px 5px;border:1px solid var(--gray-200);b
 </nav>
 
 <section class="hero">
-  <div class="hero-eyebrow">Travel expense compliance</div>
-  <h1>Was that flight fare <em>actually</em> reasonable?</h1>
-  <p class="hero-sub">FairFares gives finance teams, travel managers, and expense reviewers instant, defensible benchmarks for flights and hotels worldwide.</p>
+  <div class="hero-eyebrow">Travel reimbursement benchmarking</div>
+  <h1>The <em>smarter</em> way to benchmark travel reimbursements</h1>
+  <p class="hero-sub">Instantly find what the correct fare, hotel, or ground transport <strong>would have cost</strong> — so every reimbursement decision is accurate, fair, and policy-compliant. <strong>No more guesswork. No more "I couldn't find a comp."</strong></p>
   <div class="hero-actions">
     <a href="#tool" class="btn-primary">Try it free — no signup</a>
     <a href="#how-it-works" class="btn-ghost">See how it works</a>
   </div>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="num">34+</div><div class="lbl">Routes covered</div></div>
-    <div class="hero-stat"><div class="num">$0</div><div class="lbl">Cost to start</div></div>
-    <div class="hero-stat"><div class="num">GSA</div><div class="lbl">Hotel data source</div></div>
+    <div class="hero-stat"><div class="num">G-28</div><div class="lbl">UCOP policy aligned</div></div>
+    <div class="hero-stat"><div class="num">DoD</div><div class="lbl">International per diem</div></div>
+    <div class="hero-stat"><div class="num">GSA</div><div class="lbl">US hotel rates</div></div>
     <div class="hero-stat"><div class="num">PDF</div><div class="lbl">Shareable records</div></div>
   </div>
 </section>
@@ -235,82 +224,47 @@ table.rtable input{width:65px;padding:3px 5px;border:1px solid var(--gray-200);b
 <section class="section" id="how-it-works">
   <div class="section-inner">
     <div class="section-tag">How it works</div>
-    <h2 class="section-title">Three steps to a defensible answer</h2>
-    <p class="section-sub">No API keys, no subscriptions to start. Just enter the route and get a benchmark range backed by real data sources.</p>
+    <h2 class="section-title">From trip details to defensible benchmark in seconds</h2>
+    <p class="section-sub">Built for the exact scenario where a traveler extended their trip, upgraded their seat, or rented a car — and now you need to know what UC would have paid.</p>
     <div class="steps">
-      <div class="step"><div class="step-num">1</div><h3>Enter the trip details</h3><p>Origin, destination, travel date, cabin class, and trip type. City names or IATA codes both work.</p></div>
-      <div class="step"><div class="step-num">2</div><h3>Get the benchmark range</h3><p>FairFares returns a low, typical, and high estimate drawn from BTS historical data and curated market rates.</p></div>
-      <div class="step"><div class="step-num">3</div><h3>Enter the submitted amount</h3><p>FairFares gives an instant verdict — within benchmark, borderline, or over — and generates a shareable PDF record.</p></div>
+      <div class="step"><div class="step-num">1</div><h3>Enter the correct trip details</h3><p>The dates, route, and class the traveler <em>should</em> have used under policy — not what they actually booked.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Get the benchmark range</h3><p>FairFares returns what that trip would have cost, sourced from BTS, GSA, and DoD per diem data.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Enter the submitted amount</h3><p>Instant verdict — within benchmark, borderline, or over. Approve with confidence or flag for review.</p></div>
+      <div class="step"><div class="step-num">4</div><h3>Download the compliance record</h3><p>A timestamped PDF you attach to the expense report. Sourced, dated, and ready for audit.</p></div>
     </div>
   </div>
 </section>
 
-<section class="section features-bg">
+<section class="section gray-bg" id="tool">
   <div class="section-inner">
-    <div class="section-tag">Features</div>
-    <h2 class="section-title">Built for compliance, not booking</h2>
-    <div class="features-grid">
-      <div class="feature">
-        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
-        <h3>Instant verdict</h3>
-        <p>Green, amber, or red verdict in seconds. No guesswork, no spreadsheets.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
-        <h3>Shareable PDF record</h3>
-        <p>Every lookup generates a timestamped compliance document to attach to the expense report.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
-        <h3>Global coverage</h3>
-        <p>US flights via BTS data, US hotels via GSA per diem, international destinations via curated benchmarks.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-        <h3>Policy-grade sources</h3>
-        <p>GSA per diem rates are used by the US federal government — hard to dispute in an audit.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
-        <h3>Admin panel</h3>
-        <p>Update fare tables quarterly in minutes. No developer needed. Export and import as JSON.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <h3>Free to start</h3>
-        <p>No credit card, no signup required to try. Free tier covers most small teams indefinitely.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section tool-section" id="tool">
-  <div class="section-inner">
-    <div class="section-tag">Live tool</div>
+    <div class="section-tag">Live tool — free to use</div>
     <h2 class="section-title">Look up a benchmark now</h2>
-    <p class="section-sub">Free to use. No account required.</p>
+    <p class="section-sub">No account required. All five modules below.</p>
 
-    <div class="tool-wrapper">
-      <div class="tool-nav">
-        <button class="tool-tab active" onclick="switchTab('flights',this)">Flights</button>
-        <button class="tool-tab" onclick="switchTab('hotels',this)">Hotels</button>
-        <button class="tool-tab" onclick="switchTab('admin',this)">Admin</button>
+    <div class="tool-wrap">
+      <div class="tool-tabs">
+        <button class="ttab active" onclick="stab('flights',this)">Flights</button>
+        <button class="ttab" onclick="stab('hotels',this)">Hotels</button>
+        <button class="ttab" onclick="stab('ground',this)">Ground transport</button>
+        <button class="ttab" onclick="stab('perdiem',this)">Intl per diem</button>
+        <button class="ttab" onclick="stab('policy',this)">Policy assistant</button>
+        <button class="ttab" onclick="stab('admin',this)">Admin</button>
       </div>
       <div class="tool-body">
 
         <!-- FLIGHTS -->
-        <div class="tpage active" id="tpage-flights">
-          <div class="form-grid-2">
+        <div class="tp active" id="tp-flights">
+          <div class="fg2">
             <div class="field"><label>From (city or IATA)</label><input type="text" id="f-origin" placeholder="San Francisco or SFO"></div>
             <div class="field"><label>To (city or IATA)</label><input type="text" id="f-dest" placeholder="Chicago or ORD"></div>
           </div>
-          <div class="form-grid-3">
-            <div class="field"><label>Travel date</label><input type="date" id="f-date"></div>
-            <div class="field"><label>Cabin</label>
+          <div class="fg3">
+            <div class="field"><label>Correct travel date</label><input type="date" id="f-date"></div>
+            <div class="field"><label>Cabin class</label>
               <select id="f-cabin">
-                <option value="economy">Economy</option>
+                <option value="economy">Economy / basic economy</option>
                 <option value="premium_economy">Premium economy</option>
-                <option value="business">Business</option>
+                <option value="business">Business class</option>
               </select>
             </div>
             <div class="field"><label>Trip type</label>
@@ -320,56 +274,53 @@ table.rtable input{width:65px;padding:3px 5px;border:1px solid var(--gray-200);b
               </select>
             </div>
           </div>
-          <div class="err-msg" id="f-err">Please enter origin and destination.</div>
-          <button class="lookup-btn" onclick="lookupFlight()">Look up flight benchmark</button>
-
-          <div id="f-results" style="display:none;margin-top:1.25rem">
-            <div style="font-size:.875rem;font-weight:500;margin-bottom:.875rem;color:var(--navy)" id="f-route-lbl"></div>
-            <div class="metrics-row">
-              <div class="metric-box"><div class="mlbl">Low estimate</div><div class="mval" id="f-low">—</div><div class="msub" id="f-cabin-lbl">economy</div></div>
-              <div class="metric-box"><div class="mlbl">Typical fare</div><div class="mval" id="f-mid">—</div><div class="msub">benchmark</div></div>
-              <div class="metric-box"><div class="mlbl">High estimate</div><div class="mval" id="f-high">—</div><div class="msub">still reasonable</div></div>
+          <div class="errmsg" id="f-err">Please enter origin and destination.</div>
+          <button class="lbtn" onclick="lookupFlight()">Look up flight benchmark</button>
+          <div id="f-results" style="display:none;margin-top:1.1rem">
+            <div style="font-size:.875rem;font-weight:500;margin-bottom:.8rem" id="f-route-lbl"></div>
+            <div class="mrow">
+              <div class="mbox"><div class="ml">Low estimate</div><div class="mv" id="f-low">—</div><div class="ms" id="f-clbl">economy</div></div>
+              <div class="mbox"><div class="ml">Typical fare</div><div class="mv" id="f-mid">—</div><div class="ms">benchmark</div></div>
+              <div class="mbox"><div class="ml">High estimate</div><div class="mv" id="f-high">—</div><div class="ms">still reasonable</div></div>
             </div>
-            <div class="check-row">
+            <div class="crow">
               <label>Submitted amount:</label>
-              <input type="number" id="f-sub" placeholder="e.g. 420" min="0" class="field" style="max-width:110px;padding:.5rem .7rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.9rem">
-              <button class="check-btn" onclick="checkFlight()">Check</button>
+              <input type="number" id="f-sub" placeholder="e.g. 420" min="0">
+              <button class="cbtn" onclick="checkFlight()">Check</button>
             </div>
             <div id="f-verdict"></div>
-            <p class="tool-note" id="f-note"></p>
+            <p class="tnote" id="f-note"></p>
           </div>
-
           <div class="fallback" id="f-fallback">
-            <p>This route isn't in the benchmark table yet. Open Google Flights to get a current price range and attach a screenshot to the expense record.</p>
-            <button class="fallback-btn" onclick="openGF()">Open Google Flights search</button>
+            <p>This route isn't in the benchmark table yet. Open Google Flights to get the price range for the correct dates, then screenshot and attach to the expense record.</p>
+            <button class="fbtn" onclick="openGF()">Open Google Flights</button>
+            <button class="fbtn" style="background:var(--navy)" onclick="stab('admin',document.querySelectorAll('.ttab')[5])">Add route in Admin</button>
           </div>
-
-          <!-- PDF RECORD -->
-          <div class="pdf-section" id="f-pdf">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
-              <span style="font-size:.8rem;font-weight:500;color:var(--gray-600);text-transform:uppercase;letter-spacing:.06em">Compliance record</span>
-              <button class="print-btn" onclick="printRecord()">Download / Print PDF</button>
+          <div class="pdf-sec" id="f-pdf">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem">
+              <span style="font-size:.78rem;font-weight:500;color:var(--gray-600);text-transform:uppercase;letter-spacing:.05em">Compliance record</span>
+              <button class="print-btn" onclick="window.print()">Download / Print PDF</button>
             </div>
             <div class="pdf-card" id="pdf-content">
-              <div class="pdf-header">
-                <div class="pdf-logo">Fair<span>Fares</span></div>
-                <div class="pdf-meta"><div id="pdf-timestamp"></div><div>getfairfares.com</div></div>
+              <div class="pdf-hd">
+                <div class="plogo">Fair<span>Fares</span></div>
+                <div class="pmeta"><div id="pdf-ts"></div><div>getfairfares.com</div></div>
               </div>
-              <div class="pdf-body">
+              <div class="pdf-bd">
                 <div class="pdf-grid">
-                  <div class="pdf-field"><div class="pf-label">Route</div><div class="pf-value" id="pdf-route"></div></div>
-                  <div class="pdf-field"><div class="pf-label">Travel date</div><div class="pf-value" id="pdf-date"></div></div>
-                  <div class="pdf-field"><div class="pf-label">Cabin / trip type</div><div class="pf-value" id="pdf-cabin"></div></div>
-                  <div class="pdf-field"><div class="pf-label">Submitted amount</div><div class="pf-value" id="pdf-submitted"></div></div>
-                  <div class="pdf-field"><div class="pf-label">Benchmark range</div><div class="pf-value" id="pdf-range"></div></div>
-                  <div class="pdf-field"><div class="pf-label">Data source</div><div class="pf-value">FairFares v1.0 — BTS/GSA Q2 2026</div></div>
+                  <div class="pf"><div class="pfl">Route</div><div class="pfv" id="pdf-route"></div></div>
+                  <div class="pf"><div class="pfl">Correct travel date</div><div class="pfv" id="pdf-date"></div></div>
+                  <div class="pf"><div class="pfl">Cabin / trip type</div><div class="pfv" id="pdf-cabin"></div></div>
+                  <div class="pf"><div class="pfl">Submitted amount</div><div class="pfv" id="pdf-sub"></div></div>
+                  <div class="pf"><div class="pfl">Benchmark range</div><div class="pfv" id="pdf-range"></div></div>
+                  <div class="pf"><div class="pfl">Policy basis</div><div class="pfv">UCOP G-28 — economy/coach class, correct dates</div></div>
                 </div>
-                <div class="pdf-verdict-stripe" id="pdf-verdict-stripe">
-                  <div class="pdf-verdict-text" id="pdf-verdict-text"></div>
-                  <div style="font-size:.75rem;color:var(--gray-600)" id="pdf-verdict-detail"></div>
+                <div class="pvstripe" id="pdf-stripe">
+                  <div><div class="pvt" id="pdf-vt"></div><div class="pvd" id="pdf-vd"></div></div>
+                  <div style="font-size:.7rem;color:var(--gray-400)" id="pdf-src">Source: FairFares v2.0 — BTS/GSA Q2 2026</div>
                 </div>
-                <div class="pdf-footer">
-                  <span>Generated by FairFares — getfairfares.com</span>
+                <div class="pfooter">
+                  <span>FairFares — getfairfares.com — UCOP G-28 compliant benchmarking</span>
                   <span id="pdf-id"></span>
                 </div>
               </div>
@@ -378,8 +329,8 @@ table.rtable input{width:65px;padding:3px 5px;border:1px solid var(--gray-200);b
         </div>
 
         <!-- HOTELS -->
-        <div class="tpage" id="tpage-hotels">
-          <div class="form-grid-2">
+        <div class="tp" id="tp-hotels">
+          <div class="fg2">
             <div class="field"><label>City</label><input type="text" id="h-city" placeholder="Chicago"></div>
             <div class="field"><label>Country</label>
               <select id="h-country">
@@ -396,56 +347,129 @@ table.rtable input{width:65px;padding:3px 5px;border:1px solid var(--gray-200);b
               </select>
             </div>
           </div>
-          <div class="form-grid-3">
+          <div class="fg3">
             <div class="field"><label>State (US only)</label><input type="text" id="h-state" placeholder="IL" maxlength="2" style="text-transform:uppercase"></div>
-            <div class="field"><label>Check-in</label><input type="date" id="h-checkin"></div>
-            <div class="field"><label>Check-out</label><input type="date" id="h-checkout"></div>
+            <div class="field"><label>Correct check-in date</label><input type="date" id="h-checkin"></div>
+            <div class="field"><label>Correct check-out date</label><input type="date" id="h-checkout"></div>
           </div>
-          <div class="err-msg" id="h-err">Please enter a city and check-in date.</div>
-          <button class="lookup-btn" id="h-btn" onclick="lookupHotel()">Look up hotel benchmark</button>
-
-          <div id="h-results" style="display:none;margin-top:1.25rem">
-            <div style="font-size:.875rem;font-weight:500;margin-bottom:.875rem" id="h-city-lbl"></div>
-            <div class="metrics-row">
-              <div class="metric-box"><div class="mlbl" id="h-lbl1">GSA per diem</div><div class="mval" id="h-rate1">—</div><div class="msub" id="h-sub1">federal rate</div></div>
-              <div class="metric-box"><div class="mlbl">Market estimate</div><div class="mval" id="h-rate2">—</div><div class="msub">avg nightly</div></div>
-              <div class="metric-box"><div class="mlbl">Stay duration</div><div class="mval" id="h-nights">—</div><div class="msub">nights</div></div>
+          <div class="errmsg" id="h-err">Please enter a city.</div>
+          <button class="lbtn" id="h-btn" onclick="lookupHotel()">Look up hotel benchmark</button>
+          <div id="h-results" style="display:none;margin-top:1.1rem">
+            <div style="font-size:.875rem;font-weight:500;margin-bottom:.8rem" id="h-lbl"></div>
+            <div class="mrow">
+              <div class="mbox"><div class="ml" id="hl1">GSA per diem</div><div class="mv" id="h-r1">—</div><div class="ms" id="hs1">federal rate</div></div>
+              <div class="mbox"><div class="ml">Market estimate</div><div class="mv" id="h-r2">—</div><div class="ms">avg nightly</div></div>
+              <div class="mbox"><div class="ml">Correct nights</div><div class="mv" id="h-nights">—</div><div class="ms">duration</div></div>
             </div>
-            <div class="check-row">
+            <div class="crow">
               <label>Submitted per night:</label>
-              <input type="number" id="h-sub" placeholder="e.g. 220" min="0" class="field" style="max-width:110px;padding:.5rem .7rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.9rem">
-              <button class="check-btn" onclick="checkHotel()">Check</button>
+              <input type="number" id="h-sub" placeholder="e.g. 220" min="0">
+              <button class="cbtn" onclick="checkHotel()">Check</button>
             </div>
             <div id="h-verdict"></div>
-            <p class="tool-note" id="h-note"></p>
+            <p class="tnote" id="h-note"></p>
           </div>
         </div>
 
-        <!-- ADMIN -->
-        <div class="tpage" id="tpage-admin">
-          <div style="font-size:.8rem;color:var(--gray-600);margin-bottom:1rem">Update fare tables quarterly. Changes apply immediately to lookups on this page.</div>
-          <div class="admin-table-wrap">
-            <table class="rtable" id="admin-table">
-              <thead><tr><th>From</th><th>To</th><th>Low ($)</th><th>Mid ($)</th><th>High ($)</th><th>RT mult</th><th></th></tr></thead>
-              <tbody id="admin-tbody"></tbody>
-            </table>
+        <!-- GROUND TRANSPORT -->
+        <div class="tp" id="tp-ground">
+          <p style="font-size:.9rem;color:var(--gray-600);line-height:1.7;margin-bottom:1rem">Under UCOP G-28, travelers should use the most economical ground transport. If a traveler rented a car when a taxi or rideshare would have sufficed, reimbursement is limited to what the taxi <em>would have cost</em> along the same route.</p>
+          <div class="fg2">
+            <div class="field"><label>Pickup location</label><input type="text" id="gt-from" placeholder="e.g. SFO Airport"></div>
+            <div class="field"><label>Dropoff location</label><input type="text" id="gt-to" placeholder="e.g. UCSF Mission Bay"></div>
           </div>
-          <div class="add-form" id="add-form">
+          <div class="fg2">
+            <div class="field"><label>City</label>
+              <select id="gt-city">
+                <option value="san-francisco">San Francisco</option>
+                <option value="los-angeles">Los Angeles</option>
+                <option value="chicago">Chicago</option>
+                <option value="new-york-city">New York City</option>
+                <option value="boston">Boston</option>
+                <option value="washington-dc">Washington DC</option>
+                <option value="seattle">Seattle</option>
+                <option value="miami">Miami</option>
+                <option value="denver">Denver</option>
+                <option value="atlanta">Atlanta</option>
+              </select>
+            </div>
+            <div class="field"><label>Travel date</label><input type="date" id="gt-date"></div>
+          </div>
+          <button class="lbtn" onclick="lookupGround()">Get taxi fare estimate</button>
+          <div class="gt-info" id="gt-info">
+            <p id="gt-text"></p>
+            <div class="gt-links">
+              <button class="fbtn" id="gt-tflink" onclick="">Open TaxiFareFinder</button>
+              <button class="fbtn" style="background:var(--navy)" id="gt-gmlink" onclick="">Open Google Maps route</button>
+            </div>
+            <p class="tnote" style="margin-top:8px">TaxiFareFinder uses actual metered rates for each city. Screenshot the result and attach to the expense record as your comp.</p>
+          </div>
+        </div>
+
+        <!-- INTL PER DIEM -->
+        <div class="tp" id="tp-perdiem">
+          <p style="font-size:.9rem;color:var(--gray-600);line-height:1.7;margin-bottom:1rem">International and OCONUS travel (including Hawaii and Alaska) uses DoD per diem rates under UCOP G-28. Look up the rate for any country and city below.</p>
+          <div class="fg3">
+            <div class="field"><label>Country</label><input type="text" id="pd-country" placeholder="e.g. Japan"></div>
+            <div class="field"><label>City (optional)</label><input type="text" id="pd-city" placeholder="e.g. Tokyo"></div>
+            <div class="field"><label>Travel date</label><input type="date" id="pd-date"></div>
+          </div>
+          <button class="lbtn" onclick="lookupPerDiem()">Look up DoD per diem rate</button>
+          <div class="gt-info" id="pd-info" style="margin-top:1rem">
+            <p id="pd-text"></p>
+            <div class="gt-links">
+              <button class="fbtn" id="pd-link" onclick="">Open DoD Per Diem lookup</button>
+            </div>
+            <p class="tnote" style="margin-top:8px">DoD per diem covers lodging, meals and incidental expenses (M&IE). Under G-28, international hotel reimbursement is limited to 300% of the DoD lodging rate.</p>
+          </div>
+        </div>
+
+        <!-- POLICY ASSISTANT -->
+        <div class="tp" id="tp-policy">
+          <p style="font-size:.875rem;color:var(--gray-600);margin-bottom:.875rem;line-height:1.6">Ask any question about UCOP G-28 travel policy. This assistant knows the current rules on travel dates, seat class, hotel limits, ground transport, per diem, and more.</p>
+          <div class="suggested-qs">
+            <button class="sq" onclick="askQ(this)">Can a traveler arrive 2 days early for a conference?</button>
+            <button class="sq" onclick="askQ(this)">What class can they fly on a 12-hour flight?</button>
+            <button class="sq" onclick="askQ(this)">Is the conference hotel reimbursable above $333/night?</button>
+            <button class="sq" onclick="askQ(this)">When is a rental car allowed instead of a taxi?</button>
+            <button class="sq" onclick="askQ(this)">How do I calculate the comp fare for early departure?</button>
+          </div>
+          <div class="chat-history" id="chat-history">
+            <div class="msg ai">
+              <div class="msg-avatar">FF</div>
+              <div class="msg-bubble">Hello! I'm the FairFares policy assistant. I know UCOP G-28 travel regulations and UC travel policy. Ask me anything about what's reimbursable, what class travelers can fly, hotel limits, per diem rates, or how to calculate a comp fare for policy-compliant travel.</div>
+            </div>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" id="chat-input" placeholder="Ask a policy question..." onkeydown="if(event.key==='Enter')sendChat()">
+            <button class="send-btn" id="send-btn" onclick="sendChat()">Ask</button>
+          </div>
+          <p class="tnote" style="margin-top:6px">Answers are based on UCOP G-28 and UC travel policy. Always verify with your campus travel office or Accounts Payable for final determination.</p>
+        </div>
+
+        <!-- ADMIN -->
+        <div class="tp" id="tp-admin">
+          <p style="font-size:.8rem;color:var(--gray-600);margin-bottom:.875rem">Update fare tables quarterly. Amounts in USD one-way economy. RT mult = round trip multiplier.</p>
+          <div style="overflow-x:auto">
+            <table class="atbl"><thead><tr><th>From</th><th>To</th><th>Low</th><th>Mid</th><th>High</th><th>RT×</th><th></th></tr></thead>
+            <tbody id="admin-tbody"></tbody></table>
+          </div>
+          <div class="addform">
             <div><label>From</label><input type="text" id="new-from" placeholder="SFO" maxlength="3" style="text-transform:uppercase"></div>
             <div><label>To</label><input type="text" id="new-to" placeholder="ORD" maxlength="3" style="text-transform:uppercase"></div>
-            <div><label>Low</label><input type="number" id="new-low" placeholder="280"></div>
-            <div><label>Mid</label><input type="number" id="new-mid" placeholder="420"></div>
-            <div><label>High</label><input type="number" id="new-high" placeholder="650"></div>
-            <div><label>RT mult</label><input type="number" id="new-rt" placeholder="1.7" step="0.1"></div>
-            <div><label>&nbsp;</label><button class="add-form-btn" onclick="addRoute()">Add</button></div>
+            <div><label>Low $</label><input type="number" id="new-low" placeholder="280"></div>
+            <div><label>Mid $</label><input type="number" id="new-mid" placeholder="420"></div>
+            <div><label>High $</label><input type="number" id="new-high" placeholder="650"></div>
+            <div><label>RT×</label><input type="number" id="new-rt" placeholder="1.7" step="0.1"></div>
+            <div><label>&nbsp;</label><button class="addbtn" onclick="addRoute()">Add</button></div>
           </div>
-          <div class="err-msg" id="add-err">Fill in all fields.</div>
-          <div class="export-row">
-            <button class="exp-btn" onclick="exportData()">Export JSON</button>
-            <button class="exp-btn" onclick="document.getElementById('import-file').click()">Import JSON</button>
-            <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+          <div class="errmsg" id="add-err">Fill in all fields.</div>
+          <div class="exprow">
+            <button class="expbtn" onclick="exportData()">Export JSON</button>
+            <button class="expbtn" onclick="document.getElementById('imp-file').click()">Import JSON</button>
+            <input type="file" id="imp-file" accept=".json" style="display:none" onchange="importData(event)">
           </div>
-          <p class="admin-note">Export before each quarterly update and keep the previous version as a backup record.</p>
+          <p class="tnote" style="margin-top:.5rem">Export before each quarterly update and keep the previous version as a backup.</p>
         </div>
 
       </div>
@@ -453,61 +477,61 @@ table.rtable input{width:65px;padding:3px 5px;border:1px solid var(--gray-200);b
   </div>
 </section>
 
-<section class="section features-bg" id="pricing">
+<section class="section" id="pricing">
   <div class="section-inner">
     <div class="section-tag">Pricing</div>
-    <h2 class="section-title">Start free, scale when you're ready</h2>
-    <div class="pricing-grid">
-      <div class="price-card">
-        <div class="price-tier">Free</div>
-        <div class="price-amount">$0</div>
-        <div class="price-desc">For individual reviewers and small teams trialling the tool.</div>
-        <ul class="price-features">
+    <h2 class="section-title">Start free, scale when ready</h2>
+    <div class="pg">
+      <div class="pc">
+        <div class="ptier">Free</div>
+        <div class="pamt">$0</div>
+        <div class="pdesc">For individual reviewers and small teams trialling the tool.</div>
+        <ul class="plist">
           <li>50 lookups per month</li>
           <li>US flights and hotels</li>
-          <li>Standard benchmark table</li>
           <li>PDF compliance record</li>
+          <li>Policy assistant</li>
         </ul>
-        <a href="#tool" class="price-cta price-cta-outline">Try it now</a>
+        <a href="#tool" class="pcta pcta-o">Try it now</a>
       </div>
-      <div class="price-card featured">
-        <div class="price-badge">Most popular</div>
-        <div class="price-tier">Pro</div>
-        <div class="price-amount">$49<span>/month</span></div>
-        <div class="price-desc">For finance teams and travel managers needing full coverage.</div>
-        <ul class="price-features">
+      <div class="pc feat">
+        <div class="pbadge">Most popular</div>
+        <div class="ptier">Pro</div>
+        <div class="pamt">$49<span>/month</span></div>
+        <div class="pdesc">For finance teams needing full coverage and audit records.</div>
+        <ul class="plist">
           <li>Unlimited lookups</li>
+          <li>All five modules</li>
           <li>International routes and hotels</li>
-          <li>Custom fare table</li>
+          <li>DoD per diem lookup</li>
           <li>Verdict history and audit log</li>
-          <li>Priority support</li>
         </ul>
-        <a href="mailto:hello@getfairfares.com" class="price-cta price-cta-solid">Get started</a>
+        <a href="mailto:hello@getfairfares.com" class="pcta pcta-s">Get started</a>
       </div>
-      <div class="price-card">
-        <div class="price-tier">Enterprise</div>
-        <div class="price-amount">Custom</div>
-        <div class="price-desc">For universities, health systems, and large organisations.</div>
-        <ul class="price-features">
+      <div class="pc">
+        <div class="ptier">Enterprise</div>
+        <div class="pamt">Custom</div>
+        <div class="pdesc">For universities, health systems, and large organisations.</div>
+        <ul class="plist">
           <li>Everything in Pro</li>
           <li>SSO and user management</li>
-          <li>Concur / expense system integration</li>
-          <li>Dedicated fare table updates</li>
-          <li>SLA and dedicated support</li>
+          <li>Concur integration</li>
+          <li>Custom policy rules</li>
+          <li>Dedicated support</li>
         </ul>
-        <a href="mailto:hello@getfairfares.com" class="price-cta price-cta-outline">Contact us</a>
+        <a href="mailto:hello@getfairfares.com" class="pcta pcta-o">Contact us</a>
       </div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="footer-inner">
+  <div class="fi">
     <div>
-      <div class="footer-logo">Fair<span>Fares</span></div>
-      <div class="footer-copy">© 2026 FairFares. Travel expense compliance made simple.</div>
+      <div class="flogo">Fair<span>Fares</span></div>
+      <div class="fcopy">© 2026 FairFares. Travel reimbursement benchmarking made simple. Built on UCOP G-28, GSA, and DoD per diem data.</div>
     </div>
-    <div class="footer-links">
+    <div class="flinks">
       <a href="mailto:hello@getfairfares.com">Contact</a>
       <a href="#pricing">Pricing</a>
       <a href="#tool">Tool</a>
@@ -517,57 +541,233 @@ table.rtable input{width:65px;padding:3px 5px;border:1px solid var(--gray-200);b
 
 <script>
 const ROUTES=[
-  {from:'SFO',to:'LAX',low:59,mid:120,high:220,rt:1.4},
-  {from:'SFO',to:'ORD',low:180,mid:320,high:520,rt:1.7},
-  {from:'SFO',to:'JFK',low:200,mid:360,high:560,rt:1.7},
-  {from:'SFO',to:'BOS',low:210,mid:370,high:580,rt:1.7},
-  {from:'SFO',to:'DCA',low:220,mid:380,high:590,rt:1.7},
-  {from:'SFO',to:'IAD',low:220,mid:375,high:585,rt:1.7},
-  {from:'SFO',to:'SEA',low:80,mid:160,high:280,rt:1.5},
-  {from:'SFO',to:'PDX',low:70,mid:140,high:260,rt:1.5},
-  {from:'SFO',to:'LAS',low:60,mid:110,high:200,rt:1.4},
-  {from:'SFO',to:'PHX',low:70,mid:130,high:230,rt:1.4},
-  {from:'SFO',to:'DEN',low:100,mid:200,high:360,rt:1.6},
-  {from:'SFO',to:'ATL',low:200,mid:350,high:540,rt:1.7},
-  {from:'SFO',to:'MIA',low:210,mid:370,high:560,rt:1.7},
-  {from:'SFO',to:'HOU',low:180,mid:310,high:490,rt:1.7},
-  {from:'SFO',to:'MSP',low:160,mid:290,high:460,rt:1.7},
-  {from:'SFO',to:'DTW',low:180,mid:320,high:500,rt:1.7},
-  {from:'SFO',to:'CLT',low:200,mid:360,high:550,rt:1.7},
-  {from:'SFO',to:'SAN',low:55,mid:100,high:190,rt:1.4},
-  {from:'SFO',to:'SMF',low:40,mid:80,high:150,rt:1.3},
-  {from:'SFO',to:'LHR',low:480,mid:780,high:1200,rt:1.8},
-  {from:'SFO',to:'CDG',low:500,mid:820,high:1280,rt:1.8},
-  {from:'SFO',to:'FRA',low:490,mid:800,high:1250,rt:1.8},
-  {from:'SFO',to:'NRT',low:550,mid:900,high:1380,rt:1.8},
-  {from:'SFO',to:'SYD',low:700,mid:1100,high:1650,rt:1.9},
-  {from:'SFO',to:'SIN',low:620,mid:980,high:1480,rt:1.9},
-  {from:'SFO',to:'YVR',low:120,mid:230,high:380,rt:1.6},
-  {from:'SFO',to:'YYZ',low:240,mid:400,high:620,rt:1.7},
-  {from:'LAX',to:'JFK',low:180,mid:320,high:510,rt:1.7},
-  {from:'LAX',to:'ORD',low:160,mid:290,high:480,rt:1.7},
-  {from:'LAX',to:'LHR',low:460,mid:760,high:1180,rt:1.8},
-  {from:'OAK',to:'LAX',low:55,mid:110,high:200,rt:1.4},
-  {from:'OAK',to:'JFK',low:195,mid:345,high:545,rt:1.7},
-  {from:'SJC',to:'LAX',low:55,mid:110,high:195,rt:1.4},
-  {from:'SJC',to:'ORD',low:175,mid:315,high:510,rt:1.7},
+  {from:'SFO',to:'LAX',low:59,mid:120,high:220,rt:1.4},{from:'SFO',to:'ORD',low:180,mid:320,high:520,rt:1.7},
+  {from:'SFO',to:'JFK',low:200,mid:360,high:560,rt:1.7},{from:'SFO',to:'BOS',low:210,mid:370,high:580,rt:1.7},
+  {from:'SFO',to:'DCA',low:220,mid:380,high:590,rt:1.7},{from:'SFO',to:'IAD',low:220,mid:375,high:585,rt:1.7},
+  {from:'SFO',to:'SEA',low:80,mid:160,high:280,rt:1.5},{from:'SFO',to:'PDX',low:70,mid:140,high:260,rt:1.5},
+  {from:'SFO',to:'LAS',low:60,mid:110,high:200,rt:1.4},{from:'SFO',to:'PHX',low:70,mid:130,high:230,rt:1.4},
+  {from:'SFO',to:'DEN',low:100,mid:200,high:360,rt:1.6},{from:'SFO',to:'ATL',low:200,mid:350,high:540,rt:1.7},
+  {from:'SFO',to:'MIA',low:210,mid:370,high:560,rt:1.7},{from:'SFO',to:'HOU',low:180,mid:310,high:490,rt:1.7},
+  {from:'SFO',to:'MSP',low:160,mid:290,high:460,rt:1.7},{from:'SFO',to:'DTW',low:180,mid:320,high:500,rt:1.7},
+  {from:'SFO',to:'CLT',low:200,mid:360,high:550,rt:1.7},{from:'SFO',to:'SAN',low:55,mid:100,high:190,rt:1.4},
+  {from:'SFO',to:'SMF',low:40,mid:80,high:150,rt:1.3},{from:'SFO',to:'LHR',low:480,mid:780,high:1200,rt:1.8},
+  {from:'SFO',to:'CDG',low:500,mid:820,high:1280,rt:1.8},{from:'SFO',to:'FRA',low:490,mid:800,high:1250,rt:1.8},
+  {from:'SFO',to:'NRT',low:550,mid:900,high:1380,rt:1.8},{from:'SFO',to:'SYD',low:700,mid:1100,high:1650,rt:1.9},
+  {from:'SFO',to:'SIN',low:620,mid:980,high:1480,rt:1.9},{from:'SFO',to:'YVR',low:120,mid:230,high:380,rt:1.6},
+  {from:'SFO',to:'YYZ',low:240,mid:400,high:620,rt:1.7},{from:'LAX',to:'JFK',low:180,mid:320,high:510,rt:1.7},
+  {from:'LAX',to:'ORD',low:160,mid:290,high:480,rt:1.7},{from:'LAX',to:'LHR',low:460,mid:760,high:1180,rt:1.8},
+  {from:'OAK',to:'LAX',low:55,mid:110,high:200,rt:1.4},{from:'OAK',to:'JFK',low:195,mid:345,high:545,rt:1.7},
+  {from:'SJC',to:'LAX',low:55,mid:110,high:195,rt:1.4},{from:'SJC',to:'ORD',low:175,mid:315,high:510,rt:1.7},
 ];
 const INTL_HOTELS=[
-  {city:'London',country:'GB',low:180,mid:280,high:420},
-  {city:'Paris',country:'FR',low:170,mid:270,high:400},
-  {city:'Frankfurt',country:'DE',low:140,mid:220,high:340},
-  {city:'Berlin',country:'DE',low:110,mid:180,high:280},
-  {city:'Amsterdam',country:'NL',low:150,mid:240,high:370},
-  {city:'Zurich',country:'CH',low:220,mid:340,high:500},
-  {city:'Tokyo',country:'JP',low:130,mid:210,high:330},
-  {city:'Singapore',country:'SG',low:180,mid:280,high:420},
-  {city:'Sydney',country:'AU',low:160,mid:250,high:380},
-  {city:'Toronto',country:'CA',low:150,mid:240,high:370},
+  {city:'London',country:'GB',low:180,mid:280,high:420},{city:'Paris',country:'FR',low:170,mid:270,high:400},
+  {city:'Frankfurt',country:'DE',low:140,mid:220,high:340},{city:'Berlin',country:'DE',low:110,mid:180,high:280},
+  {city:'Amsterdam',country:'NL',low:150,mid:240,high:370},{city:'Zurich',country:'CH',low:220,mid:340,high:500},
+  {city:'Tokyo',country:'JP',low:130,mid:210,high:330},{city:'Singapore',country:'SG',low:180,mid:280,high:420},
+  {city:'Sydney',country:'AU',low:160,mid:250,high:380},{city:'Toronto',country:'CA',low:150,mid:240,high:370},
   {city:'Vancouver',country:'CA',low:140,mid:230,high:360},
 ];
+const CITY_MAP={'SAN FRANCISCO':'SFO','SF':'SFO','CHICAGO':'ORD','NEW YORK':'JFK','NYC':'JFK','BOSTON':'BOS','WASHINGTON':'DCA','DC':'DCA','SEATTLE':'SEA','PORTLAND':'PDX','LAS VEGAS':'LAS','PHOENIX':'PHX','DENVER':'DEN','ATLANTA':'ATL','MIAMI':'MIA','HOUSTON':'HOU','MINNEAPOLIS':'MSP','DETROIT':'DTW','CHARLOTTE':'CLT','SAN DIEGO':'SAN','SACRAMENTO':'SMF','LOS ANGELES':'LAX','LA':'LAX','LONDON':'LHR','PARIS':'CDG','FRANKFURT':'FRA','TOKYO':'NRT','SYDNEY':'SYD','SINGAPORE':'SIN','VANCOUVER':'YVR','TORONTO':'YYZ','OAKLAND':'OAK','SAN JOSE':'SJC'};
 let routes=JSON.parse(JSON.stringify(ROUTES));
 let flightBench=null,hotelBench=null;
-const CITY_MAP={'SAN FRANCISCO':'SFO','SF':'SFO','CHICAGO':'ORD','NEW YORK':'JFK','NYC':'JFK','BOSTON':'BOS','WASHINGTON':'DCA','DC':'DCA','SEATTLE':'SEA','PORTLAND':'PDX','LAS VEGAS':'LAS','PHOENIX':'PHX','DENVER':'DEN','ATLANTA':'ATL','MIAMI':'MIA','HOUSTON':'HOU','MINNEAPOLIS':'MSP','DETROIT':'DTW','CHARLOTTE':'CLT','SAN DIEGO':'SAN','SACRAMENTO':'SMF','LOS ANGELES':'LAX','LA':'LAX','LONDON':'LHR','PARIS':'CDG','FRANKFURT':'FRA','TOKYO':'NRT','SYDNEY':'SYD','SINGAPORE':'SIN','VANCOUVER':'YVR','TORONTO':'YYZ','OAKLAND':'OAK','SAN JOSE':'SJC'};
+let chatHistory=[];
+
+const POLICY_SYSTEM=`You are FairFares, a travel reimbursement policy assistant built into a benchmarking tool used by universities and organisations to verify travel expense claims.
+
+Your sole purpose is to help expense reviewers and finance teams determine what a traveler should have been reimbursed under UC travel policy (UCOP G-28). You answer questions about what is and is not reimbursable, what class travelers can fly, hotel limits, ground transport rules, per diem rates, and how to calculate a correct comp fare. You are neutral and non-judgmental — your role is to help reviewers make defensible, policy-grounded decisions.
+
+You know UCOP Business and Finance Bulletin G-28 thoroughly. Where campus-specific rules differ, say so and direct the reviewer to their campus travel office for the final call.
+
+---
+
+CORE PRINCIPLE — THE COMP FARE RULE:
+Reimbursement of expenses shall be limited to the actual costs incurred OR the charges that would have been incurred via a usually traveled route, WHICHEVER IS LESS. This is the foundation of everything. If a traveler deviated from the correct policy-compliant trip — left early, stayed longer, upgraded their seat, rented a car when a taxi sufficed — the university pays only the equivalent of what the correct trip would have cost. Always.
+
+---
+
+TRAVEL DATES — WHEN TRAVELERS MAY DEPART AND RETURN:
+- Advance arrival: Traveler may arrive up to 24 hours before their first meeting or commitment. Up to 48 hours with exceptional approval from the appropriate authority.
+- Departure: Traveler must depart on the last day of the meeting, or the day after if: (a) it would be more economical, or (b) it involves an overnight flight.
+- Personal extensions: If a traveler extends their trip for personal reasons (vacation, personal business), the university reimburses ONLY the equivalent fare had they traveled on the correct policy-compliant dates. A comp fare for the correct dates must be obtained.
+- Indirect travel: Acceptable if cheaper than direct, or if an earlier departure makes sense point-to-point. University pays actual cost up to what the direct journey would have cost. Comparison fares must be for the equivalent direct journey at the time the journey should have taken place — not after the fact, not a different date.
+
+---
+
+AIRFARE — CABIN CLASS:
+- Required class: Economy or coach for ALL university travel regardless of funding source, distance, or personal preference.
+- Basic economy: reimbursable.
+- Economy (standard): reimbursable.
+- Economy Plus / Main Cabin Extra / Comfort+ (extra legroom within economy cabin): allowable — this is the standard "one above basic" for both domestic and international travel.
+- Premium Economy (separate physical cabin — United Premium Plus, Delta Premium Select, American Premium Economy): NOT allowable without pre-approval. Treated the same as business class regardless of the fare name. It is a separate cabin with significantly higher cost.
+  - Exception: if Economy Plus is genuinely unavailable on the specific flight, Premium Economy may be considered with a screenshot showing Economy Plus was unavailable.
+  - If traveler chose to fly Premium Economy personally and only claims Economy Plus equivalent: a comparison fare showing the Economy Plus cost on the same flight at time of booking is required.
+- Business class: requires pre-approval AND one of four specific circumstances only (see below).
+- First class: NEVER allowable under any circumstances. No exceptions. No approval path.
+- UCOP policy supersedes any grant or funding agreement that permits non-economy travel.
+- Refundable fares: NOT reimbursable regardless of cabin class. Non-refundable fares only.
+
+BUSINESS CLASS — FOUR CIRCUMSTANCES ONLY, ALL REQUIRE DOCUMENTATION:
+1. ONLY SERVICE AVAILABLE: No economy service exists between the two points. Evidence required.
+2. COACH MORE EXPENSIVE OR TIME-CONSUMING: Must result in unnecessary hotel expense, circuitous routing, or unduly long layover — not just inconvenience or slightly longer journey. Comparison fares required at time of booking showing coach was genuinely more expensive or that the routing would have required an unnecessary hotel stay.
+3. OVERNIGHT TRAVEL WITH NO REST: Flight arrives on the SAME DAY as first commitment with insufficient time to rest before that commitment begins. Arriving the day before does NOT qualify — even if the flight was overnight. Both the early meeting start time AND unavailability of alternative start dates must be documented.
+4. MEDICAL NEED: Supporting documentation from a licensed physician is required. Because many institutions have medical staff, the note must be from a physician outside the traveler's own department.
+
+Outside these four circumstances: pre-approval is required and unlikely to be approved.
+
+COMPARISON FARE REQUIREMENT:
+- When claiming any fare above standard economy, or when a traveler covers a difference personally, a comparison fare MUST be provided showing the Economy Plus fare on the SAME flight, at TIME OF PURCHASE.
+- Without a comparison fare the claim cannot be processed.
+- If no comparison fare was obtained at booking: look up an approximate economy or Economy Plus non-refundable fare for the same route and time of year as a supporting figure. Always caveat: "This is an approximate figure for supporting documentation purposes. Final determination rests with the campus travel office or Accounts Payable."
+- FairFares can help look up approximate benchmark fares using the Flights tab.
+
+NO COMPARISON FARES AVAILABLE — WHAT TO DO:
+Traveler should search for an approximate economy or Economy Plus non-refundable fare for the same route and time of year. FairFares provides benchmark ranges for common routes. Economy or Economy Plus non-refundable fares only — not Premium Economy, not business, not refundable.
+
+FLY AMERICA ACT:
+- Travel funded by federal grants must use US air carriers unless specific exceptions apply (no US carrier serves the route, use of US carrier would increase cost by more than 25%, etc.).
+
+ANCILLARY CHARGES (generally reimbursable):
+- Checked and carry-on baggage fees
+- Standard seat selection
+- Early check-in fees
+- Not reimbursable: seat upgrades, lounge access, in-flight Wi-Fi (unless business necessity documented)
+
+---
+
+LODGING:
+DOMESTIC (CONUS — continental US under 30 days):
+- Maximum $333 per night before taxes and mandatory hotel fees.
+- Cap is assessed per night — any individual night over $333 technically requires justification and exceptional approval.
+- AVERAGE RULE: If some nights exceed $333 but the average nightly rate across the stay is at or below $333, this is a straightforward justification — state the average nightly rate and calculation. Normally approvable.
+- Conference hotel exception: if attending a conference where the prearranged rate exceeds $333, the traveler may stay at the conference hotel without exceptional approval. Attach conference agenda showing the hotel and rate.
+- If exceeding $333 for other reasons: price comparisons required at TIME OF BOOKING (not retrospectively), plus written justification.
+
+OCONUS (Hawaii, Alaska, US territories):
+- Use DoD non-foreign per diem rates for both lodging and meals. Per diem can be treated as a per diem (no receipts required up to the rate).
+- International hotel reimbursement capped at 300% of applicable DoD lodging rate.
+
+INTERNATIONAL (foreign countries):
+- Lodging: use DoD/State Department per diem rates. Up to 300% of the applicable federal per diem rate maximum.
+- Up to 200% over per diem: department approval.
+- Over 200% up to 300%: Dean's/department head approval with justification.
+- Above 300%: NEVER approved. Hard ceiling, no exceptions.
+- Conference hotel for foreign travel: claim actuals rather than per diem regardless of nightly rate.
+- Long-term foreign travel (30+ days): capped at 100% of applicable federal per diem rate.
+- Daily meal per diem for foreign travel may NOT be exceeded. Claim actuals up to the per diem only.
+
+AIRBNB / VRBO:
+- Nightly rate calculated as: (nightly rate + cleaning fee) ÷ number of nights ÷ number of guests. Other fees claimable separately. $333 cap applies.
+
+STAYING WITH FRIEND OR FAMILY:
+- Non-cash gift to host allowable up to $75. Receipt required if $25 or more. One gift per stay only.
+
+TWO TRAVELERS SHARING A ROOM:
+- $333 per person per night — effectively $666/night for two travelers sharing.
+
+40-MILE LODGING RULE:
+- Overnight lodging within 40 miles of home or headquarters may not be reimbursable. UCOP has established 40 miles as a reasonable commuting distance. Pre-approval is essential — if someone stays overnight within 40 miles without prior approval, the cost may not be reimbursable.
+
+---
+
+MEALS AND INCIDENTAL EXPENSES (M&IE):
+DOMESTIC (CONUS under 30 days):
+- Capped at $92/day. Actuals only — not a per diem. Cannot be treated as a flat per diem.
+- No receipts required for individual meal expenses under $75 on days 1-3.
+- Day 4+ receipt rule: from day 4 of a domestic trip, receipts ARE required for ALL meal expenses regardless of amount when the traveler has consistently claimed the full $92 cap.
+- Trips under 24 hours: meals NOT reimbursable unless the trip includes an overnight stay supported by a lodging receipt.
+- Travel days TO destination and BACK both count as reimbursable meal days as long as there is an overnight stay.
+- $92 is a daily TOTAL cap — not per meal.
+- This is a HARD CEILING. No justification path exists to exceed $92/day for domestic travel under any circumstances.
+
+INTERNATIONAL / OCONUS:
+- Use DoD/State Department per diem rates by location: https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/
+- International per diem CAN be treated as a per diem — no receipts required up to the rate.
+- Hard ceiling — cannot be exceeded under any circumstances, no approval path.
+
+---
+
+GROUND TRANSPORT:
+CORE RULE: Most economical mode of transportation consistent with the authorized purpose of the trip.
+
+RENTAL CARS:
+- Allowed only when more cost-effective than taxi, rideshare, or other transport.
+- Intermediate/midsize or below. Above midsize requires pre-approval. No SUVs, luxury, or high-end vehicles without pre-approval.
+- STRONGLY RECOMMENDED: book through UC Connexxus — includes CDW (collision damage waiver) at no extra cost.
+- If not booked under UC contract domestically: rental still allowable but CDW/insurance NOT reimbursable.
+- If not booked under UC contract internationally: local insurance IS reimbursable — practical necessity.
+- If rental car was not cost-effective: reimbursement capped at taxi equivalent for the same route. Use taxifarefinder.com for the metered taxi rate.
+
+PERSONAL VEHICLE / MILEAGE:
+- Reimbursed at current IRS mileage rate (65.5 cents/mile).
+- Requires Google Maps or MapQuest route printout showing the mileage.
+- Normal home-to-campus commute: NOT reimbursable under any circumstances.
+- Home to off-campus meeting: only the portion from usual campus to destination is reimbursable. Home-to-campus leg is a commute.
+
+TAXI / RIDESHARE:
+- Reimbursable from campus/hotel to destination. Not from home to destination (commute rules apply).
+- Most economical option — standard rideshare, not premium.
+
+INTER-CAMPUS / SHUTTLE:
+- Where a university shuttle service exists between campuses, it should be used. Mileage, parking, taxi, and rideshare are NOT reimbursable for inter-campus travel where shuttle service is available.
+- Exceptions are very narrow: genuine patient or operational emergency, transporting items not permitted on shuttle.
+
+---
+
+PAYING FOR OTHERS:
+- One employee covering another's individual expenses (airfare, meals, conference fees) on their own card is generally NOT allowed — risk of double submission.
+- Preferred: use institutional booking systems, cash advances, or let each traveler claim their own expenses.
+
+TRAVEL INSURANCE:
+- All University travelers are covered worldwide 24/7 for official travel through UC's travel insurance.
+- Registration required for all out-of-state and foreign trips. Connexxus auto-registers for out-of-California travel otherwise register separately.
+- Do not purchase additional travel insurance unless there is a specific documented reason.
+
+RECEIPT REQUIREMENTS:
+- All expenses $75 or over require itemized receipts.
+- Airfare: itinerary receipt showing fare class, passenger name, and ticket number.
+- Hotel: itemized folio.
+- Meals: itemized receipt (not just credit card slip).
+
+SUBMISSION DEADLINES:
+- Expense reports must be submitted within 45 days of travel.
+- Late submissions require written justification.
+- Submissions more than 6 months after travel: amount may be imputed as taxable income on W-2.
+
+PACKAGE DEALS:
+- Travel packages from Expedia, Orbitz, Hotwire, Travelocity, etc. are NOT reimbursable unless the required receipt documentation (airline passenger receipt AND itemized hotel folio) can be provided separately.
+
+REWARD POINTS:
+- Not reimbursable under any circumstances.
+
+GRANT-FUNDED TRAVEL:
+- Grant permission does NOT override university policy. If an expense is not normally allowable, it remains non-reimbursable even if a grant explicitly permits it.
+
+---
+
+CONNEXXUS — UC PREFERRED BOOKING:
+- UC's preferred booking platform. Use where possible.
+- Comps should ideally be obtained at time of booking through a Connexxus-related travel agency.
+- Per G-28: "The cost comparison should be based on what UC would have paid, which can be obtained by a Connexxus-related travel agency prior to or at the time of booking the trip."
+- If not obtained at time of booking, FairFares can provide a retroactive benchmark for the correct route and dates.
+
+---
+
+APPROVED REFERENCE URLS:
+G-28 full policy: https://policy.ucop.edu/doc/3420365/BFB-G-28
+DoD Per Diem Lookup: https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/
+GSA Per Diem (domestic): https://www.gsa.gov/travel/plan-book/per-diem-rates
+TaxiFareFinder (ground transport comps): https://www.taxifarefinder.com
+
+---
+
+TONE AND FORMAT:
+- Be concise, clear, and direct. Lead with the most important fact.
+- Never invent policy figures, dollar amounts, or URLs.
+- Never reference IRS rules or tax law — policy only.
+- If the answer depends on campus-specific rules, say so and direct to the campus travel office.
+- Always be neutral and non-judgmental. Your role is to help reviewers make defensible decisions, not to accuse travelers.
+- End responses with the relevant policy reference URL where applicable.
+- You never approve or deny an expense — you assess policy compliance only. Always note that final determination rests with the campus travel office or Accounts Payable.`;
 
 function norm(s){return(s||'').trim().toUpperCase();}
 function fmt(n){return'$'+Math.round(n).toLocaleString();}
@@ -575,11 +775,11 @@ function findRoute(a,b){
   const ra=CITY_MAP[norm(a)]||norm(a),rb=CITY_MAP[norm(b)]||norm(b);
   return routes.find(x=>x.from===ra&&x.to===rb)||routes.find(x=>x.from===rb&&x.to===ra)||null;
 }
-function switchTab(t,el){
-  document.querySelectorAll('.tool-tab').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.tpage').forEach(x=>x.classList.remove('active'));
+function stab(t,el){
+  document.querySelectorAll('.ttab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.tp').forEach(x=>x.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('tpage-'+t).classList.add('active');
+  document.getElementById('tp-'+t).classList.add('active');
   if(t==='admin')renderAdmin();
 }
 function lookupFlight(){
@@ -588,52 +788,50 @@ function lookupFlight(){
   document.getElementById('f-fallback').style.display='none';
   document.getElementById('f-results').style.display='none';
   document.getElementById('f-pdf').style.display='none';
-  if(!o||!d){document.getElementById('f-err').style.display='block';document.getElementById('f-err').textContent='Please enter origin and destination.';return;}
+  if(!o||!d){document.getElementById('f-err').style.display='block';return;}
   const r=findRoute(o,d);
-  if(!r){document.getElementById('f-err').style.display='block';document.getElementById('f-err').textContent='Route not in table yet.';document.getElementById('f-fallback').style.display='block';return;}
+  if(!r){document.getElementById('f-err').style.display='block';document.getElementById('f-err').textContent='Route not in table.';document.getElementById('f-fallback').style.display='block';return;}
   const type=document.getElementById('f-type').value,cabin=document.getElementById('f-cabin').value;
-  const mult=(type==='roundtrip')?r.rt:1;
+  const mult=type==='roundtrip'?r.rt:1;
   const cm={economy:1,premium_economy:1.8,business:3.5}[cabin]||1;
   flightBench={low:r.low*mult*cm,mid:r.mid*mult*cm,high:r.high*mult*cm,from:r.from,to:r.to,type,cabin};
   document.getElementById('f-low').textContent=fmt(flightBench.low);
   document.getElementById('f-mid').textContent=fmt(flightBench.mid);
   document.getElementById('f-high').textContent=fmt(flightBench.high);
-  document.getElementById('f-cabin-lbl').textContent=cabin.replace('_',' ');
+  document.getElementById('f-clbl').textContent=cabin.replace('_',' ');
   document.getElementById('f-route-lbl').textContent=r.from+' → '+r.to+' · '+(type==='roundtrip'?'Round trip':'One way')+' · '+cabin.replace('_',' ');
-  document.getElementById('f-note').textContent='Source: FairFares benchmark table v1.0 (Q2 2026). Based on BTS historical averages.';
+  document.getElementById('f-note').textContent='Source: FairFares benchmark table v2.0 (Q2 2026) — BTS historical averages. Policy basis: UCOP G-28 economy/coach class, correct travel dates.';
   document.getElementById('f-verdict').innerHTML='';
   document.getElementById('f-sub').value='';
   document.getElementById('f-results').style.display='block';
 }
 function checkFlight(){
   if(!flightBench)return;
-  const s=parseFloat(document.getElementById('f-sub').value);
-  if(isNaN(s))return;
+  const s=parseFloat(document.getElementById('f-sub').value);if(isNaN(s))return;
   const{low,mid,high}=flightBench;
   let cls,title,body;
-  if(s<=mid){cls='ok';title='Within benchmark';body=fmt(s)+' is at or below the typical fare of '+fmt(mid)+'. Approvable.';}
-  else if(s<=high*1.1){cls='warn';title='Above typical — within range';body=fmt(s)+' exceeds the typical fare ('+fmt(mid)+') but is within the high estimate ('+fmt(high)+'). Consider requesting a brief justification.';}
-  else{cls='over';title='Exceeds benchmark';body=fmt(s)+' significantly exceeds the high estimate of '+fmt(high)+'. Strong justification required.';}
-  document.getElementById('f-verdict').innerHTML='<div class="verdict-box '+cls+'"><div class="verdict-title '+cls+'">'+title+'</div><div class="verdict-body">'+body+'</div></div>';
+  if(s<=mid){cls='ok';title='Within benchmark';body=fmt(s)+' is at or below the typical fare of '+fmt(mid)+'. Approvable under G-28.';}
+  else if(s<=high*1.1){cls='warn';title='Above typical — within range';body=fmt(s)+' exceeds the typical fare ('+fmt(mid)+') but is within the high estimate ('+fmt(high)+'). Consider requesting a brief justification note.';}
+  else{cls='over';title='Exceeds benchmark';body=fmt(s)+' significantly exceeds the high estimate of '+fmt(high)+'. Under G-28, reimbursement should be limited to the benchmark equivalent. Strong justification required.';}
+  document.getElementById('f-verdict').innerHTML='<div class="vbox '+cls+'"><div class="vt '+cls+'">'+title+'</div><div class="vb">'+body+'</div></div>';
   showPDF(s,cls,title,body);
 }
-function showPDF(submitted,cls,title,body){
+function showPDF(sub,cls,title,body){
   const now=new Date();
-  document.getElementById('pdf-timestamp').textContent=now.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});
+  document.getElementById('pdf-ts').textContent=now.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});
   document.getElementById('pdf-route').textContent=flightBench.from+' → '+flightBench.to;
   document.getElementById('pdf-date').textContent=document.getElementById('f-date').value||'Not specified';
   document.getElementById('pdf-cabin').textContent=flightBench.cabin.replace('_',' ')+' / '+(flightBench.type==='roundtrip'?'Round trip':'One way');
-  document.getElementById('pdf-submitted').textContent=fmt(submitted);
+  document.getElementById('pdf-sub').textContent=fmt(sub);
   document.getElementById('pdf-range').textContent=fmt(flightBench.low)+' – '+fmt(flightBench.high)+' (typical: '+fmt(flightBench.mid)+')';
-  const stripe=document.getElementById('pdf-verdict-stripe');
-  stripe.className='pdf-verdict-stripe '+cls;
-  document.getElementById('pdf-verdict-text').textContent=title;
-  document.getElementById('pdf-verdict-text').className='pdf-verdict-text '+cls;
-  document.getElementById('pdf-verdict-detail').textContent=body;
-  document.getElementById('pdf-id').textContent='Record ID: FF-'+Date.now();
+  const stripe=document.getElementById('pdf-stripe');
+  stripe.className='pvstripe '+cls;
+  document.getElementById('pdf-vt').textContent=title;
+  document.getElementById('pdf-vt').className='pvt '+cls;
+  document.getElementById('pdf-vd').textContent=body;
+  document.getElementById('pdf-id').textContent='Record: FF-'+Date.now();
   document.getElementById('f-pdf').style.display='block';
 }
-function printRecord(){window.print();}
 function openGF(){
   const o=document.getElementById('f-origin').value,d=document.getElementById('f-dest').value;
   window.open('https://www.google.com/travel/flights?q=flights+from+'+encodeURIComponent(o)+'+to+'+encodeURIComponent(d),'_blank');
@@ -646,10 +844,10 @@ async function lookupHotel(){
   const checkout=document.getElementById('h-checkout').value;
   document.getElementById('h-err').style.display='none';
   document.getElementById('h-results').style.display='none';
-  if(!city){document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='Please enter a city.';return;}
+  if(!city){document.getElementById('h-err').style.display='block';return;}
   const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
   if(country==='US'){
-    if(!state||state.length!==2){document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='Please enter a 2-letter state code for US lookups.';return;}
+    if(!state||state.length!==2){document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='Enter a 2-letter state code for US lookups.';return;}
     const btn=document.getElementById('h-btn');btn.disabled=true;btn.textContent='Looking up…';
     try{
       const yr=checkin?new Date(checkin).getFullYear():new Date().getFullYear();
@@ -661,11 +859,11 @@ async function lookupHotel(){
         const rates=data.request.Rates[0].rate;
         const mo=checkin?new Date(checkin).getMonth()+1:null;
         const mr=mo?rates.find(r=>r.months?.month==mo||(Array.isArray(r.months?.month)&&r.months.month.includes(String(mo)))):null;
-        gsa=mr?parseFloat(mr.rate||0):parseFloat(rates[0]?.rate||0);
+        gsa=parseFloat((mr||rates[0])?.rate||0);
       }
       if(!gsa||gsa<50)gsa=159;
-      hotelBench={r1:gsa,r2:Math.round(gsa*1.35),lbl1:'GSA per diem',sub1:'federal rate'};
-      document.getElementById('h-note').textContent='Source: GSA Per Diem FY'+fy+'. Market estimate is ~35% above GSA. UCSF policy aligns with GSA rates.';
+      hotelBench={r1:gsa,r2:Math.round(gsa*1.35),lbl:'GSA per diem',sub:'federal rate'};
+      document.getElementById('h-note').textContent='Source: GSA Per Diem FY'+fy+'. Under G-28, domestic lodging capped at $333/night or GSA rate. Conference hotel may exceed cap with agenda attached.';
     }catch(e){
       document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='GSA lookup failed. Check city/state spelling.';
       btn.disabled=false;btn.textContent='Look up hotel benchmark';return;
@@ -673,36 +871,110 @@ async function lookupHotel(){
     btn.disabled=false;btn.textContent='Look up hotel benchmark';
   } else {
     const m=INTL_HOTELS.find(h=>h.city.toUpperCase()===city.toUpperCase()&&h.country===country);
-    if(!m){document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='City not in international table. Add via Admin panel.';return;}
-    hotelBench={r1:m.low,r2:m.mid,lbl1:'Budget estimate',sub1:'low end'};
-    document.getElementById('h-note').textContent='Source: FairFares international benchmark table. Mid: '+fmt(m.mid)+', High: '+fmt(m.high)+'.';
+    if(!m){document.getElementById('h-err').style.display='block';document.getElementById('h-err').textContent='City not in international table. Add via Admin tab or use DoD Per Diem tab for rate.';return;}
+    hotelBench={r1:m.low,r2:m.mid,lbl:'Budget estimate',sub:'low end'};
+    document.getElementById('h-note').textContent='Source: FairFares international benchmark. Under G-28, international hotel capped at 300% of DoD lodging rate. Use the Intl Per Diem tab for the exact DoD rate.';
   }
-  document.getElementById('h-lbl1').textContent=hotelBench.lbl1;
-  document.getElementById('h-rate1').textContent=fmt(hotelBench.r1);
-  document.getElementById('h-sub1').textContent=hotelBench.sub1;
-  document.getElementById('h-rate2').textContent=fmt(hotelBench.r2);
+  document.getElementById('hl1').textContent=hotelBench.lbl;
+  document.getElementById('h-r1').textContent=fmt(hotelBench.r1);
+  document.getElementById('hs1').textContent=hotelBench.sub;
+  document.getElementById('h-r2').textContent=fmt(hotelBench.r2);
   document.getElementById('h-nights').textContent=nights;
-  document.getElementById('h-city-lbl').textContent=city+(country==='US'?', '+state:', '+country);
+  document.getElementById('h-lbl').textContent=city+(country==='US'?', '+state:', '+country);
   document.getElementById('h-verdict').innerHTML='';
   document.getElementById('h-sub').value='';
   document.getElementById('h-results').style.display='block';
 }
 function checkHotel(){
   if(!hotelBench)return;
-  const s=parseFloat(document.getElementById('h-sub').value);
-  if(isNaN(s))return;
+  const s=parseFloat(document.getElementById('h-sub').value);if(isNaN(s))return;
   const{r1,r2}=hotelBench;
   let cls,title,body;
-  if(s<=r1){cls='ok';title='Within benchmark';body=fmt(s)+'/night is at or below the '+hotelBench.lbl1+' of '+fmt(r1)+'. Approvable.';}
-  else if(s<=r2*1.1){cls='warn';title='Above baseline — within market range';body=fmt(s)+'/night exceeds the baseline ('+fmt(r1)+') but is within market estimate ('+fmt(r2)+'). May require an exception note.';}
-  else{cls='over';title='Exceeds market benchmark';body=fmt(s)+'/night is above both the baseline ('+fmt(r1)+') and market estimate ('+fmt(r2)+'). Strong justification required.';}
-  document.getElementById('h-verdict').innerHTML='<div class="verdict-box '+cls+'"><div class="verdict-title '+cls+'">'+title+'</div><div class="verdict-body">'+body+'</div></div>';
+  if(s<=r1){cls='ok';title='Within benchmark';body=fmt(s)+'/night is at or below the '+hotelBench.lbl+' of '+fmt(r1)+'. Approvable under G-28.';}
+  else if(s<=333){cls='warn';title='Above benchmark — within $333 cap';body=fmt(s)+'/night exceeds the '+hotelBench.lbl+' ('+fmt(r1)+') but is within the G-28 domestic cap of $333/night. Approvable with standard documentation.';}
+  else if(s<=r2*1.1){cls='warn';title='Above $333 cap — within market range';body=fmt(s)+'/night exceeds the G-28 $333 cap. Conference hotel exception may apply if agenda is attached. Otherwise requires Dean\'s Office approval.';}
+  else{cls='over';title='Exceeds market benchmark';body=fmt(s)+'/night significantly exceeds the benchmark. Strong justification or Dean\'s Office approval required under G-28.';}
+  document.getElementById('h-verdict').innerHTML='<div class="vbox '+cls+'"><div class="vt '+cls+'">'+title+'</div><div class="vb">'+body+'</div></div>';
+}
+function lookupGround(){
+  const from=document.getElementById('gt-from').value.trim();
+  const to=document.getElementById('gt-to').value.trim();
+  const city=document.getElementById('gt-city').value;
+  if(!from||!to){return;}
+  const tfUrl='https://www.taxifarefinder.com/main.php?city='+encodeURIComponent(city)+'&from='+encodeURIComponent(from)+'&to='+encodeURIComponent(to);
+  const gmUrl='https://www.google.com/maps/dir/'+encodeURIComponent(from)+'/'+encodeURIComponent(to);
+  document.getElementById('gt-text').textContent='Under UCOP G-28, if a taxi or rideshare would have been sufficient, reimbursement is limited to the taxi fare equivalent for this route. Use TaxiFareFinder to get the metered taxi rate for '+city.replace(/-/g,' ')+', then screenshot the result and attach as your comp document.';
+  document.getElementById('gt-tflink').onclick=()=>window.open(tfUrl,'_blank');
+  document.getElementById('gt-gmlink').onclick=()=>window.open(gmUrl,'_blank');
+  document.getElementById('gt-info').style.display='block';
+}
+function lookupPerDiem(){
+  const country=document.getElementById('pd-country').value.trim();
+  const city=document.getElementById('pd-city').value.trim();
+  if(!country)return;
+  const dodUrl='https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/';
+  document.getElementById('pd-text').textContent='Look up the DoD per diem rate for '+(city?city+', ':'')+country+' on the DoD travel portal. Under G-28, international hotel reimbursement is capped at 300% of the DoD lodging rate, and M&IE follows the DoD per diem and can be treated as a per diem for international travel.';
+  document.getElementById('pd-link').onclick=()=>window.open(dodUrl,'_blank');
+  document.getElementById('pd-info').style.display='block';
+}
+function askQ(el){
+  document.getElementById('chat-input').value=el.textContent;
+  sendChat();
+}
+async function sendChat(){
+  const input=document.getElementById('chat-input');
+  const q=input.value.trim();if(!q)return;
+  input.value='';
+  const btn=document.getElementById('send-btn');
+  btn.disabled=true;
+  addMsg('user',q);
+  chatHistory.push({role:'user',content:q});
+  const typing=addTyping();
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system:POLICY_SYSTEM,
+        messages:chatHistory
+      })
+    });
+    const data=await res.json();
+    const reply=data.content?.[0]?.text||'Sorry, I could not get a response. Please try again.';
+    typing.remove();
+    addMsg('ai',reply);
+    chatHistory.push({role:'assistant',content:reply});
+  }catch(e){
+    typing.remove();
+    addMsg('ai','Sorry, there was an error connecting to the policy assistant. Please try again.');
+  }
+  btn.disabled=false;
+}
+function addMsg(role,text){
+  const hist=document.getElementById('chat-history');
+  const div=document.createElement('div');
+  div.className='msg '+role;
+  div.innerHTML='<div class="msg-avatar">'+(role==='ai'?'FF':'You')+'</div><div class="msg-bubble">'+text.replace(/\n/g,'<br>')+'</div>';
+  hist.appendChild(div);
+  hist.scrollTop=hist.scrollHeight;
+  return div;
+}
+function addTyping(){
+  const hist=document.getElementById('chat-history');
+  const div=document.createElement('div');
+  div.className='msg ai';
+  div.innerHTML='<div class="msg-avatar">FF</div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>';
+  hist.appendChild(div);
+  hist.scrollTop=hist.scrollHeight;
+  return div;
 }
 function renderAdmin(){
   const tb=document.getElementById('admin-tbody');tb.innerHTML='';
   routes.forEach((r,i)=>{
     const tr=document.createElement('tr');
-    tr.innerHTML='<td>'+r.from+'</td><td>'+r.to+'</td><td><input type="number" value="'+r.low+'" onchange="routes['+i+'].low=+this.value"></td><td><input type="number" value="'+r.mid+'" onchange="routes['+i+'].mid=+this.value"></td><td><input type="number" value="'+r.high+'" onchange="routes['+i+'].high=+this.value"></td><td><input type="number" value="'+r.rt+'" step="0.1" onchange="routes['+i+'].rt=+this.value"></td><td><button class="del-btn" onclick="routes.splice('+i+',1);renderAdmin()">✕</button></td>';
+    tr.innerHTML='<td>'+r.from+'</td><td>'+r.to+'</td><td><input type="number" value="'+r.low+'" onchange="routes['+i+'].low=+this.value"></td><td><input type="number" value="'+r.mid+'" onchange="routes['+i+'].mid=+this.value"></td><td><input type="number" value="'+r.high+'" onchange="routes['+i+'].high=+this.value"></td><td><input type="number" value="'+r.rt+'" step="0.1" onchange="routes['+i+'].rt=+this.value"></td><td><button class="delbtn" onclick="routes.splice('+i+',1);renderAdmin()">✕</button></td>';
     tb.appendChild(tr);
   });
 }
@@ -716,17 +988,19 @@ function addRoute(){
   renderAdmin();
 }
 function exportData(){
-  const blob=new Blob([JSON.stringify({version:'1.0',updated:'Q2 2026',routes},null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fairfares-benchmarks.json';a.click();
+  const blob=new Blob([JSON.stringify({version:'2.0',updated:'Q2 2026',routes,intlHotels:INTL_HOTELS},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fairfares-benchmarks-v2.json';a.click();
 }
 function importData(e){
   const file=e.target.files[0];if(!file)return;
   const reader=new FileReader();
-  reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.routes)routes=d.routes;renderAdmin();}catch{alert('Invalid JSON file.');}};
+  reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.routes)routes=d.routes;renderAdmin();}catch{alert('Invalid JSON.');}};
   reader.readAsText(file);
 }
 document.getElementById('f-date').value=new Date().toISOString().split('T')[0];
 document.getElementById('h-checkin').value=new Date().toISOString().split('T')[0];
+document.getElementById('gt-date').value=new Date().toISOString().split('T')[0];
+document.getElementById('pd-date').value=new Date().toISOString().split('T')[0];
 </script>
 </body>
 </html>
