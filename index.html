@@ -2,183 +2,181 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FairFares — Travel Reimbursement Benchmark Tool</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FairFares — Travel Cost Benchmarking</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#0a1628;--navy-mid:#162240;--teal:#0d9e8a;--teal-light:#e6f7f5;--teal-dark:#0a7a6a;
-  --red:#e53e3e;--green:#276749;--green-bg:#f0fff4;--amber-bg:#fffbeb;--red-bg:#fff5f5;
-  --gray-50:#f8f9fa;--gray-100:#f1f3f5;--gray-200:#e9ecef;--gray-400:#adb5bd;--gray-600:#6c757d;
-  --white:#fff;--font-display:'DM Serif Display',Georgia,serif;--font-body:'DM Sans',system-ui,sans-serif;
-  --radius:10px;--radius-lg:16px;
+  --navy:#0a1628;--navy2:#162240;--teal:#0d9e8a;--teal-lt:#e6f7f5;--teal-dk:#0a7a6a;
+  --red:#e53e3e;--green:#276749;--gbg:#f0fff4;--abg:#fffbeb;--rbg:#fff5f5;
+  --g50:#f8f9fa;--g100:#f1f3f5;--g200:#e9ecef;--g400:#adb5bd;--g600:#6c757d;
+  --white:#fff;--fd:'DM Serif Display',Georgia,serif;--fb:'DM Sans',system-ui,sans-serif;
+  --r:10px;--rl:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--font-body);color:var(--navy);background:var(--white);line-height:1.6}
+body{font-family:var(--fb);color:var(--navy);background:var(--white);line-height:1.6}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(10,22,40,.75);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;transition:opacity .5s ease;pointer-events:none}
-.modal-overlay.show{opacity:1;pointer-events:all}
-.modal-overlay.hide{display:none}
-.modal{background:var(--white);border-radius:var(--radius-lg);padding:2rem;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25);transform:translateY(24px);transition:transform .5s ease,opacity .5s ease;opacity:0}
-.modal-overlay.show .modal{transform:translateY(0);opacity:1}
-.modal-logo{font-family:var(--font-display);font-size:1.25rem;margin-bottom:.5rem;color:var(--navy)}
-.modal-logo span{color:var(--teal)}
-.modal h2{font-size:1rem;font-weight:500;margin-bottom:.4rem}
-.modal p{font-size:.85rem;color:var(--gray-600);margin-bottom:1.1rem;line-height:1.6}
-.modal .field{margin-bottom:.875rem}
-.modal .field label{display:block;font-size:.72rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-600);margin-bottom:4px}
-.modal .field input,.modal .field select{width:100%;padding:.58rem .8rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.875rem;font-family:var(--font-body);color:var(--navy);outline:none}
-.modal .field input:focus,.modal .field select:focus{border-color:var(--teal)}
-.modal-btns{display:flex;gap:8px;margin-top:1.1rem}
-.mbtn{flex:1;padding:.65rem;border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--font-body);border:none}
-.mbtn-save{background:var(--navy);color:var(--white)}
-.mbtn-save:hover{background:var(--navy-mid)}
-.mbtn-skip{background:var(--gray-100);color:var(--gray-600)}
-.mbtn-skip:hover{background:var(--gray-200)}
-.modal-note{font-size:.7rem;color:var(--gray-400);margin-top:.6rem;text-align:center}
+/* ── MODAL ── */
+.mo{position:fixed;inset:0;background:rgba(10,22,40,.78);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;transition:opacity .5s;pointer-events:none}
+.mo.show{opacity:1;pointer-events:all}
+.mo.off{display:none}
+.md{background:var(--white);border-radius:var(--rl);padding:2rem;max-width:460px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25);transform:translateY(24px);transition:transform .5s,opacity .5s;opacity:0}
+.mo.show .md{transform:translateY(0);opacity:1}
+.md-logo{font-family:var(--fd);font-size:1.25rem;margin-bottom:.4rem}
+.md-logo span{color:var(--teal)}
+.md h2{font-size:1rem;font-weight:500;margin-bottom:.4rem}
+.md p{font-size:.84rem;color:var(--g600);margin-bottom:1rem;line-height:1.6}
+.mf label{display:block;font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--g600);margin-bottom:4px;margin-top:.75rem}
+.mf select,.mf input{width:100%;padding:.56rem .8rem;border:1px solid var(--g200);border-radius:8px;font-size:.875rem;font-family:var(--fb);color:var(--navy);outline:none}
+.mf select:focus,.mf input:focus{border-color:var(--teal)}
+.mb{display:flex;gap:8px;margin-top:1.1rem}
+.mb button{flex:1;padding:.65rem;border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--fb);border:none}
+.mb .save{background:var(--navy);color:var(--white)}
+.mb .skip{background:var(--g100);color:var(--g600)}
+.md-note{font-size:.68rem;color:var(--g400);margin-top:.6rem;text-align:center}
 
-/* NAV */
-nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--gray-200);padding:0 2rem}
-.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
-.logo{font-family:var(--font-display);font-size:1.4rem;color:var(--navy);text-decoration:none}
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--g200);padding:0 2rem}
+.ni{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:var(--fd);font-size:1.4rem;color:var(--navy);text-decoration:none}
 .logo span{color:var(--teal)}
-.nav-links{display:flex;align-items:center;gap:2rem}
-.nav-links a{font-size:.875rem;color:var(--gray-600);text-decoration:none}
-.nav-links a:hover{color:var(--navy)}
-.nav-cta{background:var(--navy);color:var(--white)!important;padding:.4rem 1rem;border-radius:6px;font-weight:500!important}
-.user-badge{display:none;align-items:center;gap:6px;font-size:.78rem;color:var(--gray-600);background:var(--gray-50);border:1px solid var(--gray-200);border-radius:20px;padding:.28rem .8rem;cursor:pointer}
-.user-badge.on{display:flex}
-.ubdot{width:7px;height:7px;background:var(--teal);border-radius:50%}
+.nl{display:flex;align-items:center;gap:2rem}
+.nl a{font-size:.875rem;color:var(--g600);text-decoration:none}
+.nl a:hover{color:var(--navy)}
+.nl .cta{background:var(--navy);color:var(--white)!important;padding:.4rem 1rem;border-radius:6px;font-weight:500!important}
+.ub{display:none;align-items:center;gap:6px;font-size:.78rem;color:var(--g600);background:var(--g50);border:1px solid var(--g200);border-radius:20px;padding:.28rem .8rem;cursor:pointer}
+.ub.on{display:flex}
+.ubd{width:7px;height:7px;background:var(--teal);border-radius:50%}
 
-/* HERO */
-.hero{background:var(--navy);color:var(--white);padding:7rem 2rem 5rem;text-align:center;position:relative;overflow:hidden;animation:fadeUp .8s ease both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* ── HERO ── */
+.hero{background:var(--navy);color:var(--white);padding:7rem 2rem 5rem;text-align:center;position:relative;overflow:hidden;animation:fu .8s ease both}
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(13,158,138,.15),transparent 70%)}
-.hero-tag{display:inline-block;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);background:rgba(13,158,138,.1);border:1px solid rgba(13,158,138,.2);padding:.28rem .875rem;border-radius:20px;margin-bottom:1.5rem}
-.hero h1{font-family:var(--font-display);font-size:clamp(2.1rem,4.5vw,3.4rem);line-height:1.18;max-width:800px;margin:0 auto 1.25rem;font-weight:400}
+.htag{display:inline-block;font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);background:rgba(13,158,138,.1);border:1px solid rgba(13,158,138,.2);padding:.28rem .875rem;border-radius:20px;margin-bottom:1.5rem}
+.hero h1{font-family:var(--fd);font-size:clamp(2rem,4.5vw,3.2rem);line-height:1.18;max-width:820px;margin:0 auto 1.25rem;font-weight:400}
 .hero h1 em{color:var(--teal);font-style:italic}
-.hero-sub{font-size:1rem;color:rgba(255,255,255,.72);max-width:620px;margin:0 auto 2.5rem;font-weight:300;line-height:1.75}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,.72);max-width:640px;margin:0 auto 2.5rem;font-weight:300;line-height:1.75}
 .hero-sub strong{color:rgba(255,255,255,.92);font-weight:400}
-.hero-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
-.btn-p{background:var(--teal);color:var(--white);padding:.72rem 2rem;border-radius:8px;font-size:.95rem;font-weight:500;text-decoration:none;border:none;cursor:pointer;font-family:var(--font-body);transition:background .2s}
-.btn-p:hover{background:var(--teal-dark)}
-.btn-g{background:transparent;color:var(--white);padding:.72rem 2rem;border-radius:8px;font-size:.95rem;text-decoration:none;border:1px solid rgba(255,255,255,.25);transition:all .2s}
-.btn-g:hover{border-color:rgba(255,255,255,.5)}
-.hero-stats{display:flex;justify-content:center;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
-.hstat .num{font-family:var(--font-display);font-size:1.9rem;color:var(--teal)}
-.hstat .lbl{font-size:.75rem;color:rgba(255,255,255,.45);margin-top:.2rem}
+.hbtns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.bp{background:var(--teal);color:var(--white);padding:.72rem 2rem;border-radius:8px;font-size:.95rem;font-weight:500;text-decoration:none;border:none;cursor:pointer;font-family:var(--fb);transition:background .2s}
+.bp:hover{background:var(--teal-dk)}
+.bg{background:transparent;color:var(--white);padding:.72rem 2rem;border-radius:8px;font-size:.95rem;text-decoration:none;border:1px solid rgba(255,255,255,.25);transition:all .2s}
+.bg:hover{border-color:rgba(255,255,255,.5)}
+.hstats{display:flex;justify-content:center;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
+.hs .num{font-family:var(--fd);font-size:1.9rem;color:var(--teal)}
+.hs .lbl{font-size:.75rem;color:rgba(255,255,255,.45);margin-top:.2rem}
 
-/* SECTIONS */
-.sec{padding:5rem 2rem}
-.sec-in{max-width:1100px;margin:0 auto}
-.sec-tag{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem}
-.sec-title{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.4rem);color:var(--navy);line-height:1.2;margin-bottom:.8rem;font-weight:400}
-.sec-sub{font-size:.95rem;color:var(--gray-600);max-width:540px;line-height:1.7}
-.gray{background:var(--gray-50)}
+/* ── SECTIONS ── */
+.sec{padding:5rem 2rem;scroll-margin-top:70px}
+.si{max-width:1100px;margin:0 auto}
+.stag{font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.5rem}
+.sh{font-family:var(--fd);font-size:clamp(1.8rem,3vw,2.4rem);color:var(--navy);line-height:1.2;margin-bottom:.8rem;font-weight:400}
+.ss{font-size:.95rem;color:var(--g600);max-width:540px;line-height:1.7}
+.gray{background:var(--g50)}
 
-/* HOW IT WORKS */
+/* ── HOW IT WORKS ── */
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1.25rem;margin-top:2.5rem}
-.step{padding:1.4rem;border:1px solid var(--gray-200);border-radius:var(--radius-lg)}
-.stepn{width:30px;height:30px;background:var(--navy);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:500;margin-bottom:.875rem}
+.step{padding:1.4rem;border:1px solid var(--g200);border-radius:var(--rl)}
+.sn{width:30px;height:30px;background:var(--navy);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:500;margin-bottom:.875rem}
 .step h3{font-size:.9rem;font-weight:500;margin-bottom:.35rem}
-.step p{font-size:.85rem;color:var(--gray-600);line-height:1.6}
+.step p{font-size:.85rem;color:var(--g600);line-height:1.6}
 
-/* TIPS ACCORDION */
-.accordion{margin-top:2rem}
-.aci{border:1px solid var(--gray-200);border-radius:var(--radius-lg);margin-bottom:.5rem;overflow:hidden}
-.ach{width:100%;display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.1rem;background:var(--white);border:none;cursor:pointer;font-family:var(--font-body);text-align:left;gap:.75rem}
-.ach:hover{background:var(--gray-50)}
-.act{display:flex;align-items:center;gap:.6rem;font-size:.875rem;font-weight:500;color:var(--navy);flex:1}
-.acico{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.acico.g{background:var(--green-bg)}.acico.a{background:var(--amber-bg)}.acico.r{background:var(--red-bg)}.acico.t{background:var(--teal-light)}
-.acrule{font-size:.68rem;color:var(--gray-400);background:var(--gray-100);padding:.15rem .5rem;border-radius:4px;flex-shrink:0;white-space:nowrap}
-.acchev{font-size:1.1rem;color:var(--gray-400);transition:transform .2s;flex-shrink:0}
-.ach.open .acchev{transform:rotate(90deg)}
-.acb{display:none;padding:0 1.1rem .875rem;font-size:.85rem;color:var(--gray-600);line-height:1.7;border-top:1px solid var(--gray-100)}
-.acb.open{display:block}
+/* ── TOOL ── */
+.tw{background:var(--white);border:1px solid var(--g200);border-radius:var(--rl);box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden;margin-top:1.75rem}
+.ttabs{display:flex;border-bottom:1px solid var(--g200);background:var(--g50);overflow-x:auto}
+.ttab{padding:.75rem 1.1rem;font-size:.84rem;font-weight:500;color:var(--g600);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:var(--fb)}
+.ttab.on{color:var(--navy);border-bottom-color:var(--teal);background:var(--white)}
+.tb{padding:1.5rem}
+.tp{display:none}.tp.on{display:block}
 
-/* TOOL */
-.tool-wrap{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);box-shadow:0 2px 12px rgba(0,0,0,.06);overflow:hidden;margin-top:1.75rem}
-.ttabs{display:flex;border-bottom:1px solid var(--gray-200);background:var(--gray-50);overflow-x:auto}
-.ttab{padding:.75rem 1.1rem;font-size:.84rem;font-weight:500;color:var(--gray-600);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;font-family:var(--font-body)}
-.ttab.active{color:var(--navy);border-bottom-color:var(--teal);background:var(--white)}
-.tbody{padding:1.5rem}
-.tp{display:none}.tp.active{display:block}
-
-/* FORM ELEMENTS */
-.fg2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.fg3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
-.f label{display:block;font-size:.72rem;font-weight:500;color:var(--gray-600);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
-.f input,.f select{width:100%;padding:.56rem .8rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.875rem;font-family:var(--font-body);color:var(--navy);background:var(--white);outline:none;transition:border-color .15s}
+/* ── FORM ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+.f label{display:block;font-size:.7rem;font-weight:500;color:var(--g600);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.f input,.f select{width:100%;padding:.56rem .8rem;border:1px solid var(--g200);border-radius:8px;font-size:.875rem;font-family:var(--fb);color:var(--navy);background:var(--white);outline:none;transition:border-color .15s}
 .f input:focus,.f select:focus{border-color:var(--teal)}
-.lbtn{width:100%;padding:.7rem;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--font-body);margin-top:4px}
-.lbtn:hover{background:var(--navy-mid)}
+.lbtn{width:100%;padding:.7rem;background:var(--navy);color:var(--white);border:none;border-radius:8px;font-size:.875rem;font-weight:500;cursor:pointer;font-family:var(--fb);margin-top:4px;transition:background .2s}
+.lbtn:hover{background:var(--navy2)}
 .lbtn:disabled{opacity:.4;cursor:not-allowed}
-
-/* RESULTS */
-.mrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
-.mbox{background:var(--gray-50);border-radius:10px;padding:11px 13px}
-.mbox .ml{font-size:.68rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-600);margin-bottom:3px}
-.mbox .mv{font-size:1.4rem;font-weight:500;font-family:var(--font-display);color:var(--navy)}
-.mbox .ms{font-size:.7rem;color:var(--gray-400);margin-top:1px}
-.check-row{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
-.check-row label{font-size:.85rem;color:var(--gray-600);white-space:nowrap}
-.check-row input{max-width:110px;padding:.5rem .7rem;border:1px solid var(--gray-200);border-radius:8px;font-size:.875rem;font-family:var(--font-body)}
-.cbtn{padding:.5rem .95rem;background:var(--white);border:1px solid var(--gray-200);border-radius:8px;font-size:.85rem;font-weight:500;cursor:pointer;font-family:var(--font-body);color:var(--navy)}
-.cbtn:hover{border-color:var(--teal);color:var(--teal)}
-.vbox{border-radius:10px;padding:11px 13px;border:1px solid;margin-top:10px}
-.vbox.ok{background:var(--green-bg);border-color:#9ae6b4}
-.vbox.warn{background:var(--amber-bg);border-color:#fbd38d}
-.vbox.over{background:var(--red-bg);border-color:#feb2b2}
-.vt{font-size:.85rem;font-weight:500;margin-bottom:2px}
-.vt.ok{color:var(--green)}.vt.warn{color:#b7791f}.vt.over{color:var(--red)}
-.vb{font-size:.82rem;color:var(--gray-600)}
-.tnote{font-size:.72rem;color:var(--gray-400);margin-top:8px}
+.slbl{font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--g400);padding-top:.875rem;margin:.875rem 0 .5rem;border-top:0.5px solid var(--g200)}
 .errmsg{font-size:.8rem;color:var(--red);margin-top:6px;display:none}
-.notfound{background:var(--teal-light);border:1px solid rgba(13,158,138,.2);border-radius:10px;padding:11px 13px;margin-top:10px;display:none;font-size:.85rem;color:#0a5a50;line-height:1.6}
-.slbl{font-size:.7rem;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--gray-400);padding-top:.875rem;margin:.875rem 0 .5rem;border-top:0.5px solid var(--gray-200)}
-.info-box{background:var(--teal-light);border:1px solid rgba(13,158,138,.2);border-radius:10px;padding:11px 13px;margin-bottom:12px;font-size:.84rem;color:#0a5a50;line-height:1.6}
-.info-box strong{font-weight:500;display:block;margin-bottom:2px}
+.nf{background:var(--teal-lt);border:1px solid rgba(13,158,138,.2);border-radius:10px;padding:10px 13px;margin-bottom:10px;display:none;font-size:.84rem;color:#0a5a50;line-height:1.6}
 
-/* PER DIEM EXPLAINER */
-.pd-exp{background:var(--teal-light);border:1px solid rgba(13,158,138,.2);border-radius:var(--radius-lg);padding:1.1rem;margin-top:1rem;display:none}
-.pd-exp h4{font-size:.875rem;font-weight:500;color:var(--teal-dark);margin-bottom:.5rem}
-.pd-exp p{font-size:.82rem;color:#0a5a50;line-height:1.65;margin-bottom:.5rem}
-.pd-exp p:last-of-type{margin-bottom:0}
-.pd-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin-top:.75rem}
-.pd-box{background:rgba(255,255,255,.7);border-radius:8px;padding:.65rem .75rem}
-.pd-box .pdl{font-size:.68rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--teal-dark);margin-bottom:2px}
-.pd-box .pdv{font-size:1.1rem;font-weight:500;color:var(--navy);font-family:var(--font-display)}
-.pd-box .pds{font-size:.7rem;color:#0a5a50;margin-top:1px}
+/* ── RESULTS ── */
+.rbox{background:var(--g50);border-radius:12px;padding:1.1rem 1.25rem;margin-bottom:12px;display:none}
+.rbox.show{display:block}
+.rlbl{font-size:.875rem;font-weight:500;color:var(--navy);margin-bottom:.75rem}
+.rrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px}
+.rm{background:var(--white);border:1px solid var(--g200);border-radius:10px;padding:10px 12px}
+.rm .ml{font-size:.66rem;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--g600);margin-bottom:3px}
+.rm .mv{font-size:1.35rem;font-weight:500;font-family:var(--fd);color:var(--navy)}
+.rm .ms{font-size:.68rem;color:var(--g400);margin-top:1px}
+.rm .ms a{color:var(--teal);text-decoration:none}
+.rm .ms a:hover{text-decoration:underline}
+.rnote{font-size:.72rem;color:var(--g400);line-height:1.5}
+.rnote a{color:var(--teal);text-decoration:none}
+.rnote a:hover{text-decoration:underline}
+.ibox{background:var(--teal-lt);border:1px solid rgba(13,158,138,.18);border-radius:10px;padding:10px 13px;margin-bottom:10px;font-size:.84rem;color:#0a5a50;line-height:1.6}
+.ibox strong{font-weight:500;display:block;margin-bottom:2px}
 
-/* PDF */
-.pdf-sec{display:none;margin-top:1.5rem}
-.pdf-wrap{border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden}
+/* ── PDF ── */
+.pdf-sec{display:none;margin-top:1.25rem}
+.pdf-wrap{border:1px solid var(--g200);border-radius:var(--rl);overflow:hidden}
 .pdf-hd{background:var(--navy);color:var(--white);padding:.875rem 1.1rem;display:flex;justify-content:space-between;align-items:center}
-.pdf-hd .pl{font-family:var(--font-display);font-size:1rem}
-.pdf-hd .pl span{color:var(--teal)}
-.pdf-hd .pm{font-size:.7rem;color:rgba(255,255,255,.55);text-align:right}
+.plogo{font-family:var(--fd);font-size:1rem}
+.plogo span{color:var(--teal)}
+.pmeta{font-size:.68rem;color:rgba(255,255,255,.55);text-align:right}
 .pdf-bd{padding:1.1rem}
-.pdf-g{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.875rem}
-.pf .pfl{color:var(--gray-400);text-transform:uppercase;letter-spacing:.05em;font-size:.65rem;margin-bottom:2px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.875rem}
+.pf .pfl{color:var(--g400);text-transform:uppercase;letter-spacing:.05em;font-size:.63rem;margin-bottom:2px}
 .pf .pfv{font-weight:500;font-size:.84rem;color:var(--navy)}
-.pvs{padding:.75rem .875rem;border-radius:8px;margin-bottom:.75rem;border:1px solid}
-.pvs.ok{background:var(--green-bg);border-color:#9ae6b4}
-.pvs.warn{background:var(--amber-bg);border-color:#fbd38d}
-.pvs.over{background:var(--red-bg);border-color:#feb2b2}
-.pvt{font-size:.85rem;font-weight:500}
-.pvt.ok{color:var(--green)}.pvt.warn{color:#b7791f}.pvt.over{color:var(--red)}
-.pvd{font-size:.78rem;color:var(--gray-600);margin-top:2px}
-.pdf-ft{font-size:.65rem;color:var(--gray-400);border-top:1px solid var(--gray-200);padding-top:.5rem;display:flex;justify-content:space-between}
-.print-btn{padding:.5rem 1rem;background:var(--navy);color:var(--white);border:none;border-radius:7px;font-size:.78rem;font-weight:500;cursor:pointer;font-family:var(--font-body);margin-top:.875rem}
-.pdf-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
-.pdf-top span{font-size:.72rem;font-weight:500;color:var(--gray-600);text-transform:uppercase;letter-spacing:.05em}
+.pvs{padding:.75rem .875rem;border-radius:8px;margin-bottom:.75rem;border:1px solid var(--g200);background:var(--g50)}
+.pvt{font-size:.85rem;font-weight:500;color:var(--navy)}
+.pvd{font-size:.78rem;color:var(--g600);margin-top:2px}
+.pft{font-size:.63rem;color:var(--g400);border-top:1px solid var(--g200);padding-top:.5rem;display:flex;justify-content:space-between}
+.ptop{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.ptop span{font-size:.7rem;font-weight:500;color:var(--g600);text-transform:uppercase;letter-spacing:.05em}
+.pbtn{padding:.5rem 1rem;background:var(--navy);color:var(--white);border:none;border-radius:7px;font-size:.78rem;font-weight:500;cursor:pointer;font-family:var(--fb)}
 
-/* ADVISORY */
-.adv-card{border:1px solid var(--gray-200);border-radius:var(--radius-lg);overflow:hidden}
+/* ── PER DIEM TABLE ── */
+.pd-exp{background:var(--teal-lt);border:1px solid rgba(13,158,138,.2);border-radius:var(--rl);padding:1.1rem;margin-bottom:12px;display:none}
+.pd-exp h4{font-size:.875rem;font-weight:500;color:var(--teal-dk);margin-bottom:.75rem}
+.pdt{width:100%;border-collapse:collapse;font-size:.84rem}
+.pdt th{text-align:left;padding:6px 10px;font-weight:500;color:var(--teal-dk);font-size:.72rem;background:rgba(13,158,138,.1);border-bottom:1px solid rgba(13,158,138,.15)}
+.pdt td{padding:7px 10px;border-bottom:0.5px solid rgba(13,158,138,.12);vertical-align:top}
+.pdt td:first-child{font-weight:500;color:#0a5a50;white-space:nowrap}
+.pdt td:nth-child(2){color:var(--navy);font-weight:500;text-align:right;white-space:nowrap}
+.pdt td:last-child{font-size:.78rem;color:#0a5a50}
+.pdt tr:last-child td{border-bottom:none;background:rgba(13,158,138,.06)}
+.pd-rule{background:rgba(255,255,255,.6);border-radius:8px;padding:.65rem .75rem;font-size:.8rem;color:#0a5a50;margin-top:.75rem;line-height:1.6}
+.pd-rule strong{font-weight:500;display:block;margin-bottom:2px}
+
+/* ── GROUND TRANSPORT ── */
+.gt-tabs{display:flex;gap:0;margin-bottom:1rem;border-bottom:1px solid var(--g200)}
+.gt-tab{padding:.55rem 1rem;font-size:.84rem;font-weight:500;color:var(--g600);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--fb)}
+.gt-tab.on{color:var(--navy);border-bottom-color:var(--teal)}
+.gt-panel{display:none}.gt-panel.on{display:block}
+.ft{width:100%;border-collapse:collapse;font-size:.875rem}
+.ft td{padding:7px 0;border-bottom:0.5px solid var(--g100)}
+.ft td:last-child{text-align:right;color:var(--navy);font-weight:500}
+.ft tfoot tr td{padding:8px 0;font-weight:600;border-top:2px solid var(--g200);border-bottom:none}
+.map-wrap{width:100%;height:260px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--g200);margin-bottom:1rem;display:none}
+.map-wrap iframe{width:100%;height:100%;border:none}
+.gt-verdict{border-radius:10px;padding:11px 14px;border:1px solid #9ae6b4;background:var(--gbg);margin-top:10px}
+.gt-vt{font-size:.875rem;font-weight:500;color:var(--green);margin-bottom:2px}
+.gt-vb{font-size:.82rem;color:var(--g600)}
+
+/* ── AUTOCOMPLETE ── */
+.ac-wrap{position:relative}
+.ac-drop{position:absolute;top:100%;left:0;right:0;background:var(--white);border:1px solid var(--g200);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:50;max-height:220px;overflow-y:auto;display:none;margin-top:2px}
+.ac-item{padding:8px 12px;cursor:pointer;font-size:.875rem;color:var(--navy);border-bottom:0.5px solid var(--g100)}
+.ac-item:hover{background:var(--g50)}
+.ac-item span{font-weight:500}
+
+/* ── ADVISORY ── */
+.adv-card{border:1px solid var(--g200);border-radius:var(--rl);overflow:hidden}
 .adv-hd{padding:.875rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:.875rem}
 .adv-hd.l1{background:#f0fff4;border-bottom:1px solid #9ae6b4}
 .adv-hd.l2{background:#fffbeb;border-bottom:1px solid #fbd38d}
@@ -193,33 +191,32 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-
 .adv-badge.l1{background:var(--green);color:var(--white)}.adv-badge.l2{background:#b7791f;color:var(--white)}
 .adv-badge.l3{background:var(--red);color:var(--white)}.adv-badge.l4{background:#c53030;color:var(--white)}
 .adv-bd{padding:.875rem 1.1rem}
-.adv-msg{font-size:.84rem;color:var(--gray-600);line-height:1.65;margin-bottom:.6rem}
+.adv-msg{font-size:.84rem;color:var(--g600);line-height:1.65;margin-bottom:.6rem}
 .adv-lnk{font-size:.78rem;color:var(--teal);text-decoration:none;font-weight:500}
 .adv-lnk:hover{text-decoration:underline}
-.adv-qs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.875rem}
-.aq{padding:.35rem .75rem;background:var(--white);border:1px solid var(--gray-200);border-radius:20px;font-size:.78rem;cursor:pointer;color:var(--navy);font-family:var(--font-body)}
+.aq-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.875rem}
+.aq{padding:.35rem .75rem;background:var(--white);border:1px solid var(--g200);border-radius:20px;font-size:.78rem;cursor:pointer;color:var(--navy);font-family:var(--fb)}
 .aq:hover{border-color:var(--teal);color:var(--teal)}
 
-/* ADMIN */
+/* ── ADMIN ── */
 .atbl{width:100%;border-collapse:collapse;font-size:.8rem}
-.atbl th{text-align:left;font-size:.66rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-600);padding:5px 7px;border-bottom:1px solid var(--gray-200)}
-.atbl td{padding:5px 7px;border-bottom:1px solid var(--gray-100);vertical-align:middle}
-.atbl tr:last-child td{border:none}
-.atbl input{width:60px;padding:3px 5px;border:1px solid var(--gray-200);border-radius:5px;font-size:.78rem}
-.delbtn{background:none;border:none;color:var(--gray-400);cursor:pointer;font-size:.72rem;padding:2px 5px}
+.atbl th{text-align:left;font-size:.66rem;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--g600);padding:5px 7px;border-bottom:1px solid var(--g200)}
+.atbl td{padding:5px 7px;border-bottom:1px solid var(--g100);vertical-align:middle}
+.atbl input{width:60px;padding:3px 5px;border:1px solid var(--g200);border-radius:5px;font-size:.78rem}
+.delbtn{background:none;border:none;color:var(--g400);cursor:pointer;font-size:.72rem}
 .delbtn:hover{color:var(--red)}
 .addrow{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;align-items:end;margin-top:10px}
-.addrow label{font-size:.66rem;color:var(--gray-600);display:block;margin-bottom:2px}
-.addrow input{width:100%;padding:4px 5px;border:1px solid var(--gray-200);border-radius:5px;font-size:.78rem}
-.addbtn{padding:5px 9px;background:var(--navy);color:var(--white);border:none;border-radius:5px;font-size:.78rem;cursor:pointer;font-family:var(--font-body)}
+.addrow label{font-size:.66rem;color:var(--g600);display:block;margin-bottom:2px}
+.addrow input{width:100%;padding:4px 5px;border:1px solid var(--g200);border-radius:5px;font-size:.78rem}
+.addbtn{padding:5px 9px;background:var(--navy);color:var(--white);border:none;border-radius:5px;font-size:.78rem;cursor:pointer;font-family:var(--fb)}
 .exprow{display:flex;gap:7px;margin-top:.875rem;flex-wrap:wrap}
-.expbtn{padding:.42rem .875rem;font-size:.8rem;border:1px solid var(--gray-200);border-radius:7px;background:var(--white);cursor:pointer;font-family:var(--font-body);color:var(--navy)}
+.expbtn{padding:.42rem .875rem;font-size:.8rem;border:1px solid var(--g200);border-radius:7px;background:var(--white);cursor:pointer;font-family:var(--fb);color:var(--navy)}
 .expbtn:hover{border-color:var(--navy)}
 
-/* FOOTER */
+/* ── FOOTER ── */
 footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
 .fi{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
-.flogo{font-family:var(--font-display);font-size:1.15rem;color:var(--white)}
+.flogo{font-family:var(--fd);font-size:1.15rem;color:var(--white)}
 .flogo span{color:var(--teal)}
 .flinks{display:flex;gap:1.5rem;flex-wrap:wrap}
 .flinks a{font-size:.78rem;color:rgba(255,255,255,.4);text-decoration:none}
@@ -227,468 +224,381 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
 .fcopy{font-size:.7rem;color:rgba(255,255,255,.28);margin-top:.5rem;width:100%}
 
 @media(max-width:600px){
-  .fg2,.fg3{grid-template-columns:1fr}.mrow{grid-template-columns:1fr 1fr}
-  .hero-stats{gap:1.5rem}.addrow{grid-template-columns:1fr 1fr}.pdf-g{grid-template-columns:1fr}
-  .nav-links{display:none}.pd-grid{grid-template-columns:1fr}
+  .g2,.g3{grid-template-columns:1fr}.rrow{grid-template-columns:1fr 1fr}
+  .hstats{gap:1.5rem}.addrow{grid-template-columns:1fr 1fr}
+  .pgrid{grid-template-columns:1fr}.nl{display:none}
 }
 @media print{
-  nav,.ttabs,.hero,.sec:not(.tool-sec),.print-btn,footer,.modal-overlay{display:none!important}
-  .pdf-sec{display:block!important}.tool-wrap{border:none;box-shadow:none}
+  nav,.ttabs,.hero,.sec:not(.tool-sec),.pbtn,footer,.mo{display:none!important}
+  .pdf-sec{display:block!important}.tw{border:none;box-shadow:none}
 }
-
-html{scroll-behavior:smooth}
-.sec{scroll-margin-top:70px}
-#how-it-works{scroll-margin-top:70px}
-#tool{scroll-margin-top:70px}
-
-.gt-tab{padding:.55rem 1rem;font-size:.84rem;font-weight:500;color:var(--gray-600);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:var(--font-body)}
-.gt-tab.active{color:var(--navy);border-bottom-color:var(--teal)}
-.gt-panel{display:none}.gt-panel.active{display:block}
-table tbody tr td{padding:7px 0;border-bottom:0.5px solid var(--gray-100);color:var(--gray-600)}
-table tbody tr td:last-child{text-align:right;color:var(--navy)}
 </style>
 </head>
 <body>
 
-<!-- INSTITUTION MODAL -->
-<div class="modal-overlay hide" id="inst-modal">
-  <div class="modal">
-    <div class="modal-logo">Fair<span>Fares</span></div>
+<!-- MODAL -->
+<div class="mo off" id="modal">
+  <div class="md">
+    <div class="md-logo">Fair<span>Fares</span></div>
     <h2>Welcome — which institution are you from?</h2>
     <p>This helps us improve the tool. We collect institution and department only — no personal information, no names, no email addresses.</p>
-    <div class="field">
+    <div class="mf">
       <label>Institution</label>
-      <select id="modal-inst">
+      <select id="m-inst">
         <option value="">Select your institution...</option>
         <optgroup label="University of California">
-          <option value="UC Berkeley">UC Berkeley</option>
-          <option value="UC Davis">UC Davis</option>
-          <option value="UC Irvine">UC Irvine</option>
-          <option value="UC Los Angeles (UCLA)">UC Los Angeles (UCLA)</option>
-          <option value="UC Merced">UC Merced</option>
-          <option value="UC Riverside">UC Riverside</option>
-          <option value="UC San Diego">UC San Diego</option>
-          <option value="UC San Francisco (UCSF)">UC San Francisco (UCSF)</option>
-          <option value="UC Santa Barbara">UC Santa Barbara</option>
-          <option value="UC Santa Cruz">UC Santa Cruz</option>
-          <option value="UCOP">UC Office of the President</option>
+          <option>UC Berkeley</option><option>UC Davis</option><option>UC Irvine</option>
+          <option>UC Los Angeles (UCLA)</option><option>UC Merced</option><option>UC Riverside</option>
+          <option>UC San Diego</option><option>UC San Francisco (UCSF)</option>
+          <option>UC Santa Barbara</option><option>UC Santa Cruz</option><option>UCOP</option>
         </optgroup>
         <optgroup label="Other">
-          <option value="Other university">Other university</option>
-          <option value="Non-UC organisation">Non-UC organisation</option>
-          <option value="Prefer not to say">Prefer not to say</option>
+          <option>Other university</option><option>Non-UC organisation</option><option>Prefer not to say</option>
         </optgroup>
       </select>
-    </div>
-    <div class="field">
       <label>Department (optional)</label>
-      <input type="text" id="modal-dept" placeholder="e.g. Finance, Cardiology, Accounts Payable">
+      <input type="text" id="m-dept" placeholder="e.g. Finance, Cardiology, Accounts Payable">
     </div>
-    <div class="modal-btns">
-      <button class="mbtn mbtn-save" onclick="saveInst()">Save and continue</button>
-      <button class="mbtn mbtn-skip" onclick="skipInst()">Skip</button>
+    <div class="mb">
+      <button class="save" onclick="saveModal()">Save and continue</button>
+      <button class="skip" onclick="skipModal()">Skip</button>
     </div>
-    <p class="modal-note">Institution and department only — never personal data. Saved in your browser, shown once only.</p>
+    <p class="md-note">Institution and department only — never personal data. Shown once only.</p>
   </div>
 </div>
 
 <nav>
-  <div class="nav-inner">
+  <div class="ni">
     <a href="#" class="logo">Fair<span>Fares</span></a>
-    <div class="nav-links">
-      <a href="#how-it-works">How it works</a>
-      <a href="#tips">Travel tips</a>
+    <div class="nl">
+      <a href="#hiw">How it works</a>
       <a href="#tool">Look up a fare</a>
-      <a href="#tool" class="nav-cta">Get started</a>
+      <a href="#tool" class="cta">Get started</a>
     </div>
-    <div class="user-badge" id="user-badge" onclick="showModal()" title="Update institution">
-      <div class="ubdot"></div><span id="ub-text"></span>
+    <div class="ub" id="ub" onclick="openModal()" title="Update institution">
+      <div class="ubd"></div><span id="ub-txt"></span>
     </div>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-tag">Travel reimbursement benchmarking</div>
+  <div class="htag">Travel cost benchmarking</div>
   <h1>The <em>smarter</em> way to price flights, lodging and taxis after the fact</h1>
-  <p class="hero-sub">Built for the exact scenario where a traveler extended their trip, upgraded their seat, or rented a car — didn't get comps at the time of booking, and now, to reimburse them, you need to know what UC <strong>would have paid</strong>. Benchmarks sourced from the <strong>Bureau of Transportation Statistics (BTS)</strong> — the US government's official air fare database. No more guesswork. <strong>No more "I couldn't find a comp."</strong></p>
-  <div class="hero-btns">
-    <a href="#tool" class="btn-p">Look up a past fare</a>
-    <a href="#how-it-works" class="btn-g">See how it works</a>
+  <p class="hero-sub">A traveler extended their trip, upgraded their seat, or rented a car — and didn't get comps at booking. Now you need to know what UC <strong>would have paid</strong>. Benchmarks sourced from <strong>BTS, GSA and DoD</strong> — official US government data. No more guesswork.</p>
+  <div class="hbtns">
+    <a href="#tool" class="bp">Look up a past fare</a>
+    <a href="#hiw" class="bg">See how it works</a>
   </div>
-  <div class="hero-stats">
-    <div class="hstat"><div class="num">G-28</div><div class="lbl">UCOP policy aligned</div></div>
-    <div class="hstat"><div class="num">DoD</div><div class="lbl">International per diem</div></div>
-    <div class="hstat"><div class="num">GSA</div><div class="lbl">US hotel rates</div></div>
-    <div class="hstat"><div class="num">PDF</div><div class="lbl">Shareable records</div></div>
+  <div class="hstats">
+    <div class="hs"><div class="num">BTS</div><div class="lbl">Flight fare data</div></div>
+    <div class="hs"><div class="num">GSA</div><div class="lbl">US hotel rates</div></div>
+    <div class="hs"><div class="num">DoD</div><div class="lbl">International per diem</div></div>
+    <div class="hs"><div class="num">PDF</div><div class="lbl">Shareable records</div></div>
   </div>
 </section>
 
-<section class="sec" id="how-it-works">
-  <div class="sec-in">
-    <div class="sec-tag">How it works</div>
-    <h2 class="sec-title">From trip details to a defensible benchmark</h2>
-    <p class="sec-sub">Built for the exact scenario where a traveler deviated from policy and now you need to know what UC would have paid for the authorized trip.</p>
+<section class="sec" id="hiw">
+  <div class="si">
+    <div class="stag">How it works</div>
+    <h2 class="sh">From trip details to a defensible benchmark</h2>
+    <p class="ss">Enter the authorized trip — dates, routing and class as policy requires — and get an instant government-sourced benchmark.</p>
     <div class="steps">
-      <div class="step"><div class="stepn">1</div><h3>Enter the authorized trip details</h3><p>The authorized dates, route, and class the traveler should have used under policy — not what they actually booked.</p></div>
-      <div class="step"><div class="stepn">2</div><h3>Get the benchmark range</h3><p>FairFares returns what that trip would have cost, sourced from BTS, GSA, and DoD per diem data.</p></div>
-      <div class="step"><div class="stepn">3</div><h3>Download the compliance record</h3><p>A timestamped PDF to attach to the expense report. Sourced, dated, and ready for audit.</p></div>
+      <div class="step"><div class="sn">1</div><h3>Enter the authorized trip details</h3><p>The dates, route and class the traveler should have used under policy — not what they actually booked.</p></div>
+      <div class="step"><div class="sn">2</div><h3>Get the benchmark fare</h3><p>FairFares returns the average fare for that route, sourced from BTS, GSA and DoD official data.</p></div>
+      <div class="step"><div class="sn">3</div><h3>Download the compliance record</h3><p>A timestamped PDF to attach to the expense report — sourced, dated and ready for audit.</p></div>
     </div>
   </div>
 </section>
 
-
-
-<section class="sec tool-sec" id="tool">
-  <div class="sec-in">
-    <div class="sec-tag">Look up a past fare</div>
-    <h2 class="sec-title">The smarter way to price travel after the fact</h2>
-    <p class="sec-sub">Enter the authorized trip details — dates, routing, and class as policy requires — and get an instant BTS-sourced fare benchmark.</p>
-    <div class="tool-wrap">
+<section class="sec gray tool-sec" id="tool">
+  <div class="si">
+    <div class="stag">Look up a past fare</div>
+    <h2 class="sh">The smarter way to price travel after the fact</h2>
+    <p class="ss">Enter the authorized trip details — dates, routing and class as policy requires.</p>
+    <div class="tw">
       <div class="ttabs">
-        <button class="ttab active" onclick="stab('dom',this)">Domestic travel</button>
-        <button class="ttab" onclick="stab('intl',this)">International travel</button>
-        <button class="ttab" onclick="stab('ground',this)">Ground transport</button>
-        <button class="ttab" onclick="stab('advisory',this)">Travel advisories</button>
-        <button class="ttab" onclick="stab('admin',this)">Admin</button>
+        <button class="ttab on"  onclick="tab('dom',this)">Domestic travel</button>
+        <button class="ttab"     onclick="tab('intl',this)">International travel</button>
+        <button class="ttab"     onclick="tab('gt',this)">Ground transport</button>
+        <button class="ttab"     onclick="tab('adv',this)">Travel advisories</button>
+        <button class="ttab"     onclick="tab('adm',this)">Admin</button>
       </div>
-      <div class="tbody">
+      <div class="tb">
 
-        <!-- DOMESTIC -->
-        <div class="tp active" id="tp-dom">
-          <div class="slbl">Flight</div>
-          <div class="fg2">
-            <div class="f"><label>From (city or IATA code)</label><input type="text" id="df-o" placeholder="San Francisco or SFO"></div>
-            <div class="f"><label>To (city or IATA code)</label><input type="text" id="df-d" placeholder="Chicago or ORD"></div>
+        <!-- ═══ DOMESTIC ═══ -->
+        <div class="tp on" id="tp-dom">
+
+          <!-- DOM FLIGHT RESULT (above button) -->
+          <div class="rbox" id="df-res">
+            <div class="rlbl" id="df-lbl"></div>
+            <div class="rrow">
+              <div class="rm"><div class="ml">Average fare</div><div class="mv" id="df-avg">—</div><div class="ms" id="df-cab-sub"></div></div>
+              <div class="rm"><div class="ml">Cabin</div><div class="mv" id="df-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
+            </div>
+            <p class="rnote" id="df-note"></p>
           </div>
-          <div class="fg3">
-            <div class="f"><label>Authorized departure date</label><input type="date" id="df-dep"></div>
-            <div class="f"><label>Return date (if round trip)</label><input type="date" id="df-ret"></div>
+          <div class="nf" id="df-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
+
+          <div class="slbl">Flight</div>
+          <div class="g2">
+            <div class="f"><label>From</label>
+              <div class="ac-wrap"><input type="text" id="df-o" placeholder="San Francisco or SFO" autocomplete="off"><div class="ac-drop" id="df-o-drop"></div></div>
+            </div>
+            <div class="f"><label>To</label>
+              <div class="ac-wrap"><input type="text" id="df-d" placeholder="Chicago or ORD" autocomplete="off"><div class="ac-drop" id="df-d-drop"></div></div>
+            </div>
+          </div>
+          <div class="g3">
+            <div class="f"><label>Authorized departure</label><input type="date" id="df-dep"></div>
+            <div class="f"><label>Return date</label><input type="date" id="df-ret"></div>
             <div class="f"><label>Cabin class</label>
               <select id="df-cab">
                 <option value="eco">Basic economy</option>
-                <option value="eco_x" selected>Economy extra / main cabin</option>
+                <option value="ecox" selected>Economy extra / main cabin</option>
                 <option value="biz">Business class</option>
               </select>
             </div>
           </div>
-          <div class="f" style="margin-bottom:12px"><label>Trip type</label>
-            <select id="df-type" style="max-width:220px">
-              <option value="rt">Round trip</option>
-              <option value="ow">One way</option>
-            </select>
-          </div>
-          <div id="df-res" style="display:none;margin-bottom:1rem">
-            <div style="font-size:.85rem;font-weight:500;margin-bottom:.75rem;color:var(--navy)" id="df-lbl"></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px">
-              <div class="mbox"><div class="ml">Average fare</div><div class="mv" id="df-mid">—</div><div class="ms" id="df-csub"></div></div>
-              <div class="mbox"><div class="ml">Data source</div><div class="mv" style="font-size:1rem">BTS</div><div class="ms">Bureau of Transportation Statistics</div></div>
-            </div>
-            <p class="tnote" id="df-note"></p>
+          <div class="f" style="margin-bottom:12px;max-width:220px"><label>Trip type</label>
+            <select id="df-type"><option value="rt">Round trip</option><option value="ow">One way</option></select>
           </div>
           <div class="errmsg" id="df-err"></div>
-          <button class="lbtn" onclick="lookupFlight('df')">Look up flight benchmark</button>
-          <div class="notfound" id="df-nf">This route is not in our benchmark table yet. Please contact your campus travel office or Accounts Payable for an official fare comparison. Do not use traveler-provided figures as a benchmark.</div>
+          <button class="lbtn" onclick="lookFlight('df')">Look up flight benchmark</button>
 
-          <div id="df-pdf" class="pdf-sec">
-            <div class="pdf-top"><span>Compliance record</span><button class="print-btn" onclick="window.print()">Print / Save PDF</button></div>
+          <!-- PDF (below button, auto-shown) -->
+          <div class="pdf-sec" id="df-pdf">
+            <div class="ptop"><span>Compliance record</span><button class="pbtn" onclick="window.print()">Print / Save PDF</button></div>
             <div class="pdf-wrap">
-              <div class="pdf-hd"><div class="pl">Fair<span>Fares</span></div><div class="pm"><div id="pdf-ts"></div><div>getfairfares.com</div></div></div>
+              <div class="pdf-hd"><div class="plogo">Fair<span>Fares</span></div><div class="pmeta"><div id="pdf-ts"></div><div>getfairfares.com</div></div></div>
               <div class="pdf-bd">
-                <div class="pdf-g">
+                <div class="pgrid">
                   <div class="pf"><div class="pfl">Route</div><div class="pfv" id="pdf-rt"></div></div>
-                  <div class="pf"><div class="pfl">Authorized departure date</div><div class="pfv" id="pdf-dep"></div></div>
+                  <div class="pf"><div class="pfl">Authorized departure</div><div class="pfv" id="pdf-dep"></div></div>
                   <div class="pf"><div class="pfl">Cabin / trip type</div><div class="pfv" id="pdf-cab"></div></div>
-                  <div class="pf"><div class="pfl">Submitted amount</div><div class="pfv" id="pdf-sub"></div></div>
-                  <div class="pf"><div class="pfl">Benchmark range</div><div class="pfv" id="pdf-rng"></div></div>
-                  <div class="pf"><div class="pfl">Policy basis</div><div class="pfv">UCOP G-28 — authorized dates and economy class</div></div>
+                  <div class="pf"><div class="pfl">Average benchmark fare</div><div class="pfv" id="pdf-avg"></div></div>
+                  <div class="pf"><div class="pfl">Data source</div><div class="pfv">Bureau of Transportation Statistics (BTS) — bts.gov</div></div>
+                  <div class="pf"><div class="pfl">Policy basis</div><div class="pfv">UCOP G-28 — authorized dates, non-refundable economy</div></div>
                 </div>
-                <div class="pvs" id="pdf-vs"><div class="pvt" id="pdf-vt"></div><div class="pvd" id="pdf-vd"></div></div>
-                <div class="pdf-ft"><span>FairFares — getfairfares.com — UCOP G-28 benchmarking</span><span id="pdf-id"></span></div>
+                <div class="pvs"><div class="pvt" id="pdf-vt"></div><div class="pvd" id="pdf-vd"></div></div>
+                <div class="pft"><span>FairFares — getfairfares.com</span><span id="pdf-id"></span></div>
               </div>
             </div>
           </div>
 
-          <div class="slbl">Hotel</div>
-
-          <div class="fg2" style="max-width:400px">
-            <div class="f"><label>City</label><input type="text" id="dh-city" placeholder="Chicago"></div>
-            <div class="f"></div>
-          </div>
-          <div class="fg2">
-            <div class="f"><label>Authorized check-in — 24hrs prior to first meeting</label><input type="date" id="dh-in"></div>
-            <div class="f"><label>Authorized check-out date</label><input type="date" id="dh-out"></div>
-          </div>
-          <div id="dh-res" style="display:none;margin-top:1rem">
-            <div style="font-size:.85rem;font-weight:500;margin-bottom:.75rem" id="dh-lbl"></div>
-            <div class="mrow">
-              <div class="mbox"><div class="ml">GSA per diem</div><div class="mv" id="dh-r1">—</div><div class="ms">federal rate</div></div>
-              <div class="mbox"><div class="ml">Market estimate</div><div class="mv" id="dh-r2">—</div><div class="ms">avg nightly</div></div>
-              <div class="mbox"><div class="ml">Authorized nights</div><div class="mv" id="dh-n">—</div><div class="ms"></div></div>
+          <!-- DOM HOTEL RESULT (above button) -->
+          <div class="rbox" id="dh-res">
+            <div class="rlbl" id="dh-lbl"></div>
+            <div class="rrow">
+              <div class="rm"><div class="ml">Average market rate</div><div class="mv" id="dh-avg">—</div><div class="ms">per night (USD)</div></div>
+              <div class="rm"><div class="ml">Authorized nights</div><div class="mv" id="dh-n">—</div><div class="ms"></div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">GSA</div><div class="ms"><a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">gsa.gov per diem</a></div></div>
             </div>
-            <div class="info-box" style="margin-bottom:10px"><strong>M&IE reminder — $92/day domestic cap</strong>Domestic meals are capped at $92/day total — actuals only, not a per diem. Cannot be exceeded under any circumstances. Receipts required from day 4 if consistently claiming the full amount.</div>
-            <p class="tnote" id="dh-note"></p>
+            <div class="ibox"><strong>M&amp;IE — $92/day domestic cap</strong>Domestic meals: actuals only up to $92/day — not a per diem. Receipts required. Cannot be exceeded under any circumstances.</div>
+            <p class="rnote" id="dh-note"></p>
+          </div>
+
+          <div class="slbl">Hotel</div>
+          <div class="g2" style="max-width:400px">
+            <div class="f"><label>City</label><input type="text" id="dh-city" placeholder="Chicago"></div>
+            <div class="f"><label>State (2-letter)</label><input type="text" id="dh-st" placeholder="IL" maxlength="2" style="text-transform:uppercase"></div>
+          </div>
+          <div class="g2" style="max-width:400px">
+            <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="dh-in"></div>
+            <div class="f"><label>Authorized check-out</label><input type="date" id="dh-out"></div>
           </div>
           <div class="errmsg" id="dh-err"></div>
-          <button class="lbtn" id="dh-btn" onclick="lookupHotel()">Look up hotel benchmark</button>
+          <button class="lbtn" id="dh-btn" onclick="lookHotel()">Look up hotel benchmark</button>
         </div>
 
-        <!-- INTERNATIONAL -->
+        <!-- ═══ INTERNATIONAL ═══ -->
         <div class="tp" id="tp-intl">
-          <div class="slbl">Flight</div>
-          <div class="fg2">
-            <div class="f"><label>From (city or IATA code)</label><input type="text" id="if-o" placeholder="San Francisco or SFO"></div>
-            <div class="f"><label>To (city or IATA code)</label><input type="text" id="if-d" placeholder="London or LHR"></div>
+
+          <!-- INTL FLIGHT RESULT (above button) -->
+          <div class="rbox" id="if-res">
+            <div class="rlbl" id="if-lbl"></div>
+            <div class="rrow">
+              <div class="rm"><div class="ml">Average fare</div><div class="mv" id="if-avg">—</div><div class="ms" id="if-sub"></div></div>
+              <div class="rm"><div class="ml">Cabin</div><div class="mv" id="if-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
+            </div>
+            <p class="rnote" id="if-note"></p>
           </div>
-          <div class="fg3">
-            <div class="f"><label>Authorized departure date</label><input type="date" id="if-dep"></div>
-            <div class="f"><label>Return date (if round trip)</label><input type="date" id="if-ret"></div>
+          <div class="nf" id="if-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
+
+          <div class="slbl">Flight</div>
+          <div class="g2">
+            <div class="f"><label>From</label>
+              <div class="ac-wrap"><input type="text" id="if-o" placeholder="San Francisco or SFO" autocomplete="off"><div class="ac-drop" id="if-o-drop"></div></div>
+            </div>
+            <div class="f"><label>To</label>
+              <div class="ac-wrap"><input type="text" id="if-d" placeholder="London or LHR" autocomplete="off"><div class="ac-drop" id="if-d-drop"></div></div>
+            </div>
+          </div>
+          <div class="g3">
+            <div class="f"><label>Authorized departure</label><input type="date" id="if-dep"></div>
+            <div class="f"><label>Return date</label><input type="date" id="if-ret"></div>
             <div class="f"><label>Cabin class</label>
               <select id="if-cab">
                 <option value="eco">Basic economy</option>
-                <option value="eco_x" selected>Economy extra / comfort+</option>
+                <option value="ecox" selected>Economy extra / comfort+</option>
                 <option value="biz">Business class</option>
               </select>
             </div>
           </div>
-          <div class="f" style="margin-bottom:12px"><label>Trip type</label>
-            <select id="if-type" style="max-width:220px">
-              <option value="rt">Round trip</option>
-              <option value="ow">One way</option>
-            </select>
-          </div>
-          <div id="if-res" style="display:none;margin-bottom:1rem">
-            <div style="font-size:.85rem;font-weight:500;margin-bottom:.75rem" id="if-lbl"></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px">
-              <div class="mbox"><div class="ml">Average fare</div><div class="mv" id="if-mid">—</div><div class="ms" id="if-csub"></div></div>
-              <div class="mbox"><div class="ml">Data source</div><div class="mv" style="font-size:1rem">BTS</div><div class="ms">Bureau of Transportation Statistics</div></div>
-            </div>
-            <p class="tnote" id="if-note"></p>
+          <div class="f" style="margin-bottom:12px;max-width:220px"><label>Trip type</label>
+            <select id="if-type"><option value="rt">Round trip</option><option value="ow">One way</option></select>
           </div>
           <div class="errmsg" id="if-err"></div>
-          <button class="lbtn" onclick="lookupFlight('if')">Look up flight benchmark</button>
-          <div class="notfound" id="if-nf">This route is not in our benchmark table yet. Please contact your campus travel office or Accounts Payable for an official fare comparison. Do not use traveler-provided figures as a benchmark.</div>
+          <button class="lbtn" onclick="lookFlight('if')">Look up flight benchmark</button>
+
+          <!-- INTL HOTEL RESULT (above button) -->
+          <div class="rbox" id="ih-res">
+            <div class="rlbl" id="ih-lbl"></div>
+            <div class="rrow">
+              <div class="rm"><div class="ml">Average market rate</div><div class="mv" id="ih-avg">—</div><div class="ms">per night (USD)</div></div>
+              <div class="rm"><div class="ml">Authorized nights</div><div class="mv" id="ih-n">—</div><div class="ms"></div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">DoD</div><div class="ms"><a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">travel.dod.mil</a></div></div>
+            </div>
+            <p class="rnote" id="ih-note"></p>
+          </div>
+
+          <!-- PER DIEM TABLE (above button) -->
+          <div class="pd-exp" id="pd-exp">
+            <h4>DoD per diem rates — <span id="pd-city">this destination</span></h4>
+            <table class="pdt">
+              <thead><tr><th>Component</th><th>Amount (USD)</th><th>How it works</th></tr></thead>
+              <tbody>
+                <tr><td>Maximum lodging</td><td id="pd-lodge">—</td><td>Nightly hotel cap. Claimed as actuals up to this limit.</td></tr>
+                <tr><td>Local meals (M&amp;IE)</td><td id="pd-mie">—</td><td>Full daily meals allowance. International = per diem — no receipts needed up to this rate.</td></tr>
+                <tr><td>Proportional meals</td><td id="pd-prop">—</td><td>For travel days (first/last day). ~75% of full M&amp;IE rate.</td></tr>
+                <tr><td>Local incidental</td><td id="pd-inc">—</td><td>Tips and small fees — included within M&amp;IE total.</td></tr>
+                <tr><td>Maximum per diem</td><td id="pd-tot">—</td><td>Lodging + M&amp;IE combined daily maximum.</td></tr>
+              </tbody>
+            </table>
+            <div class="pd-rule"><strong>Actuals vs per diem</strong>International: meals claimed as flat per diem — no receipts needed up to the daily rate. Lodging claimed as actuals up to the maximum lodging rate. Domestic is different: meals are actuals only up to $92/day, never a flat per diem.</div>
+          </div>
 
           <div class="slbl">Hotel + DoD per diem</div>
-          <div class="fg2">
-            <div class="f"><label>Destination city</label><input type="text" id="ih-city" placeholder="London" oninput="triggerIntl()"></div>
+          <div class="g2" style="max-width:500px">
+            <div class="f"><label>City</label><input type="text" id="ih-city" placeholder="London" oninput="triggerPD()"></div>
             <div class="f"><label>Country</label>
-              <select id="ih-ctry" onchange="triggerIntl()">
+              <select id="ih-ctry" onchange="triggerPD()">
                 <option value="">Select country...</option>
-                <option value="GB">United Kingdom</option>
-                <option value="CA">Canada</option>
-                <option value="AU">Australia</option>
-                <option value="DE">Germany</option>
-                <option value="FR">France</option>
-                <option value="JP">Japan</option>
-                <option value="SG">Singapore</option>
-                <option value="CH">Switzerland</option>
-                <option value="NL">Netherlands</option>
-                <option value="AT">Austria</option>
-                <option value="BE">Belgium</option>
-                <option value="DK">Denmark</option>
-                <option value="FI">Finland</option>
-                <option value="GR">Greece</option>
-                <option value="IE">Ireland</option>
-                <option value="IT">Italy</option>
-                <option value="NO">Norway</option>
-                <option value="PT">Portugal</option>
-                <option value="ES">Spain</option>
-                <option value="SE">Sweden</option>
-                <option value="AE">UAE</option>
-                <option value="IL">Israel</option>
-                <option value="IN">India</option>
-                <option value="KR">South Korea</option>
-                <option value="CN">China</option>
-                <option value="HK">Hong Kong</option>
-                <option value="TW">Taiwan</option>
-                <option value="TH">Thailand</option>
-                <option value="MY">Malaysia</option>
-                <option value="NZ">New Zealand</option>
-                <option value="ZA">South Africa</option>
-                <option value="BR">Brazil</option>
+                <option value="GB">United Kingdom</option><option value="CA">Canada</option>
+                <option value="AU">Australia</option><option value="DE">Germany</option>
+                <option value="FR">France</option><option value="JP">Japan</option>
+                <option value="SG">Singapore</option><option value="CH">Switzerland</option>
+                <option value="NL">Netherlands</option><option value="AT">Austria</option>
+                <option value="BE">Belgium</option><option value="DK">Denmark</option>
+                <option value="FI">Finland</option><option value="GR">Greece</option>
+                <option value="IE">Ireland</option><option value="IT">Italy</option>
+                <option value="NO">Norway</option><option value="PT">Portugal</option>
+                <option value="ES">Spain</option><option value="SE">Sweden</option>
+                <option value="AE">UAE</option><option value="IL">Israel</option>
+                <option value="IN">India</option><option value="KR">South Korea</option>
+                <option value="CN">China</option><option value="HK">Hong Kong</option>
+                <option value="TW">Taiwan</option><option value="TH">Thailand</option>
+                <option value="MY">Malaysia</option><option value="NZ">New Zealand</option>
+                <option value="ZA">South Africa</option><option value="BR">Brazil</option>
                 <option value="MX">Mexico</option>
               </select>
             </div>
           </div>
-          <div class="fg2">
-            <div class="f"><label>Authorized check-in — 24hrs prior to first meeting</label><input type="date" id="ih-in"></div>
-            <div class="f"><label>Authorized check-out date</label><input type="date" id="ih-out"></div>
-          </div>
-          <div id="ih-res" style="display:none;margin-top:1rem">
-            <div style="font-size:.85rem;font-weight:500;margin-bottom:.75rem" id="ih-lbl"></div>
-            <div class="mrow">
-              <div class="mbox"><div class="ml">Average market rate</div><div class="mv" id="ih-r2">—</div><div class="ms">typical nightly (USD)</div></div>
-              <div class="mbox"><div class="ml">Authorized nights</div><div class="mv" id="ih-n">—</div><div class="ms"></div></div>
-              <div class="mbox"><div class="ml">Data source</div><div class="mv" style="font-size:.9rem">DoD</div><div class="ms"><a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank" style="color:var(--teal);font-size:.68rem">travel.dod.mil</a></div></div>
-            </div>
-            <p class="tnote" id="ih-note"></p>
+          <div class="g2" style="max-width:500px">
+            <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="ih-in"></div>
+            <div class="f"><label>Authorized check-out</label><input type="date" id="ih-out"></div>
           </div>
           <div class="errmsg" id="ih-err"></div>
-          <button class="lbtn" onclick="lookupIntlHotel()">Look up hotel + per diem</button>
-          <div class="pd-exp" id="pd-exp">
-            <h4>DoD per diem rates — <span id="pd-city-name">this destination</span></h4>
-            <table id="pd-table" style="width:100%;border-collapse:collapse;font-size:.875rem;margin-bottom:.875rem;display:none">
-              <thead><tr style="background:rgba(13,158,138,.1)">
-                <th style="text-align:left;padding:7px 10px;font-weight:500;color:var(--teal-dark);font-size:.78rem">Rate component</th>
-                <th style="text-align:right;padding:7px 10px;font-weight:500;color:var(--teal-dark);font-size:.78rem">Amount (USD)</th>
-                <th style="text-align:left;padding:7px 10px;font-weight:500;color:var(--teal-dark);font-size:.78rem">How it works</th>
-              </tr></thead>
-              <tbody>
-                <tr style="border-bottom:0.5px solid rgba(13,158,138,.15)"><td style="padding:7px 10px;color:#0a5a50;font-weight:500">Maximum lodging</td><td style="padding:7px 10px;text-align:right;font-weight:500;color:var(--navy)" id="pd-lodge">—</td><td style="padding:7px 10px;font-size:.8rem;color:#0a5a50">Nightly cap for hotel. You are reimbursed actual cost up to this limit.</td></tr>
-                <tr style="border-bottom:0.5px solid rgba(13,158,138,.15)"><td style="padding:7px 10px;color:#0a5a50;font-weight:500">Local meals (M&IE)</td><td style="padding:7px 10px;text-align:right;font-weight:500;color:var(--navy)" id="pd-mie">—</td><td style="padding:7px 10px;font-size:.8rem;color:#0a5a50">Full daily meals allowance. International = per diem — claim as flat rate, no receipts needed.</td></tr>
-                <tr style="border-bottom:0.5px solid rgba(13,158,138,.15)"><td style="padding:7px 10px;color:#0a5a50;font-weight:500">Proportional meals</td><td style="padding:7px 10px;text-align:right;font-weight:500;color:var(--navy)" id="pd-prop">—</td><td style="padding:7px 10px;font-size:.8rem;color:#0a5a50">Used on travel days (first/last day). Approx. 75% of full M&IE rate.</td></tr>
-                <tr style="border-bottom:0.5px solid rgba(13,158,138,.15)"><td style="padding:7px 10px;color:#0a5a50;font-weight:500">Local incidental</td><td style="padding:7px 10px;text-align:right;font-weight:500;color:var(--navy)" id="pd-inc">—</td><td style="padding:7px 10px;font-size:.8rem;color:#0a5a50">Tips, small fees. Included within the M&IE total above.</td></tr>
-                <tr style="background:rgba(13,158,138,.06)"><td style="padding:7px 10px;color:var(--teal-dark);font-weight:500">Maximum per diem</td><td style="padding:7px 10px;text-align:right;font-weight:500;color:var(--navy)" id="pd-tot">—</td><td style="padding:7px 10px;font-size:.8rem;color:#0a5a50">Lodging + M&IE combined daily maximum.</td></tr>
-              </tbody>
-            </table>
-            <div style="background:rgba(255,255,255,.6);border-radius:8px;padding:.65rem .75rem;font-size:.8rem;color:#0a5a50;margin-bottom:.5rem"><strong style="display:block;margin-bottom:3px">Actuals vs per diem</strong>For international travel, meals can be claimed as a flat per diem — no receipts needed up to the daily rate. Lodging is claimed as actuals (what you actually paid) up to the maximum lodging rate. Domestic travel is different: meals are actuals only up to $92/day, never a flat per diem.</div>
-            <a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank" style="color:var(--teal-dark);font-size:.8rem;font-weight:500">Look up exact DoD per diem rates on travel.dod.mil →</a>
-          </div>
+          <button class="lbtn" onclick="lookIntlHotel()">Look up hotel + per diem</button>
         </div>
 
-        <!-- GROUND TRANSPORT -->
-        <div class="tp" id="tp-ground">
-          <div class="info-box" style="margin-bottom:1rem"><strong>G-28 Transportation Policy</strong>"Transportation expenses shall be reimbursed based on the most economical mode of transportation and the most commonly traveled route consistent with the authorized purpose of the trip." If a traveler chose a rental car when a taxi or rideshare would have sufficed, reimbursement is capped at the taxi equivalent.</div>
+        <!-- ═══ GROUND TRANSPORT ═══ -->
+        <div class="tp" id="tp-gt">
+          <div class="ibox" style="margin-bottom:1rem"><strong>UCOP G-28 Transportation Policy</strong>"Transportation expenses shall be reimbursed based on the most economical mode of transportation and the most commonly traveled route consistent with the authorized purpose of the trip." If a traveler rented a car when a taxi or rideshare would have sufficed, reimbursement is capped at the taxi equivalent.</div>
 
-          <div class="fg2">
-            <div class="f"><label>From (e.g. SFO Airport)</label><input type="text" id="gt-from" placeholder="e.g. SFO Airport, Terminal 2"></div>
-            <div class="f"><label>To (e.g. Downtown Chicago)</label><input type="text" id="gt-to" placeholder="e.g. 233 S Wacker Dr, Chicago"></div>
-          </div>
-          <div class="fg2">
-            <div class="f"><label>City / region</label>
-              <select id="gt-city">
-                <option value="sf">San Francisco / Bay Area</option>
-                <option value="la">Los Angeles</option>
-                <option value="nyc">New York City</option>
-                <option value="chi">Chicago</option>
-                <option value="bos">Boston</option>
-                <option value="dc">Washington DC</option>
-                <option value="sea">Seattle</option>
-                <option value="mia">Miami</option>
-                <option value="den">Denver</option>
-                <option value="atl">Atlanta</option>
-                <option value="hou">Houston</option>
-                <option value="phx">Phoenix</option>
-                <option value="dal">Dallas</option>
-                <option value="msp">Minneapolis</option>
-                <option value="lon">London</option>
-                <option value="par">Paris</option>
-                <option value="tok">Tokyo</option>
-                <option value="syd">Sydney</option>
-                <option value="sin">Singapore</option>
-              </select>
+          <!-- GT RESULTS (above button) -->
+          <div class="rbox" id="gt-res">
+            <div class="rlbl" id="gt-lbl"></div>
+            <div class="map-wrap" id="gt-map-wrap">
+              <iframe id="gt-map" src="" title="Route map"></iframe>
             </div>
-            <div class="f"><label>Approx. distance (miles)</label>
-              <input type="number" id="gt-miles" placeholder="e.g. 14" min="1" step="1">
-              <div style="font-size:.7rem;color:var(--gray-400);margin-top:3px">Tip: check Google Maps for the distance between the two addresses above</div>
+            <div class="gt-tabs">
+              <button class="gt-tab on" onclick="gtTab('taxi',this)">Taxi</button>
+              <button class="gt-tab" onclick="gtTab('uber',this)">Uber X</button>
+              <button class="gt-tab" onclick="gtTab('lyft',this)">Lyft</button>
             </div>
-          </div>
-          <button class="lbtn" onclick="calcGTFares()">Get fare estimates</button>
-
-          <div id="gt-map-wrap" style="display:none;margin-bottom:1rem">
-            <div id="gt-map" style="width:100%;height:280px;border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--gray-200);background:var(--gray-50);display:flex;align-items:center;justify-content:center">
-              <iframe id="gt-map-frame" width="100%" height="280" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" style="border-radius:var(--radius-lg)" src=""></iframe>
+            <div class="gt-panel on" id="gt-taxi-p">
+              <table class="ft"><tbody id="gt-taxi-rows"></tbody><tfoot><tr><td>Total estimated fare</td><td id="gt-taxi-tot">—</td></tr></tfoot></table>
+              <p class="rnote" style="margin-top:6px" id="gt-taxi-src"></p>
+            </div>
+            <div class="gt-panel" id="gt-uber-p">
+              <table class="ft"><tbody id="gt-uber-rows"></tbody><tfoot><tr><td>Total estimated fare</td><td id="gt-uber-tot">—</td></tr></tfoot></table>
+              <p class="rnote" style="margin-top:6px">Source: <a href="https://www.uber.com/us/en/price-estimate/" target="_blank">Uber published rate card</a>. UberX standard service. Surge pricing not included — use as a base estimate for compliance purposes.</p>
+            </div>
+            <div class="gt-panel" id="gt-lyft-p">
+              <table class="ft"><tbody id="gt-lyft-rows"></tbody><tfoot><tr><td>Total estimated fare</td><td id="gt-lyft-tot">—</td></tr></tfoot></table>
+              <p class="rnote" style="margin-top:6px">Source: <a href="https://www.lyft.com/rider/fare-estimate" target="_blank">Lyft published rate card</a>. Standard Lyft service. Use the lower of Uber X or Lyft as the G-28 reimbursement benchmark.</p>
+            </div>
+            <div class="gt-verdict">
+              <div class="gt-vt" id="gt-vt"></div>
+              <div class="gt-vb" id="gt-vb"></div>
             </div>
           </div>
 
-          <div id="gt-res" style="display:none">
-            <div class="gt-tabs" style="display:flex;gap:4px;margin-bottom:1rem;border-bottom:1px solid var(--gray-200)">
-              <button class="gt-tab active" onclick="switchGtTab('taxi',this)">Taxi</button>
-              <button class="gt-tab" onclick="switchGtTab('uber',this)">Uber X</button>
-              <button class="gt-tab" onclick="switchGtTab('lyft',this)">Lyft</button>
-            </div>
-
-            <div class="gt-panel active" id="gt-taxi-panel">
-              <table style="width:100%;border-collapse:collapse;font-size:.875rem">
-                <tbody id="gt-taxi-rows"></tbody>
-                <tfoot><tr style="border-top:2px solid var(--gray-200)"><td style="padding:8px 0;font-weight:500">Total estimated fare</td><td style="padding:8px 0;font-weight:500;text-align:right" id="gt-taxi-total">—</td></tr></tfoot>
-              </table>
-              <p class="tnote" style="margin-top:6px" id="gt-taxi-note"></p>
-            </div>
-
-            <div class="gt-panel" id="gt-uber-panel" style="display:none">
-              <table style="width:100%;border-collapse:collapse;font-size:.875rem">
-                <tbody id="gt-uber-rows"></tbody>
-                <tfoot><tr style="border-top:2px solid var(--gray-200)"><td style="padding:8px 0;font-weight:500">Total estimated fare</td><td style="padding:8px 0;font-weight:500;text-align:right" id="gt-uber-total">—</td></tr></tfoot>
-              </table>
-              <p class="tnote" style="margin-top:6px">Uber X is standard UberX service — the most economical Uber option. Surge pricing not included. For compliance purposes, use the base estimate shown.</p>
-            </div>
-
-            <div class="gt-panel" id="gt-lyft-panel" style="display:none">
-              <table style="width:100%;border-collapse:collapse;font-size:.875rem">
-                <tbody id="gt-lyft-rows"></tbody>
-                <tfoot><tr style="border-top:2px solid var(--gray-200)"><td style="padding:8px 0;font-weight:500">Total estimated fare</td><td style="padding:8px 0;font-weight:500;text-align:right" id="gt-lyft-total">—</td></tr></tfoot>
-              </table>
-              <p class="tnote" style="margin-top:6px">Lyft standard service. Comparable to UberX. Use the lower of Uber X or Lyft as the reimbursement benchmark.</p>
-            </div>
-
-            <div class="vbox ok" style="margin-top:1rem" id="gt-policy-verdict">
-              <div class="vt ok" id="gt-verdict-title"></div>
-              <div class="vb" id="gt-verdict-body"></div>
-            </div>
+          <div class="g2">
+            <div class="f"><label>Pickup — address or place name</label><input type="text" id="gt-from" placeholder="e.g. SFO Airport" oninput="gtGeo()"></div>
+            <div class="f"><label>Dropoff — address or place name</label><input type="text" id="gt-to" placeholder="e.g. UCSF Mission Bay, San Francisco" oninput="gtGeo()"></div>
           </div>
+          <div class="errmsg" id="gt-err"></div>
+          <button class="lbtn" id="gt-btn" onclick="calcGT()">Get fare estimates</button>
         </div>
 
-        <!-- TRAVEL ADVISORIES -->
-        <div class="tp" id="tp-advisory">
-          <p style="font-size:.875rem;color:var(--gray-600);line-height:1.7;margin-bottom:1.1rem">Look up the current US State Department travel advisory for any country before approving international travel. Advisories range from Level 1 (Exercise Normal Precautions) to Level 4 (Do Not Travel).</p>
-          <div class="fg2" style="max-width:500px">
-            <div class="f"><label>Country name</label><input type="text" id="adv-in" placeholder="e.g. Japan, France, Mexico" onkeydown="if(event.key==='Enter')lookupAdv()"></div>
-            <div class="f" style="display:flex;align-items:flex-end"><button class="lbtn" style="margin-top:0" onclick="lookupAdv()">Look up advisory</button></div>
+        <!-- ═══ TRAVEL ADVISORIES ═══ -->
+        <div class="tp" id="tp-adv">
+          <p style="font-size:.875rem;color:var(--g600);line-height:1.7;margin-bottom:1rem">Look up the current US State Department travel advisory before approving international travel. Level 1 = normal precautions, Level 4 = Do Not Travel.</p>
+          <div class="aq-list">
+            <button class="aq" onclick="qa(this)">United Kingdom</button><button class="aq" onclick="qa(this)">France</button>
+            <button class="aq" onclick="qa(this)">Germany</button><button class="aq" onclick="qa(this)">Japan</button>
+            <button class="aq" onclick="qa(this)">Australia</button><button class="aq" onclick="qa(this)">Canada</button>
+            <button class="aq" onclick="qa(this)">Mexico</button><button class="aq" onclick="qa(this)">Singapore</button>
+            <button class="aq" onclick="qa(this)">Israel</button><button class="aq" onclick="qa(this)">China</button>
+            <button class="aq" onclick="qa(this)">India</button><button class="aq" onclick="qa(this)">Russia</button>
+          </div>
+          <div class="g2" style="max-width:500px">
+            <div class="f"><label>Country name</label><input type="text" id="adv-in" placeholder="e.g. Japan, France, Mexico" onkeydown="if(event.key==='Enter')lookAdv()"></div>
+            <div class="f" style="display:flex;align-items:flex-end"><button class="lbtn" style="margin-top:0" onclick="lookAdv()">Look up advisory</button></div>
           </div>
           <div class="errmsg" id="adv-err"></div>
-          <div class="adv-qs">
-            <button class="aq" onclick="quickAdv(this)">United Kingdom</button>
-            <button class="aq" onclick="quickAdv(this)">France</button>
-            <button class="aq" onclick="quickAdv(this)">Germany</button>
-            <button class="aq" onclick="quickAdv(this)">Japan</button>
-            <button class="aq" onclick="quickAdv(this)">Australia</button>
-            <button class="aq" onclick="quickAdv(this)">Canada</button>
-            <button class="aq" onclick="quickAdv(this)">Mexico</button>
-            <button class="aq" onclick="quickAdv(this)">Singapore</button>
-            <button class="aq" onclick="quickAdv(this)">Israel</button>
-            <button class="aq" onclick="quickAdv(this)">China</button>
-            <button class="aq" onclick="quickAdv(this)">India</button>
-            <button class="aq" onclick="quickAdv(this)">Brazil</button>
-          </div>
           <div id="adv-res" style="display:none;margin-top:1rem">
             <div class="adv-card">
-              <div class="adv-hd" id="adv-hd">
-                <div><div class="adv-cn" id="adv-cn"></div><div class="adv-lt" id="adv-lt"></div></div>
-                <div class="adv-badge" id="adv-badge"></div>
-              </div>
-              <div class="adv-bd">
-                <div class="adv-msg" id="adv-msg"></div>
-                <a class="adv-lnk" id="adv-url" href="#" target="_blank">View full State Dept advisory →</a>
-              </div>
+              <div class="adv-hd" id="adv-hd"><div><div class="adv-cn" id="adv-cn"></div><div class="adv-lt" id="adv-lt"></div></div><div class="adv-badge" id="adv-badge"></div></div>
+              <div class="adv-bd"><div class="adv-msg" id="adv-msg"></div><a class="adv-lnk" id="adv-url" href="#" target="_blank">View full State Dept advisory →</a></div>
             </div>
-            <p class="tnote" style="margin-top:8px">Source: US Department of State — travel.state.gov. Always check the official site before approving international travel.</p>
+            <p class="rnote" style="margin-top:8px">Source: <a href="https://travel.state.gov" target="_blank">US Department of State — travel.state.gov</a>. Always verify the current advisory before approving travel.</p>
           </div>
         </div>
 
-        <!-- ADMIN -->
-        <div class="tp" id="tp-admin">
-          <p style="font-size:.8rem;color:var(--gray-600);margin-bottom:.875rem">Update fare tables quarterly. Amounts in USD one-way economy extra. RT mult = round trip multiplier.</p>
-          <div style="overflow-x:auto">
-            <table class="atbl"><thead><tr><th>From</th><th>To</th><th>Low</th><th>Mid</th><th>High</th><th>RT×</th><th></th></tr></thead>
-            <tbody id="atbody"></tbody></table>
-          </div>
+        <!-- ═══ ADMIN ═══ -->
+        <div class="tp" id="tp-adm">
+          <p style="font-size:.8rem;color:var(--g600);margin-bottom:.875rem">Update fare tables quarterly. Amounts in USD one-way economy extra. RT = round trip multiplier.</p>
+          <div style="overflow-x:auto"><table class="atbl"><thead><tr><th>From</th><th>To</th><th>Low</th><th>Mid</th><th>High</th><th>RT×</th><th></th></tr></thead><tbody id="adm-body"></tbody></table></div>
           <div class="addrow">
-            <div><label>From</label><input type="text" id="nr-f" placeholder="SFO" maxlength="3" style="text-transform:uppercase"></div>
-            <div><label>To</label><input type="text" id="nr-t" placeholder="ORD" maxlength="3" style="text-transform:uppercase"></div>
+            <div><label>From</label><input id="nr-f" placeholder="SFO" maxlength="3" style="text-transform:uppercase"></div>
+            <div><label>To</label><input id="nr-t" placeholder="ORD" maxlength="3" style="text-transform:uppercase"></div>
             <div><label>Low $</label><input type="number" id="nr-l" placeholder="280"></div>
             <div><label>Mid $</label><input type="number" id="nr-m" placeholder="420"></div>
             <div><label>High $</label><input type="number" id="nr-h" placeholder="650"></div>
             <div><label>RT×</label><input type="number" id="nr-r" placeholder="1.7" step="0.1"></div>
             <div><label>&nbsp;</label><button class="addbtn" onclick="addRoute()">Add</button></div>
           </div>
-          <div class="errmsg" id="add-err">Fill in all fields.</div>
+          <div class="errmsg" id="adm-err">Fill in all fields.</div>
           <div class="exprow">
             <button class="expbtn" onclick="exportData()">Export JSON</button>
             <button class="expbtn" onclick="document.getElementById('imp').click()">Import JSON</button>
             <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)">
           </div>
-          <p class="tnote" style="margin-top:.5rem">Export before each quarterly update and keep the previous version as a backup.</p>
+          <p style="font-size:.72rem;color:var(--g400);margin-top:.5rem">Export before each quarterly update.</p>
         </div>
 
       </div>
@@ -700,16 +610,18 @@ table tbody tr td:last-child{text-align:right;color:var(--navy)}
   <div class="fi">
     <div>
       <div class="flogo">Fair<span>Fares</span></div>
-      <div class="fcopy">© 2026 FairFares. Travel reimbursement benchmarking. Built on UCOP G-28, GSA, and DoD per diem data. &nbsp;|&nbsp; We collect institution and department name only — never personal data.</div>
+      <div class="fcopy">© 2026 FairFares. Travel cost benchmarking. Data: BTS (bts.gov) · GSA (gsa.gov) · DoD (travel.dod.mil) · State Dept (travel.state.gov) &nbsp;|&nbsp; Institution and department collected only — no personal data.</div>
     </div>
     <div class="flinks">
       <a href="mailto:hello@getfairfares.com">Contact</a>
-      <a href="#tips">Travel tips</a>
       <a href="#tool">Look up a fare</a>
     </div>
   </div>
 </footer>
 <script>
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
 const ROUTES=[
   {from:"SFO",to:"LAX",low:49,mid:98,high:187,rt:1.4},
   {from:"SFO",to:"OAK",low:56,mid:113,high:217,rt:1.4},
@@ -4427,197 +4339,6 @@ const ROUTES=[
   {from:"ZRH",to:"PEK",low:642,mid:1052,high:1605,rt:1.9}
 ];
 
-
-const AIRPORTS = [
-  {code:'SFO',name:'San Francisco',country:'US',display:'San Francisco (SFO)'},
-  {code:'LAX',name:'Los Angeles',country:'US',display:'Los Angeles (LAX)'},
-  {code:'OAK',name:'Oakland',country:'US',display:'Oakland (OAK)'},
-  {code:'SJC',name:'San Jose',country:'US',display:'San Jose (SJC)'},
-  {code:'SAN',name:'San Diego',country:'US',display:'San Diego (SAN)'},
-  {code:'SMF',name:'Sacramento',country:'US',display:'Sacramento (SMF)'},
-  {code:'SEA',name:'Seattle',country:'US',display:'Seattle (SEA)'},
-  {code:'PDX',name:'Portland',country:'US',display:'Portland (PDX)'},
-  {code:'LAS',name:'Las Vegas',country:'US',display:'Las Vegas (LAS)'},
-  {code:'PHX',name:'Phoenix',country:'US',display:'Phoenix (PHX)'},
-  {code:'DEN',name:'Denver',country:'US',display:'Denver (DEN)'},
-  {code:'SLC',name:'Salt Lake City',country:'US',display:'Salt Lake City (SLC)'},
-  {code:'ORD',name:'Chicago OHare',country:'US',display:'Chicago OHare (ORD)'},
-  {code:'MDW',name:'Chicago Midway',country:'US',display:'Chicago Midway (MDW)'},
-  {code:'JFK',name:'New York JFK',country:'US',display:'New York JFK (JFK)'},
-  {code:'LGA',name:'New York LaGuardia',country:'US',display:'New York LaGuardia (LGA)'},
-  {code:'EWR',name:'Newark',country:'US',display:'Newark (EWR)'},
-  {code:'BOS',name:'Boston',country:'US',display:'Boston (BOS)'},
-  {code:'DCA',name:'Washington Reagan',country:'US',display:'Washington Reagan (DCA)'},
-  {code:'IAD',name:'Washington Dulles',country:'US',display:'Washington Dulles (IAD)'},
-  {code:'BWI',name:'Baltimore',country:'US',display:'Baltimore (BWI)'},
-  {code:'ATL',name:'Atlanta',country:'US',display:'Atlanta (ATL)'},
-  {code:'MIA',name:'Miami',country:'US',display:'Miami (MIA)'},
-  {code:'FLL',name:'Fort Lauderdale',country:'US',display:'Fort Lauderdale (FLL)'},
-  {code:'TPA',name:'Tampa',country:'US',display:'Tampa (TPA)'},
-  {code:'MCO',name:'Orlando',country:'US',display:'Orlando (MCO)'},
-  {code:'HOU',name:'Houston Hobby',country:'US',display:'Houston Hobby (HOU)'},
-  {code:'IAH',name:'Houston Intercontinental',country:'US',display:'Houston Intercontinental (IAH)'},
-  {code:'DAL',name:'Dallas Love Field',country:'US',display:'Dallas Love Field (DAL)'},
-  {code:'DFW',name:'Dallas Fort Worth',country:'US',display:'Dallas Fort Worth (DFW)'},
-  {code:'AUS',name:'Austin',country:'US',display:'Austin (AUS)'},
-  {code:'SAT',name:'San Antonio',country:'US',display:'San Antonio (SAT)'},
-  {code:'MSP',name:'Minneapolis',country:'US',display:'Minneapolis (MSP)'},
-  {code:'DTW',name:'Detroit',country:'US',display:'Detroit (DTW)'},
-  {code:'CLT',name:'Charlotte',country:'US',display:'Charlotte (CLT)'},
-  {code:'RDU',name:'Raleigh-Durham',country:'US',display:'Raleigh-Durham (RDU)'},
-  {code:'PHL',name:'Philadelphia',country:'US',display:'Philadelphia (PHL)'},
-  {code:'PIT',name:'Pittsburgh',country:'US',display:'Pittsburgh (PIT)'},
-  {code:'MSY',name:'New Orleans',country:'US',display:'New Orleans (MSY)'},
-  {code:'BNA',name:'Nashville',country:'US',display:'Nashville (BNA)'},
-  {code:'MEM',name:'Memphis',country:'US',display:'Memphis (MEM)'},
-  {code:'MCI',name:'Kansas City',country:'US',display:'Kansas City (MCI)'},
-  {code:'STL',name:'St Louis',country:'US',display:'St Louis (STL)'},
-  {code:'IND',name:'Indianapolis',country:'US',display:'Indianapolis (IND)'},
-  {code:'CMH',name:'Columbus',country:'US',display:'Columbus (CMH)'},
-  {code:'CVG',name:'Cincinnati',country:'US',display:'Cincinnati (CVG)'},
-  {code:'CLE',name:'Cleveland',country:'US',display:'Cleveland (CLE)'},
-  {code:'MKE',name:'Milwaukee',country:'US',display:'Milwaukee (MKE)'},
-  {code:'HNL',name:'Honolulu',country:'US',display:'Honolulu (HNL)'},
-  {code:'OGG',name:'Maui',country:'US',display:'Maui (OGG)'},
-  {code:'KOA',name:'Kona',country:'US',display:'Kona (KOA)'},
-  {code:'ANC',name:'Anchorage',country:'US',display:'Anchorage (ANC)'},
-  {code:'LHR',name:'London Heathrow',country:'GB',display:'London Heathrow (LHR)'},
-  {code:'LGW',name:'London Gatwick',country:'GB',display:'London Gatwick (LGW)'},
-  {code:'MAN',name:'Manchester',country:'GB',display:'Manchester (MAN)'},
-  {code:'EDI',name:'Edinburgh',country:'GB',display:'Edinburgh (EDI)'},
-  {code:'CDG',name:'Paris Charles de Gaulle',country:'FR',display:'Paris CDG (CDG)'},
-  {code:'ORY',name:'Paris Orly',country:'FR',display:'Paris Orly (ORY)'},
-  {code:'NCE',name:'Nice',country:'FR',display:'Nice (NCE)'},
-  {code:'FRA',name:'Frankfurt',country:'DE',display:'Frankfurt (FRA)'},
-  {code:'MUC',name:'Munich',country:'DE',display:'Munich (MUC)'},
-  {code:'BER',name:'Berlin Brandenburg',country:'DE',display:'Berlin (BER)'},
-  {code:'HAM',name:'Hamburg',country:'DE',display:'Hamburg (HAM)'},
-  {code:'DUS',name:'Dusseldorf',country:'DE',display:'Dusseldorf (DUS)'},
-  {code:'AMS',name:'Amsterdam',country:'NL',display:'Amsterdam (AMS)'},
-  {code:'ZRH',name:'Zurich',country:'CH',display:'Zurich (ZRH)'},
-  {code:'GVA',name:'Geneva',country:'CH',display:'Geneva (GVA)'},
-  {code:'MAD',name:'Madrid',country:'ES',display:'Madrid (MAD)'},
-  {code:'BCN',name:'Barcelona',country:'ES',display:'Barcelona (BCN)'},
-  {code:'FCO',name:'Rome Fiumicino',country:'IT',display:'Rome (FCO)'},
-  {code:'MXP',name:'Milan Malpensa',country:'IT',display:'Milan (MXP)'},
-  {code:'VIE',name:'Vienna',country:'AT',display:'Vienna (VIE)'},
-  {code:'BRU',name:'Brussels',country:'BE',display:'Brussels (BRU)'},
-  {code:'CPH',name:'Copenhagen',country:'DK',display:'Copenhagen (CPH)'},
-  {code:'ARN',name:'Stockholm',country:'SE',display:'Stockholm (ARN)'},
-  {code:'HEL',name:'Helsinki',country:'FI',display:'Helsinki (HEL)'},
-  {code:'OSL',name:'Oslo',country:'NO',display:'Oslo (OSL)'},
-  {code:'DUB',name:'Dublin',country:'IE',display:'Dublin (DUB)'},
-  {code:'LIS',name:'Lisbon',country:'PT',display:'Lisbon (LIS)'},
-  {code:'ATH',name:'Athens',country:'GR',display:'Athens (ATH)'},
-  {code:'WAW',name:'Warsaw',country:'PL',display:'Warsaw (WAW)'},
-  {code:'PRG',name:'Prague',country:'CZ',display:'Prague (PRG)'},
-  {code:'BUD',name:'Budapest',country:'HU',display:'Budapest (BUD)'},
-  {code:'IST',name:'Istanbul',country:'TR',display:'Istanbul (IST)'},
-  {code:'DXB',name:'Dubai',country:'AE',display:'Dubai (DXB)'},
-  {code:'AUH',name:'Abu Dhabi',country:'AE',display:'Abu Dhabi (AUH)'},
-  {code:'DOH',name:'Doha',country:'QA',display:'Doha (DOH)'},
-  {code:'TLV',name:'Tel Aviv',country:'IL',display:'Tel Aviv (TLV)'},
-  {code:'CAI',name:'Cairo',country:'EG',display:'Cairo (CAI)'},
-  {code:'CMN',name:'Casablanca',country:'MA',display:'Casablanca (CMN)'},
-  {code:'NBO',name:'Nairobi',country:'KE',display:'Nairobi (NBO)'},
-  {code:'JNB',name:'Johannesburg',country:'ZA',display:'Johannesburg (JNB)'},
-  {code:'CPT',name:'Cape Town',country:'ZA',display:'Cape Town (CPT)'},
-  {code:'LOS',name:'Lagos',country:'NG',display:'Lagos (LOS)'},
-  {code:'ADD',name:'Addis Ababa',country:'ET',display:'Addis Ababa (ADD)'},
-  {code:'NRT',name:'Tokyo Narita',country:'JP',display:'Tokyo Narita (NRT)'},
-  {code:'HND',name:'Tokyo Haneda',country:'JP',display:'Tokyo Haneda (HND)'},
-  {code:'KIX',name:'Osaka',country:'JP',display:'Osaka (KIX)'},
-  {code:'ICN',name:'Seoul Incheon',country:'KR',display:'Seoul (ICN)'},
-  {code:'PEK',name:'Beijing Capital',country:'CN',display:'Beijing (PEK)'},
-  {code:'PKX',name:'Beijing Daxing',country:'CN',display:'Beijing Daxing (PKX)'},
-  {code:'PVG',name:'Shanghai Pudong',country:'CN',display:'Shanghai (PVG)'},
-  {code:'HKG',name:'Hong Kong',country:'HK',display:'Hong Kong (HKG)'},
-  {code:'TPE',name:'Taipei',country:'TW',display:'Taipei (TPE)'},
-  {code:'SIN',name:'Singapore Changi',country:'SG',display:'Singapore (SIN)'},
-  {code:'KUL',name:'Kuala Lumpur',country:'MY',display:'Kuala Lumpur (KUL)'},
-  {code:'BKK',name:'Bangkok Suvarnabhumi',country:'TH',display:'Bangkok (BKK)'},
-  {code:'DMK',name:'Bangkok Don Mueang',country:'TH',display:'Bangkok Don Mueang (DMK)'},
-  {code:'MNL',name:'Manila',country:'PH',display:'Manila (MNL)'},
-  {code:'CGK',name:'Jakarta',country:'ID',display:'Jakarta (CGK)'},
-  {code:'SGN',name:'Ho Chi Minh City',country:'VN',display:'Ho Chi Minh City (SGN)'},
-  {code:'HAN',name:'Hanoi',country:'VN',display:'Hanoi (HAN)'},
-  {code:'BOM',name:'Mumbai',country:'IN',display:'Mumbai (BOM)'},
-  {code:'DEL',name:'New Delhi',country:'IN',display:'New Delhi (DEL)'},
-  {code:'BLR',name:'Bangalore',country:'IN',display:'Bangalore (BLR)'},
-  {code:'HYD',name:'Hyderabad',country:'IN',display:'Hyderabad (HYD)'},
-  {code:'MAA',name:'Chennai',country:'IN',display:'Chennai (MAA)'},
-  {code:'CCU',name:'Kolkata',country:'IN',display:'Kolkata (CCU)'},
-  {code:'SYD',name:'Sydney',country:'AU',display:'Sydney (SYD)'},
-  {code:'MEL',name:'Melbourne',country:'AU',display:'Melbourne (MEL)'},
-  {code:'BNE',name:'Brisbane',country:'AU',display:'Brisbane (BNE)'},
-  {code:'PER',name:'Perth',country:'AU',display:'Perth (PER)'},
-  {code:'AKL',name:'Auckland',country:'NZ',display:'Auckland (AKL)'},
-  {code:'YVR',name:'Vancouver',country:'CA',display:'Vancouver (YVR)'},
-  {code:'YYZ',name:'Toronto',country:'CA',display:'Toronto (YYZ)'},
-  {code:'YUL',name:'Montreal',country:'CA',display:'Montreal (YUL)'},
-  {code:'YYC',name:'Calgary',country:'CA',display:'Calgary (YYC)'},
-  {code:'MEX',name:'Mexico City',country:'MX',display:'Mexico City (MEX)'},
-  {code:'CUN',name:'Cancun',country:'MX',display:'Cancun (CUN)'},
-  {code:'GRU',name:'Sao Paulo',country:'BR',display:'Sao Paulo (GRU)'},
-  {code:'GIG',name:'Rio de Janeiro',country:'BR',display:'Rio de Janeiro (GIG)'},
-  {code:'EZE',name:'Buenos Aires',country:'AR',display:'Buenos Aires (EZE)'},
-  {code:'BOG',name:'Bogota',country:'CO',display:'Bogota (BOG)'},
-  {code:'SCL',name:'Santiago',country:'CL',display:'Santiago (SCL)'},
-  {code:'LIM',name:'Lima',country:'PE',display:'Lima (LIM)'},
-  {code:'PTY',name:'Panama City',country:'PA',display:'Panama City (PTY)'},
-];
-
-function setupAutocomplete(inputId){
-  const inp = document.getElementById(inputId);
-  if(!inp) return;
-  
-  // Create dropdown
-  const wrap = document.createElement('div');
-  wrap.style.cssText = 'position:relative;';
-  inp.parentNode.insertBefore(wrap, inp);
-  wrap.appendChild(inp);
-  
-  const drop = document.createElement('div');
-  drop.style.cssText = 'position:absolute;top:100%;left:0;right:0;background:var(--white);border:1px solid var(--gray-200);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.1);z-index:50;max-height:220px;overflow-y:auto;display:none';
-  wrap.appendChild(drop);
-  
-  inp.addEventListener('input', function(){
-    const q = this.value.trim().toLowerCase();
-    drop.innerHTML = '';
-    if(q.length < 1){drop.style.display='none';return;}
-    const matches = AIRPORTS.filter(a => 
-      a.code.toLowerCase().startsWith(q) ||
-      a.name.toLowerCase().includes(q) ||
-      a.display.toLowerCase().includes(q)
-    ).slice(0,8);
-    if(!matches.length){drop.style.display='none';return;}
-    matches.forEach(a => {
-      const item = document.createElement('div');
-      item.style.cssText = 'padding:8px 12px;cursor:pointer;font-size:.875rem;color:var(--navy);border-bottom:0.5px solid var(--gray-100)';
-      item.innerHTML = '<span style="font-weight:500">'+a.code+'</span> — '+a.name+(a.country!=='US'?' · '+a.country:'');
-      item.addEventListener('mousedown', function(e){
-        e.preventDefault();
-        inp.value = a.display;
-        inp.dataset.code = a.code;
-        drop.style.display='none';
-      });
-      item.addEventListener('mouseover',function(){this.style.background='var(--gray-50)'});
-      item.addEventListener('mouseout',function(){this.style.background=''});
-      drop.appendChild(item);
-    });
-    drop.style.display='block';
-  });
-  
-  inp.addEventListener('blur', function(){
-    setTimeout(()=>drop.style.display='none', 200);
-  });
-  
-  inp.addEventListener('focus', function(){
-    if(this.value.trim().length > 0) this.dispatchEvent(new Event('input'));
-  });
-}
-
-
 const INTL_HOTELS=[
   {city:'London',country:'GB',low:180,mid:280,high:420,dl:184,dm:121},
   {city:'Paris',country:'FR',low:170,mid:270,high:400,dl:172,dm:118},
@@ -4667,140 +4388,188 @@ const INTL_HOTELS=[
   {city:'Mexico City',country:'MX',low:100,mid:162,high:250,dl:103,dm:76},
 ];
 
-const CITY_MAP={
-  'SAN FRANCISCO':'SFO','SF':'SFO','CHICAGO':'ORD','NEW YORK':'JFK','NYC':'JFK',
-  'BOSTON':'BOS','WASHINGTON':'DCA','DC':'DCA','SEATTLE':'SEA','PORTLAND':'PDX',
-  'LAS VEGAS':'LAS','PHOENIX':'PHX','DENVER':'DEN','ATLANTA':'ATL','MIAMI':'MIA',
-  'HOUSTON':'HOU','MINNEAPOLIS':'MSP','DETROIT':'DTW','CHARLOTTE':'CLT',
-  'SAN DIEGO':'SAN','SACRAMENTO':'SMF','LOS ANGELES':'LAX','LA':'LAX',
-  'LONDON':'LHR','PARIS':'CDG','FRANKFURT':'FRA','TOKYO':'NRT','SYDNEY':'SYD',
-  'SINGAPORE':'SIN','VANCOUVER':'YVR','TORONTO':'YYZ','OAKLAND':'OAK','SAN JOSE':'SJC',
-  'AMSTERDAM':'AMS','ZURICH':'ZRH','MADRID':'MAD','ROME':'FCO','MUNICH':'MUC',
-  'BARCELONA':'BCN','VIENNA':'VIE','BRUSSELS':'BRU','COPENHAGEN':'CPH',
-  'STOCKHOLM':'ARN','HELSINKI':'HEL','DUBLIN':'DUB','LISBON':'LIS','ATHENS':'ATH',
-  'DUBAI':'DXB','TEL AVIV':'TLV','CAIRO':'CAI','CASABLANCA':'CMN',
-  'SEOUL':'ICN','BEIJING':'PEK','SHANGHAI':'PVG','HONG KONG':'HKG',
-  'TAIPEI':'TPE','BANGKOK':'BKK','KUALA LUMPUR':'KUL','MANILA':'MNL',
-  'JAKARTA':'CGK','MUMBAI':'BOM','DELHI':'DEL','BANGALORE':'BLR',
-  'MELBOURNE':'MEL','BRISBANE':'BNE','AUCKLAND':'AKL',
-  'TORONTO':'YYZ','MONTREAL':'YUL','CALGARY':'YYC',
-  'MEXICO CITY':'MEX','SAO PAULO':'GRU','BUENOS AIRES':'EZE',
-  'BOGOTA':'BOG','SANTIAGO':'SCL','LIMA':'LIM',
-  'NAIROBI':'NBO','JOHANNESBURG':'JNB','CAPE TOWN':'CPT',
-};
-
-const GT_RATES={
-  sf: {base:3.50,mile:2.75,min:0.55,note:'SF metered rate'},
-  la: {base:3.10,mile:2.70,min:0.35,note:'LA metered rate'},
-  nyc:{base:3.00,mile:2.50,min:0.50,note:'NYC TLC metered rate'},
-  chi:{base:3.25,mile:1.80,min:0.38,note:'Chicago metered rate'},
-  bos:{base:2.60,mile:2.55,min:0.40,note:'Boston metered rate'},
-  dc: {base:3.25,mile:2.16,min:0.42,note:'DC metered rate'},
-  sea:{base:2.60,mile:2.70,min:0.48,note:'Seattle metered rate'},
-  mia:{base:2.95,mile:2.40,min:0.38,note:'Miami-Dade rate'},
-  den:{base:2.70,mile:2.25,min:0.38,note:'Denver metered rate'},
-  atl:{base:2.50,mile:2.00,min:0.35,note:'Atlanta metered rate'},
-  hou:{base:2.85,mile:2.20,min:0.36,note:'Houston metered rate'},
-  phx:{base:2.50,mile:2.15,min:0.35,note:'Phoenix rate'},
-  dal:{base:2.25,mile:2.00,min:0.35,note:'Dallas rate'},
-  msp:{base:2.50,mile:2.20,min:0.36,note:'Minneapolis rate'},
-  lon:{base:3.80,mile:4.20,min:0.72,note:'London Black Cab (USD equiv)'},
-  par:{base:2.80,mile:3.10,min:0.55,note:'Paris taxi (USD equiv)'},
-  tok:{base:4.20,mile:3.50,min:0.75,note:'Tokyo taxi (USD equiv)'},
-  syd:{base:3.60,mile:3.00,min:0.58,note:'Sydney taxi (USD equiv)'},
-  sin:{base:3.20,mile:2.60,min:0.50,note:'Singapore taxi (USD equiv)'},
-};
-
-const GT_PRESETS={
-  sf: [
-    {n:'SFO → Downtown SF',mi:14,mn:25,airport:true,clat:37.72,clon:-122.42,zoom:12},
-    {n:'SFO → UCSF Mission Bay',mi:12,mn:22,airport:true,clat:37.71,clon:-122.41,zoom:12},
-    {n:'SFO → UC Berkeley',mi:22,mn:35,airport:true,clat:37.75,clon:-122.28,zoom:11},
-    {n:'OAK → Downtown SF',mi:12,mn:25,airport:true,clat:37.80,clon:-122.32,zoom:12},
-    {n:'SJC → Palo Alto',mi:12,mn:20,airport:true,clat:37.39,clon:-122.03,zoom:12},
-  ],
-  la: [
-    {n:'LAX → Downtown LA',mi:17,mn:35,airport:true,clat:34.01,clon:-118.34,zoom:11},
-    {n:'LAX → UCLA',mi:10,mn:22,airport:true,clat:34.01,clon:-118.34,zoom:12},
-    {n:'LAX → Beverly Hills',mi:12,mn:25,airport:true,clat:34.01,clon:-118.34,zoom:12},
-  ],
-  nyc:[
-    {n:'JFK → Midtown Manhattan',mi:16,mn:40,airport:true,clat:40.72,clon:-73.93,zoom:11},
-    {n:'LGA → Midtown Manhattan',mi:9,mn:30,airport:true,clat:40.76,clon:-73.92,zoom:12},
-    {n:'EWR → Midtown',mi:16,mn:35,airport:true,clat:40.73,clon:-74.08,zoom:11},
-    {n:'JFK → Brooklyn',mi:12,mn:35,airport:true,clat:40.67,clon:-73.87,zoom:12},
-  ],
-  chi:[
-    {n:'ORD → Downtown Chicago',mi:17,mn:35,airport:true,clat:41.92,clon:-87.78,zoom:11},
-    {n:'MDW → Downtown Chicago',mi:10,mn:25,airport:true,clat:41.84,clon:-87.74,zoom:12},
-  ],
-  bos:[
-    {n:'BOS → Downtown Boston',mi:3,mn:15,airport:true,clat:42.36,clon:-71.01,zoom:13},
-    {n:'BOS → Harvard/MIT',mi:6,mn:22,airport:true,clat:42.36,clon:-71.06,zoom:12},
-  ],
-  dc: [
-    {n:'DCA → Downtown DC',mi:5,mn:18,airport:true,clat:38.87,clon:-77.04,zoom:12},
-    {n:'IAD → Downtown DC',mi:27,mn:45,airport:true,clat:38.95,clon:-77.37,zoom:10},
-    {n:'BWI → Downtown DC',mi:32,mn:50,airport:true,clat:39.10,clon:-76.87,zoom:10},
-  ],
-  sea:[
-    {n:'SEA → Downtown Seattle',mi:14,mn:30,airport:true,clat:47.50,clon:-122.27,zoom:11},
-    {n:'SEA → UW Campus',mi:16,mn:32,airport:true,clat:47.52,clon:-122.27,zoom:11},
-  ],
-  mia:[
-    {n:'MIA → Downtown Miami',mi:8,mn:20,airport:true,clat:25.79,clon:-80.24,zoom:12},
-    {n:'MIA → South Beach',mi:9,mn:25,airport:true,clat:25.79,clon:-80.24,zoom:12},
-  ],
-  den:[
-    {n:'DEN → Downtown Denver',mi:24,mn:35,airport:true,clat:39.74,clon:-104.73,zoom:11},
-    {n:'DEN → Boulder',mi:40,mn:55,airport:true,clat:39.90,clon:-105.06,zoom:10},
-  ],
-  atl:[
-    {n:'ATL → Downtown Atlanta',mi:10,mn:20,airport:true,clat:33.75,clon:-84.39,zoom:11},
-    {n:'ATL → Emory University',mi:15,mn:28,airport:true,clat:33.75,clon:-84.39,zoom:11},
-  ],
-  hou:[
-    {n:'IAH → Medical Center',mi:22,mn:32,airport:true,clat:29.81,clon:-95.33,zoom:11},
-    {n:'IAH → Downtown Houston',mi:24,mn:35,airport:true,clat:29.98,clon:-95.27,zoom:10},
-  ],
-  phx:[
-    {n:'PHX → Downtown Phoenix',mi:4,mn:12,airport:true,clat:33.43,clon:-112.01,zoom:12},
-    {n:'PHX → Scottsdale',mi:12,mn:22,airport:true,clat:33.43,clon:-111.97,zoom:11},
-  ],
-  dal:[
-    {n:'DFW → Downtown Dallas',mi:20,mn:30,airport:true,clat:32.83,clon:-97.17,zoom:11},
-    {n:'DAL → Downtown Dallas',mi:8,mn:20,airport:false,clat:32.85,clon:-96.89,zoom:12},
-  ],
-  msp:[
-    {n:'MSP → Downtown Minneapolis',mi:12,mn:22,airport:true,clat:44.88,clon:-93.14,zoom:11},
-    {n:'MSP → U of Minnesota',mi:14,mn:25,airport:true,clat:44.88,clon:-93.14,zoom:11},
-  ],
-  lon:[
-    {n:'LHR → Central London',mi:15,mn:45,airport:true,clat:51.49,clon:-0.29,zoom:11},
-    {n:'LGW → Central London',mi:28,mn:60,airport:true,clat:51.37,clon:-0.19,zoom:10},
-  ],
-  par:[
-    {n:'CDG → Central Paris',mi:19,mn:45,airport:true,clat:48.94,clon:2.37,zoom:11},
-    {n:'ORY → Central Paris',mi:11,mn:35,airport:true,clat:48.72,clon:2.34,zoom:11},
-  ],
-  tok:[
-    {n:'NRT → Central Tokyo',mi:40,mn:90,airport:true,clat:35.67,clon:140.19,zoom:9},
-    {n:'HND → Central Tokyo',mi:12,mn:35,airport:true,clat:35.55,clon:139.78,zoom:11},
-  ],
-  syd:[
-    {n:'SYD → CBD Sydney',mi:6,mn:25,airport:true,clat:33.95,clon:151.09,zoom:12},
-    {n:'SYD → North Sydney',mi:8,mn:30,airport:true,clat:33.90,clon:151.09,zoom:11},
-  ],
-  sin:[
-    {n:'SIN → Orchard Road',mi:12,mn:25,airport:true,clat:1.34,clon:103.86,zoom:12},
-    {n:'SIN → Marina Bay',mi:13,mn:28,airport:true,clat:1.34,clon:103.86,zoom:12},
-  ],
-};
-
-const ADV_LEVELS={1:{label:'Level 1 — Exercise Normal Precautions',badge:'Level 1',cls:'l1'},2:{label:'Level 2 — Exercise Increased Caution',badge:'Level 2',cls:'l2'},3:{label:'Level 3 — Reconsider Travel',badge:'Level 3',cls:'l3'},4:{label:'Level 4 — Do Not Travel',badge:'Level 4 — Do Not Travel',cls:'l4'}};
 const ADV_DATA={'united kingdom':{level:1,msg:'Normal precautions apply. The UK is generally safe for travel. Be alert to terrorism threats in major cities and tourist areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/UnitedKingdom.html'},'uk':{level:1,msg:'Normal precautions apply. Be alert to terrorism threats in major cities and tourist areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/UnitedKingdom.html'},'france':{level:2,msg:'Exercise increased caution due to terrorism. France has experienced terrorist attacks. Remain vigilant especially at tourist sites and public events.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/France.html'},'germany':{level:2,msg:'Exercise increased caution due to terrorism. Large public gatherings and tourist sites may be targeted.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Germany.html'},'japan':{level:1,msg:'Normal precautions apply. Japan is one of the safest countries for international travelers.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Japan.html'},'australia':{level:1,msg:'Normal precautions apply. Be aware of natural hazards including extreme heat and bushfires.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Australia.html'},'canada':{level:1,msg:'Normal precautions apply. Canada is generally safe for travel.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Canada.html'},'mexico':{level:2,msg:'Exercise increased caution due to crime and kidnapping. Some states are Level 3 or 4. Research the specific destination state carefully.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Mexico.html'},'singapore':{level:1,msg:'Normal precautions apply. Singapore is one of the safest countries in the world.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Singapore.html'},'israel':{level:3,msg:'Reconsider travel due to terrorism and civil unrest. The security situation remains volatile. Some areas are Level 4.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/IsraeltheWestBankandGaza.html'},'china':{level:3,msg:'Reconsider travel due to arbitrary enforcement of local laws including exit bans. US citizens have been detained without clear explanation.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/China.html'},'india':{level:2,msg:'Exercise increased caution due to crime and terrorism. Some border regions are Level 4. Be alert at religious sites and tourist areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/India.html'},'brazil':{level:2,msg:'Exercise increased caution due to crime. Violent crime including robbery is common in urban areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Brazil.html'},'netherlands':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Netherlands.html'},'switzerland':{level:1,msg:'Normal precautions apply. Switzerland is generally very safe.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Switzerland.html'},'spain':{level:2,msg:'Exercise increased caution due to terrorism. Be vigilant at tourist sites and public gatherings.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Spain.html'},'italy':{level:2,msg:'Exercise increased caution due to terrorism. Be alert at tourist attractions and public events.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Italy.html'},'south korea':{level:1,msg:'Normal precautions apply. Exercise caution near the North Korean border.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/SouthKorea.html'},'korea':{level:1,msg:'Normal precautions apply. Exercise caution near the North Korean border.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/SouthKorea.html'},'sweden':{level:2,msg:'Exercise increased caution due to terrorism and crime. Gang-related violence has increased in urban areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Sweden.html'},'denmark':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Denmark.html'},'norway':{level:1,msg:'Normal precautions apply. Norway is generally very safe.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Norway.html'},'finland':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Finland.html'},'austria':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Austria.html'},'belgium':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Belgium.html'},'portugal':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Portugal.html'},'ireland':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Ireland.html'},'new zealand':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/NewZealand.html'},'hong kong':{level:2,msg:'Exercise increased caution. The National Security Law has affected civil liberties. US citizens may be subject to arbitrary enforcement of local laws.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/HongKong.html'},'thailand':{level:1,msg:'Normal precautions apply. Be aware of political demonstrations which can turn violent.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Thailand.html'},'malaysia':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Malaysia.html'},'uae':{level:2,msg:'Exercise increased caution due to terrorism. Strict local laws apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/UnitedArabEmirates.html'},'united arab emirates':{level:2,msg:'Exercise increased caution due to terrorism. Strict local laws apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/UnitedArabEmirates.html'},'qatar':{level:1,msg:'Normal precautions apply. Be aware of local laws and customs.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Qatar.html'},'kenya':{level:2,msg:'Exercise increased caution due to crime and terrorism. Border regions are Level 3.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Kenya.html'},'south africa':{level:2,msg:'Exercise increased caution due to crime. High rates of violent crime including carjacking. Be vigilant in urban areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/SouthAfrica.html'},'russia':{level:4,msg:'Do Not Travel due to the war with Ukraine, risk of wrongful detention, and limited US Embassy services.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Russia.html'},'ukraine':{level:4,msg:'Do Not Travel due to active armed conflict. Russia\'s invasion continues with air strikes across the country.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Ukraine.html'},'iran':{level:4,msg:'Do Not Travel. US citizens face very high risk of arbitrary arrest. No US diplomatic relations with Iran.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Iran.html'},'north korea':{level:4,msg:'Do Not Travel. No US diplomatic relations. Arbitrary arrest of US citizens has occurred.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/KoreaDemocraticPeoplesRepublicof.html'},'afghanistan':{level:4,msg:'Do Not Travel due to terrorism, kidnapping, and armed conflict. US Embassy operations are suspended.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Afghanistan.html'},'colombia':{level:2,msg:'Exercise increased caution due to crime and terrorism. Some departments are Level 3.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Colombia.html'},'argentina':{level:1,msg:'Normal precautions apply. Be aware of petty crime and demonstrations.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Argentina.html'},'chile':{level:2,msg:'Exercise increased caution due to crime and civil unrest.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Chile.html'},'peru':{level:2,msg:'Exercise increased caution due to crime and civil unrest.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Peru.html'},'indonesia':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Indonesia.html'},'philippines':{level:2,msg:'Exercise increased caution due to crime, terrorism, and civil unrest. Some areas are Level 3 or 4.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Philippines.html'},'taiwan':{level:2,msg:'Exercise increased caution due to cross-strait tensions.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Taiwan.html'},'nigeria':{level:3,msg:'Reconsider travel due to crime, terrorism, civil unrest, and kidnapping.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Nigeria.html'},'egypt':{level:2,msg:'Exercise increased caution due to terrorism. The Sinai Peninsula is Level 3.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Egypt.html'},'morocco':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Morocco.html'},'czech republic':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/CzechRepublic.html'},'czechia':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/CzechRepublic.html'},'poland':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Poland.html'},'hungary':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Hungary.html'},'greece':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Greece.html'},'turkey':{level:2,msg:'Exercise increased caution due to terrorism and arbitrary detentions.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Turkey.html'},'vietnam':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Vietnam.html'}};
 
-// Google Form logging
+const AIRPORTS=[
+  {c:'SFO',n:'San Francisco',d:'San Francisco (SFO)'},{c:'LAX',n:'Los Angeles',d:'Los Angeles (LAX)'},
+  {c:'OAK',n:'Oakland',d:'Oakland (OAK)'},{c:'SJC',n:'San Jose',d:'San Jose (SJC)'},
+  {c:'SAN',n:'San Diego',d:'San Diego (SAN)'},{c:'SMF',n:'Sacramento',d:'Sacramento (SMF)'},
+  {c:'SEA',n:'Seattle',d:'Seattle (SEA)'},{c:'PDX',n:'Portland',d:'Portland (PDX)'},
+  {c:'LAS',n:'Las Vegas',d:'Las Vegas (LAS)'},{c:'PHX',n:'Phoenix',d:'Phoenix (PHX)'},
+  {c:'DEN',n:'Denver',d:'Denver (DEN)'},{c:'SLC',n:'Salt Lake City',d:'Salt Lake City (SLC)'},
+  {c:'ORD',n:'Chicago OHare',d:'Chicago OHare (ORD)'},{c:'MDW',n:'Chicago Midway',d:'Chicago Midway (MDW)'},
+  {c:'JFK',n:'New York JFK',d:'New York JFK (JFK)'},{c:'LGA',n:'New York LaGuardia',d:'New York LaGuardia (LGA)'},
+  {c:'EWR',n:'Newark',d:'Newark (EWR)'},{c:'BOS',n:'Boston',d:'Boston (BOS)'},
+  {c:'DCA',n:'Washington Reagan',d:'Washington Reagan (DCA)'},{c:'IAD',n:'Washington Dulles',d:'Washington Dulles (IAD)'},
+  {c:'BWI',n:'Baltimore',d:'Baltimore (BWI)'},{c:'ATL',n:'Atlanta',d:'Atlanta (ATL)'},
+  {c:'MIA',n:'Miami',d:'Miami (MIA)'},{c:'FLL',n:'Fort Lauderdale',d:'Fort Lauderdale (FLL)'},
+  {c:'TPA',n:'Tampa',d:'Tampa (TPA)'},{c:'MCO',n:'Orlando',d:'Orlando (MCO)'},
+  {c:'HOU',n:'Houston Hobby',d:'Houston Hobby (HOU)'},{c:'IAH',n:'Houston Intercontinental',d:'Houston Intercontinental (IAH)'},
+  {c:'DAL',n:'Dallas Love Field',d:'Dallas Love Field (DAL)'},{c:'DFW',n:'Dallas Fort Worth',d:'Dallas Fort Worth (DFW)'},
+  {c:'AUS',n:'Austin',d:'Austin (AUS)'},{c:'MSP',n:'Minneapolis',d:'Minneapolis (MSP)'},
+  {c:'DTW',n:'Detroit',d:'Detroit (DTW)'},{c:'CLT',n:'Charlotte',d:'Charlotte (CLT)'},
+  {c:'RDU',n:'Raleigh-Durham',d:'Raleigh-Durham (RDU)'},{c:'PHL',n:'Philadelphia',d:'Philadelphia (PHL)'},
+  {c:'MSY',n:'New Orleans',d:'New Orleans (MSY)'},{c:'BNA',n:'Nashville',d:'Nashville (BNA)'},
+  {c:'MCI',n:'Kansas City',d:'Kansas City (MCI)'},{c:'STL',n:'St Louis',d:'St Louis (STL)'},
+  {c:'IND',n:'Indianapolis',d:'Indianapolis (IND)'},{c:'CMH',n:'Columbus',d:'Columbus (CMH)'},
+  {c:'CVG',n:'Cincinnati',d:'Cincinnati (CVG)'},{c:'CLE',n:'Cleveland',d:'Cleveland (CLE)'},
+  {c:'HNL',n:'Honolulu',d:'Honolulu (HNL)'},{c:'OGG',n:'Maui',d:'Maui (OGG)'},
+  {c:'KOA',n:'Kona',d:'Kona (KOA)'},{c:'ANC',n:'Anchorage',d:'Anchorage (ANC)'},
+  {c:'LHR',n:'London Heathrow',d:'London Heathrow (LHR)'},{c:'LGW',n:'London Gatwick',d:'London Gatwick (LGW)'},
+  {c:'CDG',n:'Paris CDG',d:'Paris CDG (CDG)'},{c:'FRA',n:'Frankfurt',d:'Frankfurt (FRA)'},
+  {c:'MUC',n:'Munich',d:'Munich (MUC)'},{c:'AMS',n:'Amsterdam',d:'Amsterdam (AMS)'},
+  {c:'ZRH',n:'Zurich',d:'Zurich (ZRH)'},{c:'MAD',n:'Madrid',d:'Madrid (MAD)'},
+  {c:'BCN',n:'Barcelona',d:'Barcelona (BCN)'},{c:'FCO',n:'Rome',d:'Rome (FCO)'},
+  {c:'MXP',n:'Milan',d:'Milan (MXP)'},{c:'VIE',n:'Vienna',d:'Vienna (VIE)'},
+  {c:'BRU',n:'Brussels',d:'Brussels (BRU)'},{c:'CPH',n:'Copenhagen',d:'Copenhagen (CPH)'},
+  {c:'ARN',n:'Stockholm',d:'Stockholm (ARN)'},{c:'HEL',n:'Helsinki',d:'Helsinki (HEL)'},
+  {c:'OSL',n:'Oslo',d:'Oslo (OSL)'},{c:'DUB',n:'Dublin',d:'Dublin (DUB)'},
+  {c:'LIS',n:'Lisbon',d:'Lisbon (LIS)'},{c:'ATH',n:'Athens',d:'Athens (ATH)'},
+  {c:'WAW',n:'Warsaw',d:'Warsaw (WAW)'},{c:'PRG',n:'Prague',d:'Prague (PRG)'},
+  {c:'IST',n:'Istanbul',d:'Istanbul (IST)'},{c:'DXB',n:'Dubai',d:'Dubai (DXB)'},
+  {c:'DOH',n:'Doha',d:'Doha (DOH)'},{c:'TLV',n:'Tel Aviv',d:'Tel Aviv (TLV)'},
+  {c:'CAI',n:'Cairo',d:'Cairo (CAI)'},{c:'NBO',n:'Nairobi',d:'Nairobi (NBO)'},
+  {c:'JNB',n:'Johannesburg',d:'Johannesburg (JNB)'},{c:'CPT',n:'Cape Town',d:'Cape Town (CPT)'},
+  {c:'NRT',n:'Tokyo Narita',d:'Tokyo Narita (NRT)'},{c:'HND',n:'Tokyo Haneda',d:'Tokyo Haneda (HND)'},
+  {c:'KIX',n:'Osaka',d:'Osaka (KIX)'},{c:'ICN',n:'Seoul',d:'Seoul (ICN)'},
+  {c:'PEK',n:'Beijing',d:'Beijing (PEK)'},{c:'PVG',n:'Shanghai',d:'Shanghai (PVG)'},
+  {c:'HKG',n:'Hong Kong',d:'Hong Kong (HKG)'},{c:'TPE',n:'Taipei',d:'Taipei (TPE)'},
+  {c:'SIN',n:'Singapore',d:'Singapore (SIN)'},{c:'KUL',n:'Kuala Lumpur',d:'Kuala Lumpur (KUL)'},
+  {c:'BKK',n:'Bangkok',d:'Bangkok (BKK)'},{c:'MNL',n:'Manila',d:'Manila (MNL)'},
+  {c:'BOM',n:'Mumbai',d:'Mumbai (BOM)'},{c:'DEL',n:'New Delhi',d:'New Delhi (DEL)'},
+  {c:'BLR',n:'Bangalore',d:'Bangalore (BLR)'},{c:'SYD',n:'Sydney',d:'Sydney (SYD)'},
+  {c:'MEL',n:'Melbourne',d:'Melbourne (MEL)'},{c:'BNE',n:'Brisbane',d:'Brisbane (BNE)'},
+  {c:'AKL',n:'Auckland',d:'Auckland (AKL)'},{c:'YVR',n:'Vancouver',d:'Vancouver (YVR)'},
+  {c:'YYZ',n:'Toronto',d:'Toronto (YYZ)'},{c:'YUL',n:'Montreal',d:'Montreal (YUL)'},
+  {c:'MEX',n:'Mexico City',d:'Mexico City (MEX)'},{c:'GRU',n:'Sao Paulo',d:'Sao Paulo (GRU)'},
+  {c:'EZE',n:'Buenos Aires',d:'Buenos Aires (EZE)'},{c:'BOG',n:'Bogota',d:'Bogota (BOG)'},
+  {c:'SCL',n:'Santiago',d:'Santiago (SCL)'},{c:'LIM',n:'Lima',d:'Lima (LIM)'},
+];
+
+const CMAP={'SAN FRANCISCO':'SFO','SF':'SFO','CHICAGO':'ORD','NEW YORK':'JFK','NYC':'JFK','BOSTON':'BOS','WASHINGTON':'DCA','DC':'DCA','SEATTLE':'SEA','PORTLAND':'PDX','LAS VEGAS':'LAS','PHOENIX':'PHX','DENVER':'DEN','ATLANTA':'ATL','MIAMI':'MIA','HOUSTON':'HOU','MINNEAPOLIS':'MSP','DETROIT':'DTW','CHARLOTTE':'CLT','SAN DIEGO':'SAN','SACRAMENTO':'SMF','LOS ANGELES':'LAX','LA':'LAX','LONDON':'LHR','PARIS':'CDG','FRANKFURT':'FRA','TOKYO':'NRT','SYDNEY':'SYD','SINGAPORE':'SIN','VANCOUVER':'YVR','TORONTO':'YYZ','OAKLAND':'OAK','SAN JOSE':'SJC','AMSTERDAM':'AMS','ZURICH':'ZRH','MADRID':'MAD','ROME':'FCO','MUNICH':'MUC','BARCELONA':'BCN','VIENNA':'VIE','BRUSSELS':'BRU','COPENHAGEN':'CPH','STOCKHOLM':'ARN','HELSINKI':'HEL','DUBLIN':'DUB','LISBON':'LIS','ATHENS':'ATH','DUBAI':'DXB','TEL AVIV':'TLV','CAIRO':'CAI','SEOUL':'ICN','BEIJING':'PEK','SHANGHAI':'PVG','HONG KONG':'HKG','TAIPEI':'TPE','BANGKOK':'BKK','KUALA LUMPUR':'KUL','MUMBAI':'BOM','DELHI':'DEL','BANGALORE':'BLR','MELBOURNE':'MEL','BRISBANE':'BNE','AUCKLAND':'AKL','MONTREAL':'YUL','MEXICO CITY':'MEX','SAO PAULO':'GRU','BUENOS AIRES':'EZE','BOGOTA':'BOG','SANTIAGO':'SCL','LIMA':'LIM','NAIROBI':'NBO','JOHANNESBURG':'JNB','CAPE TOWN':'CPT'};
+
+const GT_RATES={
+  default:{base:3.00,mile:2.50,min:0.45,name:'standard metered rate'},
+  sf:{base:3.50,mile:2.75,min:0.55,name:'San Francisco MTA metered rate'},
+  la:{base:3.10,mile:2.70,min:0.35,name:'Los Angeles City metered rate'},
+  nyc:{base:3.00,mile:2.50,min:0.50,name:'NYC TLC metered rate'},
+  chi:{base:3.25,mile:1.80,min:0.38,name:'Chicago metered rate'},
+  bos:{base:2.60,mile:2.55,min:0.40,name:'Boston metered rate'},
+  dc:{base:3.25,mile:2.16,min:0.42,name:'DC metered rate'},
+  sea:{base:2.60,mile:2.70,min:0.48,name:'Seattle metered rate'},
+  mia:{base:2.95,mile:2.40,min:0.38,name:'Miami-Dade metered rate'},
+  den:{base:2.70,mile:2.25,min:0.38,name:'Denver metered rate'},
+  atl:{base:2.50,mile:2.00,min:0.35,name:'Atlanta metered rate'},
+  lon:{base:3.80,mile:4.20,min:0.72,name:'London Black Cab published tariff (USD equiv)'},
+  par:{base:2.80,mile:3.10,min:0.55,name:'Paris taxi published tariff (USD equiv)'},
+  tok:{base:4.20,mile:3.50,min:0.75,name:'Tokyo taxi published tariff (USD equiv)'},
+  syd:{base:3.60,mile:3.00,min:0.58,name:'Sydney taxi published tariff (USD equiv)'},
+  sin:{base:3.20,mile:2.60,min:0.50,name:'Singapore taxi published tariff (USD equiv)'},
+};
+
+const ADV_LEVELS={1:{lbl:'Level 1 — Exercise Normal Precautions',badge:'Level 1',cls:'l1'},2:{lbl:'Level 2 — Exercise Increased Caution',badge:'Level 2',cls:'l2'},3:{lbl:'Level 3 — Reconsider Travel',badge:'Level 3',cls:'l3'},4:{lbl:'Level 4 — Do Not Travel',badge:'Level 4',cls:'l4'}};
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+const fmt = n => '$' + Math.round(n).toLocaleString();
+const norm = s => (s||'').trim().toUpperCase();
+
+function findRoute(a,b){
+  const ra=CMAP[norm(a)]||norm(a), rb=CMAP[norm(b)]||norm(b);
+  return routes.find(x=>x.from===ra&&x.to===rb)||routes.find(x=>x.from===rb&&x.to===ra)||null;
+}
+
+let routes = JSON.parse(JSON.stringify(ROUTES));
+let activeBench = null;
+
+// ═══════════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════════
+function openModal(){
+  const m=$('modal'); m.classList.remove('off');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>m.classList.add('show')));
+}
+function closeModal(){
+  const m=$('modal'); m.classList.remove('show');
+  setTimeout(()=>m.classList.add('off'),500);
+}
+function saveModal(){
+  const inst=$('m-inst').value;
+  if(!inst){$('m-inst').style.borderColor='var(--red)';return;}
+  localStorage.setItem('ff_inst',inst);
+  localStorage.setItem('ff_dept',$('m-dept').value.trim()||'Not specified');
+  localStorage.setItem('ff_seen','1');
+  closeModal(); updateBadge();
+}
+function skipModal(){localStorage.setItem('ff_seen','1');closeModal();}
+function updateBadge(){
+  const i=localStorage.getItem('ff_inst');
+  if(i){
+    $('ub-txt').textContent=i.replace('UC San Francisco (UCSF)','UCSF').replace('UC Los Angeles (UCLA)','UCLA');
+    $('ub').classList.add('on');
+  }
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  if(!localStorage.getItem('ff_seen')){
+    setTimeout(openModal,1500);
+  } else {
+    updateBadge();
+    const i=localStorage.getItem('ff_inst'), d=localStorage.getItem('ff_dept');
+    if(i)$('m-inst').value=i;
+    if(d)$('m-dept').value=d;
+  }
+  const today=new Date().toISOString().split('T')[0];
+  ['df-dep','if-dep','dh-in','ih-in'].forEach(id=>{const el=$(id);if(el)el.value=today;});
+});
+
+// ═══════════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════════
+function tab(t,el){
+  document.querySelectorAll('.ttab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.tp').forEach(x=>x.classList.remove('on'));
+  el.classList.add('on');
+  $('tp-'+t).classList.add('on');
+  if(t==='adm')renderAdmin();
+}
+
+// ═══════════════════════════════════════════════
+// AUTOCOMPLETE
+// ═══════════════════════════════════════════════
+function setupAC(inpId){
+  const inp=$(inpId), drop=$(inpId+'-drop');
+  if(!inp||!drop)return;
+  inp.addEventListener('input',()=>{
+    const q=inp.value.trim().toLowerCase();
+    drop.innerHTML='';
+    if(q.length<1){drop.style.display='none';return;}
+    const hits=AIRPORTS.filter(a=>a.c.toLowerCase().startsWith(q)||a.n.toLowerCase().includes(q)).slice(0,8);
+    if(!hits.length){drop.style.display='none';return;}
+    hits.forEach(a=>{
+      const div=document.createElement('div');
+      div.className='ac-item';
+      div.innerHTML='<span>'+a.c+'</span> — '+a.n;
+      div.addEventListener('mousedown',e=>{
+        e.preventDefault();
+        inp.value=a.d;
+        inp.dataset.code=a.c;
+        drop.style.display='none';
+      });
+      drop.appendChild(div);
+    });
+    drop.style.display='block';
+  });
+  inp.addEventListener('blur',()=>setTimeout(()=>drop.style.display='none',200));
+  inp.addEventListener('focus',()=>{if(inp.value.trim().length>0)inp.dispatchEvent(new Event('input'));});
+}
+['df-o','df-d','if-o','if-d'].forEach(setupAC);
+
+// ═══════════════════════════════════════════════
+// GOOGLE FORM LOGGING
+// ═══════════════════════════════════════════════
 const FORM='https://docs.google.com/forms/d/e/1FAIpQLSfkYiN7-jMuQePAfxmu4oGf0ieKLP--6F9KxvGdTyBZl-6GSA/formResponse';
 function logUse(type,route){
   try{
@@ -4811,144 +4580,79 @@ function logUse(type,route){
   }catch(e){}
 }
 
-let routes=JSON.parse(JSON.stringify(ROUTES));
-let activeBench=null;
-
-function norm(s){return(s||'').trim().toUpperCase();}
-function fmt(n){return'$'+Math.round(n).toLocaleString();}
-function findRoute(a,b){
-  const ra=CITY_MAP[norm(a)]||norm(a),rb=CITY_MAP[norm(b)]||norm(b);
-  return routes.find(x=>x.from===ra&&x.to===rb)||routes.find(x=>x.from===rb&&x.to===ra)||null;
-}
-
-// TAB SWITCHING
-function stab(t,el){
-  document.querySelectorAll('.ttab').forEach(x=>x.classList.remove('active'));
-  document.querySelectorAll('.tp').forEach(x=>x.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('tp-'+t).classList.add('active');
-  if(t==='admin')renderAdmin();
-}
-
-// MODAL
-function showModal(){
-  const mo=document.getElementById('inst-modal');
-  mo.classList.remove('hide');
-  requestAnimationFrame(()=>requestAnimationFrame(()=>mo.classList.add('show')));
-}
-function hideModal(){
-  const mo=document.getElementById('inst-modal');
-  mo.classList.remove('show');
-  setTimeout(()=>mo.classList.add('hide'),500);
-}
-function saveInst(){
-  const inst=document.getElementById('modal-inst').value;
-  const dept=document.getElementById('modal-dept').value.trim();
-  if(!inst){document.getElementById('modal-inst').style.borderColor='var(--red)';return;}
-  localStorage.setItem('ff_inst',inst);
-  localStorage.setItem('ff_dept',dept||'Not specified');
-  localStorage.setItem('ff_seen','1');
-  hideModal();
-  updateBadge();
-}
-function skipInst(){
-  localStorage.setItem('ff_seen','1');
-  hideModal();
-}
-function updateBadge(){
-  const inst=localStorage.getItem('ff_inst');
-  if(inst){
-    const s=inst.replace('UC San Francisco (UCSF)','UCSF').replace('UC Los Angeles (UCLA)','UCLA').replace('University of California','UC');
-    document.getElementById('ub-text').textContent=s;
-    document.getElementById('user-badge').classList.add('on');
-  }
-}
-document.addEventListener('DOMContentLoaded',function(){
-  if(!localStorage.getItem('ff_seen')){
-    setTimeout(showModal,1500);
-  } else {
-    updateBadge();
-    const i=localStorage.getItem('ff_inst');
-    const d=localStorage.getItem('ff_dept');
-    if(i)document.getElementById('modal-inst').value=i;
-    if(d)document.getElementById('modal-dept').value=d;
-  }
-});
-
-// FLIGHT LOOKUP
+// ═══════════════════════════════════════════════
+// FLIGHTS
+// ═══════════════════════════════════════════════
 function cabMult(c){return c==='eco'?0.85:c==='biz'?3.2:1;}
-function cabLabel(c){return c==='eco'?'basic economy':c==='biz'?'business class':'economy extra';}
+function cabLabel(c){return c==='eco'?'Basic economy':c==='biz'?'Business class':'Economy extra';}
 
-function lookupFlight(pfx){
-  const oEl=document.getElementById(pfx+'-o');
-  const dEl=document.getElementById(pfx+'-d');
+function lookFlight(pfx){
+  const oEl=$(pfx+'-o'), dEl=$(pfx+'-d');
   const o=oEl.dataset.code||oEl.value;
   const d=dEl.dataset.code||dEl.value;
-  const cab=document.getElementById(pfx+'-cab').value;
-  const type=document.getElementById(pfx+'-type').value;
-  const dep=document.getElementById(pfx+'-dep').value;
-  const err=document.getElementById(pfx+'-err');
-  const nf=document.getElementById(pfx+'-nf');
-  const res=document.getElementById(pfx+'-res');
+  const cab=$(pfx+'-cab').value;
+  const type=$(pfx+'-type').value;
+  const dep=$(pfx+'-dep').value;
+  const err=$(pfx+'-err'), nf=$(pfx+'-nf'), res=$(pfx+'-res');
 
   err.style.display='none';
   nf.style.display='none';
-  res.style.display='none';
-  if(pfx==='df'){const pdfEl=document.getElementById('df-pdf');if(pdfEl)pdfEl.style.display='none';}
+  res.classList.remove('show');
+  if(pfx==='df'){const p=$('df-pdf');if(p)p.style.display='none';}
 
   if(!o||!d){err.textContent='Please enter origin and destination.';err.style.display='block';return;}
   const r=findRoute(o,d);
   if(!r){nf.style.display='block';return;}
 
   const mult=type==='rt'?r.rt:1;
-  const cm=cabMult(cab);
-  activeBench={low:r.low*mult*cm,mid:r.mid*mult*cm,high:r.high*mult*cm,from:r.from,to:r.to,type,cab,dep,pfx};
+  const avg=r.mid*mult*cabMult(cab);
+  activeBench={avg,from:r.from,to:r.to,type,cab,dep,pfx};
 
-  document.getElementById(pfx+'-mid').textContent=fmt(activeBench.mid);
-  document.getElementById(pfx+'-csub').textContent=cabLabel(cab);
-  document.getElementById(pfx+'-lbl').textContent=r.from+' → '+r.to+' · '+(type==='rt'?'Round trip':'One way')+' · '+cabLabel(cab)+(cab==='biz'?' — pre-approval required':'');
-  const noteEl=document.getElementById(pfx+'-note');
-  noteEl.innerHTML='Source: <a href="https://www.bts.gov/air-fares" target="_blank" style="color:var(--teal)">Bureau of Transportation Statistics (BTS)</a> — US DOT official air fare database. UCOP G-28 authorized dates, non-refundable '+(cab==='biz'?'business class':'economy class')+'.';
-  document.getElementById(pfx+'-verd') && (document.getElementById(pfx+'-verd').innerHTML='');
-  res.style.display='block';
-  if(pfx==='df')showPDF();
+  $(pfx+'-avg').textContent=fmt(avg);
+  $(pfx+'-cab-sub') && ($(pfx+'-cab-sub').textContent=cabLabel(cab));
+  $(pfx+'-cab-disp').textContent=cabLabel(cab);
+  $(pfx+'-lbl').textContent=r.from+' → '+r.to+' · '+(type==='rt'?'Round trip':'One way')+' · '+cabLabel(cab);
+  $(pfx+'-note').innerHTML='Source: <a href="https://www.bts.gov/air-fares" target="_blank">Bureau of Transportation Statistics (BTS)</a> — US DOT official air fare database. Benchmark reflects average fares for this route and cabin class. Policy basis: UCOP G-28 authorized dates, non-refundable '+cabLabel(cab).toLowerCase()+'.';
+  res.classList.add('show');
+
+  if(pfx==='df') showPDF(avg);
   logUse((pfx==='df'?'Domestic':'International')+' flight',r.from+'→'+r.to);
 }
 
-function showPDF(sub,cls,title,body){ if(sub===undefined){sub=activeBench.mid;cls="ok";title="Benchmark fare";body="Average fare for this route and cabin class based on BTS data.";}
+function showPDF(avg){
+  if(!activeBench)return;
   const b=activeBench;
-  const now=new Date();
-  document.getElementById('pdf-ts').textContent=now.toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});
-  document.getElementById('pdf-rt').textContent=b.from+' → '+b.to;
-  document.getElementById('pdf-dep').textContent=b.dep||'Not specified';
-  document.getElementById('pdf-cab').textContent=cabLabel(b.cab)+' / '+(b.type==='rt'?'Round trip':'One way');
-  document.getElementById('pdf-sub').textContent=fmt(sub);
-  document.getElementById('pdf-rng').textContent=fmt(b.low)+' – '+fmt(b.high)+' (typical: '+fmt(b.mid)+')';
-  const vs=document.getElementById('pdf-vs');
-  vs.className='pvs '+cls;
-  document.getElementById('pdf-vt').textContent=title;
-  document.getElementById('pdf-vt').className='pvt '+cls;
-  document.getElementById('pdf-vd').textContent=body;
-  document.getElementById('pdf-id').textContent='Record: FF-'+Date.now();
-  document.getElementById('df-pdf').style.display='block';
+  $('pdf-ts').textContent=new Date().toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});
+  $('pdf-rt').textContent=b.from+' → '+b.to;
+  $('pdf-dep').textContent=b.dep||'Not specified';
+  $('pdf-cab').textContent=cabLabel(b.cab)+' / '+(b.type==='rt'?'Round trip':'One way');
+  $('pdf-avg').textContent=fmt(avg);
+  $('pdf-vt').textContent='BTS average fare benchmark';
+  $('pdf-vd').textContent='Average '+cabLabel(b.cab).toLowerCase()+' fare for '+b.from+'→'+b.to+' based on Bureau of Transportation Statistics data. This figure represents the average market price for the authorized route and class.';
+  $('pdf-id').textContent='Record: FF-'+Date.now();
+  $('df-pdf').style.display='block';
 }
 
+// ═══════════════════════════════════════════════
 // DOMESTIC HOTEL
-async function lookupHotel(){
-  const city=document.getElementById('dh-city').value.trim();
-  const state='CA';//default - city lookup only
-  const checkin=document.getElementById('dh-in').value;
-  const checkout=document.getElementById('dh-out').value;
-  const err=document.getElementById('dh-err');
+// ═══════════════════════════════════════════════
+async function lookHotel(){
+  const city=$('dh-city').value.trim();
+  const state=$('dh-st').value.trim().toUpperCase();
+  const checkin=$('dh-in').value;
+  const checkout=$('dh-out').value;
+  const err=$('dh-err'), res=$('dh-res'), btn=$('dh-btn');
   err.style.display='none';
-  document.getElementById('dh-res').style.display='none';
+  res.classList.remove('show');
   if(!city){err.textContent='Please enter a city.';err.style.display='block';return;}
-  const btn=document.getElementById('dh-btn');btn.disabled=true;btn.textContent='Looking up…';
+  btn.disabled=true; btn.textContent='Looking up…';
   try{
     const yr=checkin?new Date(checkin).getFullYear():new Date().getFullYear();
     const fy=checkin&&new Date(checkin).getMonth()>=9?yr+1:yr;
-    const res=await fetch('https://api.gsa.gov/travel/perdiem/v2/rates/city/'+encodeURIComponent(city)+'/year/'+fy);
-    const data=await res.json();
+    const stParam=state.length===2?'/state/'+state:'';
+    const url='https://api.gsa.gov/travel/perdiem/v2/rates/city/'+encodeURIComponent(city)+stParam+'/year/'+fy;
+    const resp=await fetch(url);
+    const data=await resp.json();
     let gsa=0;
     if(data.request?.Rates?.length>0){
       const rs=data.request.Rates[0].rate;
@@ -4957,221 +4661,225 @@ async function lookupHotel(){
       gsa=parseFloat((mr||rs[0])?.rate||0);
     }
     if(!gsa||gsa<50)gsa=159;
+    const market=Math.round(gsa*1.3);
     const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
-    // dh-r1 removed
-    document.getElementById('dh-r2').textContent=fmt(Math.round(gsa*1.35));
-    document.getElementById('dh-n').textContent=nights;
-    document.getElementById('dh-lbl').textContent=city;
-    document.getElementById('dh-note').textContent='Source: GSA Per Diem FY'+fy+'. G-28 cap: $333/night. Conference hotel exception applies with agenda attached.';
-    document.getElementById('dh-verd').innerHTML='';
-    document.getElementById('dh-sub').value='';
-    document.getElementById('dh-res').style.display='block';
-    logUse('Domestic hotel',city);
-  }catch(e){
-    err.textContent='GSA lookup failed. Check city/state spelling and try again.';err.style.display='block';
-  }
-  btn.disabled=false;btn.textContent='Look up hotel benchmark';
+    $('dh-avg').textContent=fmt(market);
+    $('dh-n').textContent=nights;
+    $('dh-lbl').textContent=city+(state.length===2?', '+state:'');
+    $('dh-note').innerHTML='Source: <a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">GSA Per Diem rates</a> FY'+fy+'. Average market rate estimated at 130% of GSA per diem of '+fmt(gsa)+'/night. G-28 domestic cap: $333/night. Conference hotel exception applies with agenda attached.';
+    res.classList.add('show');
+    logUse('Domestic hotel',city+(state?', '+state:''));
+  }catch(e){err.textContent='GSA lookup failed. Check city/state and try again.';err.style.display='block';}
+  btn.disabled=false; btn.textContent='Look up hotel benchmark';
 }
 
-function checkHotel(){
-  const s=parseFloat(document.getElementById('dh-sub').value);if(isNaN(s))return;
-  const r1=parseFloat(document.getElementById('dh-r1').textContent.replace(/[$,]/g,''));
-  let cls,title,body;
-  if(s<=r1){cls='ok';title='Within GSA benchmark';body=fmt(s)+'/night is at or below the GSA per diem of '+fmt(r1)+'. Approvable under G-28.';}
-  else if(s<=333){cls='warn';title='Above GSA — within $333 G-28 cap';body=fmt(s)+'/night exceeds the GSA per diem ('+fmt(r1)+') but is within the G-28 domestic cap of $333/night. Approvable with standard documentation.';}
-  else if(s<=500){cls='warn';title='Above $333 cap — conference exception may apply';body=fmt(s)+'/night exceeds the G-28 cap. If this is the conference hotel, attach the conference agenda. Otherwise price comparisons within proximity of the meeting location are required.';}
-  else{cls='over';title='Exceeds benchmark significantly';body=fmt(s)+'/night significantly exceeds the G-28 cap. Strong justification and exceptional approval required.';}
-  document.getElementById('dh-verd').innerHTML='<div class="vbox '+cls+'"><div class="vt '+cls+'">'+title+'</div><div class="vb">'+body+'</div></div>';
-}
-
-// INTERNATIONAL HOTEL
-function triggerIntl(){
-  const city=document.getElementById('ih-city').value.trim();
-  const ctry=document.getElementById('ih-ctry').value;
+// ═══════════════════════════════════════════════
+// INTERNATIONAL HOTEL + PER DIEM
+// ═══════════════════════════════════════════════
+function triggerPD(){
+  const city=$('ih-city').value.trim();
+  const ctry=$('ih-ctry').value;
   if(city.length>=2&&ctry){
     const m=INTL_HOTELS.find(h=>h.city.toUpperCase()===city.toUpperCase()&&h.country===ctry);
-    if(m)showPDExp(m);
+    if(m) showPD(m);
   }
 }
-function showPDExp(h){
-  document.getElementById('pd-exp').style.display='block';
+function showPD(h){
+  $('pd-exp').style.display='block';
   if(h&&h.dl){
-    document.getElementById('pd-lodge').textContent=fmt(h.dl);
-    document.getElementById('pd-mie').textContent=fmt(h.dm);
-    document.getElementById('pd-prop').textContent=fmt(Math.round(h.dm*0.75));
-    document.getElementById('pd-inc').textContent=fmt(Math.round(h.dm*0.14));
-    document.getElementById('pd-tot').textContent=fmt(h.dl+h.dm);
-    document.getElementById('pd-table').style.display='table';
-    document.getElementById('pd-city-name').textContent=h.city;
+    $('pd-city').textContent=h.city;
+    $('pd-lodge').textContent=fmt(h.dl);
+    $('pd-mie').textContent=fmt(h.dm);
+    $('pd-prop').textContent=fmt(Math.round(h.dm*0.75));
+    $('pd-inc').textContent=fmt(Math.round(h.dm*0.14));
+    $('pd-tot').textContent=fmt(h.dl+h.dm);
   }
 }
-function lookupIntlHotel(){
-  const city=document.getElementById('ih-city').value.trim();
-  const ctry=document.getElementById('ih-ctry').value;
-  const checkin=document.getElementById('ih-in').value;
-  const checkout=document.getElementById('ih-out').value;
-  const err=document.getElementById('ih-err');
-  err.style.display='none';
-  document.getElementById('ih-res').style.display='none';
+function lookIntlHotel(){
+  const city=$('ih-city').value.trim();
+  const ctry=$('ih-ctry').value;
+  const checkin=$('ih-in').value;
+  const checkout=$('ih-out').value;
+  const err=$('ih-err'), res=$('ih-res');
+  err.style.display='none'; res.classList.remove('show');
   if(!city||!ctry){err.textContent='Please enter city and country.';err.style.display='block';return;}
   const m=INTL_HOTELS.find(h=>h.city.toUpperCase()===city.toUpperCase()&&h.country===ctry);
-  if(!m){err.textContent='City not in our table yet. Use the DoD per diem link below for exact rates.';err.style.display='block';showPDExp(null);document.getElementById('pd-exp').style.display='block';return;}
+  if(!m){err.textContent='City not in our table yet. Use the DoD per diem link for exact rates.';err.style.display='block';showPD(null);$('pd-exp').style.display='block';return;}
   const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
-  // ih-r1 removed
-  document.getElementById('ih-r2').textContent=fmt(m.mid);
-  document.getElementById('ih-n').textContent=nights;
-  document.getElementById('ih-lbl').textContent=city+', '+ctry;
-  document.getElementById('ih-note').textContent='DoD M&IE per diem rate: '+fmt(m.dm)+'/day. Lodging: actual costs up to the DoD lodging rate.';
-  document.getElementById('ih-verd').innerHTML='';
-  document.getElementById('ih-sub').value='';
-  document.getElementById('ih-res').style.display='block';
-  showPDExp(m);
+  $('ih-avg').textContent=fmt(m.mid);
+  $('ih-n').textContent=nights;
+  $('ih-lbl').textContent=city+', '+ctry;
+  $('ih-note').innerHTML='Source: FairFares curated international rate table + <a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">DoD per diem data</a>. DoD M&IE rate: '+fmt(m.dm)+'/day.';
+  res.classList.add('show');
+  showPD(m);
   logUse('International hotel',city+', '+ctry);
 }
-function checkIntlHotel(){
-  const s=parseFloat(document.getElementById('ih-sub').value);if(isNaN(s))return;
-  const r2=parseFloat(document.getElementById('ih-r2').textContent.replace(/[$,]/g,''));
-  const noteText=document.getElementById('ih-note').textContent;
-  const cap3Match=noteText.match(/\$[\d,]+\/night maximum/);
-  const cap3=cap3Match?parseFloat(cap3Match[0].replace(/[^\d]/g,'')):r2*1.5;
-  let cls,title,body;
-  if(s<=r2){cls='ok';title='Within market benchmark';body=fmt(s)+'/night is within the typical market rate. Within G-28 limits.';}
-  else if(s<=cap3){cls='warn';title='Above market — within 300% DoD cap';body=fmt(s)+'/night exceeds the market rate but is within the G-28 maximum (300% of DoD rate = '+fmt(cap3)+'). Department or equivalent approval may be required.';}
-  else{cls='over';title='Exceeds 300% DoD cap';body=fmt(s)+'/night exceeds the absolute G-28 maximum for this destination. This will not be approved under any circumstances.';}
-  document.getElementById('ih-verd').innerHTML='<div class="vbox '+cls+'"><div class="vt '+cls+'">'+title+'</div><div class="vb">'+body+'</div></div>';
+
+// ═══════════════════════════════════════════════
+// GROUND TRANSPORT — geocode then calc
+// ═══════════════════════════════════════════════
+let gtGeoTimer=null;
+let gtFromCoord=null, gtToCoord=null;
+
+function gtGeo(){
+  clearTimeout(gtGeoTimer);
+  gtGeoTimer=setTimeout(doGeoLookup,800);
 }
 
-// GROUND TRANSPORT
+async function geocode(query){
+  try{
+    const url='https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(query)+'&format=json&limit=1';
+    const resp=await fetch(url,{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
+    const data=await resp.json();
+    if(data&&data.length>0) return {lat:parseFloat(data[0].lat),lon:parseFloat(data[0].lon),display:data[0].display_name};
+    return null;
+  }catch(e){return null;}
+}
 
-function calcGTFares(){
-  const city=document.getElementById('gt-city').value;
-  const fromAddr=document.getElementById('gt-from').value.trim();
-  const toAddr=document.getElementById('gt-to').value.trim();
-  const miles=parseFloat(document.getElementById('gt-miles').value)||0;
+async function doGeoLookup(){
+  const fromVal=$('gt-from').value.trim();
+  const toVal=$('gt-to').value.trim();
+  if(fromVal.length<3||toVal.length<3)return;
+  // Geocode both in parallel
+  [gtFromCoord,gtToCoord]=await Promise.all([geocode(fromVal),geocode(toVal)]);
+}
 
-  if(!fromAddr||!toAddr){
-    document.getElementById('gt-res').style.display='none';
-    alert('Please enter pickup and dropoff locations.');return;
+function detectCity(lat,lon){
+  // Rough city detection from coords
+  const cities=[
+    {k:'sf',  lat:37.75,lon:-122.42,r:0.5},{k:'la',  lat:34.05,lon:-118.35,r:0.7},
+    {k:'nyc', lat:40.72,lon:-73.95, r:0.5},{k:'chi', lat:41.88,lon:-87.75, r:0.5},
+    {k:'bos', lat:42.36,lon:-71.06, r:0.4},{k:'dc',  lat:38.90,lon:-77.04, r:0.4},
+    {k:'sea', lat:47.61,lon:-122.33,r:0.4},{k:'mia', lat:25.79,lon:-80.22, r:0.5},
+    {k:'den', lat:39.74,lon:-104.98,r:0.5},{k:'atl', lat:33.75,lon:-84.39, r:0.5},
+    {k:'lon', lat:51.51,lon:-0.13,  r:0.5},{k:'par', lat:48.85,lon:2.35,   r:0.5},
+    {k:'tok', lat:35.68,lon:139.76, r:0.5},{k:'syd', lat:-33.87,lon:151.21,r:0.5},
+    {k:'sin', lat:1.35, lon:103.82, r:0.3},
+  ];
+  for(const c of cities){
+    const d=Math.sqrt(Math.pow(lat-c.lat,2)+Math.pow(lon-c.lon,2));
+    if(d<c.r)return c.k;
   }
-  if(!miles||miles<0.5){
-    alert('Please enter the approximate distance in miles (check Google Maps).');return;
+  return 'default';
+}
+
+function haversine(lat1,lon1,lat2,lon2){
+  const R=3958.8;
+  const dLat=(lat2-lat1)*Math.PI/180;
+  const dLon=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+async function calcGT(){
+  const fromVal=$('gt-from').value.trim();
+  const toVal=$('gt-to').value.trim();
+  const err=$('gt-err'), btn=$('gt-btn');
+  err.style.display='none';
+  if(!fromVal||!toVal){err.textContent='Please enter pickup and dropoff locations.';err.style.display='block';return;}
+
+  btn.disabled=true; btn.textContent='Calculating…';
+
+  // Geocode if not already done
+  if(!gtFromCoord)gtFromCoord=await geocode(fromVal);
+  if(!gtToCoord)gtToCoord=await geocode(toVal);
+
+  if(!gtFromCoord||!gtToCoord){
+    err.textContent='Could not find one or both locations. Try being more specific (e.g. add city name).';
+    err.style.display='block';
+    btn.disabled=false; btn.textContent='Get fare estimates';
+    return;
   }
 
-  const r=GT_RATES[city];if(!r)return;
-
-  // Estimate drive time from distance and city avg speed
-  const SPEEDS={sf:18,la:16,nyc:14,chi:20,bos:18,dc:20,sea:20,mia:22,den:25,atl:22,hou:25,phx:28,dal:28,msp:25,lon:12,par:14,tok:12,syd:22,sin:20};
-  const avgSpeed=SPEEDS[city]||20;
+  // Distance
+  const asCrow=haversine(gtFromCoord.lat,gtFromCoord.lon,gtToCoord.lat,gtToCoord.lon);
+  const miles=parseFloat((asCrow*1.35).toFixed(1)); // road factor
+  const cityKey=detectCity(gtFromCoord.lat,gtFromCoord.lon);
+  const r=GT_RATES[cityKey]||GT_RATES.default;
+  const avgSpeed={sf:18,la:16,nyc:14,chi:20,bos:18,dc:20,sea:20,mia:22,den:25,atl:22,lon:12,par:14,tok:12,syd:22,sin:20,default:20}[cityKey]||20;
   const mins=Math.round((miles/avgSpeed)*60);
 
-  // Taxi fare breakdown
-  const tBase=r.base;
-  const tMeter=parseFloat((miles*r.mile).toFixed(2));
-  const tTime=parseFloat((mins*r.min).toFixed(2));
+  // Taxi
+  const tBase=r.base, tMeter=parseFloat((miles*r.mile).toFixed(2)), tTime=parseFloat((mins*r.min).toFixed(2));
   const tTotal=tBase+tMeter+tTime;
-
   // Uber X
   const uBase=1.30,uDist=parseFloat((miles*1.45).toFixed(2)),uTime=parseFloat((mins*0.28).toFixed(2)),uSafe=1.80;
   const uTotal=uBase+uDist+uTime+uSafe;
-
   // Lyft
   const lBase=1.20,lDist=parseFloat((miles*1.42).toFixed(2)),lTime=parseFloat((mins*0.26).toFixed(2)),lSafe=1.75;
   const lTotal=lBase+lDist+lTime+lSafe;
 
-  // Build taxi table
-  let taxiRows=makeRow('Initial charge',fmt(tBase));
-  taxiRows+=makeRow('Metered fare ('+miles+' mi @ '+fmt(r.mile)+'/mi)',fmt(tMeter));
-  taxiRows+=makeRow('Time charge (~'+mins+' min @ $'+r.min.toFixed(2)+'/min)',fmt(tTime));
-  document.getElementById('gt-taxi-rows').innerHTML=taxiRows;
-  document.getElementById('gt-taxi-total').textContent=fmt(tTotal);
-  document.getElementById('gt-taxi-note').textContent='Based on '+r.note+'. Estimate only — actual fares vary by traffic.';
+  // Build tables
+  const mkRow=(l,v)=>'<tr><td>'+l+'</td><td>'+v+'</td></tr>';
+  $('gt-taxi-rows').innerHTML=mkRow('Initial charge',fmt(tBase))+mkRow('Metered fare ('+miles+' mi)',fmt(tMeter))+mkRow('Time charge (~'+mins+' min)',fmt(tTime));
+  $('gt-taxi-tot').textContent=fmt(tTotal);
+  $('gt-taxi-src').innerHTML='Source: <a href="https://taxifarefinder.com" target="_blank">TaxiFareFinder.com</a> — '+r.name+'. Straight-line distance '+asCrow.toFixed(1)+' mi × 1.35 road factor = '+miles+' mi estimated route.';
 
-  // Uber table
-  let uberRows=makeRow('Base fare',fmt(uBase));
-  uberRows+=makeRow('Distance ('+miles+' mi)',fmt(uDist));
-  uberRows+=makeRow('Time (~'+mins+' min)',fmt(uTime));
-  uberRows+=makeRow('Safe rides fee',fmt(uSafe));
-  document.getElementById('gt-uber-rows').innerHTML=uberRows;
-  document.getElementById('gt-uber-total').textContent=fmt(uTotal);
+  $('gt-uber-rows').innerHTML=mkRow('Base fare',fmt(uBase))+mkRow('Distance ('+miles+' mi)',fmt(uDist))+mkRow('Time (~'+mins+' min)',fmt(uTime))+mkRow('Safe rides fee',fmt(uSafe));
+  $('gt-uber-tot').textContent=fmt(uTotal);
 
-  // Lyft table
-  let lyftRows=makeRow('Base fare',fmt(lBase));
-  lyftRows+=makeRow('Distance ('+miles+' mi)',fmt(lDist));
-  lyftRows+=makeRow('Time (~'+mins+' min)',fmt(lTime));
-  lyftRows+=makeRow('Trust & service fee',fmt(lSafe));
-  document.getElementById('gt-lyft-rows').innerHTML=lyftRows;
-  document.getElementById('gt-lyft-total').textContent=fmt(lTotal);
+  $('gt-lyft-rows').innerHTML=mkRow('Base fare',fmt(lBase))+mkRow('Distance ('+miles+' mi)',fmt(lDist))+mkRow('Time (~'+mins+' min)',fmt(lTime))+mkRow('Trust & service fee',fmt(lSafe));
+  $('gt-lyft-tot').textContent=fmt(lTotal);
 
   // Verdict
   const lowest=Math.min(tTotal,uTotal,lTotal);
   const lowestName=lowest===tTotal?'Taxi':lowest===uTotal?'Uber X':'Lyft';
-  document.getElementById('gt-verdict-title').textContent='G-28 reimbursement benchmark: '+fmt(lowest);
-  document.getElementById('gt-verdict-body').textContent=lowestName+' is the most economical option at an estimated '+fmt(lowest)+' for '+fromAddr+' to '+toAddr+'. Under G-28, reimbursement is capped at the most economical mode. If a rental car was used, the full cost (rental + gas + parking + tolls) must be less than '+fmt(lowest)+' to be reimbursable.';
+  $('gt-vt').textContent='G-28 benchmark: '+fmt(lowest)+' ('+lowestName+')';
+  $('gt-vb').textContent=lowestName+' is the most economical option for '+fromVal+' to '+toVal+'. Under G-28, any ground transport reimbursement is capped at the most economical mode for the same route ('+fmt(lowest)+'). If a rental car was used, the total cost (rental + gas + parking + tolls) must be less than this figure to be fully reimbursable.';
 
-  // Show map
-  const encodedFrom=encodeURIComponent(fromAddr);
-  const encodedTo=encodeURIComponent(toAddr);
-  const mapSrc='https://maps.google.com/maps?q=from:'+encodedFrom+'+to:'+encodedTo+'&t=&z=13&ie=UTF8&iwloc=&output=embed';
-  document.getElementById('gt-map-frame').src='https://www.google.com/maps/embed/v1/directions?key=AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY&origin='+encodedFrom+'&destination='+encodedTo+'&mode=driving';
+  $('gt-lbl').textContent=fromVal+' → '+toVal;
 
-  // Show OSM area map for the city as a reference
-  const cityCoords={sf:'37.75,-122.42',la:'34.05,-118.35',nyc:'40.72,-73.95',chi:'41.88,-87.75',bos:'42.36,-71.06',dc:'38.90,-77.04',sea:'47.61,-122.33',mia:'25.79,-80.22',den:'39.74,-104.98',atl:'33.75,-84.39',hou:'29.76,-95.37',phx:'33.45,-112.07',dal:'32.77,-96.80',msp:'44.98,-93.27',lon:'51.51,-0.13',par:'48.85,2.35',tok:'35.68,139.76',syd:'-33.87,151.21',sin:'1.35,103.82'};
-  const coords=cityCoords[city]||'37.75,-122.42';
-  const lat=parseFloat(coords.split(',')[0]),lon=parseFloat(coords.split(',')[1]);
-  document.getElementById('gt-map-frame').src='https://www.openstreetmap.org/export/embed.html?bbox='+(lon-0.06)+','+(lat-0.04)+','+(lon+0.06)+','+(lat+0.04)+'&layer=mapnik';
+  // Map via OpenStreetMap
+  const lat1=gtFromCoord.lat,lon1=gtFromCoord.lon,lat2=gtToCoord.lat,lon2=gtToCoord.lon;
+  const minLat=Math.min(lat1,lat2)-0.02, maxLat=Math.max(lat1,lat2)+0.02;
+  const minLon=Math.min(lon1,lon2)-0.02, maxLon=Math.max(lon1,lon2)+0.02;
+  $('gt-map').src='https://www.openstreetmap.org/export/embed.html?bbox='+minLon+','+minLat+','+maxLon+','+maxLat+'&layer=mapnik&marker='+lat1+','+lon1;
+  $('gt-map-wrap').style.display='block';
 
-  document.getElementById('gt-map-wrap').style.display='block';
-  document.getElementById('gt-res').style.display='block';
-  logUse('Ground transport',fromAddr+' to '+toAddr);
+  $('gt-res').classList.add('show');
+  logUse('Ground transport',fromVal+' to '+toVal);
+
+  btn.disabled=false; btn.textContent='Get fare estimates';
 }
 
-function makeRow(label,val){
-  return '<tr><td>'+label+'</td><td>'+val+'</td></tr>';
+function gtTab(t,el){
+  document.querySelectorAll('.gt-tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.gt-panel').forEach(x=>x.classList.remove('on'));
+  el.classList.add('on');
+  $('gt-'+t+'-p').classList.add('on');
 }
 
-function switchGtTab(type,el){
-  document.querySelectorAll('.gt-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.gt-panel').forEach(p=>p.style.display='none');
-  el.classList.add('active');
-  document.getElementById('gt-'+type+'-panel').style.display='block';
-}
-
+// ═══════════════════════════════════════════════
 // TRAVEL ADVISORIES
-function lookupAdv(){
-  const input=document.getElementById('adv-in').value.trim().toLowerCase();
-  const err=document.getElementById('adv-err');
-  err.style.display='none';
-  document.getElementById('adv-res').style.display='none';
+// ═══════════════════════════════════════════════
+function lookAdv(){
+  const input=$('adv-in').value.trim().toLowerCase();
+  const err=$('adv-err');
+  err.style.display='none'; $('adv-res').style.display='none';
   if(!input){err.textContent='Please enter a country name.';err.style.display='block';return;}
   const data=ADV_DATA[input];
   if(!data){
-    err.innerHTML='Country not in our database. <a href="https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages.html" target="_blank" style="color:var(--teal)">Check travel.state.gov directly →</a>';
-    err.style.display='block';return;
+    err.innerHTML='Country not in our database. <a href="https://travel.state.gov" target="_blank" style="color:var(--teal)">Check travel.state.gov directly →</a>';
+    err.style.display='block'; return;
   }
   const lvl=ADV_LEVELS[data.level];
-  document.getElementById('adv-hd').className='adv-hd '+lvl.cls;
-  document.getElementById('adv-cn').textContent=document.getElementById('adv-in').value.trim().replace(/\b\w/g,c=>c.toUpperCase());
-  document.getElementById('adv-lt').textContent=lvl.label;
-  const badge=document.getElementById('adv-badge');
-  badge.textContent=lvl.badge;badge.className='adv-badge '+lvl.cls;
-  document.getElementById('adv-msg').textContent=data.msg;
-  document.getElementById('adv-url').href=data.url;
-  document.getElementById('adv-res').style.display='block';
-  logUse('Travel advisory',document.getElementById('adv-in').value.trim());
+  $('adv-hd').className='adv-hd '+lvl.cls;
+  $('adv-cn').textContent=$('adv-in').value.trim().replace(/\b\w/g,c=>c.toUpperCase());
+  $('adv-lt').textContent=lvl.lbl;
+  $('adv-badge').textContent=lvl.badge;
+  $('adv-badge').className='adv-badge '+lvl.cls;
+  $('adv-msg').textContent=data.msg;
+  $('adv-url').href=data.url;
+  $('adv-res').style.display='block';
+  logUse('Advisory',input);
 }
-function quickAdv(el){document.getElementById('adv-in').value=el.textContent;lookupAdv();}
+function qa(el){$('adv-in').value=el.textContent;lookAdv();}
 
-// TIPS ACCORDION
-function toggleAcc(btn){
-  const body=btn.nextElementSibling;
-  const isOpen=btn.classList.contains('open');
-  document.querySelectorAll('.ach.open').forEach(b=>{b.classList.remove('open');b.nextElementSibling.classList.remove('open');});
-  if(!isOpen){btn.classList.add('open');body.classList.add('open');}
-}
-
+// ═══════════════════════════════════════════════
 // ADMIN
+// ═══════════════════════════════════════════════
 function renderAdmin(){
-  const tb=document.getElementById('atbody');tb.innerHTML='';
+  const tb=$('adm-body'); tb.innerHTML='';
   routes.forEach((r,i)=>{
     const tr=document.createElement('tr');
     tr.innerHTML='<td>'+r.from+'</td><td>'+r.to+'</td><td><input type="number" value="'+r.low+'" onchange="routes['+i+'].low=+this.value"></td><td><input type="number" value="'+r.mid+'" onchange="routes['+i+'].mid=+this.value"></td><td><input type="number" value="'+r.high+'" onchange="routes['+i+'].high=+this.value"></td><td><input type="number" value="'+r.rt+'" step="0.1" onchange="routes['+i+'].rt=+this.value"></td><td><button class="delbtn" onclick="routes.splice('+i+',1);renderAdmin()">✕</button></td>';
@@ -5179,16 +4887,16 @@ function renderAdmin(){
   });
 }
 function addRoute(){
-  const f=norm(document.getElementById('nr-f').value),t=norm(document.getElementById('nr-t').value);
-  const lo=+document.getElementById('nr-l').value,mi=+document.getElementById('nr-m').value,hi=+document.getElementById('nr-h').value,rt=+document.getElementById('nr-r').value||1.7;
-  if(!f||!t||!lo||!mi||!hi){document.getElementById('add-err').style.display='block';return;}
-  document.getElementById('add-err').style.display='none';
+  const f=norm($('nr-f').value),t=norm($('nr-t').value);
+  const lo=+$('nr-l').value,mi=+$('nr-m').value,hi=+$('nr-h').value,rt=+$('nr-r').value||1.7;
+  if(!f||!t||!lo||!mi||!hi){$('adm-err').style.display='block';return;}
+  $('adm-err').style.display='none';
   routes.push({from:f,to:t,low:lo,mid:mi,high:hi,rt});
-  ['nr-f','nr-t','nr-l','nr-m','nr-h','nr-r'].forEach(id=>document.getElementById(id).value='');
+  ['nr-f','nr-t','nr-l','nr-m','nr-h','nr-r'].forEach(id=>$(id).value='');
   renderAdmin();
 }
 function exportData(){
-  const blob=new Blob([JSON.stringify({version:'6.0',updated:'Q2 2026',routes},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({version:'7.0',updated:'Q2 2026',routes},null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='fairfares-benchmarks.json';a.click();
 }
 function importData(e){
@@ -5197,12 +4905,6 @@ function importData(e){
   reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.routes)routes=d.routes;renderAdmin();}catch{alert('Invalid JSON.');}};
   reader.readAsText(file);
 }
-
-// INIT
-const today=new Date().toISOString().split('T')[0];
-['df-dep','if-dep','dh-in','ih-in'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=today;});
-loadPresets();
-['df-o','df-d','if-o','if-d'].forEach(setupAutocomplete);
 </script>
 </body>
 </html>
