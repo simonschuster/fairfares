@@ -4516,8 +4516,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(i)$('m-inst').value=i;
     if(d)$('m-dept').value=d;
   }
-  const today=new Date().toISOString().split('T')[0];
-  ['df-dep','if-dep','dh-in','ih-in'].forEach(id=>{const el=$(id);if(el)el.value=today;});
 });
 
 // ═══════════════════════════════════════════════
@@ -4633,40 +4631,58 @@ function lookFlight(pfx){
 // ═══════════════════════════════════════════════
 // DOMESTIC HOTEL
 // ═══════════════════════════════════════════════
+// Curated GSA-based fallback rates for major US cities
+const CITY_RATES={'new york':312,'san francisco':271,'washington':258,'boston':245,'chicago':224,'los angeles':219,'seattle':214,'miami':204,'denver':196,'atlanta':178,'houston':163,'phoenix':137,'dallas':151,'minneapolis':148,'san diego':198,'austin':174,'nashville':166,'portland':172,'las vegas':143,'baltimore':149,'philadelphia':195,'pittsburgh':138,'detroit':133,'cleveland':122,'indianapolis':120,'kansas city':127,'st louis':118,'new orleans':161,'tampa':148,'orlando':132,'charlotte':148,'raleigh':148,'sacramento':168,'san jose':231,'oakland':237,'honolulu':303,'anchorage':177};
+
 async function lookHotel(){
   const city=$('dh-city').value.trim();
+  const addr=$('dh-addr')?$('dh-addr').value.trim():'';
   const checkin=$('dh-in').value;
   const checkout=$('dh-out').value;
   const err=$('dh-err'), res=$('dh-res'), btn=$('dh-btn');
   err.style.display='none';
   res.classList.remove('show');
+  if($('dh-nearby'))$('dh-nearby').classList.remove('show');
   if(!city){err.textContent='Please enter a city.';err.style.display='block';return;}
   btn.disabled=true; btn.textContent='Looking up…';
+  const yr=checkin?new Date(checkin).getFullYear():new Date().getFullYear();
+  const fy=checkin&&new Date(checkin).getMonth()>=9?yr+1:yr;
+  let gsa=0;
+  // Step 1: try GSA API — geocode city to get state code first
   try{
-    const yr=checkin?new Date(checkin).getFullYear():new Date().getFullYear();
-    const fy=checkin&&new Date(checkin).getMonth()>=9?yr+1:yr;
-    const url='https://api.gsa.gov/travel/perdiem/v2/rates/city/'+encodeURIComponent(city)+'/year/'+fy;
-    const resp=await fetch(url);
-    const data=await resp.json();
-    let gsa=0;
-    if(data.request?.Rates?.length>0){
-      const rs=data.request.Rates[0].rate;
-      const mo=checkin?new Date(checkin).getMonth()+1:null;
-      const mr=mo?rs.find(r=>r.months?.month==mo||(Array.isArray(r.months?.month)&&r.months.month.includes(String(mo)))):null;
-      gsa=parseFloat((mr||rs[0])?.rate||0);
+    const geoResp=await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(city+', USA')+'&format=json&limit=1&addressdetails=1',{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
+    const geoData=await geoResp.json();
+    if(geoData&&geoData.length>0){
+      const addr_parts=geoData[0].address||{};
+      const stateCode=addr_parts['ISO3166-2-lvl4']?addr_parts['ISO3166-2-lvl4'].split('-')[1]:'';
+      if(stateCode){
+        try{
+          const gsaResp=await fetch('https://api.gsa.gov/travel/perdiem/v2/rates/city/'+encodeURIComponent(city)+'/state/'+stateCode+'/year/'+fy);
+          const gsaData=await gsaResp.json();
+          if(gsaData.request?.Rates?.length>0){
+            const rs=gsaData.request.Rates[0].rate;
+            const mo=checkin?new Date(checkin).getMonth()+1:null;
+            const mr=mo?rs.find(r=>r.months?.month==mo||(Array.isArray(r.months?.month)&&r.months.month.includes(String(mo)))):null;
+            gsa=parseFloat((mr||rs[0])?.rate||0);
+          }
+        }catch(e2){}
+      }
     }
-    if(!gsa||gsa<50)gsa=159;
-    const market=Math.round(gsa*1.3);
-    const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
-    $('dh-avg').textContent=fmt(market);
-    $('dh-n').textContent=nights;
-    $('dh-lbl').textContent=city;
-    $('dh-note').innerHTML='Source: <a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">GSA Per Diem rates</a> FY'+fy+'. Average market rate estimated at 130% of GSA per diem of '+fmt(gsa)+'/night. G-28 domestic cap: $333/night. Conference hotel exception applies with agenda attached.';
-    res.classList.add('show');
-    logUse('Domestic hotel',city);
-    // If address provided, search for nearby 4-star hotels
-    if(addr) await findNearbyHotels(addr, city, market);
-  }catch(e){err.textContent='GSA lookup failed. Check city and try again.';err.style.display='block';}
+  }catch(e){}
+  // Step 2: fall back to curated rate table
+  if(!gsa||gsa<50){
+    const key=city.toLowerCase().trim();
+    gsa=CITY_RATES[key]||CITY_RATES[key.split(',')[0].trim()]||159;
+  }
+  const market=Math.round(gsa*1.3);
+  const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
+  $('dh-avg').textContent=fmt(market);
+  $('dh-n').textContent=nights;
+  $('dh-lbl').textContent=city;
+  $('dh-note').innerHTML='Source: <a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">GSA Per Diem rates</a> FY'+fy+'. Average market rate estimated at 130% of GSA per diem of '+fmt(gsa)+'/night. G-28 domestic cap: $333/night. Conference hotel exception applies with agenda attached.';
+  res.classList.add('show');
+  logUse('Domestic hotel',city);
+  if(addr) await findNearbyHotels(addr, city, market);
   btn.disabled=false; btn.textContent='Look up hotel benchmark';
 }
 
