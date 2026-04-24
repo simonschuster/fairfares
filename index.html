@@ -383,13 +383,12 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
           </div>
 
           <div class="slbl">Hotel</div>
-          <div class="g2" style="max-width:400px">
+          <div style="max-width:400px;margin-bottom:12px">
             <div class="f"><label>City</label><input type="text" id="dh-city" placeholder="Chicago"></div>
-            <div class="f"><label>State (2-letter)</label><input type="text" id="dh-st" placeholder="IL" maxlength="2" style="text-transform:uppercase"></div>
           </div>
-          <div class="g2" style="max-width:400px">
+          <div class="g2" style="max-width:600px;align-items:end">
             <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="dh-in"></div>
-            <div class="f"><label>Authorized check-out</label><input type="date" id="dh-out"></div>
+            <div class="f"><label>Authorized check-out date</label><input type="date" id="dh-out"></div>
           </div>
           <div class="errmsg" id="dh-err"></div>
           <button class="lbtn" id="dh-btn" onclick="lookHotel()">Look up hotel benchmark</button>
@@ -491,7 +490,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
               </select>
             </div>
           </div>
-          <div class="g2" style="max-width:500px">
+          <div class="g2" style="max-width:500px;align-items:end">
             <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="ih-in"></div>
             <div class="f"><label>Authorized check-out</label><input type="date" id="ih-out"></div>
           </div>
@@ -4610,7 +4609,6 @@ function lookFlight(pfx){
 // ═══════════════════════════════════════════════
 async function lookHotel(){
   const city=$('dh-city').value.trim();
-  const state=$('dh-st').value.trim().toUpperCase();
   const checkin=$('dh-in').value;
   const checkout=$('dh-out').value;
   const err=$('dh-err'), res=$('dh-res'), btn=$('dh-btn');
@@ -4621,8 +4619,7 @@ async function lookHotel(){
   try{
     const yr=checkin?new Date(checkin).getFullYear():new Date().getFullYear();
     const fy=checkin&&new Date(checkin).getMonth()>=9?yr+1:yr;
-    const stParam=state.length===2?'/state/'+state:'';
-    const url='https://api.gsa.gov/travel/perdiem/v2/rates/city/'+encodeURIComponent(city)+stParam+'/year/'+fy;
+    const url='https://api.gsa.gov/travel/perdiem/v2/rates/city/'+encodeURIComponent(city)+'/year/'+fy;
     const resp=await fetch(url);
     const data=await resp.json();
     let gsa=0;
@@ -4637,10 +4634,10 @@ async function lookHotel(){
     const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
     $('dh-avg').textContent=fmt(market);
     $('dh-n').textContent=nights;
-    $('dh-lbl').textContent=city+(state.length===2?', '+state:'');
+    $('dh-lbl').textContent=city;
     $('dh-note').innerHTML='Source: <a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">GSA Per Diem rates</a> FY'+fy+'. Average market rate estimated at 130% of GSA per diem of '+fmt(gsa)+'/night. G-28 domestic cap: $333/night. Conference hotel exception applies with agenda attached.';
     res.classList.add('show');
-    logUse('Domestic hotel',city+(state?', '+state:''));
+    logUse('Domestic hotel',city);
   }catch(e){err.textContent='GSA lookup failed. Check city/state and try again.';err.style.display='block';}
   btn.disabled=false; btn.textContent='Look up hotel benchmark';
 }
