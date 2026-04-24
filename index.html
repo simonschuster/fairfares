@@ -212,6 +212,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-
 .exprow{display:flex;gap:7px;margin-top:.875rem;flex-wrap:wrap}
 .expbtn{padding:.42rem .875rem;font-size:.8rem;border:1px solid var(--g200);border-radius:7px;background:var(--white);cursor:pointer;font-family:var(--fb);color:var(--navy)}
 .expbtn:hover{border-color:var(--navy)}
+.pdf-btn{padding:.55rem 1.2rem;background:var(--teal);color:var(--white);border:none;border-radius:8px;font-size:.84rem;font-weight:500;cursor:pointer;font-family:var(--fb)}
+.pdf-btn:hover{background:var(--teal-dk)}
 
 /* ── FOOTER ── */
 footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
@@ -273,7 +275,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
     <div class="nl">
       <a href="#hiw">How it works</a>
       <a href="#tool">Look up a fare</a>
-      <a href="#tool" class="cta">Get started</a>
     </div>
     <div class="ub" id="ub" onclick="openModal()" title="Update institution">
       <div class="ubd"></div><span id="ub-txt"></span>
@@ -286,8 +287,8 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
   <h1>The <em>smarter</em> way to price flights, lodging and taxis after the fact</h1>
   <p class="hero-sub">A traveler extended their trip, upgraded their seat, or rented a car — and didn't get comps at booking. Now you need to know what UC <strong>would have paid</strong>. Benchmarks sourced from <strong>BTS, GSA and DoD</strong> — official US government data. No more guesswork.</p>
   <div class="hbtns">
-    <a href="#tool" class="bp">Look up a past fare</a>
-    <a href="#hiw" class="bg">See how it works</a>
+    <a href="#tool" class="bp" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'});return false;">Look up a past fare</a>
+    <a href="#hiw" class="bg" onclick="document.getElementById('hiw').scrollIntoView({behavior:'smooth'});return false;">See how it works</a>
   </div>
   <div class="hstats">
     <div class="hs"><div class="num">BTS</div><div class="lbl">Flight fare data</div></div>
@@ -337,6 +338,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
               <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
             </div>
             <p class="rnote" id="df-note"></p>
+            <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
           </div>
           <div class="nf" id="df-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
 
@@ -366,25 +368,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
           <div class="errmsg" id="df-err"></div>
           <button class="lbtn" onclick="lookFlight('df')">Look up flight benchmark</button>
 
-          <!-- PDF (below button, auto-shown) -->
-          <div class="pdf-sec" id="df-pdf">
-            <div class="ptop"><span>Compliance record</span><button class="pbtn" onclick="window.print()">Print / Save PDF</button></div>
-            <div class="pdf-wrap">
-              <div class="pdf-hd"><div class="plogo">Fair<span>Fares</span></div><div class="pmeta"><div id="pdf-ts"></div><div>getfairfares.com</div></div></div>
-              <div class="pdf-bd">
-                <div class="pgrid">
-                  <div class="pf"><div class="pfl">Route</div><div class="pfv" id="pdf-rt"></div></div>
-                  <div class="pf"><div class="pfl">Authorized departure</div><div class="pfv" id="pdf-dep"></div></div>
-                  <div class="pf"><div class="pfl">Cabin / trip type</div><div class="pfv" id="pdf-cab"></div></div>
-                  <div class="pf"><div class="pfl">Average benchmark fare</div><div class="pfv" id="pdf-avg"></div></div>
-                  <div class="pf"><div class="pfl">Data source</div><div class="pfv">Bureau of Transportation Statistics (BTS) — bts.gov</div></div>
-                  <div class="pf"><div class="pfl">Policy basis</div><div class="pfv">UCOP G-28 — authorized dates, non-refundable economy</div></div>
-                </div>
-                <div class="pvs"><div class="pvt" id="pdf-vt"></div><div class="pvd" id="pdf-vd"></div></div>
-                <div class="pft"><span>FairFares — getfairfares.com</span><span id="pdf-id"></span></div>
-              </div>
-            </div>
-          </div>
 
           <!-- DOM HOTEL RESULT (above button) -->
           <div class="rbox" id="dh-res">
@@ -396,6 +379,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
             </div>
             <div class="ibox"><strong>M&amp;IE — $92/day domestic cap</strong>Domestic meals: actuals only up to $92/day — not a per diem. Receipts required. Cannot be exceeded under any circumstances.</div>
             <p class="rnote" id="dh-note"></p>
+            <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
           </div>
 
           <div class="slbl">Hotel</div>
@@ -423,6 +407,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
               <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
             </div>
             <p class="rnote" id="if-note"></p>
+            <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
           </div>
           <div class="nf" id="if-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
 
@@ -461,6 +446,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
               <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">DoD</div><div class="ms"><a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">travel.dod.mil</a></div></div>
             </div>
             <p class="rnote" id="ih-note"></p>
+            <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
           </div>
 
           <!-- PER DIEM TABLE (above button) -->
@@ -543,6 +529,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
             <div class="gt-verdict">
               <div class="gt-vt" id="gt-vt"></div>
               <div class="gt-vb" id="gt-vb"></div>
+            <button class="pdf-btn" onclick="printTab('gt')" style="margin-top:10px">Save as PDF</button>
             </div>
           </div>
 
@@ -4615,22 +4602,7 @@ function lookFlight(pfx){
   $(pfx+'-note').innerHTML='Source: <a href="https://www.bts.gov/air-fares" target="_blank">Bureau of Transportation Statistics (BTS)</a> — US DOT official air fare database. Benchmark reflects average fares for this route and cabin class. Policy basis: UCOP G-28 authorized dates, non-refundable '+cabLabel(cab).toLowerCase()+'.';
   res.classList.add('show');
 
-  if(pfx==='df') showPDF(avg);
   logUse((pfx==='df'?'Domestic':'International')+' flight',r.from+'→'+r.to);
-}
-
-function showPDF(avg){
-  if(!activeBench)return;
-  const b=activeBench;
-  $('pdf-ts').textContent=new Date().toLocaleString('en-US',{dateStyle:'medium',timeStyle:'short'});
-  $('pdf-rt').textContent=b.from+' → '+b.to;
-  $('pdf-dep').textContent=b.dep||'Not specified';
-  $('pdf-cab').textContent=cabLabel(b.cab)+' / '+(b.type==='rt'?'Round trip':'One way');
-  $('pdf-avg').textContent=fmt(avg);
-  $('pdf-vt').textContent='BTS average fare benchmark';
-  $('pdf-vd').textContent='Average '+cabLabel(b.cab).toLowerCase()+' fare for '+b.from+'→'+b.to+' based on Bureau of Transportation Statistics data. This figure represents the average market price for the authorized route and class.';
-  $('pdf-id').textContent='Record: FF-'+Date.now();
-  $('df-pdf').style.display='block';
 }
 
 // ═══════════════════════════════════════════════
@@ -4904,6 +4876,25 @@ function importData(e){
   const reader=new FileReader();
   reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(d.routes)routes=d.routes;renderAdmin();}catch{alert('Invalid JSON.');}};
   reader.readAsText(file);
+}
+
+function printTab(t){
+  var s=document.createElement("style");
+  s.id="print-override";
+  s.textContent="@media print{nav,.hero,.sec:not(.tool-sec),footer,.ttabs,.lbtn,.pdf-btn,.errmsg,.nf,.f,.slbl,.ibox,.g2,.g3,.pd-rule{display:none!important}.tp{display:none!important}.tp.on{display:block!important}.rbox{display:block!important}.rbox:not(.show){display:none!important}.pd-exp{display:block!important}.map-wrap{display:block!important}.gt-panel{display:none!important}.gt-panel.on{display:block!important}body{font-family:serif}.tw{box-shadow:none;border:none}}";
+  document.head.appendChild(s);
+  var h=document.createElement("div");
+  h.id="print-hdr";
+  h.style.cssText="display:block;font-family:serif;padding:1rem 0 .5rem;border-bottom:2px solid #0a1628;margin-bottom:1rem";
+  h.innerHTML="<b>FairFares</b> <span style='color:#0d9e8a'>getfairfares.com</span><span style='float:right;font-size:.8rem;color:#666'>"+new Date().toLocaleString()+"</span>";
+  document.body.insertBefore(h,document.body.firstChild);
+  window.print();
+  setTimeout(function(){
+    var se=document.getElementById("print-override");
+    var he=document.getElementById("print-hdr");
+    if(se)se.remove();
+    if(he)he.remove();
+  },1000);
 }
 </script>
 </body>
