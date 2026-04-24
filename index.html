@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>FairFares — Travel Cost Benchmarking</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -212,6 +214,9 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-
 .exprow{display:flex;gap:7px;margin-top:.875rem;flex-wrap:wrap}
 .expbtn{padding:.42rem .875rem;font-size:.8rem;border:1px solid var(--g200);border-radius:7px;background:var(--white);cursor:pointer;font-family:var(--fb);color:var(--navy)}
 .expbtn:hover{border-color:var(--navy)}
+.leaflet-container{font-family:var(--fb)!important}
+.leaflet-pane{z-index:1!important}
+.leaflet-top,.leaflet-bottom{z-index:2!important}
 .pdf-btn{padding:.55rem 1.2rem;background:var(--teal);color:var(--white);border:none;border-radius:8px;font-size:.84rem;font-weight:500;cursor:pointer;font-family:var(--fb)}
 .pdf-btn:hover{background:var(--teal-dk)}
 
@@ -372,9 +377,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
           <!-- DOM HOTEL NEARBY RESULTS (above button) -->
           <div class="rbox" id="dh-nearby">
             <div class="rlbl" id="dh-nearby-lbl"></div>
+            <div id="dh-map" style="width:100%;height:320px;border-radius:10px;margin-bottom:12px;border:1px solid var(--g200);display:none"></div>
             <div id="dh-hotel-list" style="margin-bottom:10px"></div>
             <p class="rnote" id="dh-nearby-note"></p>
-            <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
           </div>
 
           <!-- DOM HOTEL RESULT (above button) -->
@@ -4689,8 +4694,7 @@ async function lookHotel(){
 async function findNearbyHotels(addr, city, marketRate){
   try{
     // Geocode the address
-    const geoUrl='https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(addr)+'&format=json&limit=1';
-    const geoResp=await fetch(geoUrl,{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
+    const geoResp=await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(addr)+'&format=json&limit=1',{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
     const geoData=await geoResp.json();
     if(!geoData||!geoData.length) return;
 
@@ -4698,95 +4702,83 @@ async function findNearbyHotels(addr, city, marketRate){
     const lon=parseFloat(geoData[0].lon);
     const radius=1609; // 1 mile in metres
 
-    // Query Overpass API for hotels within 1 mile
-    const query='[out:json][timeout:10];(node["tourism"="hotel"]["stars"~"^[4-5]$"](around:'+radius+','+lat+','+lon+');way["tourism"="hotel"]["stars"~"^[4-5]$"](around:'+radius+','+lat+','+lon+'););out body;';
-    const overpassUrl='https://overpass-api.de/api/interpreter?data='+encodeURIComponent(query);
-    const ovResp=await fetch(overpassUrl);
+    // Query Overpass for hotels 4-star+ within 1 mile
+    const query='[out:json][timeout:15];(node["tourism"="hotel"]["stars"~"^[4-5]$"](around:'+radius+','+lat+','+lon+');way["tourism"="hotel"]["stars"~"^[4-5]$"](around:'+radius+','+lat+','+lon+');node["tourism"="hotel"](around:'+radius+','+lat+','+lon+'););out center;';
+    const ovResp=await fetch('https://overpass-api.de/api/interpreter?data='+encodeURIComponent(query));
     const ovData=await ovResp.json();
+    const hotels=(ovData.elements||[]).filter(h=>h.tags&&h.tags.tourism==='hotel');
+    const starred=hotels.filter(h=>parseInt(h.tags&&h.tags.stars||0)>=4);
+    const allHotels=starred.length>0?starred:hotels;
 
-    const hotels=ovData.elements||[];
+    // ── BUILD LEAFLET MAP ──
+    const mapEl=$('dh-map');
+    mapEl.style.display='block';
+    // Destroy previous map instance if exists
+    if(window._dhMap){window._dhMap.remove();window._dhMap=null;}
+    const map=L.map('dh-map').setView([lat,lon],14);
+    window._dhMap=map;
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      maxZoom:19
+    }).addTo(map);
 
-    if(!hotels.length){
-      // Show message but still show market rate context
-      $('dh-nearby-lbl').textContent='4-star hotels near '+addr;
-      $('dh-hotel-list').innerHTML='<p style="font-size:.84rem;color:var(--g600)">No 4-star+ hotels found in OpenStreetMap within 1 mile of this address. This does not mean there are none — OSM coverage varies. The market rate benchmark of '+fmt(marketRate)+'/night applies for this area.</p>';
-      $('dh-nearby-note').innerHTML='Source: <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a> via Overpass API. Coverage may be incomplete.';
-      $('dh-nearby').classList.add('show');
-      return;
-    }
+    // 1-mile circle
+    L.circle([lat,lon],{radius:1609,color:'#0d9e8a',fillColor:'#0d9e8a',fillOpacity:0.08,weight:2}).addTo(map);
 
-    // Build hotel list
-    let listHtml='<table style="width:100%;border-collapse:collapse;font-size:.84rem">';
-    listHtml+='<thead><tr style="border-bottom:2px solid var(--g200)"><th style="text-align:left;padding:6px 0;font-size:.72rem;color:var(--g600)">Hotel name</th><th style="text-align:right;padding:6px 0;font-size:.72rem;color:var(--g600)">Stars</th><th style="text-align:right;padding:6px 0;font-size:.72rem;color:var(--g600)">Est. nightly rate</th></tr></thead><tbody>';
+    // Address pin
+    const addressIcon=L.divIcon({
+      html:'<div style="width:14px;height:14px;background:#0a1628;border-radius:50%;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.4)"></div>',
+      className:'',iconSize:[14,14],iconAnchor:[7,7]
+    });
+    L.marker([lat,lon],{icon:addressIcon}).addTo(map).bindPopup('<b>Search address</b><br>'+addr);
 
-    // Sort by stars descending
-    const sorted=hotels.sort((a,b)=>(parseInt(b.tags&&b.tags.stars||4))-(parseInt(a.tags&&a.tags.stars||4)));
-    const shown=sorted.slice(0,8);
-
-    shown.forEach(h=>{
-      const name=(h.tags&&(h.tags.name||h.tags['name:en']))||'Unnamed hotel';
-      const stars=parseInt(h.tags&&h.tags.stars||4);
-      // Estimate nightly rate: 4-star = 130-160% of market, 5-star = 180-220%
-      const mult=stars>=5?1.95:1.4;
-      const est=Math.round(marketRate*mult);
-      listHtml+='<tr style="border-bottom:0.5px solid var(--g100)"><td style="padding:7px 0;color:var(--navy)">'+name+'</td><td style="text-align:right;padding:7px 0">'+('★'.repeat(stars))+'</td><td style="text-align:right;padding:7px 0;font-weight:500">~'+fmt(est)+'/night</td></tr>';
+    // Hotel pins
+    const hotelIcon=L.divIcon({
+      html:'<div style="width:12px;height:12px;background:#0d9e8a;border-radius:50%;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>',
+      className:'',iconSize:[12,12],iconAnchor:[6,6]
+    });
+    allHotels.forEach(h=>{
+      const hlat=h.lat||(h.center&&h.center.lat);
+      const hlon=h.lon||(h.center&&h.center.lon);
+      if(!hlat||!hlon)return;
+      const name=(h.tags.name||'Hotel');
+      const stars=h.tags.stars?'★'.repeat(parseInt(h.tags.stars)):'';
+      const est=Math.round(marketRate*(parseInt(h.tags.stars||4)>=5?1.95:1.4));
+      L.marker([hlat,hlon],{icon:hotelIcon}).addTo(map)
+       .bindPopup('<b>'+name+'</b>'+(stars?'<br>'+stars:'')+'<br>Est. ~'+fmt(est)+'/night');
     });
 
-    listHtml+='</tbody></table>';
-    if(hotels.length>8) listHtml+='<p style="font-size:.75rem;color:var(--g400);margin-top:4px">Showing top 8 of '+hotels.length+' results.</p>';
+    // Force map to render correctly after container becomes visible
+    setTimeout(()=>map.invalidateSize(),100);
 
-    $('dh-nearby-lbl').textContent=hotels.length+' hotel'+(hotels.length!==1?'s':'')+' (4★+) within 1 mile of '+addr;
-    $('dh-hotel-list').innerHTML=listHtml;
-    $('dh-nearby-note').innerHTML='Nightly rates are estimates based on '+fmt(marketRate)+'/night market average × star multiplier. Source: <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a> via Overpass API + GSA market data.';
+    // ── BUILD TABLE ──
+    if(!allHotels.length){
+      $('dh-nearby-lbl').textContent='Hotels near '+addr+' (1 mile radius)';
+      $('dh-hotel-list').innerHTML='<p style="font-size:.84rem;color:var(--g600);margin-top:4px">No 4-star+ hotels found in OpenStreetMap data for this area. OSM coverage varies — the map shows all hotels found. The market rate benchmark of '+fmt(marketRate)+'/night applies.</p>';
+    }else{
+      const sorted=allHotels.sort((a,b)=>(parseInt(b.tags&&b.tags.stars||3))-(parseInt(a.tags&&a.tags.stars||3))).slice(0,10);
+      let table='<table style="width:100%;border-collapse:collapse;font-size:.84rem;margin-top:8px">';
+      table+='<thead><tr style="border-bottom:2px solid var(--g200)"><th style="text-align:left;padding:6px 0;font-size:.7rem;color:var(--g600);text-transform:uppercase">Hotel</th><th style="text-align:center;padding:6px 0;font-size:.7rem;color:var(--g600);text-transform:uppercase">Stars</th><th style="text-align:right;padding:6px 0;font-size:.7rem;color:var(--g600);text-transform:uppercase">Est. rate</th></tr></thead><tbody>';
+      sorted.forEach(h=>{
+        const name=(h.tags.name||'Unnamed hotel');
+        const stars=parseInt(h.tags&&h.tags.stars||4);
+        const est=Math.round(marketRate*(stars>=5?1.95:1.4));
+        table+='<tr style="border-bottom:0.5px solid var(--g100)"><td style="padding:7px 0;color:var(--navy)">'+name+'</td><td style="text-align:center;padding:7px 0;color:#b7791f">'+('★'.repeat(stars))+'</td><td style="text-align:right;padding:7px 0;font-weight:500;color:var(--navy)">~'+fmt(est)+'/night</td></tr>';
+      });
+      table+='</tbody></table>';
+      if(allHotels.length>10)table+='<p style="font-size:.72rem;color:var(--g400);margin-top:4px">Showing top 10 of '+allHotels.length+' hotels found.</p>';
+      $('dh-nearby-lbl').textContent=allHotels.length+' hotel'+(allHotels.length!==1?'s':'')+' within 1 mile of '+addr;
+      $('dh-hotel-list').innerHTML=table;
+    }
+
+    $('dh-nearby-note').innerHTML='Map and hotel data: <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a> contributors via Overpass API. Nightly rates are estimates based on local market average × star rating multiplier.';
     $('dh-nearby').classList.add('show');
 
   }catch(e){
-    // Silently fail - nearby search is supplementary
-    console.log('Nearby hotel search failed:',e);
+    console.log('Nearby search error:',e);
   }
 }
 
-// ═══════════════════════════════════════════════
-// INTERNATIONAL HOTEL + PER DIEM
-// ═══════════════════════════════════════════════
-function triggerPD(){
-  const city=$('ih-city').value.trim();
-  const ctry=$('ih-ctry').value;
-  if(city.length>=2&&ctry){
-    const m=INTL_HOTELS.find(h=>h.city.toUpperCase()===city.toUpperCase()&&h.country===ctry);
-    if(m) showPD(m);
-  }
-}
-function showPD(h){
-  $('pd-exp').style.display='block';
-  if(h&&h.dl){
-    $('pd-city').textContent=h.city;
-    $('pd-lodge').textContent=fmt(h.dl);
-    $('pd-mie').textContent=fmt(h.dm);
-    $('pd-prop').textContent=fmt(Math.round(h.dm*0.75));
-    $('pd-inc').textContent=fmt(Math.round(h.dm*0.14));
-    $('pd-tot').textContent=fmt(h.dl+h.dm);
-  }
-}
-function lookIntlHotel(){
-  const city=$('ih-city').value.trim();
-  const ctry=$('ih-ctry').value;
-  const checkin=$('ih-in').value;
-  const checkout=$('ih-out').value;
-  const err=$('ih-err'), res=$('ih-res');
-  err.style.display='none'; res.classList.remove('show');
-  if(!city||!ctry){err.textContent='Please enter city and country.';err.style.display='block';return;}
-  const m=INTL_HOTELS.find(h=>h.city.toUpperCase()===city.toUpperCase()&&h.country===ctry);
-  if(!m){err.textContent='City not in our table yet. Use the DoD per diem link for exact rates.';err.style.display='block';showPD(null);$('pd-exp').style.display='block';return;}
-  const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
-  $('ih-avg').textContent=fmt(m.mid);
-  $('ih-n').textContent=nights;
-  $('ih-lbl').textContent=city+', '+ctry;
-  $('ih-note').innerHTML='Source: FairFares curated international rate table + <a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">DoD per diem data</a>. DoD M&IE rate: '+fmt(m.dm)+'/day.';
-  res.classList.add('show');
-  showPD(m);
-  logUse('International hotel',city+', '+ctry);
-}
 
 // ═══════════════════════════════════════════════
 // GROUND TRANSPORT — geocode then calc
