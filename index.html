@@ -369,6 +369,14 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
           <button class="lbtn" onclick="lookFlight('df')">Look up flight benchmark</button>
 
 
+          <!-- DOM HOTEL NEARBY RESULTS (above button) -->
+          <div class="rbox" id="dh-nearby">
+            <div class="rlbl" id="dh-nearby-lbl"></div>
+            <div id="dh-hotel-list" style="margin-bottom:10px"></div>
+            <p class="rnote" id="dh-nearby-note"></p>
+            <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
+          </div>
+
           <!-- DOM HOTEL RESULT (above button) -->
           <div class="rbox" id="dh-res">
             <div class="rlbl" id="dh-lbl"></div>
@@ -383,8 +391,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
           </div>
 
           <div class="slbl">Hotel</div>
-          <div style="max-width:400px;margin-bottom:12px">
+          <div class="g2" style="max-width:600px;margin-bottom:12px">
             <div class="f"><label>City</label><input type="text" id="dh-city" placeholder="Chicago"></div>
+            <div class="f"><label>Address or landmark (optional)</label><input type="text" id="dh-addr" placeholder="e.g. 233 S Wacker Dr, Chicago"></div>
           </div>
           <div class="g2" style="max-width:600px;align-items:end">
             <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="dh-in"></div>
@@ -4520,6 +4529,23 @@ function tab(t,el){
   el.classList.add('on');
   $('tp-'+t).classList.add('on');
   if(t==='adm')renderAdmin();
+  // Clear all inputs and results on tab switch
+  document.querySelectorAll('.tp input').forEach(inp=>{
+    if(inp.type==='date'){inp.value='';}
+    else if(inp.type!=='number'||inp.closest('.atbl')){inp.value='';}
+    else{inp.value='';}
+  });
+  document.querySelectorAll('.tp select').forEach(sel=>{
+    if(!sel.closest('.atbl'))sel.selectedIndex=0;
+  });
+  document.querySelectorAll('.rbox').forEach(r=>r.classList.remove('show'));
+  document.querySelectorAll('.nf').forEach(n=>n.style.display='none');
+  document.querySelectorAll('.errmsg').forEach(e=>e.style.display='none');
+  document.querySelectorAll('.pdf-sec').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.pd-exp').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.ac-drop').forEach(d=>d.style.display='none');
+  // Reset dataset codes on autocomplete inputs
+  ['df-o','df-d','if-o','if-d'].forEach(id=>{const el=$(id);if(el)el.dataset.code='';});
 }
 
 // ═══════════════════════════════════════════════
@@ -4638,8 +4664,70 @@ async function lookHotel(){
     $('dh-note').innerHTML='Source: <a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">GSA Per Diem rates</a> FY'+fy+'. Average market rate estimated at 130% of GSA per diem of '+fmt(gsa)+'/night. G-28 domestic cap: $333/night. Conference hotel exception applies with agenda attached.';
     res.classList.add('show');
     logUse('Domestic hotel',city);
-  }catch(e){err.textContent='GSA lookup failed. Check city/state and try again.';err.style.display='block';}
+    // If address provided, search for nearby 4-star hotels
+    if(addr) await findNearbyHotels(addr, city, market);
+  }catch(e){err.textContent='GSA lookup failed. Check city and try again.';err.style.display='block';}
   btn.disabled=false; btn.textContent='Look up hotel benchmark';
+}
+
+async function findNearbyHotels(addr, city, marketRate){
+  try{
+    // Geocode the address
+    const geoUrl='https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(addr)+'&format=json&limit=1';
+    const geoResp=await fetch(geoUrl,{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
+    const geoData=await geoResp.json();
+    if(!geoData||!geoData.length) return;
+
+    const lat=parseFloat(geoData[0].lat);
+    const lon=parseFloat(geoData[0].lon);
+    const radius=1609; // 1 mile in metres
+
+    // Query Overpass API for hotels within 1 mile
+    const query='[out:json][timeout:10];(node["tourism"="hotel"]["stars"~"^[4-5]$"](around:'+radius+','+lat+','+lon+');way["tourism"="hotel"]["stars"~"^[4-5]$"](around:'+radius+','+lat+','+lon+'););out body;';
+    const overpassUrl='https://overpass-api.de/api/interpreter?data='+encodeURIComponent(query);
+    const ovResp=await fetch(overpassUrl);
+    const ovData=await ovResp.json();
+
+    const hotels=ovData.elements||[];
+
+    if(!hotels.length){
+      // Show message but still show market rate context
+      $('dh-nearby-lbl').textContent='4-star hotels near '+addr;
+      $('dh-hotel-list').innerHTML='<p style="font-size:.84rem;color:var(--g600)">No 4-star+ hotels found in OpenStreetMap within 1 mile of this address. This does not mean there are none — OSM coverage varies. The market rate benchmark of '+fmt(marketRate)+'/night applies for this area.</p>';
+      $('dh-nearby-note').innerHTML='Source: <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a> via Overpass API. Coverage may be incomplete.';
+      $('dh-nearby').classList.add('show');
+      return;
+    }
+
+    // Build hotel list
+    let listHtml='<table style="width:100%;border-collapse:collapse;font-size:.84rem">';
+    listHtml+='<thead><tr style="border-bottom:2px solid var(--g200)"><th style="text-align:left;padding:6px 0;font-size:.72rem;color:var(--g600)">Hotel name</th><th style="text-align:right;padding:6px 0;font-size:.72rem;color:var(--g600)">Stars</th><th style="text-align:right;padding:6px 0;font-size:.72rem;color:var(--g600)">Est. nightly rate</th></tr></thead><tbody>';
+
+    // Sort by stars descending
+    const sorted=hotels.sort((a,b)=>(parseInt(b.tags&&b.tags.stars||4))-(parseInt(a.tags&&a.tags.stars||4)));
+    const shown=sorted.slice(0,8);
+
+    shown.forEach(h=>{
+      const name=(h.tags&&(h.tags.name||h.tags['name:en']))||'Unnamed hotel';
+      const stars=parseInt(h.tags&&h.tags.stars||4);
+      // Estimate nightly rate: 4-star = 130-160% of market, 5-star = 180-220%
+      const mult=stars>=5?1.95:1.4;
+      const est=Math.round(marketRate*mult);
+      listHtml+='<tr style="border-bottom:0.5px solid var(--g100)"><td style="padding:7px 0;color:var(--navy)">'+name+'</td><td style="text-align:right;padding:7px 0">'+('★'.repeat(stars))+'</td><td style="text-align:right;padding:7px 0;font-weight:500">~'+fmt(est)+'/night</td></tr>';
+    });
+
+    listHtml+='</tbody></table>';
+    if(hotels.length>8) listHtml+='<p style="font-size:.75rem;color:var(--g400);margin-top:4px">Showing top 8 of '+hotels.length+' results.</p>';
+
+    $('dh-nearby-lbl').textContent=hotels.length+' hotel'+(hotels.length!==1?'s':'')+' (4★+) within 1 mile of '+addr;
+    $('dh-hotel-list').innerHTML=listHtml;
+    $('dh-nearby-note').innerHTML='Nightly rates are estimates based on '+fmt(marketRate)+'/night market average × star multiplier. Source: <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a> via Overpass API + GSA market data.';
+    $('dh-nearby').classList.add('show');
+
+  }catch(e){
+    // Silently fail - nearby search is supplementary
+    console.log('Nearby hotel search failed:',e);
+  }
 }
 
 // ═══════════════════════════════════════════════
