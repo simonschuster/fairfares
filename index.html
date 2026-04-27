@@ -380,7 +380,10 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
           <div class="slbl">Hotel</div>
           <div class="g2" style="max-width:600px;margin-bottom:12px">
             <div class="f"><label>City</label>
-              <div class="ac-wrap"><input type="text" id="dh-city" placeholder="e.g. Chicago" autocomplete="off" oninput="autoCity(this,'dh-city-drop')"></div></div>
+             <div class="ac-wrap">
+  <input type="text" id="dh-city" placeholder="e.g. Chicago" autocomplete="off">
+  <div class="ac-drop" id="dh-city-drop"></div>
+</div>
             </div>
             <div class="f"><label>Address or landmark (optional)</label><input type="text" id="dh-addr" placeholder="e.g. 233 S Wacker Dr, Chicago"></div>
           </div>
