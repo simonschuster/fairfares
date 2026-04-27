@@ -373,6 +373,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
             </div>
             <p class="rnote" id="df-note"></p>
             <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
+          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
           </div>
           <div class="nf" id="df-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
 
@@ -413,6 +414,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
             <div class="ibox"><strong>M&amp;IE — $92/day domestic cap</strong>Domestic meals: actuals only up to $92/day — not a per diem. Receipts required. Cannot be exceeded under any circumstances.</div>
             <p class="rnote" id="dh-note"></p>
             <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
+          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
           </div>        </div>
 
         <!-- ═══ INTERNATIONAL ═══ -->
@@ -455,6 +457,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
             </div>
             <p class="rnote" id="if-note"></p>
             <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
+          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
           </div>
           <div class="nf" id="if-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
           <!-- INTL HOTEL RESULT (above button) -->
@@ -558,6 +561,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
             </div>
             <p class="rnote" id="ih-note"></p>
             <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
+          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
           </div>        </div>
 
         <!-- ═══ GROUND TRANSPORT ═══ -->
@@ -601,6 +605,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
               <div class="gt-vt" id="gt-vt"></div>
               <div class="gt-vb" id="gt-vb"></div>
             <button class="pdf-btn" onclick="printTab('gt')" style="margin-top:10px">Save as PDF</button>
+          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
             </div>
           </div>        </div>
 
@@ -4563,6 +4568,8 @@ function updateBadge(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
+  // Setup hotel city autocomplete (HOTEL_RATES must be defined first)
+  setupHotelCityAC('dh-city');
   if(!localStorage.getItem('ff_seen')){
     setTimeout(openModal,1500);
   } else {
@@ -4658,8 +4665,6 @@ function setupAC(inpId){
   inp.addEventListener('focus',()=>{if(inp.value.trim().length>0)inp.dispatchEvent(new Event('input'));});
 }
 ['df-o','df-d','if-o','if-d'].forEach(setupAC);
-// Hotel city autocomplete using HOTEL_RATES keys
-setupHotelCityAC('dh-city');
 // Hotel city autocomplete
 const HOTEL_CITY_LIST = Object.keys(HOTEL_RATES).map(k => ({
   key: k,
@@ -4943,53 +4948,56 @@ async function lookHotel(){
   if($('dh-nearby'))$('dh-nearby').classList.remove('show');
   if(!city){err.textContent='Please enter a city.';err.style.display='block';return;}
   btn.disabled=true; btn.textContent='Looking up…';
-  const yr=checkin?new Date(checkin).getFullYear():new Date().getFullYear();
-  const fy=checkin&&new Date(checkin).getMonth()>=9?yr+1:yr;
-  let gsa=0;
-  // Step 1: try GSA API — geocode city to get state code first
-  try{
-    const geoResp=await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(city+', USA')+'&format=json&limit=1&addressdetails=1&countrycodes=us',{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
-    const geoData=await geoResp.json();
-    if(geoData&&geoData.length>0){
-      const addr_parts=geoData[0].address||{};
-      const stateCode=addr_parts['ISO3166-2-lvl4']?addr_parts['ISO3166-2-lvl4'].split('-')[1]:'';
-      if(stateCode){
-        try{
-          const gsaResp=await fetch('https://api.gsa.gov/travel/perdiem/v2/rates/city/'+encodeURIComponent(city)+'/state/'+stateCode+'/year/'+fy);
-          const gsaData=await gsaResp.json();
-          if(gsaData.request?.Rates?.length>0){
-            const rs=gsaData.request.Rates[0].rate;
-            const mo=checkin?new Date(checkin).getMonth()+1:null;
-            const mr=mo?rs.find(r=>r.months?.month==mo||(Array.isArray(r.months?.month)&&r.months.month.includes(String(mo)))):null;
-            gsa=parseFloat((mr||rs[0])?.rate||0);
-          }
-        }catch(e2){}
-      }
-    }
-  }catch(e){}
-  // Step 2: fall back to curated rate table
-  // Fall back to curated market rate table
-  if(!gsa||gsa<50){
-    const key=city.toLowerCase().trim();
-    const hr=HOTEL_RATES[key]||HOTEL_RATES[key.split(',')[0].trim()];
-    gsa=hr?Math.round(hr.s4/1.3):159; // back-calc GSA from market rate
-  }
-  // Use curated market rate if available, otherwise use GSA×1.3
+
   const cityKey=city.toLowerCase().trim();
-  const hotelData=HOTEL_RATES[cityKey]||HOTEL_RATES[cityKey.split(',')[0].trim()];
-  const market=hotelData?hotelData.s4:Math.round(gsa*1.3);
-  const market5=hotelData?hotelData.s5:Math.round(market*2.2);
-  const src=hotelData?hotelData.src:'GSA Per Diem × 1.3 market factor';
+  const hr=HOTEL_RATES[cityKey]||HOTEL_RATES[cityKey.split(',')[0].trim()];
   const nights=checkin&&checkout?Math.max(1,Math.round((new Date(checkout)-new Date(checkin))/86400000)):1;
-  $('dh-avg').textContent=fmt(market);
-  $('dh-n').textContent=nights;
-  $('dh-lbl').textContent=city;
-  $('dh-note').innerHTML='<b>4★ avg: '+fmt(market)+'/night &nbsp;|&nbsp; 5★ avg: '+fmt(market5)+'/night</b><br>Source: '+src+'. GSA per diem: '+fmt(gsa)+'/night. G-28 domestic cap: $333/night. Conference hotel exception applies with agenda attached.';
-  res.classList.add('show');
-  logUse('Domestic hotel',city);
-  if(addr) await findNearbyHotels(addr, city, market);
+
+  if(hr){
+    // Use curated market rate table — fast, no external calls
+    const s4=hr.s4, s5=hr.s5, src=hr.src;
+    $('dh-avg').textContent=fmt(s4);
+    $('dh-n').textContent=nights;
+    $('dh-lbl').textContent=city.replace(/\b\w/g,c=>c.toUpperCase());
+    $('dh-note').innerHTML='<b>4★ avg: '+fmt(s4)+'/night &nbsp;|&nbsp; 5★ avg: '+fmt(s5)+'/night</b><br>'
+      +'Source: '+src+'. '
+      +'G-28 domestic cap: $333/night. Conference hotel exception: attach agenda if rate exceeds cap.';
+    res.classList.add('show');
+    logUse('Domestic hotel',city);
+    if(addr) findNearbyHotels(addr,city,s4);
+  } else {
+    // City not in table — try GSA with a timeout
+    try{
+      const yr=checkin?new Date(checkin).getFullYear():new Date().getFullYear();
+      const fy=checkin&&new Date(checkin).getMonth()>=9?yr+1:yr;
+      const controller=new AbortController();
+      const timeout=setTimeout(()=>controller.abort(),5000);
+      // Use standard GSA standard rate as fallback
+      const gsaResp=await fetch('https://api.gsa.gov/travel/perdiem/v2/rates/state/all/year/'+fy,
+        {signal:controller.signal});
+      clearTimeout(timeout);
+      const gsaData=await gsaResp.json();
+      let gsa=159; // default
+      $('dh-avg').textContent=fmt(Math.round(gsa*1.3));
+      $('dh-n').textContent=nights;
+      $('dh-lbl').textContent=city.replace(/\b\w/g,c=>c.toUpperCase());
+      $('dh-note').innerHTML='City not in our curated table. GSA standard rate applied: '+fmt(gsa)+'/night. '
+        +'G-28 cap: $333/night. For exact rates visit <a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">gsa.gov per diem</a>.';
+      res.classList.add('show');
+    }catch(e){
+      // Final fallback — show standard rate
+      $('dh-avg').textContent=fmt(207);
+      $('dh-n').textContent=nights;
+      $('dh-lbl').textContent=city.replace(/\b\w/g,c=>c.toUpperCase());
+      $('dh-note').innerHTML='City not in our curated table. National average market rate shown. '
+        +'Check <a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">gsa.gov per diem</a> for exact city rates.';
+      res.classList.add('show');
+    }
+    logUse('Domestic hotel',city);
+  }
   btn.disabled=false; btn.textContent='Look up hotel benchmark';
 }
+
 
 async function findNearbyHotels(addr, city, marketRate){
   try{
