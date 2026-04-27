@@ -335,17 +335,6 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
         <div class="tp on" id="tp-dom">
 
           <!-- DOM FLIGHT RESULT (above button) -->
-          <div class="rbox" id="df-res">
-            <div class="rlbl" id="df-lbl"></div>
-            <div class="rrow">
-              <div class="rm"><div class="ml">Average fare</div><div class="mv" id="df-avg">—</div><div class="ms" id="df-cab-sub"></div></div>
-              <div class="rm"><div class="ml">Cabin</div><div class="mv" id="df-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
-            </div>
-            <p class="rnote" id="df-note"></p>
-            <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
-          </div>
-          <div class="nf" id="df-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
 
           <div class="slbl">Flight</div>
           <div class="g2">
@@ -353,7 +342,8 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
               <div class="ac-wrap"><input type="text" id="df-o" placeholder="San Francisco or SFO" autocomplete="off"><div class="ac-drop" id="df-o-drop"></div></div>
             </div>
             <div class="f"><label>To</label>
-              <div class="ac-wrap"><input type="text" id="df-d" placeholder="Chicago or ORD" autocomplete="off"><div class="ac-drop" id="df-d-drop"></div></div>
+              <div class="ac-wrap"><input type="text" id="df-d" placeholder="Chicago or ORD" autocomplete="off"><div
+ class="ac-drop" id="df-d-drop"></div></div>
             </div>
           </div>
           <div class="g3">
@@ -374,15 +364,45 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
           <button class="lbtn" onclick="lookFlight('df')">Look up flight benchmark</button>
 
 
+          <div class="rbox" id="df-res">
+            <div class="rlbl" id="df-lbl"></div>
+            <div class="rrow">
+              <div class="rm"><div class="ml">Average fare</div><div class="mv" id="df-avg">—</div><div class="ms" id="df-cab-sub"></div></div>
+              <div class="rm"><div class="ml">Cabin</div><div class="mv" id="df-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
+            </div>
+            <p class="rnote" id="df-note"></p>
+            <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
+          </div>
+          <div class="nf" id="df-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
+
+          <div class="slbl">Hotel</div>
+          <div class="g2" style="max-width:600px;margin-bottom:12px">
+            <div class="f"><label>City</label>
+              <div class="ac-wrap"><input type="text" id="dh-city" placeholder="e.g. Chicago" autocomplete="off"><div class="ac-drop" id="dh-city-drop"></div></div>
+            </div>
+            <div class="f"><label>Address or landmark (optional)</label><input type="text" id="dh-addr" placeholder="e.g. 233 S Wacker Dr, Chicago"></div>
+          </div>
+          <div class="g2" style="max-width:600px;align-items:end">
+            <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="dh-in"></div>
+            <div class="f"><label>Authorized check-out date</label><input type="date" id="dh-out"></div>
+          </div>
+          <div class="errmsg" id="dh-err"></div>
+          <button class="lbtn" id="dh-btn" onclick="lookHotel()">Look up hotel benchmark</button>
+
           <!-- DOM HOTEL NEARBY RESULTS (above button) -->
+
+
+          <!-- DOM HOTEL RESULT (above button) -->
+
+
+
           <div class="rbox" id="dh-nearby">
             <div class="rlbl" id="dh-nearby-lbl"></div>
             <div id="dh-map" style="width:100%;height:320px;border-radius:10px;margin-bottom:12px;border:1px solid var(--g200);display:none"></div>
             <div id="dh-hotel-list" style="margin-bottom:10px"></div>
             <p class="rnote" id="dh-nearby-note"></p>
           </div>
-
-          <!-- DOM HOTEL RESULT (above button) -->
           <div class="rbox" id="dh-res">
             <div class="rlbl" id="dh-lbl"></div>
             <div class="rrow">
@@ -393,36 +413,12 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
             <div class="ibox"><strong>M&amp;IE — $92/day domestic cap</strong>Domestic meals: actuals only up to $92/day — not a per diem. Receipts required. Cannot be exceeded under any circumstances.</div>
             <p class="rnote" id="dh-note"></p>
             <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
-          </div>
-
-          <div class="slbl">Hotel</div>
-          <div class="g2" style="max-width:600px;margin-bottom:12px">
-            <div class="f"><label>City</label><input type="text" id="dh-city" placeholder="Chicago"></div>
-            <div class="f"><label>Address or landmark (optional)</label><input type="text" id="dh-addr" placeholder="e.g. 233 S Wacker Dr, Chicago"></div>
-          </div>
-          <div class="g2" style="max-width:600px;align-items:end">
-            <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="dh-in"></div>
-            <div class="f"><label>Authorized check-out date</label><input type="date" id="dh-out"></div>
-          </div>
-          <div class="errmsg" id="dh-err"></div>
-          <button class="lbtn" id="dh-btn" onclick="lookHotel()">Look up hotel benchmark</button>
-        </div>
+          </div>        </div>
 
         <!-- ═══ INTERNATIONAL ═══ -->
         <div class="tp" id="tp-intl">
 
           <!-- INTL FLIGHT RESULT (above button) -->
-          <div class="rbox" id="if-res">
-            <div class="rlbl" id="if-lbl"></div>
-            <div class="rrow">
-              <div class="rm"><div class="ml">Average fare</div><div class="mv" id="if-avg">—</div><div class="ms" id="if-sub"></div></div>
-              <div class="rm"><div class="ml">Cabin</div><div class="mv" id="if-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
-            </div>
-            <p class="rnote" id="if-note"></p>
-            <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
-          </div>
-          <div class="nf" id="if-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
 
           <div class="slbl">Flight</div>
           <div class="g2">
@@ -450,17 +446,18 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
           <div class="errmsg" id="if-err"></div>
           <button class="lbtn" onclick="lookFlight('if')">Look up flight benchmark</button>
 
-          <!-- INTL HOTEL RESULT (above button) -->
-          <div class="rbox" id="ih-res">
-            <div class="rlbl" id="ih-lbl"></div>
+          <div class="rbox" id="if-res">
+            <div class="rlbl" id="if-lbl"></div>
             <div class="rrow">
-              <div class="rm"><div class="ml">Average market rate</div><div class="mv" id="ih-avg">—</div><div class="ms">per night (USD)</div></div>
-              <div class="rm"><div class="ml">Authorized nights</div><div class="mv" id="ih-n">—</div><div class="ms"></div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">DoD</div><div class="ms"><a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">travel.dod.mil</a></div></div>
+              <div class="rm"><div class="ml">Average fare</div><div class="mv" id="if-avg">—</div><div class="ms" id="if-sub"></div></div>
+              <div class="rm"><div class="ml">Cabin</div><div class="mv" id="if-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
             </div>
-            <p class="rnote" id="ih-note"></p>
+            <p class="rnote" id="if-note"></p>
             <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
           </div>
+          <div class="nf" id="if-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
+          <!-- INTL HOTEL RESULT (above button) -->
 
           <!-- PER DIEM TABLE (above button) -->
           <div class="pd-exp" id="pd-exp">
@@ -480,7 +477,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
 
           <div class="slbl">Hotel + DoD per diem</div>
           <div class="g2" style="max-width:500px">
-            <div class="f"><label>City</label><input type="text" id="ih-city" placeholder="London" oninput="triggerPD()"></div>
+            <div class="f"><label>City</label>
+              <div class="ac-wrap"><input type="text" id="ih-city" placeholder="e.g. London" autocomplete="off" oninput="triggerPD()"><div class="ac-drop" id="ih-city-drop"></div></div>
+            </div>
             <div class="f"><label>Country</label>
               <select id="ih-ctry" onchange="triggerPD()">
                 <option value="">Select country...</option>
@@ -510,13 +509,72 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
           </div>
           <div class="errmsg" id="ih-err"></div>
           <button class="lbtn" onclick="lookIntlHotel()">Look up hotel + per diem</button>
-        </div>
+
+
+
+          <div class="slbl">Hotel + DoD per diem</div>
+          <div class="g2" style="max-width:500px">
+            <div class="f"><label>City</label>
+              <div class="ac-wrap"><input type="text" id="ih-city" placeholder="e.g. London" autocomplete="off" oninput="triggerPD()"><div class="ac-drop" id="ih-city-drop"></div></div>
+            </div>
+            <div class="f"><label>Country</label>
+              <select id="ih-ctry" onchange="triggerPD()">
+                <option value="">Select country...</option>
+                <option value="GB">United Kingdom</option><option value="CA">Canada</option>
+                <option value="AU">Australia</option><option value="DE">Germany</option>
+                <option value="FR">France</option><option value="JP">Japan</option>
+                <option value="SG">Singapore</option><option value="CH">Switzerland</option>
+                <option value="NL">Netherlands</option><option value="AT">Austria</option>
+                <option value="BE">Belgium</option><option value="DK">Denmark</option>
+                <option value="FI">Finland</option><option value="GR">Greece</option>
+                <option value="IE">Ireland</option><option value="IT">Italy</option>
+                <option value="NO">Norway</option><option value="PT">Portugal</option>
+                <option value="ES">Spain</option><option value="SE">Sweden</option>
+                <option value="AE">UAE</option><option value="IL">Israel</option>
+                <option value="IN">India</option><option value="KR">South Korea</option>
+                <option value="CN">China</option><option value="HK">Hong Kong</option>
+                <option value="TW">Taiwan</option><option value="TH">Thailand</option>
+                <option value="MY">Malaysia</option><option value="NZ">New Zealand</option>
+                <option value="ZA">South Africa</option><option value="BR">Brazil</option>
+                <option value="MX">Mexico</option>
+              </select>
+            </div>
+          </div>
+          <div class="g2" style="max-width:500px;align-items:end">
+            <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="ih-in"></div>
+            <div class="f"><label>Authorized check-out</label><input type="date" id="ih-out"></div>
+          </div>
+          <div class="errmsg" id="ih-err"></div>
+          <button class="lbtn" onclick="lookIntlHotel()">Look up hotel + per diem</button>
+
+
+
+          <div class="rbox" id="ih-res">
+            <div class="rlbl" id="ih-lbl"></div>
+            <div class="rrow">
+              <div class="rm"><div class="ml">Average market rate</div><div class="mv" id="ih-avg">—</div><div class="ms">per night (USD)</div></div>
+              <div class="rm"><div class="ml">Authorized nights</div><div class="mv" id="ih-n">—</div><div class="ms"></div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">DoD</div><div class="ms"><a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">travel.dod.mil</a></div></div>
+            </div>
+            <p class="rnote" id="ih-note"></p>
+            <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
+          </div>        </div>
 
         <!-- ═══ GROUND TRANSPORT ═══ -->
         <div class="tp" id="tp-gt">
           <div class="ibox" style="margin-bottom:1rem"><strong>UCOP G-28 Transportation Policy</strong>"Transportation expenses shall be reimbursed based on the most economical mode of transportation and the most commonly traveled route consistent with the authorized purpose of the trip." If a traveler rented a car when a taxi or rideshare would have sufficed, reimbursement is capped at the taxi equivalent.</div>
 
+          <div class="g2">
+            <div class="f"><label>Pickup — address or place name</label><input type="text" id="gt-from" placeholder="e.g. SFO Airport" oninput="gtGeo()"></div>
+            <div class="f"><label>Dropoff — address or place name</label><input type="text" id="gt-to" placeholder="e.g. UCSF Mission Bay, San Francisco" oninput="gtGeo()"></div>
+          </div>
+          <div class="errmsg" id="gt-err"></div>
+          <button class="lbtn" id="gt-btn" onclick="calcGT()">Get fare estimates</button>
+
           <!-- GT RESULTS (above button) -->
+
+
+
           <div class="rbox" id="gt-res">
             <div class="rlbl" id="gt-lbl"></div>
             <div class="map-wrap" id="gt-map-wrap">
@@ -544,15 +602,7 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
               <div class="gt-vb" id="gt-vb"></div>
             <button class="pdf-btn" onclick="printTab('gt')" style="margin-top:10px">Save as PDF</button>
             </div>
-          </div>
-
-          <div class="g2">
-            <div class="f"><label>Pickup — address or place name</label><input type="text" id="gt-from" placeholder="e.g. SFO Airport" oninput="gtGeo()"></div>
-            <div class="f"><label>Dropoff — address or place name</label><input type="text" id="gt-to" placeholder="e.g. UCSF Mission Bay, San Francisco" oninput="gtGeo()"></div>
-          </div>
-          <div class="errmsg" id="gt-err"></div>
-          <button class="lbtn" id="gt-btn" onclick="calcGT()">Get fare estimates</button>
-        </div>
+          </div>        </div>
 
         <!-- ═══ TRAVEL ADVISORIES ═══ -->
         <div class="tp" id="tp-adv">
@@ -4554,6 +4604,33 @@ function tab(t,el){
 // ═══════════════════════════════════════════════
 // AUTOCOMPLETE
 // ═══════════════════════════════════════════════
+
+function setupHotelCityAC(inpId){
+  const inp=$(inpId), drop=$(inpId+'-drop');
+  if(!inp||!drop)return;
+  inp.addEventListener('input',()=>{
+    const q=inp.value.trim().toLowerCase();
+    drop.innerHTML='';
+    if(q.length<2){drop.style.display='none';return;}
+    const hits=Object.keys(HOTEL_RATES).filter(k=>k.includes(q)).sort().slice(0,10);
+    if(!hits.length){drop.style.display='none';return;}
+    hits.forEach(city=>{
+      const div=document.createElement('div');
+      div.className='ac-item';
+      const display=city.replace(/\w/g,c=>c.toUpperCase());
+      div.textContent=display;
+      div.addEventListener('mousedown',e=>{
+        e.preventDefault();
+        inp.value=display;
+        drop.style.display='none';
+      });
+      drop.appendChild(div);
+    });
+    drop.style.display='block';
+  });
+  inp.addEventListener('blur',()=>setTimeout(()=>drop.style.display='none',200));
+}
+
 function setupAC(inpId){
   const inp=$(inpId), drop=$(inpId+'-drop');
   if(!inp||!drop)return;
@@ -4581,6 +4658,43 @@ function setupAC(inpId){
   inp.addEventListener('focus',()=>{if(inp.value.trim().length>0)inp.dispatchEvent(new Event('input'));});
 }
 ['df-o','df-d','if-o','if-d'].forEach(setupAC);
+// Hotel city autocomplete using HOTEL_RATES keys
+setupHotelCityAC('dh-city');
+// Hotel city autocomplete
+const HOTEL_CITY_LIST = Object.keys(HOTEL_RATES).map(k => ({
+  key: k,
+  display: k.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+}));
+
+function setupCityAC(inputId){
+  const inp=$(inputId), drop=$(inputId+'-drop');
+  if(!inp||!drop) return;
+  inp.addEventListener('input', ()=>{
+    const q=inp.value.trim().toLowerCase();
+    drop.innerHTML='';
+    if(q.length<2){drop.style.display='none';return;}
+    const hits=HOTEL_CITY_LIST.filter(c=>c.key.startsWith(q)||c.key.includes(q)).slice(0,8);
+    if(!hits.length){drop.style.display='none';return;}
+    hits.forEach(c=>{
+      const div=document.createElement('div');
+      div.className='ac-item';
+      div.textContent=c.display;
+      div.addEventListener('mousedown',e=>{
+        e.preventDefault();
+        inp.value=c.display;
+        drop.style.display='none';
+        // Trigger oninput for ih-city
+        inp.dispatchEvent(new Event('input'));
+      });
+      drop.appendChild(div);
+    });
+    drop.style.display='block';
+  });
+  inp.addEventListener('blur',()=>setTimeout(()=>drop.style.display='none',200));
+}
+setupCityAC('dh-city');
+setupCityAC('ih-city');
+
 
 // ═══════════════════════════════════════════════
 // GOOGLE FORM LOGGING
@@ -4834,7 +4948,7 @@ async function lookHotel(){
   let gsa=0;
   // Step 1: try GSA API — geocode city to get state code first
   try{
-    const geoResp=await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(city+', USA')+'&format=json&limit=1&addressdetails=1',{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
+    const geoResp=await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(city+', USA')+'&format=json&limit=1&addressdetails=1&countrycodes=us',{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
     const geoData=await geoResp.json();
     if(geoData&&geoData.length>0){
       const addr_parts=geoData[0].address||{};
@@ -4880,7 +4994,10 @@ async function lookHotel(){
 async function findNearbyHotels(addr, city, marketRate){
   try{
     // Geocode the address
-    const geoResp=await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(addr)+'&format=json&limit=1',{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
+    // Combine city + address to prevent wrong-city geocoding
+    const cityVal=$('dh-city')?$('dh-city').value.trim():'';
+    const searchQuery=cityVal?addr+', '+cityVal:addr;
+    const geoResp=await fetch('https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(searchQuery)+'&format=json&limit=1&countrycodes='+encodeURIComponent('us,gb,ca,au,de,fr,jp,sg,nl,ch,at,be,dk,fi,gr,ie,it,no,pt,es,se,ae,il,in,kr,cn,hk,tw,th,my,nz,za,br,mx'),{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
     const geoData=await geoResp.json();
     if(!geoData||!geoData.length) return;
 
@@ -5178,3 +5295,5 @@ function printTab(t){
 </script>
 </body>
 </html>
+
+
