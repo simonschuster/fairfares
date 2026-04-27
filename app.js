@@ -43,7 +43,6 @@ function updateBadge(){
 
 document.addEventListener('DOMContentLoaded',()=>{
   // Setup hotel city autocomplete (HOTEL_RATES must be defined first)
-  setupHotelCityAC('dh-city');
   if(!localStorage.getItem('ff_seen')){
     setTimeout(openModal,1500);
   } else {
@@ -86,33 +85,7 @@ function tab(t,el){
 // AUTOCOMPLETE
 // ═══════════════════════════════════════════════
 
-function setupHotelCityAC(id){
-  var inp=document.getElementById(id);
-  var drop=document.getElementById(id+'-drop');
-  if(!inp||!drop)return;
-  function doSearch(){
-    if(typeof HOTEL_RATES==='undefined'){drop.style.display='none';return;}
-    var q=inp.value.toLowerCase().trim();
-    drop.innerHTML='';
-    if(q.length<2){drop.style.display='none';return;}
-    var hits=Object.keys(HOTEL_RATES).filter(function(k){return k.indexOf(q)>=0;}).sort().slice(0,10);
-    if(!hits.length){drop.style.display='none';return;}
-    hits.forEach(function(k){
-      var item=document.createElement('div');
-      item.className='ac-item';
-      item.textContent=k.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1):'';}).join(' ');
-      item.addEventListener('mousedown',function(e){
-        e.preventDefault();
-        inp.value=item.textContent;
-        drop.style.display='none';
-      });
-      drop.appendChild(item);
-    });
-    drop.style.display='block';
-  }
-  inp.addEventListener('input',doSearch);
-  inp.addEventListener('blur',function(){setTimeout(function(){drop.style.display='none';},200);});
-}
+
 function setupAC(inpId){
   const inp=$(inpId), drop=$(inpId+'-drop');
   if(!inp||!drop)return;
@@ -140,20 +113,14 @@ function setupAC(inpId){
   inp.addEventListener('focus',()=>{if(inp.value.trim().length>0)inp.dispatchEvent(new Event('input'));});
 }
 ['df-o','df-d','if-o','if-d'].forEach(setupAC);
-// Hotel city autocomplete
-const HOTEL_CITY_LIST = Object.keys(HOTEL_RATES).map(k => ({
-  key: k,
-  display: k.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
-}));
-
-function setupCityAC(inputId){
-  const inp=$(inputId), drop=$(inputId+'-drop');
-  if(!inp||!drop) return;
-  inp.addEventListener('input', ()=>{
+function setupCityAC(inpId){
+  const inp=$(inpId), drop=$(inpId+'-drop');
+  if(!inp||!drop)return;
+  inp.addEventListener('input',()=>{
     const q=inp.value.trim().toLowerCase();
     drop.innerHTML='';
-    if(q.length<2){drop.style.display='none';return;}
-    const hits=HOTEL_CITY_LIST.filter(c=>c.key.startsWith(q)||c.key.includes(q)).slice(0,8);
+    if(q.length<1){drop.style.display='none';return;}
+    const hits=CITIES.filter(c=>c.key.startsWith(q)||c.key.includes(q)).slice(0,8);
     if(!hits.length){drop.style.display='none';return;}
     hits.forEach(c=>{
       const div=document.createElement('div');
@@ -163,18 +130,15 @@ function setupCityAC(inputId){
         e.preventDefault();
         inp.value=c.display;
         drop.style.display='none';
-        // Trigger oninput for ih-city
-        inp.dispatchEvent(new Event('input'));
       });
       drop.appendChild(div);
     });
     drop.style.display='block';
   });
   inp.addEventListener('blur',()=>setTimeout(()=>drop.style.display='none',200));
+  inp.addEventListener('focus',()=>{if(inp.value.trim().length>0)inp.dispatchEvent(new Event('input'));});
 }
-setupCityAC('dh-city');
-setupCityAC('ih-city');
-
+['dh-city','ih-city'].forEach(setupCityAC);
 
 // ═══════════════════════════════════════════════
 // GOOGLE FORM LOGGING
@@ -547,6 +511,15 @@ let gtFromCoord=null, gtToCoord=null;
 function gtGeo(){
   clearTimeout(gtGeoTimer);
   gtGeoTimer=setTimeout(doGeoLookup,800);
+// Hotel city list — same pattern as AIRPORTS
+const CITIES = Object.keys(HOTEL_RATES).map(function(k){
+  return {
+    key: k,
+    display: k.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1):'';}).join(' ')
+  };
+}).sort(function(a,b){return a.key.localeCompare(b.key);});
+
+
 }
 
 async function geocode(query){
