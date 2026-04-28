@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>FairFares — Travel Cost Benchmarking</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FairFares — Travel Cost Benchmarking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -17,7 +17,7 @@
   <div class="md">
     <div class="md-logo">Fair<span>Fares</span></div>
     <h2>Welcome — which institution are you from?</h2>
-    <p>This helps us improve the tool. We collect institution and department only — no personal information.</p>
+    <p>This helps us improve the tool. We collect institution and department only — no personal information, no names, no email addresses.</p>
     <div class="mf">
       <label>Institution</label>
       <select id="m-inst">
@@ -42,66 +42,137 @@
     <div class="links">
       <a href="#tool">Tool</a>
       <a href="#admin">Admin</a>
+      <a href="mailto:hello@getfairfares.com">Contact</a>
     </div>
   </div>
 </nav>
 
 <section class="hero">
-  <h1>Travel Benchmarking</h1>
-  <p>Standardize costs for university travel using BTS and GSA data.</p>
+  <div class="hw">
+    <h1>Travel Benchmarking</h1>
+    <p>Standardize costs for university travel using BTS and GSA data. Accurate, defensible, and easy to use.</p>
+  </div>
 </section>
 
 <section class="tool-sec" id="tool">
   <div class="tw">
-    <div class="tabs">
-      <button class="tab active" onclick="setTab('flight')">Airfare</button>
-      <button class="tab" onclick="setTab('hotel')">Hotels</button>
-      <button class="tab" onclick="setTab('ground')">Ground</button>
+    <div class="ttabs">
+      <button class="tab active" onclick="setTab('flight', event)">Airfare</button>
+      <button class="tab" onclick="setTab('hotel', event)">Hotels</button>
+      <button class="tab" onclick="setTab('ground', event)">Ground</button>
     </div>
 
+    <!-- FLIGHT TAB -->
     <div id="flight" class="tp on">
       <div class="g2">
-        <div><label>From</label><input type="text" id="f-from" placeholder="SFO"></div>
-        <div><label>To</label><input type="text" id="f-to" placeholder="LAX"></div>
+        <div>
+          <label>From <span class="slbl">(City or Airport)</span></label>
+          <input type="text" id="f-from" placeholder="e.g. SFO or San Francisco">
+        </div>
+        <div>
+          <label>To <span class="slbl">(City or Airport)</span></label>
+          <input type="text" id="f-to" placeholder="e.g. London or LHR">
+        </div>
       </div>
       <button class="run" onclick="runBench()">Benchmark Airfare</button>
     </div>
 
+    <!-- HOTEL TAB -->
+    <div id="hotel" class="tp">
+      <p style="color:var(--g600);font-size:0.9rem;margin-bottom:1rem">Note: For GSA rates, ensure you select the correct month of travel.</p>
+      <div class="g2">
+        <div>
+          <label>Destination City</label>
+          <input type="text" id="h-city" placeholder="e.g. Washington DC">
+        </div>
+        <div>
+          <label>Month</label>
+          <select id="h-month">
+            <option>January</option><option>February</option><option>March</option>
+            <option>April</option><option>May</option><option>June</option>
+            <option>July</option><option>August</option><option>September</option>
+            <option>October</option><option>November</option><option>December</option>
+          </select>
+        </div>
+      </div>
+      <button class="run" onclick="runHotel()">Find Hotel Caps</button>
+    </div>
+
+    <!-- GROUND TAB -->
+    <div id="ground" class="tp">
+      <div class="g2">
+        <div>
+          <label>City</label>
+          <input type="text" id="g-city" placeholder="e.g. Chicago">
+        </div>
+        <div>
+          <label>Estimated Miles</label>
+          <input type="number" id="g-miles" value="10">
+        </div>
+      </div>
+      <button class="run" onclick="runGround()">Calculate Ground Rates</button>
+    </div>
+
+    <!-- RESULTS BOX -->
     <div id="res" class="rbox off">
-      <h3 id="res-title">Benchmarking Results</h3>
+      <div class="rhdr">
+        <h3 id="res-title">Benchmarking Results</h3>
+        <button class="pdf-btn" onclick="printTab()">Export PDF</button>
+      </div>
       <div class="res-grid">
         <div class="res-card">
           <span class="lbl">Recommended Benchmark</span>
           <div class="val" id="res-mid">-</div>
+          <p class="sub">Standard coach/economy mid-point</p>
         </div>
         <div class="res-card">
           <span class="lbl">Low/Economy Tier</span>
           <div class="val" id="res-low">-</div>
+          <p class="sub">Restricted/Non-refundable average</p>
         </div>
       </div>
-      <button class="pdf-btn" onclick="printTab()">Export PDF</button>
+      <div class="pd-rule"></div>
+      <div class="pd-exp" id="res-exp">
+        Data sources: BTS Form 41 Schedule T-100. Benchmarks include typical university-allowable ancillary fees.
+      </div>
     </div>
   </div>
 </section>
 
 <section class="sec" id="admin">
   <div class="tw">
-    <h2>Admin Dashboard</h2>
+    <div class="ahdr">
+      <h2>Admin Dashboard</h2>
+      <span class="tag">Restricted Access</span>
+    </div>
     <div class="ibox">
-      <div class="g3">
-        <input type="text" id="nr-f" placeholder="From (SFO)">
-        <input type="text" id="nr-t" placeholder="To (LAX)">
-        <input type="number" id="nr-m" placeholder="Mid Price">
+      <label>Add/Update Route Data</label>
+      <div class="g3" style="grid-template-columns: 1fr 1fr 1fr 1fr 80px; gap: 8px;">
+        <input type="text" id="nr-f" placeholder="From">
+        <input type="text" id="nr-t" placeholder="To">
+        <input type="number" id="nr-l" placeholder="Low">
+        <input type="number" id="nr-m" placeholder="Mid">
+        <button class="addbtn" onclick="addRoute()">Add</button>
       </div>
-      <button class="addbtn" style="margin-top:1rem" onclick="addRoute()">Add Route</button>
+      <div class="exprow" style="margin-top: 1rem; display: flex; gap: 10px;">
+        <button class="expbtn" onclick="exportData()">Export JSON</button>
+        <button class="expbtn" onclick="document.getElementById('imp').click()">Import JSON</button>
+        <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)">
+      </div>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="fi">
-    <div class="flogo">Fair<span>Fares</span></div>
-    <div class="fcopy">© 2026 FairFares. Data: BTS (bts.gov) · GSA (gsa.gov).</div>
+    <div>
+      <div class="flogo">Fair<span>Fares</span></div>
+      <div class="fcopy">© 2026 FairFares. Data: BTS (bts.gov) · GSA (gsa.gov) · State Dept.</div>
+    </div>
+    <div class="flinks">
+      <a href="mailto:hello@getfairfares.com">Contact</a>
+      <a href="#tool">Tool</a>
+    </div>
   </div>
 </footer>
 
