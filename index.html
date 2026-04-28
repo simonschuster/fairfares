@@ -283,6 +283,33 @@
           <div class="errmsg" id="ih-err"></div>
           <button class="lbtn" onclick="lookIntlHotel()">Look up hotel + per diem</button>
 
+<div class="rbox" id="ih-res">
+            <div class="rlbl" id="ih-lbl"></div>
+            <div class="rrow">
+              <div class="rm"><div class="ml">High-end benchmark</div><div class="mv" id="ih-avg">—</div><div class="ms">per night (USD)</div></div>
+              <div class="rm"><div class="ml">Authorized nights</div><div class="mv" id="ih-n">—</div><div class="ms"></div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">DoD</div><div class="ms"><a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">travel.dod.mil</a></div></div>
+            </div>
+            <p class="rnote" id="ih-note"></p>
+            <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
+          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
+          </div>
+
+<div class="pd-exp" id="pd-exp">
+            <h4>DoD per diem rates — <span id="pd-city">this destination</span></h4>
+            <table class="pdt">
+              <thead><tr><th>Component</th><th>Amount (USD)</th><th>How it works</th></tr></thead>
+              <tbody>
+                <tr><td>Maximum lodging</td><td id="pd-lodge">—</td><td>Nightly hotel cap. Claimed as actuals up to this limit.</td></tr>
+                <tr><td>Local meals (M&amp;IE)</td><td id="pd-mie">—</td><td>Full daily meals allowance. International = per diem — no receipts needed up to this rate.</td></tr>
+                <tr><td>Proportional meals</td><td id="pd-prop">—</td><td>For travel days (first/last day). ~75% of full M&amp;IE rate.</td></tr>
+                <tr><td>Local incidental</td><td id="pd-inc">—</td><td>Tips and small fees — included within M&amp;IE total.</td></tr>
+                <tr><td>Maximum per diem</td><td id="pd-tot">—</td><td>Lodging + M&amp;IE combined daily maximum.</td></tr>
+              </tbody>
+            </table>
+            <div class="pd-rule"><strong>Actuals vs per diem</strong>International: meals claimed as flat per diem — no receipts needed up to the daily rate. Lodging claimed as actuals up to the maximum lodging rate. Domestic is different: meals are actuals only up to $92/day, never a flat per diem.</div>
+          </div>
+
 
 
           </div>
