@@ -1,7 +1,7 @@
+// FairFares — data.js
+// Routes, hotel rates, advisory data, airport list
+// Update quarterly. Do not edit app.js for data changes.
 
-// ═══════════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════════
 const ROUTES=[
   {from:"SFO",to:"LAX",low:49,mid:98,high:187,rt:1.4},
   {from:"SFO",to:"OAK",low:56,mid:113,high:217,rt:1.4},
@@ -3770,6 +3770,7 @@ const INTL_HOTELS=[
 
 const ADV_DATA={'united kingdom':{level:1,msg:'Normal precautions apply. The UK is generally safe for travel. Be alert to terrorism threats in major cities and tourist areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/UnitedKingdom.html'},'uk':{level:1,msg:'Normal precautions apply. Be alert to terrorism threats in major cities and tourist areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/UnitedKingdom.html'},'france':{level:2,msg:'Exercise increased caution due to terrorism. France has experienced terrorist attacks. Remain vigilant especially at tourist sites and public events.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/France.html'},'germany':{level:2,msg:'Exercise increased caution due to terrorism. Large public gatherings and tourist sites may be targeted.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Germany.html'},'japan':{level:1,msg:'Normal precautions apply. Japan is one of the safest countries for international travelers.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Japan.html'},'australia':{level:1,msg:'Normal precautions apply. Be aware of natural hazards including extreme heat and bushfires.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Australia.html'},'canada':{level:1,msg:'Normal precautions apply. Canada is generally safe for travel.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Canada.html'},'mexico':{level:2,msg:'Exercise increased caution due to crime and kidnapping. Some states are Level 3 or 4. Research the specific destination state carefully.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Mexico.html'},'singapore':{level:1,msg:'Normal precautions apply. Singapore is one of the safest countries in the world.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Singapore.html'},'israel':{level:3,msg:'Reconsider travel due to terrorism and civil unrest. The security situation remains volatile. Some areas are Level 4.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/IsraeltheWestBankandGaza.html'},'china':{level:3,msg:'Reconsider travel due to arbitrary enforcement of local laws including exit bans. US citizens have been detained without clear explanation.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/China.html'},'india':{level:2,msg:'Exercise increased caution due to crime and terrorism. Some border regions are Level 4. Be alert at religious sites and tourist areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/India.html'},'brazil':{level:2,msg:'Exercise increased caution due to crime. Violent crime including robbery is common in urban areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Brazil.html'},'netherlands':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Netherlands.html'},'switzerland':{level:1,msg:'Normal precautions apply. Switzerland is generally very safe.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Switzerland.html'},'spain':{level:2,msg:'Exercise increased caution due to terrorism. Be vigilant at tourist sites and public gatherings.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Spain.html'},'italy':{level:2,msg:'Exercise increased caution due to terrorism. Be alert at tourist attractions and public events.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Italy.html'},'south korea':{level:1,msg:'Normal precautions apply. Exercise caution near the North Korean border.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/SouthKorea.html'},'korea':{level:1,msg:'Normal precautions apply. Exercise caution near the North Korean border.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/SouthKorea.html'},'sweden':{level:2,msg:'Exercise increased caution due to terrorism and crime. Gang-related violence has increased in urban areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Sweden.html'},'denmark':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Denmark.html'},'norway':{level:1,msg:'Normal precautions apply. Norway is generally very safe.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Norway.html'},'finland':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Finland.html'},'austria':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Austria.html'},'belgium':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Belgium.html'},'portugal':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Portugal.html'},'ireland':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Ireland.html'},'new zealand':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/NewZealand.html'},'hong kong':{level:2,msg:'Exercise increased caution. The National Security Law has affected civil liberties. US citizens may be subject to arbitrary enforcement of local laws.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/HongKong.html'},'thailand':{level:1,msg:'Normal precautions apply. Be aware of political demonstrations which can turn violent.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Thailand.html'},'malaysia':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Malaysia.html'},'uae':{level:2,msg:'Exercise increased caution due to terrorism. Strict local laws apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/UnitedArabEmirates.html'},'united arab emirates':{level:2,msg:'Exercise increased caution due to terrorism. Strict local laws apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/UnitedArabEmirates.html'},'qatar':{level:1,msg:'Normal precautions apply. Be aware of local laws and customs.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Qatar.html'},'kenya':{level:2,msg:'Exercise increased caution due to crime and terrorism. Border regions are Level 3.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Kenya.html'},'south africa':{level:2,msg:'Exercise increased caution due to crime. High rates of violent crime including carjacking. Be vigilant in urban areas.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/SouthAfrica.html'},'russia':{level:4,msg:'Do Not Travel due to the war with Ukraine, risk of wrongful detention, and limited US Embassy services.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Russia.html'},'ukraine':{level:4,msg:'Do Not Travel due to active armed conflict. Russia\'s invasion continues with air strikes across the country.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Ukraine.html'},'iran':{level:4,msg:'Do Not Travel. US citizens face very high risk of arbitrary arrest. No US diplomatic relations with Iran.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Iran.html'},'north korea':{level:4,msg:'Do Not Travel. No US diplomatic relations. Arbitrary arrest of US citizens has occurred.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/KoreaDemocraticPeoplesRepublicof.html'},'afghanistan':{level:4,msg:'Do Not Travel due to terrorism, kidnapping, and armed conflict. US Embassy operations are suspended.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Afghanistan.html'},'colombia':{level:2,msg:'Exercise increased caution due to crime and terrorism. Some departments are Level 3.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Colombia.html'},'argentina':{level:1,msg:'Normal precautions apply. Be aware of petty crime and demonstrations.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Argentina.html'},'chile':{level:2,msg:'Exercise increased caution due to crime and civil unrest.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Chile.html'},'peru':{level:2,msg:'Exercise increased caution due to crime and civil unrest.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Peru.html'},'indonesia':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Indonesia.html'},'philippines':{level:2,msg:'Exercise increased caution due to crime, terrorism, and civil unrest. Some areas are Level 3 or 4.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Philippines.html'},'taiwan':{level:2,msg:'Exercise increased caution due to cross-strait tensions.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Taiwan.html'},'nigeria':{level:3,msg:'Reconsider travel due to crime, terrorism, civil unrest, and kidnapping.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Nigeria.html'},'egypt':{level:2,msg:'Exercise increased caution due to terrorism. The Sinai Peninsula is Level 3.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Egypt.html'},'morocco':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Morocco.html'},'czech republic':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/CzechRepublic.html'},'czechia':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/CzechRepublic.html'},'poland':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Poland.html'},'hungary':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Hungary.html'},'greece':{level:2,msg:'Exercise increased caution due to terrorism.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Greece.html'},'turkey':{level:2,msg:'Exercise increased caution due to terrorism and arbitrary detentions.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Turkey.html'},'vietnam':{level:1,msg:'Normal precautions apply.',url:'https://travel.state.gov/content/travel/en/international-travel/International-Travel-Country-Information-Pages/Vietnam.html'}};
 
+
 const AIRPORTS=[
   {c:'SFO',n:'San Francisco',d:'San Francisco (SFO)'},{c:'LAX',n:'Los Angeles',d:'Los Angeles (LAX)'},
   {c:'OAK',n:'Oakland',d:'Oakland (OAK)'},{c:'SJC',n:'San Jose',d:'San Jose (SJC)'},
@@ -3828,6 +3829,7 @@ const AIRPORTS=[
 
 const CMAP={'SAN FRANCISCO':'SFO','SF':'SFO','CHICAGO':'ORD','NEW YORK':'JFK','NYC':'JFK','BOSTON':'BOS','WASHINGTON':'DCA','DC':'DCA','SEATTLE':'SEA','PORTLAND':'PDX','LAS VEGAS':'LAS','PHOENIX':'PHX','DENVER':'DEN','ATLANTA':'ATL','MIAMI':'MIA','HOUSTON':'HOU','MINNEAPOLIS':'MSP','DETROIT':'DTW','CHARLOTTE':'CLT','SAN DIEGO':'SAN','SACRAMENTO':'SMF','LOS ANGELES':'LAX','LA':'LAX','LONDON':'LHR','PARIS':'CDG','FRANKFURT':'FRA','TOKYO':'NRT','SYDNEY':'SYD','SINGAPORE':'SIN','VANCOUVER':'YVR','TORONTO':'YYZ','OAKLAND':'OAK','SAN JOSE':'SJC','AMSTERDAM':'AMS','ZURICH':'ZRH','MADRID':'MAD','ROME':'FCO','MUNICH':'MUC','BARCELONA':'BCN','VIENNA':'VIE','BRUSSELS':'BRU','COPENHAGEN':'CPH','STOCKHOLM':'ARN','HELSINKI':'HEL','DUBLIN':'DUB','LISBON':'LIS','ATHENS':'ATH','DUBAI':'DXB','TEL AVIV':'TLV','CAIRO':'CAI','SEOUL':'ICN','BEIJING':'PEK','SHANGHAI':'PVG','HONG KONG':'HKG','TAIPEI':'TPE','BANGKOK':'BKK','KUALA LUMPUR':'KUL','MUMBAI':'BOM','DELHI':'DEL','BANGALORE':'BLR','MELBOURNE':'MEL','BRISBANE':'BNE','AUCKLAND':'AKL','MONTREAL':'YUL','MEXICO CITY':'MEX','SAO PAULO':'GRU','BUENOS AIRES':'EZE','BOGOTA':'BOG','SANTIAGO':'SCL','LIMA':'LIM','NAIROBI':'NBO','JOHANNESBURG':'JNB','CAPE TOWN':'CPT'};
 
+
 const GT_RATES={
   default:{base:3.00,mile:2.50,min:0.45,name:'standard metered rate'},
   sf:{base:3.50,mile:2.75,min:0.55,name:'San Francisco MTA metered rate'},
@@ -3847,5 +3849,190 @@ const GT_RATES={
   sin:{base:3.20,mile:2.60,min:0.50,name:'Singapore taxi published tariff (USD equiv)'},
 };
 
+
 const ADV_LEVELS={1:{lbl:'Level 1 — Exercise Normal Precautions',badge:'Level 1',cls:'l1'},2:{lbl:'Level 2 — Exercise Increased Caution',badge:'Level 2',cls:'l2'},3:{lbl:'Level 3 — Reconsider Travel',badge:'Level 3',cls:'l3'},4:{lbl:'Level 4 — Do Not Travel',badge:'Level 4',cls:'l4'}};
 
+const HOTEL_RATES = {
+  // ── US DOMESTIC ──
+  "new york":         {s4:340, s5:750, src:"Hotels.com Price Index 2025"},
+  "new york city":    {s4:340, s5:750, src:"Hotels.com Price Index 2025"},
+  "nyc":              {s4:340, s5:750, src:"Hotels.com Price Index 2025"},
+  "manhattan":        {s4:340, s5:750, src:"Hotels.com Price Index 2025"},
+  "jersey city":      {s4:310, s5:620, src:"CheapHotels.org 2026"},
+  "boston":           {s4:320, s5:700, src:"CheapHotels.org 2026"},
+  "san francisco":    {s4:310, s5:680, src:"Google Hotels April 2026"},
+  "sfo":              {s4:310, s5:680, src:"Google Hotels April 2026"},
+  "washington":       {s4:290, s5:640, src:"CheapHotels.org 2026"},
+  "washington dc":    {s4:290, s5:640, src:"CheapHotels.org 2026"},
+  "chicago":          {s4:270, s5:590, src:"Hotels.com Price Index 2025"},
+  "los angeles":      {s4:260, s5:580, src:"Hotels.com Price Index 2025"},
+  "seattle":          {s4:250, s5:560, src:"Hotels.com Price Index 2025"},
+  "miami":            {s4:280, s5:620, src:"Hotels.com 5-star avg $386"},
+  "san diego":        {s4:240, s5:530, src:"CheapHotels.org +31% 2025"},
+  "raleigh":          {s4:258, s5:570, src:"CheapHotels.org 2026"},
+  "denver":           {s4:200, s5:440, src:"Hotels.com best value list"},
+  "atlanta":          {s4:190, s5:420, src:"Hotels.com best value list"},
+  "portland":         {s4:195, s5:430, src:"Hotels.com 5-star avg $287"},
+  "orlando":          {s4:185, s5:410, src:"Hotels.com best value list"},
+  "houston":          {s4:180, s5:400, src:"Hotels.com best value list"},
+  "las vegas":        {s4:185, s5:410, src:"Hotels.com best value list"},
+  "phoenix":          {s4:175, s5:385, src:"Market average 2026"},
+  "dallas":           {s4:185, s5:410, src:"Hotels.com best value list"},
+  "austin":           {s4:195, s5:430, src:"Market average 2026"},
+  "nashville":        {s4:205, s5:455, src:"Market average 2026"},
+  "new orleans":      {s4:200, s5:440, src:"Market average 2026"},
+  "baltimore":        {s4:195, s5:430, src:"CheapHotels.org 2026"},
+  "philadelphia":     {s4:225, s5:500, src:"Market average 2026"},
+  "pittsburgh":       {s4:175, s5:385, src:"Market average 2026"},
+  "minneapolis":      {s4:180, s5:400, src:"Market average 2026"},
+  "detroit":          {s4:195, s5:430, src:"CheapHotels.org 2026"},
+  "charlotte":        {s4:185, s5:410, src:"Market average 2026"},
+  "cleveland":        {s4:160, s5:355, src:"Market average 2026"},
+  "indianapolis":     {s4:160, s5:355, src:"Market average 2026"},
+  "kansas city":      {s4:165, s5:365, src:"Market average 2026"},
+  "st louis":         {s4:160, s5:355, src:"Market average 2026"},
+  "tampa":            {s4:185, s5:410, src:"Market average 2026"},
+  "sacramento":       {s4:200, s5:440, src:"Market average 2026"},
+  "san jose":         {s4:270, s5:595, src:"Market average 2026"},
+  "oakland":          {s4:225, s5:495, src:"Market +12% 2026"},
+  "honolulu":         {s4:320, s5:700, src:"Market average 2026"},
+  "anchorage":        {s4:210, s5:465, src:"Market average 2026"},
+  "salt lake city":   {s4:175, s5:385, src:"Market average 2026"},
+  "san antonio":      {s4:175, s5:385, src:"Hotels.com 5-star avg $340"},
+  "fort worth":       {s4:175, s5:385, src:"Market average 2026"},
+  "memphis":          {s4:160, s5:355, src:"Market average 2026"},
+  "louisville":       {s4:165, s5:365, src:"Market average 2026"},
+  "richmond":         {s4:170, s5:375, src:"Market average 2026"},
+  "hartford":         {s4:175, s5:385, src:"Market average 2026"},
+  "buffalo":          {s4:160, s5:355, src:"Market average 2026"},
+  "rochester":        {s4:155, s5:345, src:"Market average 2026"},
+  "oklahoma city":    {s4:155, s5:345, src:"Market average 2026"},
+  "tucson":           {s4:150, s5:330, src:"Market average 2026"},
+  "albuquerque":      {s4:160, s5:355, src:"Market average 2026"},
+  "el paso":          {s4:145, s5:320, src:"Market average 2026"},
+  "boise":            {s4:165, s5:365, src:"Market average 2026"},
+  "spokane":          {s4:150, s5:330, src:"Market average 2026"},
+
+  // ── CANADA ──
+  "toronto":          {s4:245, s5:540, src:"CheapHotels.org 2025"},
+  "vancouver":        {s4:230, s5:505, src:"Market average 2026"},
+  "montreal":         {s4:210, s5:465, src:"Market average 2026"},
+  "calgary":          {s4:195, s5:430, src:"Market average 2026"},
+  "ottawa":           {s4:200, s5:440, src:"Market average 2026"},
+
+  // ── MEXICO ──
+  "mexico city":      {s4:145, s5:320, src:"Hotels.com great value list"},
+  "cancun":           {s4:160, s5:355, src:"Market average 2026"},
+  "guadalajara":      {s4:120, s5:265, src:"Market average 2026"},
+
+  // ── LATIN AMERICA ──
+  "sao paulo":        {s4:150, s5:330, src:"Hotels.com great value"},
+  "rio de janeiro":   {s4:155, s5:345, src:"Market average 2026"},
+  "buenos aires":     {s4:120, s5:265, src:"Market average 2026"},
+  "bogota":           {s4:115, s5:255, src:"Hotels.com ADR $97 all-star"},
+  "lima":             {s4:130, s5:285, src:"Market average 2026"},
+  "santiago":         {s4:155, s5:345, src:"Market average 2026"},
+  "panama city":      {s4:140, s5:310, src:"Market average 2026"},
+
+  // ── UNITED KINGDOM ──
+  "london":           {s4:320, s5:700, src:"CheapHotels.org avg $247 all-star 2026"},
+  "edinburgh":        {s4:220, s5:485, src:"Market average 2026"},
+  "manchester":       {s4:195, s5:430, src:"Market average 2026"},
+  "birmingham":       {s4:180, s5:400, src:"Market average 2026"},
+
+  // ── WESTERN EUROPE ──
+  "paris":            {s4:290, s5:640, src:"Hotels avg €212/night 2026"},
+  "amsterdam":        {s4:250, s5:550, src:"CheapHotels.org 2025"},
+  "frankfurt":        {s4:220, s5:485, src:"Market average 2026"},
+  "munich":           {s4:240, s5:530, src:"Market average 2026"},
+  "berlin":           {s4:200, s5:440, src:"Market average 2026"},
+  "hamburg":          {s4:195, s5:430, src:"Market average 2026"},
+  "zurich":           {s4:320, s5:705, src:"CheapHotels.org global rank 3rd"},
+  "geneva":           {s4:300, s5:660, src:"Market average 2026"},
+  "vienna":           {s4:250, s5:550, src:"CheapHotels.org 2025"},
+  "brussels":         {s4:220, s5:485, src:"Market average 2026"},
+  "madrid":           {s4:230, s5:505, src:"Hotels.com +12% YoY 2025"},
+  "barcelona":        {s4:215, s5:475, src:"Market average 2026"},
+  "rome":             {s4:240, s5:530, src:"CheapHotels.org 2025"},
+  "milan":            {s4:255, s5:560, src:"CheapHotels.org global top 10"},
+  "florence":         {s4:220, s5:485, src:"Market average 2026"},
+  "venice":           {s4:250, s5:550, src:"Market average 2026"},
+  "lisbon":           {s4:195, s5:430, src:"Market average 2026"},
+  "porto":            {s4:175, s5:385, src:"Market average 2026"},
+  "athens":           {s4:180, s5:400, src:"Market average 2026"},
+  "copenhagen":       {s4:265, s5:585, src:"Market average 2026"},
+  "stockholm":        {s4:255, s5:560, src:"Market average 2026"},
+  "oslo":             {s4:270, s5:595, src:"Market average 2026"},
+  "helsinki":         {s4:220, s5:485, src:"Market average 2026"},
+  "dublin":           {s4:255, s5:560, src:"Market average 2026"},
+  "warsaw":           {s4:170, s5:375, src:"Market average 2026"},
+  "prague":           {s4:175, s5:385, src:"Market average 2026"},
+  "budapest":         {s4:165, s5:365, src:"Market average 2026"},
+
+  // ── MIDDLE EAST ──
+  "dubai":            {s4:280, s5:620, src:"Market average 2026"},
+  "abu dhabi":        {s4:255, s5:560, src:"Market average 2026"},
+  "doha":             {s4:210, s5:465, src:"Market average 2026"},
+  "tel aviv":         {s4:270, s5:595, src:"Market average 2026"},
+  "istanbul":         {s4:185, s5:410, src:"Hotels.com -2% YoY 2025"},
+  "cairo":            {s4:130, s5:285, src:"Market average 2026"},
+  "riyadh":           {s4:220, s5:485, src:"Market average 2026"},
+
+  // ── AFRICA ──
+  "nairobi":          {s4:155, s5:345, src:"Market average 2026"},
+  "cape town":        {s4:170, s5:375, src:"Market average 2026"},
+  "johannesburg":     {s4:160, s5:355, src:"Market average 2026"},
+  "lagos":            {s4:175, s5:385, src:"Market average 2026"},
+  "accra":            {s4:145, s5:320, src:"Market average 2026"},
+  "addis ababa":      {s4:130, s5:285, src:"Market average 2026"},
+  "casablanca":       {s4:145, s5:320, src:"Market average 2026"},
+
+  // ── INDIA ──
+  "mumbai":           {s4:140, s5:310, src:"Market average 2026"},
+  "delhi":            {s4:130, s5:285, src:"Market average 2026"},
+  "new delhi":        {s4:130, s5:285, src:"Market average 2026"},
+  "bangalore":        {s4:125, s5:275, src:"Market average 2026"},
+  "hyderabad":        {s4:120, s5:265, src:"Market average 2026"},
+  "chennai":          {s4:120, s5:265, src:"Market average 2026"},
+
+  // ── EAST ASIA ──
+  "tokyo":            {s4:220, s5:485, src:"Hotels.com +12% YoY, weak yen 2025"},
+  "osaka":            {s4:185, s5:410, src:"Market average 2026"},
+  "kyoto":            {s4:195, s5:430, src:"Hotels.com +13% YoY 2025"},
+  "seoul":            {s4:200, s5:440, src:"Market average 2026"},
+  "beijing":          {s4:190, s5:420, src:"Market average 2026"},
+  "shanghai":         {s4:200, s5:440, src:"Market average 2026"},
+  "hong kong":        {s4:260, s5:575, src:"Market average 2026"},
+  "taipei":           {s4:165, s5:365, src:"Market average 2026"},
+
+  // ── SOUTHEAST ASIA ──
+  "singapore":        {s4:280, s5:620, src:"Market avg $250 all-star"},
+  "bangkok":          {s4:130, s5:285, src:"Hotels.com great value 5-star"},
+  "kuala lumpur":     {s4:115, s5:255, src:"Market average 2026"},
+  "jakarta":          {s4:110, s5:245, src:"Market average 2026"},
+  "bali":             {s4:130, s5:285, src:"Market average 2026"},
+  "ho chi minh city": {s4:95,  s5:210, src:"Market average 2026"},
+  "hanoi":            {s4:85,  s5:190, src:"Hotels.com 5-star $156"},
+  "manila":           {s4:100, s5:220, src:"Market average 2026"},
+  "phuket":           {s4:120, s5:265, src:"Market average 2026"},
+
+  // ── AUSTRALIA & NZ ──
+  "sydney":           {s4:250, s5:550, src:"ADR A$275 2026"},
+  "melbourne":        {s4:235, s5:520, src:"Market average 2026"},
+  "brisbane":         {s4:210, s5:465, src:"ADR A$230 2026"},
+  "perth":            {s4:195, s5:430, src:"Market average 2026"},
+  "auckland":         {s4:210, s5:465, src:"Hotels.com 5-star $192"},
+
+  // ── JAPAN EXTRA ──
+  "sapporo":          {s4:170, s5:375, src:"Market average 2026"},
+  "hiroshima":        {s4:160, s5:355, src:"Market average 2026"},
+  "fukuoka":          {s4:165, s5:365, src:"Market average 2026"},
+};
+
+// City list for hotel autocomplete — built from HOTEL_RATES
+const CITIES = Object.keys(HOTEL_RATES).map(function(k){
+  return {
+    key: k,
+    display: k.split(' ').map(function(w){return w ? w[0].toUpperCase()+w.slice(1) : '';}).join(' ')
+  };
+}).sort(function(a,b){return a.key.localeCompare(b.key);});

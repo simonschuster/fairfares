@@ -43,6 +43,7 @@ function updateBadge(){
 
 document.addEventListener('DOMContentLoaded',()=>{
   // Setup hotel city autocomplete (HOTEL_RATES must be defined first)
+  ;
   if(!localStorage.getItem('ff_seen')){
     setTimeout(openModal,1500);
   } else {
@@ -85,7 +86,31 @@ function tab(t,el){
 // AUTOCOMPLETE
 // ═══════════════════════════════════════════════
 
-
+function setupCityAC(inpId){
+  const inp=$(inpId), drop=$(inpId+'-drop');
+  if(!inp||!drop)return;
+  inp.addEventListener('input',()=>{
+    const q=inp.value.trim().toLowerCase();
+    drop.innerHTML='';
+    if(q.length<1){drop.style.display='none';return;}
+    const hits=CITIES.filter(c=>c.key.startsWith(q)||c.key.includes(q)).slice(0,8);
+    if(!hits.length){drop.style.display='none';return;}
+    hits.forEach(c=>{
+      const div=document.createElement('div');
+      div.className='ac-item';
+      div.textContent=c.display;
+      div.addEventListener('mousedown',e=>{
+        e.preventDefault();
+        inp.value=c.display;
+        drop.style.display='none';
+      });
+      drop.appendChild(div);
+    });
+    drop.style.display='block';
+  });
+  inp.addEventListener('blur',()=>setTimeout(()=>drop.style.display='none',200));
+  inp.addEventListener('focus',()=>{if(inp.value.trim().length>0)inp.dispatchEvent(new Event('input'));});
+}
 function setupAC(inpId){
   const inp=$(inpId), drop=$(inpId+'-drop');
   if(!inp||!drop)return;
@@ -113,14 +138,21 @@ function setupAC(inpId){
   inp.addEventListener('focus',()=>{if(inp.value.trim().length>0)inp.dispatchEvent(new Event('input'));});
 }
 ['df-o','df-d','if-o','if-d'].forEach(setupAC);
-function setupCityAC(inpId){
-  const inp=$(inpId), drop=$(inpId+'-drop');
-  if(!inp||!drop)return;
-  inp.addEventListener('input',()=>{
+['dh-city','ih-city'].forEach(setupCityAC);
+// Hotel city autocomplete
+const HOTEL_CITY_LIST = Object.keys(HOTEL_RATES).map(k => ({
+  key: k,
+  display: k.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+}));
+
+function setupCityAC(inputId){
+  const inp=$(inputId), drop=$(inputId+'-drop');
+  if(!inp||!drop) return;
+  inp.addEventListener('input', ()=>{
     const q=inp.value.trim().toLowerCase();
     drop.innerHTML='';
-    if(q.length<1){drop.style.display='none';return;}
-    const hits=CITIES.filter(c=>c.key.startsWith(q)||c.key.includes(q)).slice(0,8);
+    if(q.length<2){drop.style.display='none';return;}
+    const hits=HOTEL_CITY_LIST.filter(c=>c.key.startsWith(q)||c.key.includes(q)).slice(0,8);
     if(!hits.length){drop.style.display='none';return;}
     hits.forEach(c=>{
       const div=document.createElement('div');
@@ -130,15 +162,18 @@ function setupCityAC(inpId){
         e.preventDefault();
         inp.value=c.display;
         drop.style.display='none';
+        // Trigger oninput for ih-city
+        inp.dispatchEvent(new Event('input'));
       });
       drop.appendChild(div);
     });
     drop.style.display='block';
   });
   inp.addEventListener('blur',()=>setTimeout(()=>drop.style.display='none',200));
-  inp.addEventListener('focus',()=>{if(inp.value.trim().length>0)inp.dispatchEvent(new Event('input'));});
 }
-['dh-city','ih-city'].forEach(setupCityAC);
+setupCityAC('dh-city');
+setupCityAC('ih-city');
+
 
 // ═══════════════════════════════════════════════
 // GOOGLE FORM LOGGING
@@ -199,212 +234,34 @@ function lookFlight(pfx){
 // Sources: Hotels.com Price Index 2025, CheapHotels.org 2026, market data
 // Update: Q2 2026 | 5-star approx 2.2x the 4-star rate
 // ═══════════════════════════════════════════════
-const HOTEL_RATES = {
-  // ── US DOMESTIC ──
-  "new york":         {s4:340, s5:750, src:"Hotels.com Price Index 2025"},
-  "new york city":    {s4:340, s5:750, src:"Hotels.com Price Index 2025"},
-  "nyc":              {s4:340, s5:750, src:"Hotels.com Price Index 2025"},
-  "manhattan":        {s4:340, s5:750, src:"Hotels.com Price Index 2025"},
-  "jersey city":      {s4:310, s5:620, src:"CheapHotels.org 2026"},
-  "boston":           {s4:320, s5:700, src:"CheapHotels.org 2026"},
-  "san francisco":    {s4:310, s5:680, src:"Google Hotels April 2026"},
-  "sfo":              {s4:310, s5:680, src:"Google Hotels April 2026"},
-  "washington":       {s4:290, s5:640, src:"CheapHotels.org 2026"},
-  "washington dc":    {s4:290, s5:640, src:"CheapHotels.org 2026"},
-  "chicago":          {s4:270, s5:590, src:"Hotels.com Price Index 2025"},
-  "los angeles":      {s4:260, s5:580, src:"Hotels.com Price Index 2025"},
-  "seattle":          {s4:250, s5:560, src:"Hotels.com Price Index 2025"},
-  "miami":            {s4:280, s5:620, src:"Hotels.com 5-star avg $386"},
-  "san diego":        {s4:240, s5:530, src:"CheapHotels.org +31% 2025"},
-  "raleigh":          {s4:258, s5:570, src:"CheapHotels.org 2026"},
-  "denver":           {s4:200, s5:440, src:"Hotels.com best value list"},
-  "atlanta":          {s4:190, s5:420, src:"Hotels.com best value list"},
-  "portland":         {s4:195, s5:430, src:"Hotels.com 5-star avg $287"},
-  "orlando":          {s4:185, s5:410, src:"Hotels.com best value list"},
-  "houston":          {s4:180, s5:400, src:"Hotels.com best value list"},
-  "las vegas":        {s4:185, s5:410, src:"Hotels.com best value list"},
-  "phoenix":          {s4:175, s5:385, src:"Market average 2026"},
-  "dallas":           {s4:185, s5:410, src:"Hotels.com best value list"},
-  "austin":           {s4:195, s5:430, src:"Market average 2026"},
-  "nashville":        {s4:205, s5:455, src:"Market average 2026"},
-  "new orleans":      {s4:200, s5:440, src:"Market average 2026"},
-  "baltimore":        {s4:195, s5:430, src:"CheapHotels.org 2026"},
-  "philadelphia":     {s4:225, s5:500, src:"Market average 2026"},
-  "pittsburgh":       {s4:175, s5:385, src:"Market average 2026"},
-  "minneapolis":      {s4:180, s5:400, src:"Market average 2026"},
-  "detroit":          {s4:195, s5:430, src:"CheapHotels.org 2026"},
-  "charlotte":        {s4:185, s5:410, src:"Market average 2026"},
-  "cleveland":        {s4:160, s5:355, src:"Market average 2026"},
-  "indianapolis":     {s4:160, s5:355, src:"Market average 2026"},
-  "kansas city":      {s4:165, s5:365, src:"Market average 2026"},
-  "st louis":         {s4:160, s5:355, src:"Market average 2026"},
-  "tampa":            {s4:185, s5:410, src:"Market average 2026"},
-  "sacramento":       {s4:200, s5:440, src:"Market average 2026"},
-  "san jose":         {s4:270, s5:595, src:"Market average 2026"},
-  "oakland":          {s4:225, s5:495, src:"Market +12% 2026"},
-  "honolulu":         {s4:320, s5:700, src:"Market average 2026"},
-  "anchorage":        {s4:210, s5:465, src:"Market average 2026"},
-  "salt lake city":   {s4:175, s5:385, src:"Market average 2026"},
-  "san antonio":      {s4:175, s5:385, src:"Hotels.com 5-star avg $340"},
-  "fort worth":       {s4:175, s5:385, src:"Market average 2026"},
-  "memphis":          {s4:160, s5:355, src:"Market average 2026"},
-  "louisville":       {s4:165, s5:365, src:"Market average 2026"},
-  "richmond":         {s4:170, s5:375, src:"Market average 2026"},
-  "hartford":         {s4:175, s5:385, src:"Market average 2026"},
-  "buffalo":          {s4:160, s5:355, src:"Market average 2026"},
-  "rochester":        {s4:155, s5:345, src:"Market average 2026"},
-  "oklahoma city":    {s4:155, s5:345, src:"Market average 2026"},
-  "tucson":           {s4:150, s5:330, src:"Market average 2026"},
-  "albuquerque":      {s4:160, s5:355, src:"Market average 2026"},
-  "el paso":          {s4:145, s5:320, src:"Market average 2026"},
-  "boise":            {s4:165, s5:365, src:"Market average 2026"},
-  "spokane":          {s4:150, s5:330, src:"Market average 2026"},
 
-  // ── CANADA ──
-  "toronto":          {s4:245, s5:540, src:"CheapHotels.org 2025"},
-  "vancouver":        {s4:230, s5:505, src:"Market average 2026"},
-  "montreal":         {s4:210, s5:465, src:"Market average 2026"},
-  "calgary":          {s4:195, s5:430, src:"Market average 2026"},
-  "ottawa":           {s4:200, s5:440, src:"Market average 2026"},
-
-  // ── MEXICO ──
-  "mexico city":      {s4:145, s5:320, src:"Hotels.com great value list"},
-  "cancun":           {s4:160, s5:355, src:"Market average 2026"},
-  "guadalajara":      {s4:120, s5:265, src:"Market average 2026"},
-
-  // ── LATIN AMERICA ──
-  "sao paulo":        {s4:150, s5:330, src:"Hotels.com great value"},
-  "rio de janeiro":   {s4:155, s5:345, src:"Market average 2026"},
-  "buenos aires":     {s4:120, s5:265, src:"Market average 2026"},
-  "bogota":           {s4:115, s5:255, src:"Hotels.com ADR $97 all-star"},
-  "lima":             {s4:130, s5:285, src:"Market average 2026"},
-  "santiago":         {s4:155, s5:345, src:"Market average 2026"},
-  "panama city":      {s4:140, s5:310, src:"Market average 2026"},
-
-  // ── UNITED KINGDOM ──
-  "london":           {s4:320, s5:700, src:"CheapHotels.org avg $247 all-star 2026"},
-  "edinburgh":        {s4:220, s5:485, src:"Market average 2026"},
-  "manchester":       {s4:195, s5:430, src:"Market average 2026"},
-  "birmingham":       {s4:180, s5:400, src:"Market average 2026"},
-
-  // ── WESTERN EUROPE ──
-  "paris":            {s4:290, s5:640, src:"Hotels avg €212/night 2026"},
-  "amsterdam":        {s4:250, s5:550, src:"CheapHotels.org 2025"},
-  "frankfurt":        {s4:220, s5:485, src:"Market average 2026"},
-  "munich":           {s4:240, s5:530, src:"Market average 2026"},
-  "berlin":           {s4:200, s5:440, src:"Market average 2026"},
-  "hamburg":          {s4:195, s5:430, src:"Market average 2026"},
-  "zurich":           {s4:320, s5:705, src:"CheapHotels.org global rank 3rd"},
-  "geneva":           {s4:300, s5:660, src:"Market average 2026"},
-  "vienna":           {s4:250, s5:550, src:"CheapHotels.org 2025"},
-  "brussels":         {s4:220, s5:485, src:"Market average 2026"},
-  "madrid":           {s4:230, s5:505, src:"Hotels.com +12% YoY 2025"},
-  "barcelona":        {s4:215, s5:475, src:"Market average 2026"},
-  "rome":             {s4:240, s5:530, src:"CheapHotels.org 2025"},
-  "milan":            {s4:255, s5:560, src:"CheapHotels.org global top 10"},
-  "florence":         {s4:220, s5:485, src:"Market average 2026"},
-  "venice":           {s4:250, s5:550, src:"Market average 2026"},
-  "lisbon":           {s4:195, s5:430, src:"Market average 2026"},
-  "porto":            {s4:175, s5:385, src:"Market average 2026"},
-  "athens":           {s4:180, s5:400, src:"Market average 2026"},
-  "copenhagen":       {s4:265, s5:585, src:"Market average 2026"},
-  "stockholm":        {s4:255, s5:560, src:"Market average 2026"},
-  "oslo":             {s4:270, s5:595, src:"Market average 2026"},
-  "helsinki":         {s4:220, s5:485, src:"Market average 2026"},
-  "dublin":           {s4:255, s5:560, src:"Market average 2026"},
-  "warsaw":           {s4:170, s5:375, src:"Market average 2026"},
-  "prague":           {s4:175, s5:385, src:"Market average 2026"},
-  "budapest":         {s4:165, s5:365, src:"Market average 2026"},
-
-  // ── MIDDLE EAST ──
-  "dubai":            {s4:280, s5:620, src:"Market average 2026"},
-  "abu dhabi":        {s4:255, s5:560, src:"Market average 2026"},
-  "doha":             {s4:210, s5:465, src:"Market average 2026"},
-  "tel aviv":         {s4:270, s5:595, src:"Market average 2026"},
-  "istanbul":         {s4:185, s5:410, src:"Hotels.com -2% YoY 2025"},
-  "cairo":            {s4:130, s5:285, src:"Market average 2026"},
-  "riyadh":           {s4:220, s5:485, src:"Market average 2026"},
-
-  // ── AFRICA ──
-  "nairobi":          {s4:155, s5:345, src:"Market average 2026"},
-  "cape town":        {s4:170, s5:375, src:"Market average 2026"},
-  "johannesburg":     {s4:160, s5:355, src:"Market average 2026"},
-  "lagos":            {s4:175, s5:385, src:"Market average 2026"},
-  "accra":            {s4:145, s5:320, src:"Market average 2026"},
-  "addis ababa":      {s4:130, s5:285, src:"Market average 2026"},
-  "casablanca":       {s4:145, s5:320, src:"Market average 2026"},
-
-  // ── INDIA ──
-  "mumbai":           {s4:140, s5:310, src:"Market average 2026"},
-  "delhi":            {s4:130, s5:285, src:"Market average 2026"},
-  "new delhi":        {s4:130, s5:285, src:"Market average 2026"},
-  "bangalore":        {s4:125, s5:275, src:"Market average 2026"},
-  "hyderabad":        {s4:120, s5:265, src:"Market average 2026"},
-  "chennai":          {s4:120, s5:265, src:"Market average 2026"},
-
-  // ── EAST ASIA ──
-  "tokyo":            {s4:220, s5:485, src:"Hotels.com +12% YoY, weak yen 2025"},
-  "osaka":            {s4:185, s5:410, src:"Market average 2026"},
-  "kyoto":            {s4:195, s5:430, src:"Hotels.com +13% YoY 2025"},
-  "seoul":            {s4:200, s5:440, src:"Market average 2026"},
-  "beijing":          {s4:190, s5:420, src:"Market average 2026"},
-  "shanghai":         {s4:200, s5:440, src:"Market average 2026"},
-  "hong kong":        {s4:260, s5:575, src:"Market average 2026"},
-  "taipei":           {s4:165, s5:365, src:"Market average 2026"},
-
-  // ── SOUTHEAST ASIA ──
-  "singapore":        {s4:280, s5:620, src:"Market avg $250 all-star"},
-  "bangkok":          {s4:130, s5:285, src:"Hotels.com great value 5-star"},
-  "kuala lumpur":     {s4:115, s5:255, src:"Market average 2026"},
-  "jakarta":          {s4:110, s5:245, src:"Market average 2026"},
-  "bali":             {s4:130, s5:285, src:"Market average 2026"},
-  "ho chi minh city": {s4:95,  s5:210, src:"Market average 2026"},
-  "hanoi":            {s4:85,  s5:190, src:"Hotels.com 5-star $156"},
-  "manila":           {s4:100, s5:220, src:"Market average 2026"},
-  "phuket":           {s4:120, s5:265, src:"Market average 2026"},
-
-  // ── AUSTRALIA & NZ ──
-  "sydney":           {s4:250, s5:550, src:"ADR A$275 2026"},
-  "melbourne":        {s4:235, s5:520, src:"Market average 2026"},
-  "brisbane":         {s4:210, s5:465, src:"ADR A$230 2026"},
-  "perth":            {s4:195, s5:430, src:"Market average 2026"},
-  "auckland":         {s4:210, s5:465, src:"Hotels.com 5-star $192"},
-
-  // ── JAPAN EXTRA ──
-  "sapporo":          {s4:170, s5:375, src:"Market average 2026"},
-  "hiroshima":        {s4:160, s5:355, src:"Market average 2026"},
-  "fukuoka":          {s4:165, s5:365, src:"Market average 2026"},
-};
 
 function lookHotel(){
-  var city=document.getElementById('dh-city').value.trim();
-  var addrEl=document.getElementById('dh-addr');
+  var city=$('dh-city').value.trim();
+  var addrEl=$('dh-addr');
   var addr=addrEl?addrEl.value.trim():'';
-  var checkin=document.getElementById('dh-in').value;
-  var checkout=document.getElementById('dh-out').value;
-  var err=document.getElementById('dh-err');
-  var res=document.getElementById('dh-res');
-  var btn=document.getElementById('dh-btn');
-  var nearby=document.getElementById('dh-nearby');
+  var checkin=$('dh-in').value;
+  var checkout=$('dh-out').value;
+  var err=$('dh-err'),res=$('dh-res'),btn=$('dh-btn');
+  var nearby=$('dh-nearby');
   err.style.display='none';
   res.classList.remove('show');
   if(nearby)nearby.classList.remove('show');
   if(!city){err.textContent='Please enter a city.';err.style.display='block';return;}
-  var cityKey=city.toLowerCase().trim();
-  var hr=HOTEL_RATES[cityKey]||HOTEL_RATES[cityKey.split(',')[0].trim()]||null;
+  var key=city.toLowerCase().trim();
+  var hr=HOTEL_RATES[key]||HOTEL_RATES[key.split(',')[0].trim()]||null;
   var nights=1;
   if(checkin&&checkout){
     var d1=new Date(checkin),d2=new Date(checkout);
     nights=Math.max(1,Math.round((d2-d1)/86400000));
   }
-  var s4=hr?hr.s4:207;
-  var s5=hr?hr.s5:455;
-  var src=hr?hr.src:'National average market rate';
-  var cityDisplay=city.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1):'';}).join(' ');
-  document.getElementById('dh-avg').textContent=fmt(s4);
-  document.getElementById('dh-n').textContent=nights;
-  document.getElementById('dh-lbl').textContent=cityDisplay;
-  document.getElementById('dh-note').innerHTML='<b>4&#9733; avg: '+fmt(s4)+'/night &nbsp;|&nbsp; 5&#9733; avg: '+fmt(s5)+'/night</b><br>Source: '+src+'. G-28 domestic cap: $333/night. Conference hotel exception: attach agenda if rate exceeds cap.';
+  var s4=hr?hr.s4:207, s5=hr?hr.s5:455;
+  var src=hr?hr.src:'National average — check gsa.gov for exact rates';
+  var label=city.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1):'';}).join(' ');
+  $('dh-avg').textContent=fmt(s4);
+  $('dh-n').textContent=nights;
+  $('dh-lbl').textContent=label;
+  $('dh-note').innerHTML='<b>4&#9733; avg: '+fmt(s4)+'/night &nbsp;|&nbsp; 5&#9733; avg: '+fmt(s5)+'/night</b><br>Source: '+src+'. G-28 domestic cap: $333/night.';
   res.classList.add('show');
   logUse('Domestic hotel',city);
   if(addr)findNearbyHotels(addr,city,s4);
@@ -511,15 +368,6 @@ let gtFromCoord=null, gtToCoord=null;
 function gtGeo(){
   clearTimeout(gtGeoTimer);
   gtGeoTimer=setTimeout(doGeoLookup,800);
-// Hotel city list — same pattern as AIRPORTS
-const CITIES = Object.keys(HOTEL_RATES).map(function(k){
-  return {
-    key: k,
-    display: k.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1):'';}).join(' ')
-  };
-}).sort(function(a,b){return a.key.localeCompare(b.key);});
-
-
 }
 
 async function geocode(query){
@@ -674,6 +522,64 @@ function qa(el){$('adv-in').value=el.textContent;lookAdv();}
 // ═══════════════════════════════════════════════
 // ADMIN
 // ═══════════════════════════════════════════════
+
+
+function lookIntlHotel(){
+  var city=$('ih-city').value.trim();
+  var ctry=$('ih-ctry').value;
+  var checkin=$('ih-in').value;
+  var checkout=$('ih-out').value;
+  var err=$('ih-err'), res=$('ih-res');
+  err.style.display='none';
+  res.classList.remove('show');
+  if(!city||!ctry){err.textContent='Please enter city and country.';err.style.display='block';return;}
+
+  var nights=1;
+  if(checkin&&checkout){
+    var d1=new Date(checkin),d2=new Date(checkout);
+    nights=Math.max(1,Math.round((d2-d1)/86400000));
+  }
+
+  // Look up rate from HOTEL_RATES
+  var key=city.toLowerCase().trim();
+  var hr=HOTEL_RATES[key]||HOTEL_RATES[key.split(',')[0].trim()]||null;
+
+  // Also look up per diem from INTL_HOTELS
+  var pd=INTL_HOTELS.find(function(h){return h.city.toUpperCase()===city.toUpperCase()&&h.country===ctry;});
+
+  if(!hr&&!pd){
+    err.textContent='City not in our table yet. Use the DoD per diem link for exact rates.';
+    err.style.display='block';
+    $('pd-exp').style.display='block';
+    return;
+  }
+
+  var s4=hr?hr.s4:(pd?pd.mid:200);
+  var s5=hr?hr.s5:Math.round(s4*2.2);
+  var src=hr?hr.src:'FairFares curated rate table';
+  var label=city.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1):'';}).join(' ');
+
+  $('ih-avg').textContent=fmt(s4);
+  $('ih-n').textContent=nights;
+  $('ih-lbl').textContent=label+', '+ctry;
+  $('ih-note').innerHTML='<b>4&#9733; avg: '+fmt(s4)+'/night &nbsp;|&nbsp; 5&#9733; avg: '+fmt(s5)+'/night</b><br>Source: '+src
+    +'. <a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">DoD per diem</a>'
+    +(pd?' — M&amp;IE: '+fmt(pd.dm)+'/day':'')+'.'  ;
+  res.classList.add('show');
+
+  if(pd){
+    $('pd-city').textContent=label;
+    $('pd-lodge').textContent=fmt(pd.dl);
+    $('pd-mie').textContent=fmt(pd.dm);
+    $('pd-prop').textContent=fmt(Math.round(pd.dm*0.75));
+    $('pd-inc').textContent=fmt(Math.round(pd.dm*0.14));
+    $('pd-tot').textContent=fmt(pd.dl+pd.dm);
+    $('pd-exp').style.display='block';
+  }
+  logUse('International hotel',city+', '+ctry);
+}
+
+
 function renderAdmin(){
   const tb=$('adm-body'); tb.innerHTML='';
   routes.forEach((r,i)=>{
