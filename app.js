@@ -5,6 +5,70 @@ const $ = id => document.getElementById(id);
 const fmt = n => '$' + Math.round(n).toLocaleString();
 const norm = s => (s||'').trim().toUpperCase();
 
+// ═══════════════════════════════════════════════
+// AMADEUS FLIGHT PRICE ANALYSIS
+// Get API key: developers.amadeus.com (free — 2,000 calls/month)
+// Set your keys in the two lines below
+// ═══════════════════════════════════════════════
+const AMADEUS_KEY    = '';  // paste your API key here
+const AMADEUS_SECRET = '';  // paste your API secret here
+let _amadeusToken = null;
+let _amadeusTokenExpiry = 0;
+
+async function getAmadeusToken(){
+  if(_amadeusToken && Date.now() < _amadeusTokenExpiry) return _amadeusToken;
+  if(!AMADEUS_KEY || !AMADEUS_SECRET) return null;
+  try{
+    const r = await fetch('https://api.amadeus.com/v1/security/oauth2/token',{
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:'grant_type=client_credentials&client_id='+AMADEUS_KEY+'&client_secret='+AMADEUS_SECRET
+    });
+    const d = await r.json();
+    if(d.access_token){
+      _amadeusToken = d.access_token;
+      _amadeusTokenExpiry = Date.now() + (d.expires_in - 60) * 1000;
+      return _amadeusToken;
+    }
+  }catch(e){}
+  return null;
+}
+
+async function getAmadeusPrice(from, to, depDate, isRoundTrip){
+  const token = await getAmadeusToken();
+  if(!token) return null;
+  try{
+    const params = new URLSearchParams({
+      originIataCode: from,
+      destinationIataCode: to,
+      departureDate: depDate || new Date().toISOString().split('T')[0],
+      currencyCode: 'USD',
+      oneWay: isRoundTrip ? 'false' : 'true'
+    });
+    const r = await fetch('https://api.amadeus.com/v1/analytics/itinerary-price-metrics?'+params,{
+      headers:{'Authorization':'Bearer '+token}
+    });
+    if(!r.ok) return null;
+    const d = await r.json();
+    if(!d.data || !d.data[0] || !d.data[0].priceMetrics) return null;
+    const metrics = d.data[0].priceMetrics;
+    const find = rank => {
+      const m = metrics.find(x=>x.quintileRanking===rank);
+      return m ? parseFloat(m.amount) : null;
+    };
+    return {
+      min:    find('MINIMUM'),
+      low:    find('FIRST'),
+      mid:    find('MEDIUM'),
+      high:   find('THIRD'),
+      max:    find('MAXIMUM'),
+      source: 'Amadeus Flight Price Analysis API'
+    };
+  }catch(e){ return null; }
+}
+
+
+
 function findRoute(a,b){
   const ra=CMAP[norm(a)]||norm(a), rb=CMAP[norm(b)]||norm(b);
   return routes.find(x=>x.from===ra&&x.to===rb)||routes.find(x=>x.from===rb&&x.to===ra)||null;
@@ -213,17 +277,50 @@ function lookFlight(pfx){
   if(!r){nf.style.display='block';return;}
 
   const mult=type==='rt'?r.rt:1;
-  const avg=r.mid*mult*cabMult(cab);
-  activeBench={avg,from:r.from,to:r.to,type,cab,dep,pfx};
+  const cm=cabMult(cab);
+  const staticHigh=Math.round(r.high*mult*cm);
+  const staticAvg=Math.round(r.mid*mult*cm);
 
-  $(pfx+'-avg').textContent=fmt(avg);
+  // Show static result immediately, then try Amadeus upgrade
+  activeBench={avg:staticHigh,from:r.from,to:r.to,type,cab,dep,pfx};
+  $(pfx+'-avg').textContent=fmt(staticHigh);
   $(pfx+'-cab-sub') && ($(pfx+'-cab-sub').textContent=cabLabel(cab));
   $(pfx+'-cab-disp').textContent=cabLabel(cab);
   $(pfx+'-lbl').textContent=r.from+' → '+r.to+' · '+(type==='rt'?'Round trip':'One way')+' · '+cabLabel(cab);
-  $(pfx+'-note').innerHTML='Source: <a href="https://www.bts.gov/air-fares" target="_blank">Bureau of Transportation Statistics (BTS)</a> — US DOT official air fare database. Benchmark reflects average fares for this route and cabin class. Policy basis: UCOP G-28 authorized dates, non-refundable '+cabLabel(cab).toLowerCase()+'.';
+  $(pfx+'-note').innerHTML='<b>High-end benchmark: '+fmt(staticHigh)+'</b> &nbsp;|&nbsp; Market avg: '+fmt(staticAvg)
+    +'<br>Source: <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> — US DOT air fare database. Checking live Amadeus data…';
   res.classList.add('show');
+  if(pfx==='df') logUse('Domestic flight',r.from+'→'+r.to);
+  else logUse('International flight',r.from+'→'+r.to);
 
-  logUse((pfx==='df'?'Domestic':'International')+' flight',r.from+'→'+r.to);
+  // Try Amadeus Flight Price Analysis for more accurate pricing
+  if(AMADEUS_KEY){
+    getAmadeusPrice(r.from, r.to, dep, type==='rt').then(function(am){
+      if(!am || !am.max) return; // fall back to static
+      // Use MAXIMUM quintile as the high-end benchmark
+      const amHigh = Math.round(am.max * cm);
+      const amMid  = Math.round(am.mid * cm);
+      // Use whichever is higher — static or Amadeus
+      const displayHigh = Math.max(amHigh, staticHigh);
+      activeBench.avg = displayHigh;
+      $(pfx+'-avg').textContent=fmt(displayHigh);
+      $(pfx+'-note').innerHTML='<b>High-end benchmark: '+fmt(displayHigh)+'</b> &nbsp;|&nbsp; Market avg: '+fmt(amMid)
+        +'<br>Source: <a href="https://developers.amadeus.com" target="_blank">Amadeus Flight Price Analysis API</a> — live market data. '
+        +'Policy basis: UCOP G-28, non-refundable '+cabLabel(cab).toLowerCase()+'.';
+    }).catch(function(){
+      // Already showing static result — just update the note
+      $(pfx+'-note').innerHTML='<b>High-end benchmark: '+fmt(staticHigh)+'</b> &nbsp;|&nbsp; Market avg: '+fmt(staticAvg)
+        +'<br>Source: <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> — US DOT air fare database. '
+        +'Policy basis: UCOP G-28, non-refundable '+cabLabel(cab).toLowerCase()+'.';
+    });
+  } else {
+    $(pfx+'-note').innerHTML='<b>High-end benchmark: '+fmt(staticHigh)+'</b> &nbsp;|&nbsp; Market avg: '+fmt(staticAvg)
+      +'<br>Source: <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> — US DOT air fare database. '
+      +'Policy basis: UCOP G-28, non-refundable '+cabLabel(cab).toLowerCase()+'.'
+      +'<br><small style="color:var(--g400)">Add Amadeus API key in app.js for live pricing.</small>';
+  }
+
+
 }
 
 // ═══════════════════════════════════════════════
@@ -255,13 +352,24 @@ function lookHotel(){
     var d1=new Date(checkin),d2=new Date(checkout);
     nights=Math.max(1,Math.round((d2-d1)/86400000));
   }
-  var s4=hr?hr.s4:207, s5=hr?hr.s5:455;
+  var baseS4=hr?hr.s4:207, baseS5=hr?hr.s5:455;
   var src=hr?hr.src:'National average — check gsa.gov for exact rates';
+  // Apply seasonal multiplier based on check-in month
+  var month=checkin?new Date(checkin).getMonth():new Date().getMonth();
+  var s4=getSeasonalRate(key,baseS4,month);
+  var s5=getSeasonalRate(key,baseS5,month);
+  var monthNames=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var label=city.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1):'';}).join(' ');
   $('dh-avg').textContent=fmt(s4);
   $('dh-n').textContent=nights;
   $('dh-lbl').textContent=label;
-  $('dh-note').innerHTML='<b>4&#9733; avg: '+fmt(s4)+'/night &nbsp;|&nbsp; 5&#9733; avg: '+fmt(s5)+'/night</b><br>Source: '+src+'. G-28 domestic cap: $333/night.';
+  // Apply a 15% high-end uplift to give a defensible upper-range benchmark
+  var s4high=Math.round(s4*1.15);
+  $('dh-note').innerHTML='<b>4&#9733; high-end benchmark: '+fmt(s4high)+'/night</b> ('+monthNames[month]+' seasonal rate)'
+    +'<br>4&#9733; market avg: '+fmt(s4)+' &nbsp;|&nbsp; 5&#9733; avg: '+fmt(s5)
+    +'<br>Source: '+src+'. G-28 domestic cap: $333/night.';
+  // Update displayed rate to high-end
+  $('dh-avg').textContent=fmt(s4high);
   res.classList.add('show');
   logUse('Domestic hotel',city);
   if(addr)findNearbyHotels(addr,city,s4);
@@ -562,7 +670,11 @@ function lookIntlHotel(){
   $('ih-avg').textContent=fmt(s4);
   $('ih-n').textContent=nights;
   $('ih-lbl').textContent=label+', '+ctry;
-  $('ih-note').innerHTML='<b>4&#9733; avg: '+fmt(s4)+'/night &nbsp;|&nbsp; 5&#9733; avg: '+fmt(s5)+'/night</b><br>Source: '+src
+  var s4high=Math.round(s4*1.15);
+  $('ih-avg').textContent=fmt(s4high);
+  $('ih-note').innerHTML='<b>4&#9733; high-end benchmark: '+fmt(s4high)+'/night</b>'
+    +'<br>4&#9733; market avg: '+fmt(s4)+' &nbsp;|&nbsp; 5&#9733; avg: '+fmt(s5)
+    +'<br>Source: '+src
     +'. <a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">DoD per diem</a>'
     +(pd?' — M&amp;IE: '+fmt(pd.dm)+'/day':'')+'.'  ;
   res.classList.add('show');
