@@ -600,14 +600,37 @@ async function calcGT(){
 
   // Build tables
   const mkRow=(l,v)=>'<tr><td>'+l+'</td><td>'+v+'</td></tr>';
-  $('gt-taxi-rows').innerHTML=mkRow('Initial charge',fmt(tBase))+mkRow('Metered fare ('+miles+' mi)',fmt(tMeter))+mkRow('Time charge (~'+mins+' min)',fmt(tTime));
-  $('gt-taxi-tot').textContent=fmt(tTotal);
-  $('gt-taxi-src').innerHTML='Source: '+r.name+' (published municipal tariff). Calculated from straight-line distance '+asCrow.toFixed(1)+' mi × 1.35 road factor = '+miles+' mi estimated route distance.';
+  const aptRow=tApt>0?mkRow('Airport surcharge',fmt(tApt)):'';
+  const tollNote=(r.toll&&r.tollNote)?'<br><small style="color:#888">&#9888; '+r.tollNote+'</small>':'';
 
-  $('gt-uber-rows').innerHTML=mkRow('Base fare',fmt(uBase))+mkRow('Distance ('+miles+' mi)',fmt(uDist))+mkRow('Time (~'+mins+' min)',fmt(uTime))+mkRow('Safe rides fee',fmt(uSafe));
+  $('gt-taxi-rows').innerHTML=
+    mkRow('Flag fall',fmt(tBase))
+    +mkRow('Distance ('+miles+' mi)',fmt(tMeter))
+    +mkRow('Time (~'+mins+' min)',fmt(tTime))
+    +aptRow
+    +mkRow('Subtotal',fmt(tSubtotal))
+    +mkRow('Tip ('+Math.round((r.tip||0.18)*100)+'%)',fmt(tTip));
+  $('gt-taxi-tot').textContent=fmt(tTotal);
+  $('gt-taxi-src').innerHTML='Source: '+r.name+' — calculated from straight-line distance '+asCrow.toFixed(1)+' mi x 1.35 road factor = '+miles+' mi.'+tollNote;
+
+  $('gt-uber-rows').innerHTML=
+    mkRow('Base fare',fmt(uBase))
+    +mkRow('Distance ('+miles+' mi)',fmt(uDist))
+    +mkRow('Time (~'+mins+' min)',fmt(uTime))
+    +mkRow('Safe rides fee',fmt(uSafe))
+    +(uApt>0?mkRow('Airport surcharge',fmt(uApt)):'')
+    +mkRow('Subtotal',fmt(uSubtotal))
+    +mkRow('Tip (15%)',fmt(uTip));
   $('gt-uber-tot').textContent=fmt(uTotal);
 
-  $('gt-lyft-rows').innerHTML=mkRow('Base fare',fmt(lBase))+mkRow('Distance ('+miles+' mi)',fmt(lDist))+mkRow('Time (~'+mins+' min)',fmt(lTime))+mkRow('Trust & service fee',fmt(lSafe));
+  $('gt-lyft-rows').innerHTML=
+    mkRow('Base fare',fmt(lBase))
+    +mkRow('Distance ('+miles+' mi)',fmt(lDist))
+    +mkRow('Time (~'+mins+' min)',fmt(lTime))
+    +mkRow('Trust & service fee',fmt(lSafe))
+    +(lApt>0?mkRow('Airport surcharge',fmt(lApt)):'')
+    +mkRow('Subtotal',fmt(lSubtotal))
+    +mkRow('Tip (15%)',fmt(lTip));
   $('gt-lyft-tot').textContent=fmt(lTotal);
 
   // Verdict
@@ -642,35 +665,41 @@ function gtTab(t,el){
 // TRAVEL ADVISORIES
 // ═══════════════════════════════════════════════
 function lookAdv(){
-  try{
-    const raw=$('adv-in').value.trim();
-    const input=raw.toLowerCase();
-    const err=$('adv-err');
-    err.style.display='none';
-    $('adv-res').style.display='none';
-    if(!input){err.textContent='Please enter a country name.';err.style.display='block';return;}
-    const rec=ADV_DATA[input];
-    if(!rec){
-      err.innerHTML='Country not in our database. <a href="https://travel.state.gov" target="_blank" style="color:var(--teal)">Check travel.state.gov directly →</a>';
-      err.style.display='block'; return;
-    }
-    const lvl=ADV_LEVELS[rec.level];
-    if(!lvl){err.textContent='Advisory data error.';err.style.display='block';return;}
-    $('adv-hd').className='adv-hd '+lvl.cls;
-    $('adv-cn').textContent=raw.charAt(0).toUpperCase()+raw.slice(1);
-    $('adv-lt').textContent=lvl.lbl;
-    $('adv-badge').textContent=lvl.badge;
-    $('adv-badge').className='adv-badge '+lvl.cls;
-    $('adv-msg').textContent=rec.msg;
-    $('adv-url').href=rec.url;
-    $('adv-res').style.display='block';
-    logUse('Advisory',input);
-  }catch(e){
-    const err=$('adv-err');
-    if(err){err.textContent='Error loading advisory data. Please try again.';err.style.display='block';}
+  var raw = document.getElementById('adv-in').value.trim();
+  var input = raw.toLowerCase();
+  var err = document.getElementById('adv-err');
+  var res = document.getElementById('adv-res');
+  err.style.display = 'none';
+  res.style.display = 'none';
+  if(!input){
+    err.textContent = 'Please enter a country name.';
+    err.style.display = 'block';
+    return;
   }
+  var rec = ADV_DATA[input];
+  if(!rec){
+    err.textContent = 'Country not in our database. Check travel.state.gov directly.';
+    err.style.display = 'block';
+    return;
+  }
+  var lvl = ADV_LEVELS[rec.level];
+  if(!lvl){
+    err.textContent = 'Advisory data error for level ' + rec.level;
+    err.style.display = 'block';
+    return;
+  }
+  document.getElementById('adv-hd').className = 'adv-hd ' + lvl.cls;
+  document.getElementById('adv-cn').textContent = raw.charAt(0).toUpperCase() + raw.slice(1);
+  document.getElementById('adv-lt').textContent = lvl.lbl;
+  document.getElementById('adv-badge').textContent = lvl.badge;
+  document.getElementById('adv-badge').className = 'adv-badge ' + lvl.cls;
+  document.getElementById('adv-msg').textContent = rec.msg;
+  document.getElementById('adv-url').href = rec.url;
+  res.style.display = 'block';
+  logUse('Advisory', input);
 }
-function qa(el){$('adv-in').value=el.textContent;lookAdv();}
+
+function qa(el){document.getElementById('adv-in').value=el.textContent;lookAdv();}
 
 // ═══════════════════════════════════════════════
 // ADMIN
