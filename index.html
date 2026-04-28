@@ -12,7 +12,6 @@
 </head>
 <body>
 
-<!-- MODAL -->
 <div class="mo off" id="modal">
   <div class="md">
     <div class="md-logo">Fair<span>Fares</span></div>
@@ -39,6 +38,7 @@
 <nav>
   <div class="nw">
     <div class="logo">Fair<span>Fares</span></div>
+    <div id="ub" class="user-badge"><span id="ub-txt"></span></div>
     <div class="links">
       <a href="#tool">Tool</a>
       <a href="#admin">Admin</a>
@@ -57,104 +57,90 @@
 <section class="tool-sec" id="tool">
   <div class="tw">
     <div class="ttabs">
-      <button class="tab active" onclick="setTab('flight', event)">Airfare</button>
-      <button class="tab" onclick="setTab('hotel', event)">Hotels</button>
-      <button class="tab" onclick="setTab('ground', event)">Ground</button>
+      <button class="ttab on" onclick="tab('f', this)">Airfare</button>
+      <button class="ttab" onclick="tab('h', this)">Hotels</button>
+      <button class="ttab" onclick="tab('g', this)">Ground</button>
     </div>
 
-    <!-- FLIGHT TAB -->
-    <div id="flight" class="tp on">
-      <div class="g2">
-        <div>
-          <label>From <span class="slbl">(City or Airport)</span></label>
-          <input type="text" id="f-from" placeholder="e.g. SFO or San Francisco">
+    <div id="f-tab" class="tp on">
+      <div class="f">
+        <div class="g2">
+          <div><label>From <span class="slbl">(City or Airport)</span></label><input type="text" id="f-from" placeholder="e.g. SFO"></div>
+          <div><label>To <span class="slbl">(City or Airport)</span></label><input type="text" id="f-to" placeholder="e.g. LHR"></div>
         </div>
-        <div>
-          <label>To <span class="slbl">(City or Airport)</span></label>
-          <input type="text" id="f-to" placeholder="e.g. London or LHR">
-        </div>
+        <div class="errmsg" id="f-err">Route not found in benchmarking database.</div>
+        <button class="run" onclick="runFlight()">Benchmark Airfare</button>
       </div>
-      <button class="run" onclick="runBench()">Benchmark Airfare</button>
     </div>
 
-    <!-- HOTEL TAB -->
-    <div id="hotel" class="tp">
-      <p style="color:var(--g600);font-size:0.9rem;margin-bottom:1rem">Note: For GSA rates, ensure you select the correct month of travel.</p>
-      <div class="g2">
-        <div>
-          <label>Destination City</label>
-          <input type="text" id="h-city" placeholder="e.g. Washington DC">
+    <div id="h-tab" class="tp">
+      <div class="f">
+        <div class="g2">
+          <div><label>Destination City</label><input type="text" id="h-city" placeholder="e.g. Washington DC"></div>
+          <div>
+            <label>Month of Travel</label>
+            <select id="h-mo">
+              <option value="0">January</option><option value="1">February</option><option value="2">March</option>
+              <option value="3">April</option><option value="4">May</option><option value="5">June</option>
+              <option value="6">July</option><option value="7">August</option><option value="8">September</option>
+              <option value="9">October</option><option value="10">November</option><option value="11">December</option>
+            </select>
+          </div>
         </div>
-        <div>
-          <label>Month</label>
-          <select id="h-month">
-            <option>January</option><option>February</option><option>March</option>
-            <option>April</option><option>May</option><option>June</option>
-            <option>July</option><option>August</option><option>September</option>
-            <option>October</option><option>November</option><option>December</option>
-          </select>
-        </div>
+        <div class="errmsg" id="h-err">City not found. Try a major metro area.</div>
+        <button class="run" onclick="runHotel()">Find Hotel Caps</button>
       </div>
-      <button class="run" onclick="runHotel()">Find Hotel Caps</button>
     </div>
 
-    <!-- GROUND TAB -->
-    <div id="ground" class="tp">
-      <div class="g2">
-        <div>
-          <label>City</label>
-          <input type="text" id="g-city" placeholder="e.g. Chicago">
+    <div id="g-tab" class="tp">
+      <div class="f">
+        <div class="g2">
+          <div><label>City</label><input type="text" id="g-city" placeholder="e.g. Chicago"></div>
+          <div><label>Estimated Miles</label><input type="number" id="g-mi" value="10"></div>
         </div>
-        <div>
-          <label>Estimated Miles</label>
-          <input type="number" id="g-miles" value="10">
-        </div>
+        <button class="run" onclick="runGround()">Calculate Ground Rates</button>
       </div>
-      <button class="run" onclick="runGround()">Calculate Ground Rates</button>
     </div>
 
-    <!-- RESULTS BOX -->
-    <div id="res" class="rbox off">
+    <div id="res" class="rbox">
       <div class="rhdr">
-        <h3 id="res-title">Benchmarking Results</h3>
+        <h3 id="res-t">Results</h3>
         <button class="pdf-btn" onclick="printTab()">Export PDF</button>
       </div>
-      <div class="res-grid">
+      <div id="res-grid" class="res-grid">
         <div class="res-card">
-          <span class="lbl">Recommended Benchmark</span>
-          <div class="val" id="res-mid">-</div>
-          <p class="sub">Standard coach/economy mid-point</p>
+          <span class="lbl" id="res-l1">Recommended Benchmark</span>
+          <div class="val" id="res-v1">-</div>
+          <p class="sub" id="res-s1">Standard coach/economy mid-point</p>
         </div>
         <div class="res-card">
-          <span class="lbl">Low/Economy Tier</span>
-          <div class="val" id="res-low">-</div>
-          <p class="sub">Restricted/Non-refundable average</p>
+          <span class="lbl" id="res-l2">Low/Economy Tier</span>
+          <div class="val" id="res-v2">-</div>
+          <p class="sub" id="res-s2">Restricted/Non-refundable average</p>
         </div>
       </div>
       <div class="pd-rule"></div>
-      <div class="pd-exp" id="res-exp">
-        Data sources: BTS Form 41 Schedule T-100. Benchmarks include typical university-allowable ancillary fees.
-      </div>
+      <div id="map" class="map-wrap"></div>
+      <div class="pd-exp" id="res-exp"></div>
     </div>
   </div>
 </section>
 
 <section class="sec" id="admin">
   <div class="tw">
-    <div class="ahdr">
-      <h2>Admin Dashboard</h2>
-      <span class="tag">Restricted Access</span>
-    </div>
+    <div class="ahdr"><h2>Admin Dashboard</h2><span class="tag">Restricted</span></div>
     <div class="ibox">
-      <label>Add/Update Route Data</label>
-      <div class="g3" style="grid-template-columns: 1fr 1fr 1fr 1fr 80px; gap: 8px;">
-        <input type="text" id="nr-f" placeholder="From">
-        <input type="text" id="nr-t" placeholder="To">
-        <input type="number" id="nr-l" placeholder="Low">
-        <input type="number" id="nr-m" placeholder="Mid">
-        <button class="addbtn" onclick="addRoute()">Add</button>
+      <div class="g3">
+        <div><label>From</label><input type="text" id="nr-f" placeholder="SFO"></div>
+        <div><label>To</label><input type="text" id="nr-t" placeholder="LAX"></div>
+        <div><label>Low</label><input type="number" id="nr-l" placeholder="450"></div>
+        <div><label>Mid</label><input type="number" id="nr-m" placeholder="550"></div>
+        <div><label>High</label><input type="number" id="nr-h" placeholder="650"></div>
+        <div><label>RT×</label><input type="number" id="nr-r" placeholder="1.7" step="0.1"></div>
+        <div><label>&nbsp;</label><button class="addbtn" onclick="addRoute()">Add</button></div>
       </div>
-      <div class="exprow" style="margin-top: 1rem; display: flex; gap: 10px;">
+      <div class="errmsg" id="adm-err">Fill in all fields.</div>
+      <div class="exprow">
         <button class="expbtn" onclick="exportData()">Export JSON</button>
         <button class="expbtn" onclick="document.getElementById('imp').click()">Import JSON</button>
         <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)">
@@ -165,14 +151,9 @@
 
 <footer>
   <div class="fi">
-    <div>
-      <div class="flogo">Fair<span>Fares</span></div>
-      <div class="fcopy">© 2026 FairFares. Data: BTS (bts.gov) · GSA (gsa.gov) · State Dept.</div>
-    </div>
-    <div class="flinks">
-      <a href="mailto:hello@getfairfares.com">Contact</a>
-      <a href="#tool">Tool</a>
-    </div>
+    <div class="flogo">Fair<span>Fares</span></div>
+    <div class="fcopy">© 2026 FairFares. Data: BTS · GSA · DoD · State Dept.</div>
+    <div class="flinks"><a href="mailto:hello@getfairfares.com">Contact</a></div>
   </div>
 </footer>
 
