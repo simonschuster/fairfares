@@ -522,6 +522,33 @@ async function doGeoLookup(){
   }
 }
 
+function haversine(lat1,lon1,lat2,lon2){
+  const R=3958.8;
+  const dLat=(lat2-lat1)*Math.PI/180;
+  const dLon=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+function detectCity(lat,lon){
+  const cities=[
+    {k:'sf',  lat:37.75,lon:-122.42,r:0.5},{k:'la',  lat:34.05,lon:-118.35,r:0.7},
+    {k:'nyc', lat:40.72,lon:-73.95, r:0.5},{k:'chi', lat:41.88,lon:-87.75, r:0.5},
+    {k:'bos', lat:42.36,lon:-71.06, r:0.4},{k:'dc',  lat:38.90,lon:-77.04, r:0.4},
+    {k:'sea', lat:47.61,lon:-122.33,r:0.4},{k:'mia', lat:25.79,lon:-80.22, r:0.5},
+    {k:'den', lat:39.74,lon:-104.98,r:0.5},{k:'atl', lat:33.75,lon:-84.39, r:0.5},
+    {k:'lon', lat:51.51,lon:-0.13,  r:0.5},{k:'par', lat:48.85,lon:2.35,   r:0.5},
+    {k:'tok', lat:35.68,lon:139.76, r:0.5},{k:'syd', lat:-33.87,lon:151.21,r:0.5},
+    {k:'sin', lat:1.35, lon:103.82, r:0.3},
+  ];
+  for(const c of cities){
+    const d=Math.sqrt(Math.pow(lat-c.lat,2)+Math.pow(lon-c.lon,2));
+    if(d<c.r)return c.k;
+  }
+  return 'default';
+}
+
+
 async function calcGT(){
   const fromVal=$('gt-from').value.trim();
   const toVal=$('gt-to').value.trim();
@@ -604,25 +631,33 @@ function gtTab(t,el){
 // TRAVEL ADVISORIES
 // ═══════════════════════════════════════════════
 function lookAdv(){
-  const input=$('adv-in').value.trim().toLowerCase();
-  const err=$('adv-err');
-  err.style.display='none'; $('adv-res').style.display='none';
-  if(!input){err.textContent='Please enter a country name.';err.style.display='block';return;}
-  const data=ADV_DATA[input];
-  if(!data){
-    err.innerHTML='Country not in our database. <a href="https://travel.state.gov" target="_blank" style="color:var(--teal)">Check travel.state.gov directly →</a>';
-    err.style.display='block'; return;
+  try{
+    const raw=$('adv-in').value.trim();
+    const input=raw.toLowerCase();
+    const err=$('adv-err');
+    err.style.display='none';
+    $('adv-res').style.display='none';
+    if(!input){err.textContent='Please enter a country name.';err.style.display='block';return;}
+    const rec=ADV_DATA[input];
+    if(!rec){
+      err.innerHTML='Country not in our database. <a href="https://travel.state.gov" target="_blank" style="color:var(--teal)">Check travel.state.gov directly →</a>';
+      err.style.display='block'; return;
+    }
+    const lvl=ADV_LEVELS[rec.level];
+    if(!lvl){err.textContent='Advisory data error.';err.style.display='block';return;}
+    $('adv-hd').className='adv-hd '+lvl.cls;
+    $('adv-cn').textContent=raw.charAt(0).toUpperCase()+raw.slice(1);
+    $('adv-lt').textContent=lvl.lbl;
+    $('adv-badge').textContent=lvl.badge;
+    $('adv-badge').className='adv-badge '+lvl.cls;
+    $('adv-msg').textContent=rec.msg;
+    $('adv-url').href=rec.url;
+    $('adv-res').style.display='block';
+    logUse('Advisory',input);
+  }catch(e){
+    const err=$('adv-err');
+    if(err){err.textContent='Error loading advisory data. Please try again.';err.style.display='block';}
   }
-  const lvl=ADV_LEVELS[data.level];
-  $('adv-hd').className='adv-hd '+lvl.cls;
-  $('adv-cn').textContent=$('adv-in').value.trim().replace(/\b\w/g,c=>c.toUpperCase());
-  $('adv-lt').textContent=lvl.lbl;
-  $('adv-badge').textContent=lvl.badge;
-  $('adv-badge').className='adv-badge '+lvl.cls;
-  $('adv-msg').textContent=data.msg;
-  $('adv-url').href=data.url;
-  $('adv-res').style.display='block';
-  logUse('Advisory',input);
 }
 function qa(el){$('adv-in').value=el.textContent;lookAdv();}
 
