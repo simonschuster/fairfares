@@ -3900,22 +3900,23 @@ const CMAP={'SAN FRANCISCO':'SFO','SF':'SFO','CHICAGO':'ORD','NEW YORK':'JFK','N
 
 
 const GT_RATES={
-  default:{base:3.00,mile:2.50,min:0.45,name:'standard metered rate'},
-  sf:{base:3.50,mile:2.75,min:0.55,name:'San Francisco MTA metered rate'},
-  la:{base:3.10,mile:2.70,min:0.35,name:'Los Angeles City metered rate'},
-  nyc:{base:3.00,mile:2.50,min:0.50,name:'NYC TLC metered rate'},
-  chi:{base:3.25,mile:1.80,min:0.38,name:'Chicago metered rate'},
-  bos:{base:2.60,mile:2.55,min:0.40,name:'Boston metered rate'},
-  dc:{base:3.25,mile:2.16,min:0.42,name:'DC metered rate'},
-  sea:{base:2.60,mile:2.70,min:0.48,name:'Seattle metered rate'},
-  mia:{base:2.95,mile:2.40,min:0.38,name:'Miami-Dade metered rate'},
-  den:{base:2.70,mile:2.25,min:0.38,name:'Denver metered rate'},
-  atl:{base:2.50,mile:2.00,min:0.35,name:'Atlanta metered rate'},
-  lon:{base:3.80,mile:4.20,min:0.72,name:'London Black Cab published tariff (USD equiv)'},
-  par:{base:2.80,mile:3.10,min:0.55,name:'Paris taxi published tariff (USD equiv)'},
-  tok:{base:4.20,mile:3.50,min:0.75,name:'Tokyo taxi published tariff (USD equiv)'},
-  syd:{base:3.60,mile:3.00,min:0.58,name:'Sydney taxi published tariff (USD equiv)'},
-  sin:{base:3.20,mile:2.60,min:0.50,name:'Singapore taxi published tariff (USD equiv)'},
+  // base=flag fall, mile=per mile, min=per minute, apt=airport surcharge, toll=common toll note, tip=tip pct
+  default:{base:3.00,mile:2.50,min:0.45,apt:0,   toll:false,tip:0.18,name:'Standard metered rate'},
+  sf:     {base:3.50,mile:2.75,min:0.55,apt:5.50,toll:true, tip:0.15,name:'San Francisco MTA tariff',tollNote:'Bay Bridge toll $7 if applicable'},
+  la:     {base:3.10,mile:2.70,min:0.35,apt:4.00,toll:false,tip:0.15,name:'Los Angeles LADOT tariff'},
+  nyc:    {base:3.00,mile:2.50,min:0.50,apt:1.75,toll:true, tip:0.18,name:'NYC TLC tariff',tollNote:'Tunnels/bridges $6-20 if applicable'},
+  chi:    {base:3.25,mile:1.80,min:0.38,apt:2.00,toll:true, tip:0.18,name:'Chicago metered tariff',tollNote:'Tollway surcharge may apply'},
+  bos:    {base:2.60,mile:2.55,min:0.40,apt:2.75,toll:false,tip:0.18,name:'Boston Hackney tariff'},
+  dc:     {base:3.25,mile:2.16,min:0.42,apt:0,   toll:false,tip:0.18,name:'DC Taxicab Commission tariff'},
+  sea:    {base:2.60,mile:2.70,min:0.48,apt:5.00,toll:true, tip:0.18,name:'Seattle metered tariff',tollNote:'SR-99 tunnel toll if applicable'},
+  mia:    {base:2.95,mile:2.40,min:0.38,apt:2.00,toll:false,tip:0.18,name:'Miami-Dade metered tariff'},
+  den:    {base:2.70,mile:2.25,min:0.38,apt:3.00,toll:false,tip:0.18,name:'Denver metered tariff'},
+  atl:    {base:2.50,mile:2.00,min:0.35,apt:2.00,toll:false,tip:0.18,name:'Atlanta metered tariff'},
+  lon:    {base:3.80,mile:4.20,min:0.72,apt:0,   toll:false,tip:0.10,name:'London Black Cab published tariff (USD equiv)'},
+  par:    {base:2.80,mile:3.10,min:0.55,apt:7.50,toll:false,tip:0.05,name:'Paris taxi published tariff (USD equiv)'},
+  tok:    {base:4.20,mile:3.50,min:0.75,apt:0,   toll:true, tip:0.00,name:'Tokyo taxi published tariff (USD equiv)',tollNote:'Expressway tolls passed through'},
+  syd:    {base:3.60,mile:3.00,min:0.58,apt:3.20,toll:true, tip:0.10,name:'Sydney taxi published tariff (USD equiv)',tollNote:'Harbour Bridge/Tunnel toll if applicable'},
+  sin:    {base:3.20,mile:2.60,min:0.50,apt:5.00,toll:false,tip:0.00,name:'Singapore SMRT tariff (USD equiv)'},
 };
 
 

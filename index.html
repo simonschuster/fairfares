@@ -80,7 +80,7 @@
     <p class="ss">Enter the authorized trip — dates, routing and class as policy requires — and get an instant government-sourced benchmark.</p>
     <div class="steps">
       <div class="step"><div class="sn">1</div><h3>Enter the authorized trip details</h3><p>The dates, route and class the traveler should have used under policy — not what they actually booked.</p></div>
-      <div class="step"><div class="sn">2</div><h3>Get the benchmark fare</h3><p>FairFares returns the average fare for that route, sourced from BTS, GSA and DoD official data.</p></div>
+      <div class="step"><div class="sn">2</div><h3>Get the benchmark fare</h3><p>FairFares returns the average fare for that route, derived from BTS, GSA and DoD government data.</p></div>
       <div class="step"><div class="sn">3</div><h3>Download the compliance record</h3><p>A timestamped PDF to attach to the expense report — sourced, dated and ready for audit.</p></div>
     </div>
   </div>
@@ -139,7 +139,7 @@
             <div class="rrow">
               <div class="rm"><div class="ml">High-end benchmark</div><div class="mv" id="df-avg">—</div><div class="ms" id="df-cab-sub"></div></div>
               <div class="rm"><div class="ml">Cabin</div><div class="mv" id="df-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS-derived</div><div class="ms">Static table from <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> historical data</div></div>
             </div>
             <p class="rnote" id="df-note"></p>
             <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
@@ -179,7 +179,7 @@
             <div class="rrow">
               <div class="rm"><div class="ml">High-end benchmark</div><div class="mv" id="dh-avg">—</div><div class="ms">per night (USD)</div></div>
               <div class="rm"><div class="ml">Authorized nights</div><div class="mv" id="dh-n">—</div><div class="ms"></div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">GSA</div><div class="ms"><a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">gsa.gov per diem</a></div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">Curated</div><div class="ms">FairFares rate table + <a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">GSA per diem</a></div></div>
             </div>
             
             <p class="rnote" id="dh-note"></p>
@@ -223,7 +223,7 @@
             <div class="rrow">
               <div class="rm"><div class="ml">High-end benchmark</div><div class="mv" id="if-avg">—</div><div class="ms" id="if-sub"></div></div>
               <div class="rm"><div class="ml">Cabin</div><div class="mv" id="if-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS</div><div class="ms"><a href="https://www.bts.gov/air-fares" target="_blank">bts.gov/air-fares</a></div></div>
+              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS-derived</div><div class="ms">Static table from <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> historical data</div></div>
             </div>
             <p class="rnote" id="if-note"></p>
             <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
@@ -388,7 +388,7 @@
   <div class="fi">
     <div>
       <div class="flogo">Fair<span>Fares</span></div>
-      <div class="fcopy">© 2026 FairFares. Travel cost benchmarking. Data: BTS (bts.gov) · GSA (gsa.gov) · DoD (travel.dod.mil) · State Dept (travel.state.gov) &nbsp;|&nbsp; Institution and department collected only — no personal data.</div>
+      <div class="fcopy">© 2026 FairFares. Travel cost benchmarking. Data: BTS-derived static table · FairFares curated hotel rates · DoD per diem (travel.dod.mil) · State Dept advisories (travel.state.gov) &nbsp;|&nbsp; Institution and department collected only — no personal data.</div>
     </div>
     <div class="flinks">
       <a href="mailto:hello@getfairfares.com">Contact</a>

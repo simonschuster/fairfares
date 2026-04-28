@@ -304,7 +304,7 @@ function lookFlight(pfx){
   $(pfx+'-cab-disp').textContent=cabLabel(cab);
   $(pfx+'-lbl').textContent=r.from+' → '+r.to+' · '+(type==='rt'?'Round trip':'One way')+' · '+cabLabel(cab);
   $(pfx+'-note').innerHTML='<b>High-end benchmark: '+fmt(staticHigh)+'</b> &nbsp;|&nbsp; Market avg: '+fmt(staticAvg)
-    +'<br>Source: <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> — US DOT air fare database. Checking live Amadeus data…';
+    +'<br>Source: FairFares static table derived from <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> historical averages. Checking live Amadeus data…';
   res.classList.add('show');
   if(pfx==='df') logUse('Domestic flight',r.from+'→'+r.to);
   else logUse('International flight',r.from+'→'+r.to);
@@ -326,12 +326,12 @@ function lookFlight(pfx){
     }).catch(function(){
       // Already showing static result — just update the note
       $(pfx+'-note').innerHTML='<b>High-end benchmark: '+fmt(staticHigh)+'</b> &nbsp;|&nbsp; Market avg: '+fmt(staticAvg)
-        +'<br>Source: <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> — US DOT air fare database. '
+        +'<br>Source: FairFares static table derived from <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> historical averages. '
         +'Policy basis: UCOP G-28, non-refundable '+cabLabel(cab).toLowerCase()+'.';
     });
   } else {
     $(pfx+'-note').innerHTML='<b>High-end benchmark: '+fmt(staticHigh)+'</b> &nbsp;|&nbsp; Market avg: '+fmt(staticAvg)
-      +'<br>Source: <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> — US DOT air fare database. '
+      +'<br>Source: FairFares static table derived from <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> historical averages. '
       +'Policy basis: UCOP G-28, non-refundable '+cabLabel(cab).toLowerCase()+'.'
       +'<br><small style="color:var(--g400)">Add Amadeus API key in app.js for live pricing.</small>';
   }
@@ -577,21 +577,32 @@ async function calcGT(){
   const avgSpeed={sf:18,la:16,nyc:14,chi:20,bos:18,dc:20,sea:20,mia:22,den:25,atl:22,lon:12,par:14,tok:12,syd:22,sin:20,default:20}[cityKey]||20;
   const mins=Math.round((miles/avgSpeed)*60);
 
-  // Taxi
-  const tBase=r.base, tMeter=parseFloat((miles*r.mile).toFixed(2)), tTime=parseFloat((mins*r.min).toFixed(2));
-  const tTotal=tBase+tMeter+tTime;
+  // Taxi — with airport surcharge and tip
+  const tBase=r.base;
+  const tMeter=parseFloat((miles*r.mile).toFixed(2));
+  const tTime=parseFloat((mins*r.min).toFixed(2));
+  const tApt=r.apt||0;
+  const tSubtotal=tBase+tMeter+tTime+tApt;
+  const tTip=parseFloat((tSubtotal*(r.tip||0.18)).toFixed(2));
+  const tTotal=parseFloat((tSubtotal+tTip).toFixed(2));
   // Uber X
   const uBase=1.30,uDist=parseFloat((miles*1.45).toFixed(2)),uTime=parseFloat((mins*0.28).toFixed(2)),uSafe=1.80;
-  const uTotal=uBase+uDist+uTime+uSafe;
+  const uApt=tApt;
+  const uSubtotal=parseFloat((uBase+uDist+uTime+uSafe+uApt).toFixed(2));
+  const uTip=parseFloat((uSubtotal*0.15).toFixed(2));
+  const uTotal=parseFloat((uSubtotal+uTip).toFixed(2));
   // Lyft
   const lBase=1.20,lDist=parseFloat((miles*1.42).toFixed(2)),lTime=parseFloat((mins*0.26).toFixed(2)),lSafe=1.75;
-  const lTotal=lBase+lDist+lTime+lSafe;
+  const lApt=tApt;
+  const lSubtotal=parseFloat((lBase+lDist+lTime+lSafe+lApt).toFixed(2));
+  const lTip=parseFloat((lSubtotal*0.15).toFixed(2));
+  const lTotal=parseFloat((lSubtotal+lTip).toFixed(2));
 
   // Build tables
   const mkRow=(l,v)=>'<tr><td>'+l+'</td><td>'+v+'</td></tr>';
   $('gt-taxi-rows').innerHTML=mkRow('Initial charge',fmt(tBase))+mkRow('Metered fare ('+miles+' mi)',fmt(tMeter))+mkRow('Time charge (~'+mins+' min)',fmt(tTime));
   $('gt-taxi-tot').textContent=fmt(tTotal);
-  $('gt-taxi-src').innerHTML='Source: <a href="https://taxifarefinder.com" target="_blank">TaxiFareFinder.com</a> — '+r.name+'. Straight-line distance '+asCrow.toFixed(1)+' mi × 1.35 road factor = '+miles+' mi estimated route.';
+  $('gt-taxi-src').innerHTML='Source: '+r.name+' (published municipal tariff). Calculated from straight-line distance '+asCrow.toFixed(1)+' mi × 1.35 road factor = '+miles+' mi estimated route distance.';
 
   $('gt-uber-rows').innerHTML=mkRow('Base fare',fmt(uBase))+mkRow('Distance ('+miles+' mi)',fmt(uDist))+mkRow('Time (~'+mins+' min)',fmt(uTime))+mkRow('Safe rides fee',fmt(uSafe));
   $('gt-uber-tot').textContent=fmt(uTotal);
