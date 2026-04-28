@@ -292,8 +292,8 @@
           
 
           <div class="g2">
-            <div class="f"><label>Pickup — address or place name</label><input type="text" id="gt-from" placeholder="e.g. SFO Airport" oninput="gtGeo()"></div>
-            <div class="f"><label>Dropoff — address or place name</label><input type="text" id="gt-to" placeholder="e.g. UCSF Mission Bay, San Francisco" oninput="gtGeo()"></div>
+            <div class="f"><label>Pickup — address or place name</label><div class="ac-wrap"><input type="text" id="gt-from" autocomplete="off" placeholder="e.g. SFO Airport" oninput="gtGeo()"></div>
+            <div class="f"><label>Dropoff — address or place name</label><div class="ac-wrap"><input type="text" id="gt-to" autocomplete="off" placeholder="e.g. UCSF Mission Bay, San Francisco" oninput="gtGeo()"></div>
           </div>
           <div class="errmsg" id="gt-err"></div>
           <button class="lbtn" id="gt-btn" onclick="calcGT()">Get fare estimates</button>

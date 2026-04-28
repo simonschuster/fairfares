@@ -106,8 +106,6 @@ function updateBadge(){
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
-  // Setup hotel city autocomplete (HOTEL_RATES must be defined first)
-  ;
   if(!localStorage.getItem('ff_seen')){
     setTimeout(openModal,1500);
   } else {
@@ -203,40 +201,58 @@ function setupAC(inpId){
 }
 ['df-o','df-d','if-o','if-d'].forEach(setupAC);
 ['dh-city','ih-city'].forEach(setupCityAC);
-// Hotel city autocomplete
-const HOTEL_CITY_LIST = Object.keys(HOTEL_RATES).map(k => ({
-  key: k,
-  display: k.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
-}));
+['gt-from','gt-to'].forEach(setupAddressAC);
 
-function setupCityAC(inputId){
-  const inp=$(inputId), drop=$(inputId+'-drop');
+
+// ═══════════════════════════════════════════════
+// ADDRESS AUTOCOMPLETE (Nominatim)
+// ═══════════════════════════════════════════════
+function setupAddressAC(inpId){
+  const inp=$(inpId), drop=$(inpId+'-drop');
   if(!inp||!drop) return;
-  inp.addEventListener('input', ()=>{
-    const q=inp.value.trim().toLowerCase();
+  let timer=null;
+  inp.addEventListener('input',()=>{
+    clearTimeout(timer);
+    const q=inp.value.trim();
     drop.innerHTML='';
-    if(q.length<2){drop.style.display='none';return;}
-    const hits=HOTEL_CITY_LIST.filter(c=>c.key.startsWith(q)||c.key.includes(q)).slice(0,8);
-    if(!hits.length){drop.style.display='none';return;}
-    hits.forEach(c=>{
-      const div=document.createElement('div');
-      div.className='ac-item';
-      div.textContent=c.display;
-      div.addEventListener('mousedown',e=>{
-        e.preventDefault();
-        inp.value=c.display;
-        drop.style.display='none';
-        // Trigger oninput for ih-city
-        inp.dispatchEvent(new Event('input'));
-      });
-      drop.appendChild(div);
-    });
-    drop.style.display='block';
+    if(q.length<3){drop.style.display='none';return;}
+    timer=setTimeout(async ()=>{
+      try{
+        const url='https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(q)
+          +'&format=json&limit=6&addressdetails=1';
+        const r=await fetch(url,{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
+        const results=await r.json();
+        drop.innerHTML='';
+        if(!results.length){drop.style.display='none';return;}
+        results.forEach(place=>{
+          const div=document.createElement('div');
+          div.className='ac-item';
+          // Show a clean short label
+          const addr=place.address||{};
+          const parts=[
+            place.name||addr.amenity||addr.building||addr.road||'',
+            addr.city||addr.town||addr.village||addr.county||'',
+            addr.state||'',
+            addr.country_code?addr.country_code.toUpperCase():''
+          ].filter(Boolean);
+          div.textContent=parts.slice(0,3).join(', ');
+          div.addEventListener('mousedown',e=>{
+            e.preventDefault();
+            inp.value=div.textContent;
+            inp.dataset.lat=place.lat;
+            inp.dataset.lon=place.lon;
+            drop.style.display='none';
+            // Trigger the geo lookup
+            gtGeo();
+          });
+          drop.appendChild(div);
+        });
+        drop.style.display=results.length?'block':'none';
+      }catch(e){drop.style.display='none';}
+    },400);
   });
   inp.addEventListener('blur',()=>setTimeout(()=>drop.style.display='none',200));
 }
-setupCityAC('dh-city');
-setupCityAC('ih-city');
 
 
 // ═══════════════════════════════════════════════
@@ -489,38 +505,21 @@ async function geocode(query){
 }
 
 async function doGeoLookup(){
-  const fromVal=$('gt-from').value.trim();
-  const toVal=$('gt-to').value.trim();
+  const fromEl=$('gt-from'), toEl=$('gt-to');
+  const fromVal=fromEl.value.trim();
+  const toVal=toEl.value.trim();
   if(fromVal.length<3||toVal.length<3)return;
-  // Geocode both in parallel
-  [gtFromCoord,gtToCoord]=await Promise.all([geocode(fromVal),geocode(toVal)]);
-}
-
-function detectCity(lat,lon){
-  // Rough city detection from coords
-  const cities=[
-    {k:'sf',  lat:37.75,lon:-122.42,r:0.5},{k:'la',  lat:34.05,lon:-118.35,r:0.7},
-    {k:'nyc', lat:40.72,lon:-73.95, r:0.5},{k:'chi', lat:41.88,lon:-87.75, r:0.5},
-    {k:'bos', lat:42.36,lon:-71.06, r:0.4},{k:'dc',  lat:38.90,lon:-77.04, r:0.4},
-    {k:'sea', lat:47.61,lon:-122.33,r:0.4},{k:'mia', lat:25.79,lon:-80.22, r:0.5},
-    {k:'den', lat:39.74,lon:-104.98,r:0.5},{k:'atl', lat:33.75,lon:-84.39, r:0.5},
-    {k:'lon', lat:51.51,lon:-0.13,  r:0.5},{k:'par', lat:48.85,lon:2.35,   r:0.5},
-    {k:'tok', lat:35.68,lon:139.76, r:0.5},{k:'syd', lat:-33.87,lon:151.21,r:0.5},
-    {k:'sin', lat:1.35, lon:103.82, r:0.3},
-  ];
-  for(const c of cities){
-    const d=Math.sqrt(Math.pow(lat-c.lat,2)+Math.pow(lon-c.lon,2));
-    if(d<c.r)return c.k;
+  // Use pre-geocoded coords from autocomplete selection if available
+  if(fromEl.dataset&&fromEl.dataset.lat) gtFromCoord={lat:parseFloat(fromEl.dataset.lat),lon:parseFloat(fromEl.dataset.lon)};
+  else gtFromCoord=null;
+  if(toEl.dataset&&toEl.dataset.lat) gtToCoord={lat:parseFloat(toEl.dataset.lat),lon:parseFloat(toEl.dataset.lon)};
+  else gtToCoord=null;
+  if(!gtFromCoord||!gtToCoord){
+    [gtFromCoord,gtToCoord]=await Promise.all([
+      gtFromCoord||geocode(fromVal),
+      gtToCoord||geocode(toVal)
+    ]);
   }
-  return 'default';
-}
-
-function haversine(lat1,lon1,lat2,lon2){
-  const R=3958.8;
-  const dLat=(lat2-lat1)*Math.PI/180;
-  const dLon=(lon2-lon1)*Math.PI/180;
-  const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
-  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
 
 async function calcGT(){
@@ -577,7 +576,7 @@ async function calcGT(){
   const lowest=Math.min(tTotal,uTotal,lTotal);
   const lowestName=lowest===tTotal?'Taxi':lowest===uTotal?'Uber X':'Lyft';
   $('gt-vt').textContent='G-28 benchmark: '+fmt(lowest)+' ('+lowestName+')';
-  $('gt-vb').textContent=lowestName+' is the most economical option for '+fromVal+' to '+toVal+'. Under G-28, any ground transport reimbursement is capped at the most economical mode for the same route ('+fmt(lowest)+'). If a rental car was used, the total cost (rental + gas + parking + tolls) must be less than this figure to be fully reimbursable.';
+  $('gt-vb').textContent='If a rental car was used, the total cost (rental + gas + parking + tolls) must be less than '+fmt(lowest)+' to be fully reimbursable.';
 
   $('gt-lbl').textContent=fromVal+' → '+toVal;
 

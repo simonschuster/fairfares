@@ -154,7 +154,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-
 .ft td{padding:7px 0;border-bottom:0.5px solid var(--g100)}
 .ft td:last-child{text-align:right;color:var(--navy);font-weight:500}
 .ft tfoot tr td{padding:8px 0;font-weight:600;border-top:2px solid var(--g200);border-bottom:none}
-.map-wrap{width:100%;height:260px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--g200);margin-bottom:1rem;display:none}
+.map-wrap{width:100%;height:420px;border-radius:var(--rl);overflow:hidden;border:1px solid var(--g200);margin-bottom:1rem;display:none}
 .map-wrap iframe{width:100%;height:100%;border:none}
 .gt-verdict{border-radius:10px;padding:11px 14px;border:1px solid #9ae6b4;background:var(--gbg);margin-top:10px}
 .gt-vt{font-size:.875rem;font-weight:500;color:var(--green);margin-bottom:2px}
