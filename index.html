@@ -8,9 +8,20 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="styles.css">
+<script>
+function checkPW(){
+  var val=document.getElementById('pw-input').value;
+  if(val==='fairfares2026'){
+    localStorage.setItem('ff_access','fairfares2026');
+    document.getElementById('pw-gate').style.display='none';
+  } else {
+    document.getElementById('pw-err').style.display='block';
+    document.getElementById('pw-input').value='';
+    document.getElementById('pw-input').focus();
+  }
+}
+</script>
 </head>
-<body>
-
 <!-- ═══ PASSWORD GATE ═══ -->
 <div id="pw-gate" style="position:fixed;inset:0;background:#f5f5f5;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif">
   <div style="text-align:center;padding:2rem">
@@ -26,16 +37,17 @@
   </div>
 </div>
 <script>
-(function(){
-  var PW = 'fairfares2026';
-  var KEY = 'ff_access';
-  if(localStorage.getItem(KEY) === PW){
-    document.getElementById('pw-gate').style.display='none';
-  }
-})();
+if(localStorage.getItem('ff_access')==='fairfares2026'){
+  document.getElementById('pw-gate').style.display='none';
+}
+</script>
+
+
+
+<script>
 function checkPW(){
-  var val = document.getElementById('pw-input').value;
-  if(val === 'fairfares2026'){
+  var val=document.getElementById('pw-input').value;
+  if(val==='fairfares2026'){
     localStorage.setItem('ff_access','fairfares2026');
     document.getElementById('pw-gate').style.display='none';
   } else {
@@ -45,9 +57,27 @@ function checkPW(){
   }
 }
 </script>
-
 </head>
 <body>
+<!-- ═══ PASSWORD GATE ═══ -->
+<div id="pw-gate" style="position:fixed;inset:0;background:#f5f5f5;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif">
+  <div style="text-align:center;padding:2rem">
+    <div style="font-size:.95rem;color:#999;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2rem">Under Construction</div>
+    <div id="pw-err" style="display:none;color:#c0392b;font-size:.8rem;margin-bottom:.75rem">Incorrect password</div>
+    <input id="pw-input" type="password" placeholder="Password" autocomplete="off"
+      style="padding:.6rem 1rem;border:1px solid #ccc;border-radius:4px;font-size:.9rem;outline:none;margin-right:.5rem;width:180px"
+      onkeydown="if(event.key==='Enter')checkPW()">
+    <button onclick="checkPW()"
+      style="padding:.6rem 1.2rem;background:#888;color:#fff;border:none;border-radius:4px;font-size:.9rem;cursor:pointer">
+      Go
+    </button>
+  </div>
+</div>
+<script>
+if(localStorage.getItem('ff_access')==='fairfares2026'){
+  document.getElementById('pw-gate').style.display='none';
+}
+</script>
 
 <!-- ═══ PASSWORD GATE ═══ -->
 <div id="pw-gate" style="position:fixed;inset:0;background:#f5f5f5;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif">
