@@ -12,12 +12,11 @@
 function checkPW(){
   var val=document.getElementById('pw-input').value;
   if(val==='fairfares2026'){
-    localStorage.setItem('ff_access','fairfares2026');
     document.getElementById('pw-gate').style.display='none';
+    try{ document.cookie='ffpw=1;path=/;max-age=86400'; }catch(e){}
   } else {
     document.getElementById('pw-err').style.display='block';
     document.getElementById('pw-input').value='';
-    document.getElementById('pw-input').focus();
   }
 }
 </script>
@@ -37,7 +36,7 @@ function checkPW(){
   </div>
 </div>
 <script>
-if(localStorage.getItem('ff_access')==='fairfares2026'){
+if(document.cookie.indexOf('ffpw=1')>=0){
   document.getElementById('pw-gate').style.display='none';
 }
 </script>
@@ -48,12 +47,11 @@ if(localStorage.getItem('ff_access')==='fairfares2026'){
 function checkPW(){
   var val=document.getElementById('pw-input').value;
   if(val==='fairfares2026'){
-    localStorage.setItem('ff_access','fairfares2026');
     document.getElementById('pw-gate').style.display='none';
+    try{ document.cookie='ffpw=1;path=/;max-age=86400'; }catch(e){}
   } else {
     document.getElementById('pw-err').style.display='block';
     document.getElementById('pw-input').value='';
-    document.getElementById('pw-input').focus();
   }
 }
 </script>
@@ -74,7 +72,7 @@ function checkPW(){
   </div>
 </div>
 <script>
-if(localStorage.getItem('ff_access')==='fairfares2026'){
+if(document.cookie.indexOf('ffpw=1')>=0){
   document.getElementById('pw-gate').style.display='none';
 }
 </script>
