@@ -101,6 +101,11 @@ nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;ju
     <div class="leg-item"><div class="leg-line" style="background:rgba(255,255,255,.15)"></div>Data being collected</div>
     <div class="leg-item"><div class="leg-dot" style="background:var(--teal)"></div>Origin airport</div>
     <div class="leg-item"><div class="leg-dot" style="background:rgba(255,255,255,.4)"></div>Destination airport</div>
+    <div style="width:1px;background:rgba(255,255,255,.15);margin:0 .5rem"></div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(13,158,138,0.6);border-radius:2px"></div>Advisory L1</div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(255,193,7,0.7);border-radius:2px"></div>Advisory L2</div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(255,136,0,0.7);border-radius:2px"></div>Advisory L3</div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(220,53,69,0.7);border-radius:2px"></div>Advisory L4</div>
   </div>
   <div id="map-wrap">
     
@@ -283,6 +288,89 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
     const countries = topojson.feature(world, world.objects.countries);
     const graticule = d3.geoGraticule();
 
+
+// ── TRAVEL ADVISORY COLORS ───────────────────────────────────────
+// Keyed by ISO numeric country code (from world-atlas)
+// Level 1=green, 2=yellow, 3=orange, 4=red
+const ADVISORY = {
+  // Level 1 — Exercise Normal Precautions
+  36:'l1',   // Australia
+  124:'l1',  // Canada
+  392:'l1',  // Japan
+  554:'l1',  // New Zealand
+  756:'l1',  // Switzerland
+  372:'l1',  // Ireland
+  352:'l1',  // Iceland
+  578:'l1',  // Norway
+  752:'l1',  // Sweden
+  208:'l1',  // Denmark
+  246:'l1',  // Finland
+  528:'l1',  // Netherlands
+  40:'l1',   // Austria
+  // Level 2 — Exercise Increased Caution
+  276:'l2',  // Germany
+  250:'l2',  // France
+  380:'l2',  // Italy
+  724:'l2',  // Spain
+  826:'l2',  // United Kingdom
+  356:'l2',  // India
+  484:'l2',  // Mexico
+  702:'l2',  // Singapore
+  158:'l2',  // Taiwan
+  410:'l2',  // South Korea
+  191:'l2',  // Croatia
+  300:'l2',  // Greece
+  620:'l2',  // Portugal
+  32:'l2',   // Argentina
+  76:'l2',   // Brazil
+  152:'l2',  // Chile
+  170:'l2',  // Colombia
+  376:'l2',  // Israel
+  784:'l2',  // UAE (Dubai)
+  // Level 3 — Reconsider Travel
+  586:'l3',  // Pakistan
+  643:'l3',  // Russia
+  860:'l3',  // Uzbekistan
+  51:'l3',   // Armenia
+  368:'l3',  // Iraq
+  364:'l3',  // Iran
+  788:'l3',  // Tunisia
+  818:'l3',  // Egypt
+  218:'l3',  // Ecuador
+  591:'l3',  // Panama
+  // Level 4 — Do Not Travel
+  887:'l4',  // Yemen
+  760:'l4',  // Syria
+  504:'l4',  // Morocco — actually L2, correcting
+  729:'l4',  // Sudan
+  862:'l4',  // Venezuela
+  418:'l4',  // Laos — actually L1
+};
+// Corrections
+ADVISORY[504] = 'l2'; // Morocco = Level 2
+ADVISORY[418] = 'l1'; // Laos = Level 1
+
+const ADV_COLORS = {
+  l1:'rgba(13,158,138,0.35)',   // teal — normal
+  l2:'rgba(255,193,7,0.3)',     // amber — increased caution
+  l3:'rgba(255,136,0,0.35)',    // orange — reconsider
+  l4:'rgba(220,53,69,0.4)',     // red — do not travel
+  default:'rgba(255,255,255,0.07)' // default
+};
+const ADV_STROKE = {
+  l1:'rgba(13,158,138,0.4)',
+  l2:'rgba(255,193,7,0.4)',
+  l3:'rgba(255,136,0,0.45)',
+  l4:'rgba(220,53,69,0.5)',
+  default:'rgba(255,255,255,0.18)'
+};
+const ADV_LABELS = {
+  l1:'Level 1 — Normal precautions',
+  l2:'Level 2 — Exercise increased caution',
+  l3:'Level 3 — Reconsider travel',
+  l4:'Level 4 — Do Not Travel',
+};
+
     // Graticule lines
     svg.append('path')
       .datum(graticule())
@@ -291,15 +379,27 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
       .attr('stroke','rgba(255,255,255,0.04)')
       .attr('stroke-width',0.5);
 
-    // Land
+    // Land — colored by travel advisory level
     svg.append('g')
       .selectAll('path')
       .data(countries.features)
       .enter().append('path')
       .attr('d', path)
-      .attr('fill','rgba(255,255,255,0.07)')
-      .attr('stroke','rgba(255,255,255,0.18)')
-      .attr('stroke-width',0.5);
+      .attr('fill', d => ADV_COLORS[ADVISORY[+d.id]] || ADV_COLORS.default)
+      .attr('stroke', d => ADV_STROKE[ADVISORY[+d.id]] || ADV_STROKE.default)
+      .attr('stroke-width', d => ADVISORY[+d.id] ? 0.6 : 0.4)
+      .on('mouseover', function(event, d) {
+        const lvl = ADVISORY[+d.id];
+        if(lvl) {
+          tooltip.innerHTML = ADV_LABELS[lvl];
+          tooltip.style.display = 'block';
+        }
+      })
+      .on('mousemove', function(event) {
+        tooltip.style.left=(event.clientX+14)+'px';
+        tooltip.style.top=(event.clientY-10)+'px';
+      })
+      .on('mouseout', function() { tooltip.style.display='none'; });
 
     // Routes layer
     const routeG = svg.append('g').attr('class','routes');

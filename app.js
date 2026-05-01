@@ -799,35 +799,54 @@ function printTab(t){
   var s=document.createElement("style");
   s.id="print-override";
   s.textContent=`@media print{
-    @page{size:letter portrait;margin:0.6in 0.65in 0.65in 0.65in}
+    @page{size:letter portrait;margin:0.75in 0.75in 0.75in 0.75in}
     *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-    nav,.hero,.sec:not(.tool-sec),footer,.ttabs,.lbtn,.pdf-btn,.errmsg,.nf,
-    .f,.slbl,.ibox,.g2,.g3,.pd-rule,.map-wrap,.divider{display:none!important}
-    body{font-family:'DM Sans',Arial,sans-serif;font-size:11pt;background:#fff!important;margin:0;padding:0}
+    #pw-gate,nav,.hero,section.hero,.sec:not(.tool-sec),footer,
+    .ttabs,.lbtn,.pdf-btn,.errmsg,.nf,.f,.slbl,.ibox,.g2,.g3,
+    .pd-rule,.map-wrap,.divider,.stag,.sh,.ss,.hbtns,.mo{display:none!important}
+    body{font-family:'DM Sans',Arial,sans-serif;font-size:10.5pt;
+         background:#fff!important;margin:0;padding:0;color:#0a1628}
+    .tool-sec{padding:0!important;background:transparent!important}
+    .si{padding:0!important}
+    .tw{box-shadow:none!important;border:none!important;
+        padding:0!important;margin:0!important;background:transparent!important}
     .tp{display:none!important}
-    .tp.on{display:block!important}
-    .tw{box-shadow:none!important;border:none!important;padding:0!important;margin:0!important;background:transparent!important}
-    .rbox{display:block!important;box-shadow:none!important;border:1px solid #dee2e6!important;border-radius:6px!important;padding:1rem!important;margin:.6rem 0!important;page-break-inside:avoid}
+    .tp.on{display:block!important;padding:0!important}
+    .rbox{display:block!important;box-shadow:none!important;
+          border:1.5px solid #dee2e6!important;border-radius:6px!important;
+          padding:1rem 1.1rem!important;margin:.5rem 0!important;
+          page-break-inside:avoid!important;background:#fff!important}
     .rbox:not(.show){display:none!important}
-    .rrow{display:flex!important;gap:1rem!important;flex-wrap:wrap}
-    .rm{flex:1;min-width:140px}
-    .ml{font-size:8pt!important;color:#6c757d!important;text-transform:uppercase!important;letter-spacing:.06em!important;margin-bottom:2px!important}
-    .mv{font-size:22pt!important;font-weight:700!important;color:#0a1628!important;line-height:1.1!important}
-    .ms{font-size:8pt!important;color:#6c757d!important}
-    .rlbl{font-size:13pt!important;font-weight:600!important;color:#0a1628!important;margin-bottom:.5rem!important}
-    .rn{font-size:9pt!important;color:#555!important;line-height:1.5!important;margin-top:.5rem!important;border-top:1px solid #e9ecef!important;padding-top:.5rem!important}
-    .pd-exp{display:block!important;page-break-inside:avoid}
-    .pd-exp h4{font-size:10pt!important;font-weight:600!important;margin:.5rem 0 .3rem!important}
-    table{border-collapse:collapse!important;width:100%!important;font-size:9pt!important}
-    td,th{padding:4px 8px!important;border:1px solid #dee2e6!important}
-    th{background:#f8f9fa!important;font-weight:600!important}
+    .rrow{display:flex!important;gap:1.5rem!important;flex-wrap:wrap!important;align-items:flex-end!important}
+    .rm{flex:1;min-width:130px}
+    .ml{font-size:7.5pt!important;color:#6c757d!important;
+        text-transform:uppercase!important;letter-spacing:.07em!important;margin-bottom:3px!important}
+    .mv{font-size:24pt!important;font-weight:700!important;
+        color:#0a1628!important;line-height:1.1!important}
+    .ms{font-size:7.5pt!important;color:#6c757d!important;margin-top:2px!important}
+    .rlbl{font-size:12pt!important;font-weight:600!important;
+          color:#0a1628!important;margin-bottom:.4rem!important;
+          border-bottom:1px solid #e9ecef!important;padding-bottom:.3rem!important}
+    .rn{font-size:8.5pt!important;color:#555!important;line-height:1.6!important;
+        margin-top:.4rem!important;padding-top:.4rem!important;
+        border-top:1px solid #e9ecef!important}
+    .pd-exp{display:block!important;page-break-inside:avoid!important;
+            border:1.5px solid #dee2e6!important;border-radius:6px!important;
+            padding:.75rem 1rem!important;margin:.5rem 0!important}
+    .pd-exp h4{font-size:9.5pt!important;font-weight:600!important;margin:.4rem 0 .25rem!important}
+    table{border-collapse:collapse!important;width:100%!important;font-size:8.5pt!important}
+    td,th{padding:3px 7px!important;border:1px solid #dee2e6!important}
+    th{background:#f8f9fa!important;font-weight:600!important;color:#0a1628!important}
     .gt-panel{display:none!important}
-    .gt-panel.on{display:block!important;page-break-inside:avoid}
+    .gt-panel.on{display:block!important;page-break-inside:avoid!important}
     .gt-res{display:block!important}
-    .gt-verdict{display:block!important;border:1px solid #dee2e6!important;border-radius:6px!important;padding:.75rem!important;margin-top:.5rem!important}
-    #print-hdr,#print-ftr{display:block!important}
+    .gt-verdict{display:block!important;border:1.5px solid #dee2e6!important;
+                border-radius:6px!important;padding:.75rem!important;margin-top:.5rem!important}
+    #print-hdr,#print-ftr,#print-context{display:block!important}
     #print-body{display:block!important}
-  }`;
+    .adv-card{border:1.5px solid #dee2e6!important;border-radius:6px!important;
+              padding:.75rem 1rem!important;page-break-inside:avoid!important}
+  }`
   document.head.appendChild(s);
 
   // ── Header ──
@@ -837,18 +856,20 @@ function printTab(t){
   var dateStr=now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   h.style.cssText="display:none";
   h.innerHTML=`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:3px solid #0A1628;margin-bottom:14px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div style="font-family:'DM Serif Display',Georgia,serif;font-size:22pt;font-weight:700;color:#0A1628;letter-spacing:-.5px">
-          Fair<span style="color:#0D9E8A">Fares</span>
-        </div>
-        <div style="font-size:8pt;color:#6c757d;margin-top:4px">Travel Cost Benchmark Report</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:3px solid #0A1628;margin-bottom:10px">
+      <div style="display:flex;flex-direction:column;gap:3px">
+        <div style="font-family:'DM Serif Display',Georgia,serif;font-size:20pt;font-weight:700;color:#0A1628;letter-spacing:-.5px;line-height:1">Fair<span style="color:#0D9E8A">Fares</span></div>
+        <div style="font-size:8pt;color:#6c757d;letter-spacing:.05em;text-transform:uppercase">Travel Cost Benchmark Report</div>
       </div>
-      <div style="text-align:right;font-size:8pt;color:#6c757d;line-height:1.6">
-        <div style="font-weight:600;color:#0a1628">${dateStr}</div>
+      <div style="text-align:right;font-size:8pt;color:#6c757d;line-height:1.7">
+        <div style="font-weight:600;color:#0a1628;font-size:9pt">${dateStr}</div>
         <div>getfairfares.com</div>
-        <div style="color:#0D9E8A">Confidential — for internal use</div>
       </div>
+    </div>
+    <div style="font-size:8pt;color:#555;background:#f8f9fa;border-radius:4px;padding:6px 10px;margin-bottom:8px;line-height:1.5">
+      The figures below are <strong>estimated market benchmarks</strong> based on current pricing data from Google Flights and Booking.com.
+      They represent the high-end range of available options for the dates and route shown — not the traveler's actual booked fare.
+      For internal compliance review only.
     </div>`;
   document.body.insertBefore(h,document.body.firstChild);
 
