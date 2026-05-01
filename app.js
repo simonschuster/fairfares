@@ -795,20 +795,79 @@ function importData(e){
 }
 
 function printTab(t){
+  // ── Build print styles ──
   var s=document.createElement("style");
   s.id="print-override";
-  s.textContent="@media print{nav,.hero,.sec:not(.tool-sec),footer,.ttabs,.lbtn,.pdf-btn,.errmsg,.nf,.f,.slbl,.ibox,.g2,.g3,.pd-rule{display:none!important}.tp{display:none!important}.tp.on{display:block!important}.rbox{display:block!important}.rbox:not(.show){display:none!important}.pd-exp{display:block!important}.map-wrap{display:block!important}.gt-panel{display:none!important}.gt-panel.on{display:block!important}body{font-family:serif}.tw{box-shadow:none;border:none}}";
+  s.textContent=`@media print{
+    @page{size:letter portrait;margin:0.6in 0.65in 0.65in 0.65in}
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    nav,.hero,.sec:not(.tool-sec),footer,.ttabs,.lbtn,.pdf-btn,.errmsg,.nf,
+    .f,.slbl,.ibox,.g2,.g3,.pd-rule,.map-wrap,.divider{display:none!important}
+    body{font-family:'DM Sans',Arial,sans-serif;font-size:11pt;background:#fff!important;margin:0;padding:0}
+    .tp{display:none!important}
+    .tp.on{display:block!important}
+    .tw{box-shadow:none!important;border:none!important;padding:0!important;margin:0!important;background:transparent!important}
+    .rbox{display:block!important;box-shadow:none!important;border:1px solid #dee2e6!important;border-radius:6px!important;padding:1rem!important;margin:.6rem 0!important;page-break-inside:avoid}
+    .rbox:not(.show){display:none!important}
+    .rrow{display:flex!important;gap:1rem!important;flex-wrap:wrap}
+    .rm{flex:1;min-width:140px}
+    .ml{font-size:8pt!important;color:#6c757d!important;text-transform:uppercase!important;letter-spacing:.06em!important;margin-bottom:2px!important}
+    .mv{font-size:22pt!important;font-weight:700!important;color:#0a1628!important;line-height:1.1!important}
+    .ms{font-size:8pt!important;color:#6c757d!important}
+    .rlbl{font-size:13pt!important;font-weight:600!important;color:#0a1628!important;margin-bottom:.5rem!important}
+    .rn{font-size:9pt!important;color:#555!important;line-height:1.5!important;margin-top:.5rem!important;border-top:1px solid #e9ecef!important;padding-top:.5rem!important}
+    .pd-exp{display:block!important;page-break-inside:avoid}
+    .pd-exp h4{font-size:10pt!important;font-weight:600!important;margin:.5rem 0 .3rem!important}
+    table{border-collapse:collapse!important;width:100%!important;font-size:9pt!important}
+    td,th{padding:4px 8px!important;border:1px solid #dee2e6!important}
+    th{background:#f8f9fa!important;font-weight:600!important}
+    .gt-panel{display:none!important}
+    .gt-panel.on{display:block!important;page-break-inside:avoid}
+    .gt-res{display:block!important}
+    .gt-verdict{display:block!important;border:1px solid #dee2e6!important;border-radius:6px!important;padding:.75rem!important;margin-top:.5rem!important}
+    #print-hdr,#print-ftr{display:block!important}
+    #print-body{display:block!important}
+  }`;
   document.head.appendChild(s);
+
+  // ── Header ──
   var h=document.createElement("div");
   h.id="print-hdr";
-  h.style.cssText="display:block;font-family:serif;padding:1rem 0 .5rem;border-bottom:2px solid #0a1628;margin-bottom:1rem";
-  h.innerHTML="<b>FairFares</b> <span style='color:#0d9e8a'>getfairfares.com</span><span style='float:right;font-size:.8rem;color:#666'>"+new Date().toLocaleString()+"</span>";
+  var now=new Date();
+  var dateStr=now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  h.style.cssText="display:none";
+  h.innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:3px solid #0A1628;margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div style="font-family:'DM Serif Display',Georgia,serif;font-size:22pt;font-weight:700;color:#0A1628;letter-spacing:-.5px">
+          Fair<span style="color:#0D9E8A">Fares</span>
+        </div>
+        <div style="font-size:8pt;color:#6c757d;margin-top:4px">Travel Cost Benchmark Report</div>
+      </div>
+      <div style="text-align:right;font-size:8pt;color:#6c757d;line-height:1.6">
+        <div style="font-weight:600;color:#0a1628">${dateStr}</div>
+        <div>getfairfares.com</div>
+        <div style="color:#0D9E8A">Confidential — for internal use</div>
+      </div>
+    </div>`;
   document.body.insertBefore(h,document.body.firstChild);
+
+  // ── Footer ──
+  var f=document.createElement("div");
+  f.id="print-ftr";
+  f.style.cssText="display:none";
+  f.innerHTML=`
+    <div style="border-top:1px solid #dee2e6;padding-top:8px;margin-top:12px;display:flex;justify-content:space-between;font-size:7.5pt;color:#adb5bd">
+      <span>FairFares — getfairfares.com — Travel expense benchmarking</span>
+      <span>Data sourced from Google Flights &amp; Booking.com. High-end benchmark shown.</span>
+    </div>`;
+  document.body.appendChild(f);
+
   window.print();
   setTimeout(function(){
-    var se=document.getElementById("print-override");
-    var he=document.getElementById("print-hdr");
-    if(se)se.remove();
-    if(he)he.remove();
-  },1000);
+    ['print-override','print-hdr','print-ftr'].forEach(function(id){
+      var el=document.getElementById(id);
+      if(el)el.remove();
+    });
+  },1200);
 }

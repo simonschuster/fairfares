@@ -227,5 +227,9 @@ footer{background:var(--navy);color:rgba(255,255,255,.55);padding:3rem 2rem}
 }
 @media print{
   nav,.ttabs,.hero,.sec:not(.tool-sec),.pbtn,footer,.mo{display:none!important}
+  .pdf-sec{display:block!important}
+  #print-hdr,#print-ftr{display:block!important}
+  .tw{border:none!important;box-shadow:none!important}
+}
   .pdf-sec{display:block!important}.tw{border:none;box-shadow:none}
 }
