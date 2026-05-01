@@ -46,7 +46,7 @@ nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;ju
 .leg-dot{width:10px;height:10px;border-radius:50%}
 .leg-line{width:28px;height:2px;border-radius:2px}
 
-#map-wrap{background:#0d1f3c;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative}
+#map-wrap{background:#0d1f3c;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative;user-select:none}
 #map-canvas{width:100%;display:block;cursor:crosshair}
 
 /* TOOLTIP */
@@ -54,7 +54,7 @@ nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;ju
 #tooltip strong{color:var(--teal)}
 
 /* INFO CARDS */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;max-width:1100px;margin:2rem auto 0;padding:0 1.5rem 3rem}
+.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;max-width:1400px;margin:2rem auto 0;padding:0 1.5rem 3rem}@media(max-width:900px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.cards-grid{grid-template-columns:1fr}}
 .card{background:var(--white);border-radius:12px;padding:1.5rem;border:1px solid var(--g200)}
 .card h3{font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
 .airline-list,.hotel-brand-list{display:flex;flex-wrap:wrap;gap:.5rem}
@@ -261,7 +261,7 @@ let hoveredAirport = null, hoveredRoute = null;
 
 const wrap = document.getElementById('map-wrap');
 let W = wrap.clientWidth;
-let H = Math.round(W * 0.5);
+let H = Math.round(W * 0.55);
 
 const svg = d3.select('#map-wrap')
   .append('svg')
@@ -271,7 +271,7 @@ const svg = d3.select('#map-wrap')
 
 // Natural Earth projection
 const projection = d3.geoNaturalEarth1()
-  .scale(W / 6.5)
+  .scale(W / 6.0)
   .translate([W / 2, H / 2]);
 
 const path = d3.geoPath().projection(projection);
@@ -391,18 +391,64 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
     });
   });
 
-// Handle resize
-window.addEventListener('resize', () => {
-  W = wrap.clientWidth;
-  H = Math.round(W * 0.5);
-  svg.attr('width',W).attr('height',H);
-  projection.scale(W/6.5).translate([W/2,H/2]);
-  svg.selectAll('path').attr('d', path);
-  svg.selectAll('g.airports g').each(function(d) {
-    // Re-project airport positions on resize handled by D3
+// ── ZOOM & PAN ──────────────────────────────────────────────────
+const zoom = d3.zoom()
+  .scaleExtent([1, 12])
+  .on('zoom', function(event) {
+    const {transform} = event;
+    svg.selectAll('g').attr('transform', transform);
+    // Scale dots inversely so they don't grow huge when zoomed in
+    const k = transform.k;
+    svg.selectAll('g.airports circle').attr('r', function() {
+      const base = d3.select(this.parentNode).datum() ? 3 : 3;
+      return (parseFloat(d3.select(this).attr('data-r')||3)) / Math.sqrt(k);
+    });
+    svg.selectAll('g.airports text').attr('font-size', 9/Math.sqrt(k)+'px');
+    // Update zoom level indicator
+    const pct = Math.round((k-1)/(12-1)*100);
+    const zoomEl = document.getElementById('zoom-level');
+    if(zoomEl) zoomEl.textContent = Math.round(k*100)+'%';
   });
-  location.reload(); // simplest resize handler
+
+svg.call(zoom);
+
+// Store base radius on each dot
+svg.selectAll('g.airports circle').attr('data-r', function() {
+  return d3.select(this).attr('r');
 });
+
+// Zoom controls
+const zoomBar = d3.select('#map-wrap').append('div')
+  .style('position','absolute').style('top','12px').style('right','12px')
+  .style('display','flex').style('flex-direction','column').style('gap','4px')
+  .style('z-index','10');
+
+['＋','－','⊙'].forEach((label,i) => {
+  zoomBar.append('button')
+    .text(label)
+    .attr('title', ['Zoom in','Zoom out','Reset'][i])
+    .style('width','30px').style('height','30px')
+    .style('background','rgba(10,22,40,0.85)').style('color','#0D9E8A')
+    .style('border','1px solid rgba(13,158,138,0.4)').style('border-radius','6px')
+    .style('cursor','pointer').style('font-size','16px').style('line-height','1')
+    .on('click', function() {
+      if(i===0) svg.transition().call(zoom.scaleBy, 2);
+      else if(i===1) svg.transition().call(zoom.scaleBy, 0.5);
+      else svg.transition().call(zoom.transform, d3.zoomIdentity);
+    });
+});
+
+// Hint text
+d3.select('#map-wrap').append('div')
+  .style('position','absolute').style('bottom','10px').style('left','50%')
+  .style('transform','translateX(-50%)')
+  .style('color','rgba(255,255,255,0.35)').style('font-size','11px')
+  .style('font-family','DM Sans,sans-serif').style('pointer-events','none')
+  .style('white-space','nowrap')
+  .text('Scroll to zoom · Drag to pan · Click +/− to zoom');
+
+// Handle resize
+window.addEventListener('resize', () => { location.reload(); });
 </script>
 </body>
 </html>
