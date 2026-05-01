@@ -46,7 +46,7 @@ nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;ju
 .leg-dot{width:10px;height:10px;border-radius:50%}
 .leg-line{width:28px;height:2px;border-radius:2px}
 
-#map-wrap{background:#0d1f3c;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative;user-select:none}
+#map-wrap{background:linear-gradient(160deg,#0a1628 0%,#0d2040 60%,#0a1a35 100%);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative;user-select:none}
 #map-canvas{width:100%;display:block;cursor:crosshair}
 
 /* TOOLTIP */
@@ -297,31 +297,35 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
       .data(countries.features)
       .enter().append('path')
       .attr('d', path)
-      .attr('fill','rgba(255,255,255,0.08)')
-      .attr('stroke','rgba(255,255,255,0.15)')
-      .attr('stroke-width',0.4);
+      .attr('fill','rgba(255,255,255,0.07)')
+      .attr('stroke','rgba(255,255,255,0.18)')
+      .attr('stroke-width',0.5);
 
     // Routes layer
     const routeG = svg.append('g').attr('class','routes');
 
+    // Draw routes as smooth great circle arcs
     ROUTES.forEach(([from, to, hasData], idx) => {
       const a = AIRPORTS[from], b = AIRPORTS[to];
       if(!a || !b) return;
 
-      const line = {type:'LineString', coordinates:[[a[1],a[0]],[b[1],b[0]]]};
+      // Use 40 interpolated points for smooth great circle arc
+      const interp = d3.geoInterpolate([a[1],a[0]], [b[1],b[0]]);
+      const coords = d3.range(0,1.01,1/40).map(t => interp(t));
+      const line = {type:'LineString', coordinates: coords};
 
       routeG.append('path')
         .datum(line)
         .attr('d', path)
         .attr('fill','none')
-        .attr('stroke', hasData ? 'rgba(13,158,138,0.65)' : 'rgba(255,255,255,0.12)')
-        .attr('stroke-width', hasData ? 1.8 : 0.8)
-        .style('filter', hasData ? 'drop-shadow(0 0 3px rgba(13,158,138,0.6))' : 'none')
-        .attr('data-route', idx)
+        .attr('stroke', hasData ? 'rgba(13,158,138,0.7)' : 'rgba(255,255,255,0.13)')
+        .attr('stroke-width', hasData ? 2 : 0.9)
+        .attr('stroke-linecap','round')
+        .style('filter', hasData ? 'drop-shadow(0 0 4px rgba(13,158,138,0.7))' : 'none')
         .on('mouseover', function(event) {
           d3.select(this)
-            .attr('stroke', hasData ? '#0bc4ac' : 'rgba(255,255,255,0.4)')
-            .attr('stroke-width', hasData ? 2.8 : 1.5);
+            .attr('stroke', hasData ? '#0bc4ac' : 'rgba(255,255,255,0.5)')
+            .attr('stroke-width', hasData ? 3 : 1.8);
           tooltip.innerHTML = `<strong>${from} → ${to}</strong><br>${hasData
             ? '<span style="color:#0bc4ac">✓ Live price data available</span>'
             : '<span style="color:#adb5bd">Collecting data…</span>'}`;
@@ -333,8 +337,8 @@ fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
         })
         .on('mouseout', function() {
           d3.select(this)
-            .attr('stroke', hasData ? 'rgba(13,158,138,0.65)' : 'rgba(255,255,255,0.12)')
-            .attr('stroke-width', hasData ? 1.8 : 0.8);
+            .attr('stroke', hasData ? 'rgba(13,158,138,0.7)' : 'rgba(255,255,255,0.13)')
+            .attr('stroke-width', hasData ? 2 : 0.9);
           tooltip.style.display = 'none';
         });
     });
