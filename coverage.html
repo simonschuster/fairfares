@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Coverage — FairFares</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0A1628; --teal:#0D9E8A; --teal2:#0bc4ac;
+  --white:#ffffff; --g50:#F8F9FA; --g200:#E9ECEF;
+  --g400:#ADB5BD; --g600:#6C757D; --g800:#343A40;
+  --fb:'DM Sans',sans-serif; --fd:'DM Serif Display',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--fb);background:var(--g50);color:var(--navy);min-height:100vh}
+
+/* NAV */
+nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-family:var(--fd);font-size:1.4rem;color:var(--white);text-decoration:none}
+.logo span{color:var(--teal)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--g400);text-decoration:none;font-size:.875rem;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--white)}
+.nav-badge{background:var(--teal);color:var(--white);border-radius:20px;padding:.25rem .9rem;font-size:.8rem;font-weight:500}
+
+/* HERO */
+.hero{background:var(--navy);padding:3.5rem 2rem 2.5rem;text-align:center}
+.hero-label{font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem}
+.hero h1{font-family:var(--fd);font-size:clamp(2rem,4vw,3rem);color:var(--white);line-height:1.15;margin-bottom:1rem}
+.hero p{color:var(--g400);font-size:1rem;max-width:540px;margin:0 auto 2rem;line-height:1.7}
+.stats-row{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-n{font-family:var(--fd);font-size:2.2rem;color:var(--teal);line-height:1}
+.stat-l{font-size:.75rem;color:var(--g400);text-transform:uppercase;letter-spacing:.08em;margin-top:.3rem}
+
+/* MAP SECTION */
+.map-section{padding:2.5rem 1.5rem}
+.section-head{text-align:center;margin-bottom:1.5rem}
+.section-head h2{font-family:var(--fd);font-size:1.75rem;color:var(--navy);margin-bottom:.4rem}
+.section-head p{color:var(--g600);font-size:.9rem}
+
+.legend{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--g600)}
+.leg-dot{width:10px;height:10px;border-radius:50%}
+.leg-line{width:28px;height:2px;border-radius:2px}
+
+#map-wrap{background:#0d1f3c;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative}
+#map-canvas{width:100%;display:block;cursor:crosshair}
+
+/* TOOLTIP */
+#tooltip{position:fixed;background:var(--navy);color:var(--white);padding:.6rem .9rem;border-radius:8px;font-size:.8rem;pointer-events:none;display:none;z-index:200;border:1px solid rgba(13,158,138,.4);max-width:220px;line-height:1.5}
+#tooltip strong{color:var(--teal)}
+
+/* INFO CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;max-width:1100px;margin:2rem auto 0;padding:0 1.5rem 3rem}
+.card{background:var(--white);border-radius:12px;padding:1.5rem;border:1px solid var(--g200)}
+.card h3{font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
+.airline-list,.hotel-brand-list{display:flex;flex-wrap:wrap;gap:.5rem}
+.airline-chip,.brand-chip{background:var(--g50);border:1px solid var(--g200);border-radius:20px;padding:.3rem .75rem;font-size:.78rem;color:var(--g800)}
+.airline-chip.has-data,.brand-chip.has-data{background:#e6f7f5;border-color:#0D9E8A;color:var(--navy)}
+.campus-list{list-style:none}
+.campus-list li{display:flex;align-items:center;gap:.6rem;padding:.4rem 0;border-bottom:1px solid var(--g50);font-size:.875rem}
+.campus-list li:last-child{border-bottom:none}
+.campus-code{font-size:.7rem;font-weight:600;background:var(--navy);color:var(--white);border-radius:4px;padding:.15rem .4rem;font-family:monospace}
+.update-note{background:#e6f7f5;border-radius:8px;padding:.75rem 1rem;font-size:.8rem;color:#0a5c51;margin-top:1rem;display:flex;align-items:center;gap:.5rem}
+.update-note::before{content:"🔄";font-size:1rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Fair<span>Fares</span></a>
+  <div class="nav-links">
+    <a href="index.html">Look up a fare</a>
+    <a href="coverage.html" class="active">Coverage</a>
+    <span class="nav-badge">● Live data</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Data Coverage</div>
+  <h1>Worldwide flight and hotel coverage</h1>
+  <p>FairFares tracks 108 flight routes and 58 hotel cities worldwide, updated every 30 hours from live market data. Bright routes have observed price data — faded routes are actively being collected.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n">108</div><div class="stat-l">Flight routes</div></div>
+    <div class="stat"><div class="stat-n">58</div><div class="stat-l">Hotel cities</div></div>
+    <div class="stat"><div class="stat-n">6</div><div class="stat-l">Origin airports</div></div>
+    <div class="stat"><div class="stat-n">30h</div><div class="stat-l">Update cycle</div></div>
+  </div>
+</div>
+
+<div class="map-section">
+  <div class="section-head">
+    <h2>Route map</h2>
+    <p>Hover over any airport or route for details</p>
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-line" style="background:var(--teal)"></div>Route with live data</div>
+    <div class="leg-item"><div class="leg-line" style="background:rgba(255,255,255,.15)"></div>Data being collected</div>
+    <div class="leg-item"><div class="leg-dot" style="background:var(--teal)"></div>Origin airport</div>
+    <div class="leg-item"><div class="leg-dot" style="background:rgba(255,255,255,.4)"></div>Destination airport</div>
+  </div>
+  <div id="map-wrap">
+    <canvas id="map-canvas"></canvas>
+  </div>
+</div>
+
+<div id="tooltip"></div>
+
+<div class="cards-grid">
+  <div class="card">
+    <h3>Airlines tracked</h3>
+    <div class="airline-list">
+      <span class="airline-chip has-data">American</span>
+      <span class="airline-chip has-data">Delta</span>
+      <span class="airline-chip has-data">United</span>
+      <span class="airline-chip has-data">Alaska</span>
+      <span class="airline-chip has-data">JetBlue</span>
+      <span class="airline-chip has-data">British Airways</span>
+      <span class="airline-chip has-data">Virgin Atlantic</span>
+      <span class="airline-chip has-data">Air Canada</span>
+      <span class="airline-chip has-data">Aer Lingus</span>
+      <span class="airline-chip has-data">Frontier</span>
+      <span class="airline-chip">Southwest</span>
+      <span class="airline-chip">Lufthansa</span>
+      <span class="airline-chip">KLM</span>
+      <span class="airline-chip">Air France</span>
+      <span class="airline-chip">JAL</span>
+      <span class="airline-chip">ANA</span>
+      <span class="airline-chip">Singapore Airlines</span>
+      <span class="airline-chip">Qantas</span>
+      <span class="airline-chip">Air India</span>
+    </div>
+    <div class="update-note">Teal = confirmed in live data. All carriers visible on Google Flights are captured.</div>
+  </div>
+
+  <div class="card">
+    <h3>Origin airports covered</h3>
+    <ul class="campus-list">
+      <li><span class="campus-code">SFO</span> San Francisco Bay Area — primary gateway</li>
+      <li><span class="campus-code">OAK</span> Oakland — East Bay alternate</li>
+      <li><span class="campus-code">LAX</span> Los Angeles — Southern California</li>
+      <li><span class="campus-code">SAN</span> San Diego</li>
+      <li><span class="campus-code">SMF</span> Sacramento — Central California</li>
+      <li><span class="campus-code">SNA</span> Orange County — Southern California alternate</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Hotel brands tracked</h3>
+    <div class="hotel-brand-list">
+      <span class="brand-chip has-data">Marriott</span>
+      <span class="brand-chip has-data">JW Marriott</span>
+      <span class="brand-chip has-data">Westin</span>
+      <span class="brand-chip has-data">Hilton</span>
+      <span class="brand-chip has-data">Grand Hyatt</span>
+      <span class="brand-chip has-data">Hyatt Regency</span>
+      <span class="brand-chip has-data">Sheraton</span>
+      <span class="brand-chip has-data">Crowne Plaza</span>
+      <span class="brand-chip has-data">InterContinental</span>
+      <span class="brand-chip has-data">Le Méridien</span>
+      <span class="brand-chip has-data">Sofitel</span>
+      <span class="brand-chip has-data">Radisson</span>
+      <span class="brand-chip">Four Seasons</span>
+      <span class="brand-chip">Kimpton</span>
+      <span class="brand-chip">Renaissance</span>
+    </div>
+    <div class="update-note">4★ and 5★ only. Ranked by proximity to universities and conference venues.</div>
+  </div>
+
+  <div class="card">
+    <h3>Data methodology</h3>
+    <p style="font-size:.875rem;color:var(--g600);line-height:1.7">
+      Flight prices are sourced from <strong style="color:var(--navy)">Google Flights</strong> via automated daily scraping — the same data you see when searching manually. Hotel rates come from <strong style="color:var(--navy)">Booking.com</strong> filtered to 4★ and 5★ properties only.<br><br>
+      We capture the <strong style="color:var(--navy)">high-end benchmark</strong> — the upper range of available fares — because travel expense policies typically require the most economical reasonable fare, and a high-end benchmark gives reviewers a defensible ceiling.<br><br>
+      Data is collected every 30 hours and reflects prices 30 days forward, covering the typical 60-day reimbursement window used by most institutions.
+    </p>
+  </div>
+</div>
+
+<script>
+// ── AIRPORT DATA ─────────────────────────────────────────────────
+const AIRPORTS = {
+  SFO:[37.6213,-122.379,'San Francisco'],OAK:[37.7213,-122.2208,'Oakland'],
+  LAX:[33.9425,-118.4081,'Los Angeles'],SAN:[32.7338,-117.1933,'San Diego'],
+  SMF:[38.6954,-121.5908,'Sacramento'],SNA:[33.6757,-117.8682,'Orange County'],
+  ORD:[41.9742,-87.9073,'Chicago'],JFK:[40.6413,-73.7781,'New York JFK'],
+  EWR:[40.6895,-74.1745,'New York Newark'],BOS:[42.3656,-71.0096,'Boston'],
+  DCA:[38.8521,-77.0377,'Washington DC'],IAD:[38.9531,-77.4565,'Washington Dulles'],
+  ATL:[33.6407,-84.4277,'Atlanta'],MIA:[25.7959,-80.287,'Miami'],
+  SEA:[47.4502,-122.3088,'Seattle'],DEN:[39.8561,-104.6737,'Denver'],
+  DFW:[32.8998,-97.0403,'Dallas'],IAH:[29.9902,-95.3368,'Houston'],
+  PHX:[33.4373,-112.0078,'Phoenix'],MSP:[44.8848,-93.2223,'Minneapolis'],
+  DTW:[42.2162,-83.3554,'Detroit'],PHL:[39.8744,-75.2424,'Philadelphia'],
+  RDU:[35.8776,-78.7875,'Raleigh Durham'],PDX:[45.5898,-122.5951,'Portland'],
+  SLC:[40.7884,-111.9778,'Salt Lake City'],STL:[38.7487,-90.37,'St Louis'],
+  MSY:[29.9934,-90.258,'New Orleans'],CLT:[35.214,-80.9431,'Charlotte'],
+  MCO:[28.4312,-81.3081,'Orlando'],TPA:[27.9755,-82.5332,'Tampa'],
+  LAS:[36.084,-115.1537,'Las Vegas'],HNL:[21.3245,-157.9251,'Honolulu'],
+  OGG:[20.8986,-156.4305,'Maui'],
+  LHR:[51.4775,-0.4614,'London Heathrow'],LGW:[51.1537,-0.1821,'London Gatwick'],
+  CDG:[49.0097,2.5479,'Paris'],FRA:[50.0379,8.5622,'Frankfurt'],
+  AMS:[52.3105,4.7683,'Amsterdam'],ZRH:[47.4582,8.5555,'Zurich'],
+  MUC:[48.3537,11.775,'Munich'],FCO:[41.8003,12.2389,'Rome'],
+  BCN:[41.2974,2.0833,'Barcelona'],MAD:[40.4983,-3.5676,'Madrid'],
+  CPH:[55.618,12.656,'Copenhagen'],ARN:[59.6519,17.9186,'Stockholm'],
+  DUB:[53.4213,-6.27,'Dublin'],VIE:[48.1103,16.5697,'Vienna'],
+  MXP:[45.6301,8.7231,'Milan'],
+  NRT:[35.772,140.3929,'Tokyo Narita'],HND:[35.5494,139.7798,'Tokyo Haneda'],
+  ICN:[37.4602,126.4407,'Seoul'],SIN:[1.3644,103.9915,'Singapore'],
+  SYD:[-33.9399,151.1753,'Sydney'],MEL:[-37.669,144.841,'Melbourne'],
+  BOM:[19.0896,72.8656,'Mumbai'],DEL:[28.5562,77.1,'Delhi'],
+  BLR:[13.1986,77.7066,'Bangalore'],TPE:[25.0777,121.2328,'Taipei'],
+  YYZ:[43.6777,-79.6248,'Toronto'],YVR:[49.1967,-123.1815,'Vancouver'],
+  YUL:[45.4706,-73.7408,'Montreal'],
+  MEX:[19.4363,-99.0721,'Mexico City'],GRU:[-23.4356,-46.4731,'Sao Paulo'],
+  DXB:[25.2532,55.3657,'Dubai'],TLV:[31.99,34.887,'Tel Aviv'],
+};
+
+const UC_ORIGINS = new Set(['SFO','OAK','LAX','SAN','SMF','SNA']);
+
+const ROUTES = [
+  ['SFO','ORD',1],['SFO','JFK',1],['SFO','EWR',0],['SFO','BOS',0],
+  ['SFO','DCA',0],['SFO','IAD',0],['SFO','ATL',0],['SFO','MIA',0],
+  ['SFO','SEA',0],['SFO','DEN',0],['SFO','DFW',0],['SFO','IAH',0],
+  ['SFO','PHX',0],['SFO','MSP',0],['SFO','DTW',0],['SFO','PHL',0],
+  ['SFO','RDU',0],['SFO','PDX',0],['SFO','SLC',0],['SFO','STL',0],
+  ['SFO','MSY',0],['SFO','CLT',0],['SFO','MCO',0],['SFO','TPA',0],
+  ['SFO','LAS',0],['SFO','HNL',0],['SFO','OGG',0],
+  ['SFO','LHR',1],['SFO','LGW',0],['SFO','CDG',0],['SFO','FRA',0],
+  ['SFO','AMS',0],['SFO','ZRH',0],['SFO','MUC',0],['SFO','FCO',0],
+  ['SFO','BCN',0],['SFO','MAD',0],['SFO','CPH',0],['SFO','ARN',0],
+  ['SFO','DUB',0],['SFO','VIE',0],['SFO','MXP',0],
+  ['SFO','NRT',0],['SFO','HND',0],['SFO','ICN',0],['SFO','SIN',0],
+  ['SFO','SYD',0],['SFO','MEL',0],['SFO','BOM',0],['SFO','DEL',0],
+  ['SFO','BLR',0],['SFO','TPE',0],
+  ['SFO','YYZ',0],['SFO','YVR',0],['SFO','YUL',0],
+  ['SFO','MEX',0],['SFO','GRU',0],
+  ['LAX','ORD',0],['LAX','JFK',0],['LAX','BOS',0],['LAX','IAD',0],
+  ['LAX','DCA',0],['LAX','ATL',0],['LAX','MIA',0],['LAX','SEA',0],
+  ['LAX','DEN',0],['LAX','DFW',0],['LAX','IAH',0],['LAX','PHX',0],
+  ['LAX','MSP',0],['LAX','PHL',0],['LAX','RDU',0],
+  ['LAX','HNL',0],['LAX','OGG',0],
+  ['LAX','LHR',0],['LAX','CDG',0],['LAX','FRA',0],
+  ['LAX','NRT',0],['LAX','ICN',0],['LAX','SYD',0],
+  ['LAX','SIN',0],['LAX','MEX',0],['LAX','YYZ',0],
+  ['SAN','ORD',0],['SAN','JFK',0],['SAN','IAD',0],
+  ['SAN','BOS',0],['SAN','DFW',0],['SAN','ATL',0],
+  ['SAN','SEA',0],['SAN','HNL',0],
+  ['SMF','LAX',0],['SMF','ORD',0],['SMF','JFK',0],['SMF','IAD',0],['SMF','BOS',0],
+  ['SNA','ORD',0],['SNA','JFK',0],['SNA','IAD',0],['SNA','BOS',0],
+  ['OAK','ORD',0],['OAK','JFK',0],['OAK','LAX',0],
+  ['SFO','LAX',0],['SFO','SAN',0],['LAX','SFO',0],['SAN','SFO',0],['SAN','LAX',0],
+];
+
+// ── MAP RENDERING ─────────────────────────────────────────────────
+const canvas = document.getElementById('map-canvas');
+const ctx = canvas.getContext('2d');
+const tooltip = document.getElementById('tooltip');
+let W, H, scale, offsetX, offsetY;
+let hoveredAirport = null, hoveredRoute = null;
+
+// Map bounds — world mercator
+const MAP = { lonMin:-180, lonMax:180, latMin:-60, latMax:75 };
+
+function project(lat, lon) {
+  const x = ((lon - MAP.lonMin) / (MAP.lonMax - MAP.lonMin)) * W;
+  // Mercator y
+  const latRad = lat * Math.PI / 180;
+  const mercN = Math.log(Math.tan(Math.PI/4 + latRad/2));
+  const latMaxRad = MAP.latMax * Math.PI / 180;
+  const mercMax = Math.log(Math.tan(Math.PI/4 + latMaxRad/2));
+  const latMinRad = MAP.latMin * Math.PI / 180;
+  const mercMin = Math.log(Math.tan(Math.PI/4 + latMinRad/2));
+  const y = ((mercMax - mercN) / (mercMax - mercMin)) * H;
+  return [x, y];
+}
+
+function resize() {
+  const wrap = document.getElementById('map-wrap');
+  W = wrap.clientWidth;
+  H = Math.round(W * 0.5);
+  canvas.width = W;
+  canvas.height = H;
+  draw();
+}
+
+function greatCirclePoints(lat1,lon1,lat2,lon2,n=40){
+  // Generate points along a great circle arc
+  const pts = [];
+  for(let i=0;i<=n;i++){
+    const t = i/n;
+    // Simple interpolation with slight curve
+    const lat = lat1 + (lat2-lat1)*t;
+    let lon = lon1 + (lon2-lon1)*t;
+    // Handle dateline crossing
+    let dlon = lon2-lon1;
+    if(dlon > 180) dlon -= 360;
+    if(dlon < -180) dlon += 360;
+    lon = lon1 + dlon*t;
+    pts.push([lat,lon]);
+  }
+  return pts;
+}
+
+function draw() {
+  ctx.clearRect(0,0,W,H);
+
+  // Background
+  ctx.fillStyle = '#0d1f3c';
+  ctx.fillRect(0,0,W,H);
+
+  // Simple continent outlines (very light)
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth = 0.5;
+
+  // Draw routes
+  ROUTES.forEach(([from, to, hasData], idx) => {
+    const a = AIRPORTS[from], b = AIRPORTS[to];
+    if(!a || !b) return;
+    const isHovered = hoveredRoute === idx;
+    const pts = greatCirclePoints(a[0],a[1],b[0],b[1]);
+
+    ctx.beginPath();
+    pts.forEach(([lat,lon],i) => {
+      const [x,y] = project(lat,lon);
+      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    });
+
+    if(hasData) {
+      ctx.strokeStyle = isHovered ? '#0bc4ac' : 'rgba(13,158,138,0.7)';
+      ctx.lineWidth = isHovered ? 2.5 : 1.5;
+      ctx.shadowColor = isHovered ? '#0bc4ac' : 'rgba(13,158,138,0.5)';
+      ctx.shadowBlur = isHovered ? 12 : 6;
+    } else {
+      ctx.strokeStyle = isHovered ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.1)';
+      ctx.lineWidth = isHovered ? 1.2 : 0.7;
+      ctx.shadowBlur = 0;
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  });
+
+  // Draw airport dots
+  Object.entries(AIRPORTS).forEach(([code,[lat,lon,name]]) => {
+    const [x,y] = project(lat,lon);
+    const isUC = UC_ORIGINS.has(code);
+    const isHov = hoveredAirport === code;
+    const r = isUC ? (isHov?7:5) : (isHov?5:3);
+
+    if(isUC) {
+      // Pulse ring
+      ctx.beginPath();
+      ctx.arc(x,y,r+4,0,Math.PI*2);
+      ctx.strokeStyle = 'rgba(13,158,138,0.25)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      // Dot
+      ctx.beginPath();
+      ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fillStyle = isHov ? '#0bc4ac' : '#0D9E8A';
+      ctx.fill();
+      // Label
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.font = `bold ${isHov?11:9}px 'DM Sans',sans-serif`;
+      ctx.fillText(code, x+r+3, y+3);
+    } else {
+      ctx.beginPath();
+      ctx.arc(x,y,r,0,Math.PI*2);
+      ctx.fillStyle = isHov ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.35)';
+      ctx.fill();
+      if(isHov) {
+        ctx.fillStyle='rgba(255,255,255,0.9)';
+        ctx.font=`9px 'DM Sans',sans-serif`;
+        ctx.fillText(code,x+r+2,y+3);
+      }
+    }
+  });
+}
+
+// Mouse interaction
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  let found = null, foundRoute = null;
+
+  // Check airports
+  for(const [code,[lat,lon,name]] of Object.entries(AIRPORTS)){
+    const [x,y] = project(lat,lon);
+    const dist = Math.sqrt((mx-x)**2+(my-y)**2);
+    if(dist < 12){found=code;break;}
+  }
+
+  // Check routes (if no airport)
+  if(!found){
+    for(let i=0;i<ROUTES.length;i++){
+      const [from,to,hasData] = ROUTES[i];
+      const a=AIRPORTS[from],b=AIRPORTS[to];
+      if(!a||!b) continue;
+      const pts = greatCirclePoints(a[0],a[1],b[0],b[1],20);
+      for(const [lat,lon] of pts){
+        const [x,y]=project(lat,lon);
+        if(Math.sqrt((mx-x)**2+(my-y)**2)<6){foundRoute=i;break;}
+      }
+      if(foundRoute!==null) break;
+    }
+  }
+
+  const changed = found!==hoveredAirport || foundRoute!==hoveredRoute;
+  hoveredAirport=found; hoveredRoute=foundRoute;
+  if(changed) draw();
+
+  if(found){
+    const [lat,lon,name]=AIRPORTS[found];
+    const isUC=UC_ORIGINS.has(found);
+    tooltip.innerHTML=`<strong>${found}</strong> — ${name}${isUC?' <span style="color:#0bc4ac">● Origin airport</span>':''}`;
+    tooltip.style.display='block';
+    tooltip.style.left=(e.clientX+14)+'px';
+    tooltip.style.top=(e.clientY-10)+'px';
+  } else if(foundRoute!==null){
+    const [from,to,hasData]=ROUTES[foundRoute];
+    const label=`${from} → ${to}`;
+    tooltip.innerHTML=`<strong>${label}</strong><br>${hasData?'<span style="color:#0bc4ac">✓ Live price data available</span>':'<span style="color:#adb5bd">Collecting data…</span>'}`;
+    tooltip.style.display='block';
+    tooltip.style.left=(e.clientX+14)+'px';
+    tooltip.style.top=(e.clientY-10)+'px';
+  } else {
+    tooltip.style.display='none';
+  }
+});
+
+canvas.addEventListener('mouseleave',()=>{
+  tooltip.style.display='none';
+  hoveredAirport=null; hoveredRoute=null;
+  draw();
+});
+
+window.addEventListener('resize', resize);
+resize();
+
+// Animate data routes with a subtle pulse
+let frame=0;
+function animate(){
+  frame++;
+  if(frame%60===0) draw(); // subtle redraw
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>
