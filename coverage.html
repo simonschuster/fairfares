@@ -103,7 +103,7 @@ nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;ju
     <div class="leg-item"><div class="leg-dot" style="background:rgba(255,255,255,.4)"></div>Destination airport</div>
   </div>
   <div id="map-wrap">
-    <canvas id="map-canvas"></canvas>
+    
   </div>
 </div>
 
@@ -175,13 +175,14 @@ nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;ju
     <p style="font-size:.875rem;color:var(--g600);line-height:1.7">
       Flight prices are sourced from <strong style="color:var(--navy)">Google Flights</strong> via automated daily scraping — the same data you see when searching manually. Hotel rates come from <strong style="color:var(--navy)">Booking.com</strong> filtered to 4★ and 5★ properties only.<br><br>
       We capture the <strong style="color:var(--navy)">high-end benchmark</strong> — the upper range of available fares — because travel expense policies typically require the most economical reasonable fare, and a high-end benchmark gives reviewers a defensible ceiling.<br><br>
-      Data is collected every 30 hours and reflects prices 30 days forward, covering the typical 60-day reimbursement window used by most institutions.
+      Data is collected every 30 hours. Because airfares and hotel rates change daily, we capture current market prices as a benchmark for what a trip <em>should have cost</em> — giving reviewers a defensible, up-to-date reference point for past travel.
     </p>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
 <script>
-// ── AIRPORT DATA ─────────────────────────────────────────────────
 const AIRPORTS = {
   SFO:[37.6213,-122.379,'San Francisco'],OAK:[37.7213,-122.2208,'Oakland'],
   LAX:[33.9425,-118.4081,'Los Angeles'],SAN:[32.7338,-117.1933,'San Diego'],
@@ -255,200 +256,153 @@ const ROUTES = [
   ['SFO','LAX',0],['SFO','SAN',0],['LAX','SFO',0],['SAN','SFO',0],['SAN','LAX',0],
 ];
 
-// ── MAP RENDERING ─────────────────────────────────────────────────
-const canvas = document.getElementById('map-canvas');
-const ctx = canvas.getContext('2d');
 const tooltip = document.getElementById('tooltip');
-let W, H, scale, offsetX, offsetY;
 let hoveredAirport = null, hoveredRoute = null;
 
-// Map bounds — world mercator
-const MAP = { lonMin:-180, lonMax:180, latMin:-60, latMax:75 };
+const wrap = document.getElementById('map-wrap');
+let W = wrap.clientWidth;
+let H = Math.round(W * 0.5);
 
-function project(lat, lon) {
-  const x = ((lon - MAP.lonMin) / (MAP.lonMax - MAP.lonMin)) * W;
-  // Mercator y
-  const latRad = lat * Math.PI / 180;
-  const mercN = Math.log(Math.tan(Math.PI/4 + latRad/2));
-  const latMaxRad = MAP.latMax * Math.PI / 180;
-  const mercMax = Math.log(Math.tan(Math.PI/4 + latMaxRad/2));
-  const latMinRad = MAP.latMin * Math.PI / 180;
-  const mercMin = Math.log(Math.tan(Math.PI/4 + latMinRad/2));
-  const y = ((mercMax - mercN) / (mercMax - mercMin)) * H;
-  return [x, y];
-}
+const svg = d3.select('#map-wrap')
+  .append('svg')
+  .attr('width', W)
+  .attr('height', H)
+  .style('display','block');
 
-function resize() {
-  const wrap = document.getElementById('map-wrap');
-  W = wrap.clientWidth;
-  H = Math.round(W * 0.5);
-  canvas.width = W;
-  canvas.height = H;
-  draw();
-}
+// Natural Earth projection
+const projection = d3.geoNaturalEarth1()
+  .scale(W / 6.5)
+  .translate([W / 2, H / 2]);
 
-function greatCirclePoints(lat1,lon1,lat2,lon2,n=40){
-  // Generate points along a great circle arc
-  const pts = [];
-  for(let i=0;i<=n;i++){
-    const t = i/n;
-    // Simple interpolation with slight curve
-    const lat = lat1 + (lat2-lat1)*t;
-    let lon = lon1 + (lon2-lon1)*t;
-    // Handle dateline crossing
-    let dlon = lon2-lon1;
-    if(dlon > 180) dlon -= 360;
-    if(dlon < -180) dlon += 360;
-    lon = lon1 + dlon*t;
-    pts.push([lat,lon]);
-  }
-  return pts;
-}
+const path = d3.geoPath().projection(projection);
 
-function draw() {
-  ctx.clearRect(0,0,W,H);
+// Load world topojson
+fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+  .then(r => r.json())
+  .then(world => {
+    const countries = topojson.feature(world, world.objects.countries);
+    const graticule = d3.geoGraticule();
 
-  // Background
-  ctx.fillStyle = '#0d1f3c';
-  ctx.fillRect(0,0,W,H);
+    // Graticule lines
+    svg.append('path')
+      .datum(graticule())
+      .attr('d', path)
+      .attr('fill','none')
+      .attr('stroke','rgba(255,255,255,0.04)')
+      .attr('stroke-width',0.5);
 
-  // Simple continent outlines (very light)
-  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-  ctx.lineWidth = 0.5;
+    // Land
+    svg.append('g')
+      .selectAll('path')
+      .data(countries.features)
+      .enter().append('path')
+      .attr('d', path)
+      .attr('fill','rgba(255,255,255,0.08)')
+      .attr('stroke','rgba(255,255,255,0.15)')
+      .attr('stroke-width',0.4);
 
-  // Draw routes
-  ROUTES.forEach(([from, to, hasData], idx) => {
-    const a = AIRPORTS[from], b = AIRPORTS[to];
-    if(!a || !b) return;
-    const isHovered = hoveredRoute === idx;
-    const pts = greatCirclePoints(a[0],a[1],b[0],b[1]);
+    // Routes layer
+    const routeG = svg.append('g').attr('class','routes');
 
-    ctx.beginPath();
-    pts.forEach(([lat,lon],i) => {
-      const [x,y] = project(lat,lon);
-      i===0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+    ROUTES.forEach(([from, to, hasData], idx) => {
+      const a = AIRPORTS[from], b = AIRPORTS[to];
+      if(!a || !b) return;
+
+      const line = {type:'LineString', coordinates:[[a[1],a[0]],[b[1],b[0]]]};
+
+      routeG.append('path')
+        .datum(line)
+        .attr('d', path)
+        .attr('fill','none')
+        .attr('stroke', hasData ? 'rgba(13,158,138,0.65)' : 'rgba(255,255,255,0.12)')
+        .attr('stroke-width', hasData ? 1.8 : 0.8)
+        .style('filter', hasData ? 'drop-shadow(0 0 3px rgba(13,158,138,0.6))' : 'none')
+        .attr('data-route', idx)
+        .on('mouseover', function(event) {
+          d3.select(this)
+            .attr('stroke', hasData ? '#0bc4ac' : 'rgba(255,255,255,0.4)')
+            .attr('stroke-width', hasData ? 2.8 : 1.5);
+          tooltip.innerHTML = `<strong>${from} → ${to}</strong><br>${hasData
+            ? '<span style="color:#0bc4ac">✓ Live price data available</span>'
+            : '<span style="color:#adb5bd">Collecting data…</span>'}`;
+          tooltip.style.display = 'block';
+        })
+        .on('mousemove', function(event) {
+          tooltip.style.left = (event.clientX+14)+'px';
+          tooltip.style.top  = (event.clientY-10)+'px';
+        })
+        .on('mouseout', function() {
+          d3.select(this)
+            .attr('stroke', hasData ? 'rgba(13,158,138,0.65)' : 'rgba(255,255,255,0.12)')
+            .attr('stroke-width', hasData ? 1.8 : 0.8);
+          tooltip.style.display = 'none';
+        });
     });
 
-    if(hasData) {
-      ctx.strokeStyle = isHovered ? '#0bc4ac' : 'rgba(13,158,138,0.7)';
-      ctx.lineWidth = isHovered ? 2.5 : 1.5;
-      ctx.shadowColor = isHovered ? '#0bc4ac' : 'rgba(13,158,138,0.5)';
-      ctx.shadowBlur = isHovered ? 12 : 6;
-    } else {
-      ctx.strokeStyle = isHovered ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.1)';
-      ctx.lineWidth = isHovered ? 1.2 : 0.7;
-      ctx.shadowBlur = 0;
-    }
-    ctx.stroke();
-    ctx.shadowBlur = 0;
+    // Airport dots layer
+    const apG = svg.append('g').attr('class','airports');
+
+    Object.entries(AIRPORTS).forEach(([code,[lat,lon,name]]) => {
+      const [x,y] = projection([lon,lat]);
+      if(!x || !y) return;
+      const isOrigin = UC_ORIGINS.has(code);
+      const r = isOrigin ? 5 : 3;
+
+      const g = apG.append('g').attr('transform',`translate(${x},${y})`);
+
+      if(isOrigin) {
+        // Pulse ring
+        g.append('circle').attr('r',r+5)
+          .attr('fill','none')
+          .attr('stroke','rgba(13,158,138,0.25)')
+          .attr('stroke-width',1.5);
+      }
+
+      g.append('circle').attr('r',r)
+        .attr('fill', isOrigin ? '#0D9E8A' : 'rgba(255,255,255,0.4)')
+        .attr('stroke', isOrigin ? '#0bc4ac' : 'none')
+        .attr('stroke-width',1)
+        .style('cursor','pointer')
+        .on('mouseover', function(event) {
+          d3.select(this).attr('r', r+2).attr('fill', isOrigin ? '#0bc4ac' : 'rgba(255,255,255,0.9)');
+          tooltip.innerHTML = `<strong>${code}</strong> — ${name}${isOrigin ? ' <span style="color:#0bc4ac">● Origin airport</span>' : ''}`;
+          tooltip.style.display = 'block';
+          tooltip.style.left = (event.clientX+14)+'px';
+          tooltip.style.top  = (event.clientY-10)+'px';
+        })
+        .on('mousemove', function(event) {
+          tooltip.style.left = (event.clientX+14)+'px';
+          tooltip.style.top  = (event.clientY-10)+'px';
+        })
+        .on('mouseout', function() {
+          d3.select(this).attr('r',r).attr('fill', isOrigin ? '#0D9E8A' : 'rgba(255,255,255,0.4)');
+          tooltip.style.display = 'none';
+        });
+
+      if(isOrigin) {
+        g.append('text')
+          .attr('x', r+4).attr('y', 3)
+          .attr('fill','rgba(255,255,255,0.9)')
+          .attr('font-size','9px')
+          .attr('font-family','DM Sans,sans-serif')
+          .attr('font-weight','600')
+          .text(code);
+      }
+    });
   });
 
-  // Draw airport dots
-  Object.entries(AIRPORTS).forEach(([code,[lat,lon,name]]) => {
-    const [x,y] = project(lat,lon);
-    const isUC = UC_ORIGINS.has(code);
-    const isHov = hoveredAirport === code;
-    const r = isUC ? (isHov?7:5) : (isHov?5:3);
-
-    if(isUC) {
-      // Pulse ring
-      ctx.beginPath();
-      ctx.arc(x,y,r+4,0,Math.PI*2);
-      ctx.strokeStyle = 'rgba(13,158,138,0.25)';
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      // Dot
-      ctx.beginPath();
-      ctx.arc(x,y,r,0,Math.PI*2);
-      ctx.fillStyle = isHov ? '#0bc4ac' : '#0D9E8A';
-      ctx.fill();
-      // Label
-      ctx.fillStyle = 'rgba(255,255,255,0.9)';
-      ctx.font = `bold ${isHov?11:9}px 'DM Sans',sans-serif`;
-      ctx.fillText(code, x+r+3, y+3);
-    } else {
-      ctx.beginPath();
-      ctx.arc(x,y,r,0,Math.PI*2);
-      ctx.fillStyle = isHov ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.35)';
-      ctx.fill();
-      if(isHov) {
-        ctx.fillStyle='rgba(255,255,255,0.9)';
-        ctx.font=`9px 'DM Sans',sans-serif`;
-        ctx.fillText(code,x+r+2,y+3);
-      }
-    }
+// Handle resize
+window.addEventListener('resize', () => {
+  W = wrap.clientWidth;
+  H = Math.round(W * 0.5);
+  svg.attr('width',W).attr('height',H);
+  projection.scale(W/6.5).translate([W/2,H/2]);
+  svg.selectAll('path').attr('d', path);
+  svg.selectAll('g.airports g').each(function(d) {
+    // Re-project airport positions on resize handled by D3
   });
-}
-
-// Mouse interaction
-canvas.addEventListener('mousemove', e => {
-  const rect = canvas.getBoundingClientRect();
-  const mx = e.clientX - rect.left;
-  const my = e.clientY - rect.top;
-  let found = null, foundRoute = null;
-
-  // Check airports
-  for(const [code,[lat,lon,name]] of Object.entries(AIRPORTS)){
-    const [x,y] = project(lat,lon);
-    const dist = Math.sqrt((mx-x)**2+(my-y)**2);
-    if(dist < 12){found=code;break;}
-  }
-
-  // Check routes (if no airport)
-  if(!found){
-    for(let i=0;i<ROUTES.length;i++){
-      const [from,to,hasData] = ROUTES[i];
-      const a=AIRPORTS[from],b=AIRPORTS[to];
-      if(!a||!b) continue;
-      const pts = greatCirclePoints(a[0],a[1],b[0],b[1],20);
-      for(const [lat,lon] of pts){
-        const [x,y]=project(lat,lon);
-        if(Math.sqrt((mx-x)**2+(my-y)**2)<6){foundRoute=i;break;}
-      }
-      if(foundRoute!==null) break;
-    }
-  }
-
-  const changed = found!==hoveredAirport || foundRoute!==hoveredRoute;
-  hoveredAirport=found; hoveredRoute=foundRoute;
-  if(changed) draw();
-
-  if(found){
-    const [lat,lon,name]=AIRPORTS[found];
-    const isUC=UC_ORIGINS.has(found);
-    tooltip.innerHTML=`<strong>${found}</strong> — ${name}${isUC?' <span style="color:#0bc4ac">● Origin airport</span>':''}`;
-    tooltip.style.display='block';
-    tooltip.style.left=(e.clientX+14)+'px';
-    tooltip.style.top=(e.clientY-10)+'px';
-  } else if(foundRoute!==null){
-    const [from,to,hasData]=ROUTES[foundRoute];
-    const label=`${from} → ${to}`;
-    tooltip.innerHTML=`<strong>${label}</strong><br>${hasData?'<span style="color:#0bc4ac">✓ Live price data available</span>':'<span style="color:#adb5bd">Collecting data…</span>'}`;
-    tooltip.style.display='block';
-    tooltip.style.left=(e.clientX+14)+'px';
-    tooltip.style.top=(e.clientY-10)+'px';
-  } else {
-    tooltip.style.display='none';
-  }
+  location.reload(); // simplest resize handler
 });
-
-canvas.addEventListener('mouseleave',()=>{
-  tooltip.style.display='none';
-  hoveredAirport=null; hoveredRoute=null;
-  draw();
-});
-
-window.addEventListener('resize', resize);
-resize();
-
-// Animate data routes with a subtle pulse
-let frame=0;
-function animate(){
-  frame++;
-  if(frame%60===0) draw(); // subtle redraw
-  requestAnimationFrame(animate);
-}
-animate();
 </script>
 </body>
 </html>
