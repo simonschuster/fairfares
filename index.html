@@ -1,433 +1,321 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Under Construction</title>
+<title>FairFares — Travel Cost Benchmarking</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="styles.css">
+<style>
+.pd-toggle { display:flex; gap:8px; margin-bottom:1.5rem; }
+.pd-toggle-btn { padding:.45rem 1.1rem; border:1.5px solid var(--g200); border-radius:20px; background:#fff; color:var(--g600); font-size:.85rem; cursor:pointer; font-family:inherit; transition:all .15s; }
+.pd-toggle-btn.on { background:var(--navy); color:#fff; border-color:var(--navy); }
+.dom-pd-card { background:#f8f9fa; border:1.5px solid var(--g200); border-radius:10px; padding:1.2rem 1.4rem; margin-bottom:1.5rem; }
+.dom-pd-card h4 { font-size:.8rem; text-transform:uppercase; letter-spacing:.1em; color:var(--g500); margin:0 0 .75rem; }
+.dom-pd-rows { display:flex; gap:2rem; flex-wrap:wrap; }
+.dom-pd-item { }
+.dom-pd-item .dpv { font-size:1.6rem; font-weight:700; color:var(--navy); line-height:1.1; }
+.dom-pd-item .dpl { font-size:.75rem; color:var(--g500); margin-top:2px; }
+.dom-pd-note { font-size:.78rem; color:var(--g500); margin-top:.75rem; line-height:1.6; border-top:1px solid var(--g100); padding-top:.6rem; }
+</style>
 </head>
 <body>
+
 <!-- PASSWORD GATE -->
 <style>#pw-gate{position:fixed;top:0;left:0;right:0;bottom:0;background:#f5f5f5;z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}</style>
 <div id="pw-gate"><div style="text-align:center;padding:2rem"><p style="font-size:.9rem;color:#aaa;letter-spacing:.15em;text-transform:uppercase;margin:0 0 1.5rem">Under Construction</p><p id="pw-err" style="display:none;color:#c00;font-size:.8rem;margin:0 0 .75rem">Incorrect password</p><input id="pw-input" type="password" placeholder="Password" style="padding:.6rem 1rem;border:1px solid #ccc;border-radius:4px;font-size:.9rem;width:160px;margin-right:.4rem"><button id="pw-btn" type="button" style="padding:.6rem 1.2rem;background:#666;color:#fff;border:none;border-radius:4px;font-size:.9rem;cursor:pointer">Go</button></div></div>
 <script>(function(){function go(){var v=document.getElementById('pw-input').value;if(v==='fairfares2026'){document.getElementById('pw-gate').style.display='none';}else{document.getElementById('pw-err').style.display='block';document.getElementById('pw-input').value='';}}document.getElementById('pw-btn').addEventListener('click',go);document.getElementById('pw-input').addEventListener('keydown',function(e){if(e.key==='Enter')go();});})();</script>
-</head>
-<body>
 
 <!-- MODAL -->
 <div class="mo off" id="modal">
-  <div class="md">
-    <div class="md-logo">Fair<span>Fares</span></div>
-    <h2>Welcome — which institution are you from?</h2>
-    <p>This helps us improve the tool. We collect institution and department only — no personal information, no names, no email addresses.</p>
-    <div class="mf">
-      <label>Institution</label>
-      <select id="m-inst">
-        <option value="">Select your institution...</option>
-        <optgroup label="University of California">
-          <option>UC Berkeley</option><option>UC Davis</option><option>UC Irvine</option>
-          <option>UC Los Angeles (UCLA)</option><option>UC Merced</option><option>UC Riverside</option>
-          <option>UC San Diego</option><option>UC San Francisco (UCSF)</option>
-          <option>UC Santa Barbara</option><option>UC Santa Cruz</option><option>UCOP</option>
-        </optgroup>
-        <optgroup label="Other">
-          <option>Other university</option><option>Non-UC organisation</option><option>Prefer not to say</option>
-        </optgroup>
-      </select>
-      <label>Department (optional)</label>
-      <input type="text" id="m-dept" placeholder="e.g. Finance, Cardiology, Accounts Payable">
-    </div>
-    <div class="mb">
-      <button class="save" onclick="saveModal()">Save and continue</button>
-      <button class="skip" onclick="skipModal()">Skip</button>
-    </div>
-    <p class="md-note">Institution and department only — never personal data. Shown once only.</p>
-  </div>
+<div class="md">
+<div class="md-logo">Fair<span>Fares</span></div>
+<h2>Welcome — which institution are you from?</h2>
+<p>This helps us improve the tool. We collect institution and department only — no personal information, no names, no email addresses.</p>
+<div class="mf">
+<label>Institution</label>
+<select id="m-inst">
+<option value="">Select your institution...</option>
+<optgroup label="University of California">
+<option>UC Berkeley</option><option>UC Davis</option><option>UC Irvine</option>
+<option>UC Los Angeles (UCLA)</option><option>UC Merced</option><option>UC Riverside</option>
+<option>UC San Diego</option><option>UC San Francisco (UCSF)</option>
+<option>UC Santa Barbara</option><option>UC Santa Cruz</option><option>UCOP</option>
+</optgroup>
+<optgroup label="Other">
+<option>Other university</option><option>Non-UC organisation</option><option>Prefer not to say</option>
+</optgroup>
+</select>
+<label>Department (optional)</label>
+<input type="text" id="m-dept" placeholder="e.g. Finance, Cardiology, Accounts Payable">
+</div>
+<div class="mb">
+<button class="save" onclick="saveModal()">Save and continue</button>
+<button class="skip" onclick="skipModal()">Skip</button>
+</div>
+<p class="md-note">Institution and department only — never personal data. Shown once only.</p>
+</div>
 </div>
 
 <nav>
-  <div class="ni">
-    <a href="#" class="logo">Fair<span>Fares</span></a>
-    <div class="nl">
-      <a href="#hiw">How it works</a>
-      <a href="#tool">Look up a fare</a>
-      <a href="coverage.html">Coverage</a>
-    </div>
-    <div class="ub" id="ub" onclick="openModal()" title="Update institution">
-      <div class="ubd"></div><span id="ub-txt"></span>
-    </div>
-  </div>
+<div class="ni">
+<a href="#" class="logo">Fair<span>Fares</span></a>
+<div class="nl">
+<a href="#hiw">How it works</a>
+<a href="#tool">Look up a fare</a>
+<a href="coverage.html">Coverage</a>
+</div>
+<div class="ub" id="ub" onclick="openModal()" title="Update institution">
+<div class="ubd"></div><span id="ub-txt"></span>
+</div>
+</div>
 </nav>
 
 <section class="hero">
-  <div class="htag">Travel cost benchmarking</div>
-  <h1>The <em>smarter</em> way to price flights, lodging and taxis after the fact</h1>
-  <p class="hero-sub">A traveler extended their trip, upgraded their seat, or rented a car — and didn't get comps at booking. Now you need to know what your organisation <strong>should have paid</strong>. Benchmarks from <strong>Google Flights, Booking.com and GSA</strong> — live market data updated every 30 hours. No more guesswork.</p>
-  <div class="hbtns">
-    <a href="#tool" class="bp">Look up a past fare</a>
-    <a href="#hiw" class="bg">See how it works</a>
-  </div>
-  <div class="hstats">
-    <div class="hs"><div class="num" style="font-size:.85rem">Google<br>Flights</div><div class="lbl">Flight prices</div></div>
-    <div class="hs"><div class="num" style="font-size:.85rem">Booking<br>.com</div><div class="lbl">Hotel rates</div></div>
-    <div class="hs"><div class="num" style="font-size:.85rem">DoD</div><div class="lbl">Intl per diem</div></div>
-    <div class="hs"><div class="num">PDF</div><div class="lbl">Shareable records</div></div>
-  </div>
+<div class="htag">Travel cost benchmarking</div>
+<h1>The <em>smarter</em> way to price flights and taxis after the fact</h1>
+<p class="hero-sub">A traveler extended their trip, upgraded their seat, or rented a car — and didn't get comps at booking. Now you need to know what your organisation <strong>should have paid</strong>. Benchmarks from <strong>Google Flights and GSA</strong> — market data updated daily. No more guesswork.</p>
+<div class="hbtns">
+<a href="#tool" class="bp">Look up a past fare</a>
+<a href="#hiw" class="bg">See how it works</a>
+</div>
+<div class="hstats">
+<div class="hs"><div class="num" style="font-size:.85rem">Google<br>Flights</div><div class="lbl">Flight prices</div></div>
+<div class="hs"><div class="num" style="font-size:.85rem">DoD</div><div class="lbl">Intl per diem</div></div>
+<div class="hs"><div class="num" style="font-size:.85rem">State<br>Dept</div><div class="lbl">Travel advisories</div></div>
+<div class="hs"><div class="num">PDF</div><div class="lbl">Shareable records</div></div>
+</div>
 </section>
 
 <section class="sec" id="hiw">
-  <div class="si">
-    <div class="stag">How it works</div>
-    <h2 class="sh">From trip details to a defensible benchmark</h2>
-    <p class="ss">Enter the authorized trip details — flights, hotels, or ground transport — and get an instant market benchmark sourced from live pricing data.</p>
-    <div class="steps">
-      <div class="step"><div class="sn">1</div><h3>Enter the authorized trip details</h3><p>Flight route and cabin class, hotel city and dates, or pickup and dropoff for ground transport. Dates as policy requires.</p></div>
-      <div class="step"><div class="sn">2</div><h3>Get the benchmark</h3><p>FairFares returns a high-end market benchmark — flights from Google Flights, hotels from Booking.com (4★+), ground transport from published tariffs. Always a number, always sourced.</p></div>
-      <div class="step"><div class="sn">3</div><h3>Download the compliance record</h3><p>A branded, timestamped PDF ready to attach to the expense report — sourced, dated and audit-ready.</p></div>
-    </div>
-  </div>
+<div class="si">
+<div class="stag">How it works</div>
+<h2 class="sh">From trip details to a defensible benchmark</h2>
+<p class="ss">Enter the authorized trip details — flights, ground transport, or per diem rates — and get an instant market benchmark.</p>
+<div class="steps">
+<div class="step"><div class="sn">1</div><h3>Enter the authorized trip details</h3><p>Flight route and dates, or pickup and dropoff for ground transport. Dates as policy requires.</p></div>
+<div class="step"><div class="sn">2</div><h3>Get the benchmark</h3><p>FairFares returns a market benchmark — flights from Google Flights (collected daily), ground transport from published tariffs. Always a number, always sourced.</p></div>
+<div class="step"><div class="sn">3</div><h3>Download the compliance record</h3><p>A branded, timestamped PDF ready to attach to the expense report — sourced, dated and audit-ready.</p></div>
+</div>
+</div>
 </section>
 
 <section class="sec gray tool-sec" id="tool">
-  <div class="si">
-    <div class="stag">Look up a past fare</div>
-    <h2 class="sh">The smarter way to price travel after the fact</h2>
-    <p class="ss">Enter the authorized trip details — dates, routing and class as policy requires.</p>
-    <div class="tw">
-      <div class="ttabs">
-        <button class="ttab on"  onclick="tab('dom',this)">Domestic travel</button>
-        <button class="ttab"     onclick="tab('intl',this)">International travel</button>
-        <button class="ttab"     onclick="tab('gt',this)">Ground transport</button>
-        <button class="ttab"     onclick="tab('adv',this)">Travel advisories</button>
-        <button class="ttab"     onclick="tab('adm',this)">Admin</button>
-      </div>
-      <div class="tb">
+<div class="si">
+<div class="stag">Look up a past fare</div>
+<h2 class="sh">The smarter way to price travel after the fact</h2>
+<p class="ss">Enter the authorized trip details — dates and routing as policy requires.</p>
+<div class="tw">
+<div class="ttabs">
+<button class="ttab on" onclick="tab('fl',this)">Flight lookup</button>
+<button class="ttab" onclick="tab('pd',this)">International per diem rates</button>
+<button class="ttab" onclick="tab('gt',this)">Ground transport</button>
+<button class="ttab" onclick="tab('adv',this)">Travel advisories</button>
+</div>
+<div class="tb">
 
-        <!-- ═══ DOMESTIC ═══ -->
-        <div class="tp on" id="tp-dom">
+<!-- ═══ FLIGHT LOOKUP ═══ -->
+<div class="tp on" id="tp-fl">
+<p style="font-size:.84rem;color:var(--g500);margin-bottom:1.2rem;line-height:1.6">Economy return fares from San Francisco (SFO) to domestic and international destinations. Prices collected daily from Google Flights.</p>
+<div class="slbl">Flight</div>
+<div class="g2">
+<div class="f">
+  <label>From</label>
+  <input type="text" value="San Francisco (SFO)" disabled style="background:var(--g50);color:var(--g500);cursor:not-allowed">
+</div>
+<div class="f">
+  <label>To</label>
+  <div class="ac-wrap"><input type="text" id="fl-d" placeholder="City or airport code (e.g. Chicago, ORD)" autocomplete="off"><div class="ac-drop" id="fl-d-drop"></div></div>
+</div>
+</div>
+<div class="g2">
+<div class="f"><label>Authorized departure date</label><input type="date" id="fl-dep"></div>
+<div class="f"><label>Return date</label><input type="date" id="fl-ret"></div>
+</div>
+<p style="font-size:.78rem;color:var(--g400);margin-bottom:1rem">All fares shown are economy return. Trip duration must be 1–7 nights.</p>
+<div class="errmsg" id="fl-err"></div>
+<button class="lbtn" onclick="lookFlight()">Look up flight benchmark</button>
 
-          <!-- DOM FLIGHT RESULT (above button) -->
+<div class="rbox" id="fl-res">
+<div class="rlbl" id="fl-lbl"></div>
+<div class="rrow">
+<div class="rm"><div class="ml">Economy return fare</div><div class="mv" id="fl-avg">—</div><div class="ms">USD</div></div>
+<div class="rm"><div class="ml">Trip duration</div><div class="mv" id="fl-nights" style="font-size:1rem;padding-top:.4rem">—</div><div class="ms">return trip</div></div>
+<div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.8rem;padding-top:.3rem">Google Flights</div><div class="ms">collected daily</div></div>
+</div>
+<p class="rnote" id="fl-note"></p>
+<button class="pdf-btn" onclick="printTab('fl')" style="margin-top:10px">Save as PDF</button>
+</div>
 
-          <div class="slbl">Flight</div>
-          <div class="g2">
-            <div class="f"><label>From</label>
-              <div class="ac-wrap"><input type="text" id="df-o" placeholder="San Francisco or SFO" autocomplete="off"><div class="ac-drop" id="df-o-drop"></div></div>
-            </div>
-            <div class="f"><label>To</label>
-              <div class="ac-wrap"><input type="text" id="df-d" placeholder="Chicago or ORD" autocomplete="off"><div
- class="ac-drop" id="df-d-drop"></div></div>
-            </div>
-          </div>
-          <div class="g3">
-            <div class="f"><label>Authorized departure</label><input type="date" id="df-dep"></div>
-            <div class="f"><label>Return date</label><input type="date" id="df-ret"></div>
-            <div class="f"><label>Cabin class</label>
-              <select id="df-cab">
-                <option value="eco">Basic economy</option>
-                <option value="ecox" selected>Economy extra / main cabin</option>
-                <option value="biz">Business class</option>
-              </select>
-            </div>
-          </div>
-          <div class="f" style="margin-bottom:12px;max-width:220px"><label>Trip type</label>
-            <select id="df-type"><option value="rt">Round trip</option><option value="ow">One way</option></select>
-          </div>
-          <div class="errmsg" id="df-err"></div>
-          <button class="lbtn" onclick="lookFlight('df')">Look up flight benchmark</button>
+<div class="nf" id="fl-nf" style="display:none">No data found for this destination and trip duration.</div>
+</div>
 
+<!-- ═══ PER DIEM RATES ═══ -->
+<div class="tp" id="tp-pd">
 
-          <div class="rbox" id="df-res">
-            <div class="rlbl" id="df-lbl"></div>
-            <div class="rrow">
-              <div class="rm"><div class="ml">High-end benchmark</div><div class="mv" id="df-avg">—</div><div class="ms" id="df-cab-sub"></div></div>
-              <div class="rm"><div class="ml">Cabin</div><div class="mv" id="df-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS-derived</div><div class="ms">Static table from <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> historical data</div></div>
-            </div>
-            <p class="rnote" id="df-note"></p>
-            <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
-          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
-          </div>
-          <div class="nf" id="df-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
+<div class="pd-toggle">
+<button class="pd-toggle-btn on" onclick="pdToggle('dom',this)">Domestic</button>
+<button class="pd-toggle-btn" onclick="pdToggle('intl',this)">International</button>
+</div>
 
-          <div class="slbl">Hotel</div>
-          <div class="g2" style="max-width:600px;margin-bottom:12px">
-            <div class="f"><label>City</label>
-              <div class="ac-wrap"><input type="text" id="dh-city" placeholder="e.g. Chicago" autocomplete="off"><div class="ac-drop" id="dh-city-drop"></div></div>
-            </div>
-            <div class="f"><label>Address or landmark (optional)</label><input type="text" id="dh-addr" placeholder="e.g. 233 S Wacker Dr, Chicago"></div>
-          </div>
-          <div class="g2" style="max-width:600px;align-items:end">
-            <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="dh-in"></div>
-            <div class="f"><label>Authorized check-out date</label><input type="date" id="dh-out"></div>
-          </div>
-          <div class="errmsg" id="dh-err"></div>
-          <button class="lbtn" id="dh-btn" onclick="lookHotel()">Look up hotel benchmark</button>
+<!-- Domestic -->
+<div id="pd-domestic">
+<div class="dom-pd-card">
+<h4>Domestic per diem rates (UC policy)</h4>
+<div class="dom-pd-rows">
+<div class="dom-pd-item">
+<div class="dpv">$333</div>
+<div class="dpl">per night — lodging<br>pre-tax cap</div>
+</div>
+<div class="dom-pd-item">
+<div class="dpv">$92</div>
+<div class="dpl">per day — meals<br>actual costs cap</div>
+</div>
+</div>
+<div class="dom-pd-note">
+<strong>Lodging:</strong> Reimbursed as actuals up to $333/night pre-tax. Receipts required.<br>
+<strong>Meals:</strong> Actual costs only, up to $92/day. No flat per diem for domestic travel — receipts required. Cannot be exceeded under any circumstances.<br>
+<strong>Source:</strong> UCOP G-28 Travel Policy.
+</div>
+</div>
+</div>
 
-          <!-- DOM HOTEL NEARBY RESULTS (above button) -->
+<!-- International -->
+<div id="pd-intl-section" style="display:none">
+<p style="font-size:.84rem;color:var(--g500);margin-bottom:1rem;line-height:1.6">International per diem rates from the US Department of Defense. Covers maximum lodging and daily meal allowance (M&amp;IE) by city.</p>
 
+<div class="g2" style="max-width:500px">
+<div class="f"><label>City</label>
+<div class="ac-wrap"><input type="text" id="ih-city" placeholder="e.g. London" autocomplete="off" oninput="triggerPD()"><div class="ac-drop" id="ih-city-drop"></div></div>
+</div>
+<div class="f"><label>Country</label>
+<select id="ih-ctry" onchange="triggerPD()">
+<option value="">Select country...</option>
+<option value="GB">United Kingdom</option><option value="CA">Canada</option>
+<option value="AU">Australia</option><option value="DE">Germany</option>
+<option value="FR">France</option><option value="JP">Japan</option>
+<option value="SG">Singapore</option><option value="CH">Switzerland</option>
+<option value="NL">Netherlands</option><option value="AT">Austria</option>
+<option value="BE">Belgium</option><option value="DK">Denmark</option>
+<option value="FI">Finland</option><option value="GR">Greece</option>
+<option value="IE">Ireland</option><option value="IT">Italy</option>
+<option value="NO">Norway</option><option value="PT">Portugal</option>
+<option value="ES">Spain</option><option value="SE">Sweden</option>
+<option value="AE">UAE</option><option value="IL">Israel</option>
+<option value="IN">India</option><option value="KR">South Korea</option>
+<option value="CN">China</option><option value="HK">Hong Kong</option>
+<option value="TW">Taiwan</option><option value="TH">Thailand</option>
+<option value="MY">Malaysia</option><option value="NZ">New Zealand</option>
+<option value="ZA">South Africa</option><option value="BR">Brazil</option>
+<option value="MX">Mexico</option>
+</select>
+</div>
+</div>
+<div class="errmsg" id="ih-err"></div>
+<button class="lbtn" onclick="lookIntlPerDiem()">Look up per diem rates</button>
 
-          <!-- DOM HOTEL RESULT (above button) -->
+<div class="pd-exp" id="pd-exp" style="display:none">
+<h4>DoD per diem rates — <span id="pd-city">this destination</span></h4>
+<table class="pdt">
+<thead><tr><th>Component</th><th>Amount (USD)</th><th>How it works</th></tr></thead>
+<tbody>
+<tr><td>Maximum lodging</td><td id="pd-lodge">—</td><td>Nightly hotel cap. Claimed as actuals up to this limit.</td></tr>
+<tr><td>Local meals (M&amp;IE)</td><td id="pd-mie">—</td><td>Full daily meals allowance. International = per diem — no receipts needed up to this rate.</td></tr>
+<tr><td>Proportional meals</td><td id="pd-prop">—</td><td>For travel days (first/last day). ~75% of full M&amp;IE rate.</td></tr>
+<tr><td>Local incidental</td><td id="pd-inc">—</td><td>Tips and small fees — included within M&amp;IE total.</td></tr>
+<tr><td>Maximum per diem</td><td id="pd-tot">—</td><td>Lodging + M&amp;IE combined daily maximum.</td></tr>
+</tbody>
+</table>
+<div class="pd-rule"><strong>Actuals vs per diem</strong> International: meals claimed as flat per diem — no receipts needed up to the daily rate. Lodging claimed as actuals up to the maximum lodging rate.</div>
+<p class="rnote" style="margin-top:8px">Source: <a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">US Department of Defense — travel.dod.mil</a>.</p>
+</div>
+</div>
+</div>
 
+<!-- ═══ GROUND TRANSPORT ═══ -->
+<div class="tp" id="tp-gt">
+<div class="ibox" style="margin-bottom:1rem"><strong>UCOP G-28 Transportation Policy</strong>"Transportation expenses shall be reimbursed based on the most economical mode of transportation and the most commonly traveled route consistent with the authorized purpose of the trip." If a traveler rented a car when a taxi or rideshare would have sufficed, reimbursement is capped at the taxi equivalent.</div>
+<div class="g2">
+<div class="f"><label>Pickup — address or place name</label><div class="ac-wrap"><input type="text" id="gt-from" placeholder="e.g. SFO Airport" autocomplete="off" oninput="gtGeo()"><div class="ac-drop" id="gt-from-drop"></div></div></div>
+<div class="f"><label>Dropoff — address or place name</label><div class="ac-wrap"><input type="text" id="gt-to" placeholder="e.g. UCSF Mission Bay, San Francisco" autocomplete="off" oninput="gtGeo()"><div class="ac-drop" id="gt-to-drop"></div></div></div>
+</div>
+<div class="errmsg" id="gt-err"></div>
+<button class="lbtn" id="gt-btn" onclick="calcGT()">Get fare estimates</button>
+<div class="rbox" id="gt-res">
+<div class="rlbl" id="gt-lbl"></div>
+<div class="map-wrap" id="gt-map-wrap">
+<iframe id="gt-map" src="" title="Route map"></iframe>
+</div>
+<div class="gt-tabs">
+<button class="gt-tab on" onclick="gtTab('taxi',this)">Taxi</button>
+<button class="gt-tab" onclick="gtTab('uber',this)">Uber X</button>
+<button class="gt-tab" onclick="gtTab('lyft',this)">Lyft</button>
+</div>
+<div class="gt-panel on" id="gt-taxi-p">
+<table class="ft"><tbody id="gt-taxi-rows"></tbody><tfoot><tr><td>Total estimated fare</td><td id="gt-taxi-tot">—</td></tr></tfoot></table>
+<p class="rnote" style="margin-top:6px" id="gt-taxi-src"></p>
+</div>
+<div class="gt-panel" id="gt-uber-p">
+<table class="ft"><tbody id="gt-uber-rows"></tbody><tfoot><tr><td>Total estimated fare</td><td id="gt-uber-tot">—</td></tr></tfoot></table>
+<p class="rnote" style="margin-top:6px">Source: <a href="https://www.uber.com/us/en/price-estimate/" target="_blank">Uber published rate card</a>. UberX standard service. Surge pricing not included.</p>
+</div>
+<div class="gt-panel" id="gt-lyft-p">
+<table class="ft"><tbody id="gt-lyft-rows"></tbody><tfoot><tr><td>Total estimated fare</td><td id="gt-lyft-tot">—</td></tr></tfoot></table>
+<p class="rnote" style="margin-top:6px">Source: <a href="https://www.lyft.com/rider/fare-estimate" target="_blank">Lyft published rate card</a>. Use the lower of Uber X or Lyft as the G-28 reimbursement benchmark.</p>
+</div>
+<div class="gt-verdict">
+<div class="gt-vt" id="gt-vt"></div>
+<div class="gt-vb" id="gt-vb"></div>
+<button class="pdf-btn" onclick="printTab('gt')" style="margin-top:10px">Save as PDF</button>
+</div>
+</div>
+</div>
 
+<!-- ═══ TRAVEL ADVISORIES ═══ -->
+<div class="tp" id="tp-adv">
+<p style="font-size:.875rem;color:var(--g600);line-height:1.7;margin-bottom:1rem">Look up the current US State Department travel advisory before approving international travel. Level 1 = normal precautions, Level 4 = Do Not Travel.</p>
+<div class="aq-list">
+<button class="aq" onclick="qa(this)">United Kingdom</button><button class="aq" onclick="qa(this)">France</button>
+<button class="aq" onclick="qa(this)">Germany</button><button class="aq" onclick="qa(this)">Japan</button>
+<button class="aq" onclick="qa(this)">Australia</button><button class="aq" onclick="qa(this)">Canada</button>
+<button class="aq" onclick="qa(this)">Mexico</button><button class="aq" onclick="qa(this)">Singapore</button>
+<button class="aq" onclick="qa(this)">Israel</button><button class="aq" onclick="qa(this)">China</button>
+<button class="aq" onclick="qa(this)">India</button><button class="aq" onclick="qa(this)">Russia</button>
+</div>
+<div class="g2" style="max-width:500px">
+<div class="f"><label>Country name</label><input type="text" id="adv-in" placeholder="e.g. Japan, France, Mexico" onkeydown="if(event.key==='Enter')lookAdv()"></div>
+<div class="f" style="display:flex;align-items:flex-end"><button class="lbtn" style="margin-top:0" onclick="lookAdv()">Look up advisory</button></div>
+</div>
+<div class="errmsg" id="adv-err"></div>
+<div id="adv-res" style="display:none;margin-top:1rem">
+<div class="adv-card">
+<div class="adv-hd" id="adv-hd"><div><div class="adv-cn" id="adv-cn"></div><div class="adv-lt" id="adv-lt"></div></div><div class="adv-badge" id="adv-badge"></div></div>
+<div class="adv-bd"><div class="adv-msg" id="adv-msg"></div><a class="adv-lnk" id="adv-url" href="#" target="_blank">View full State Dept advisory →</a></div>
+</div>
+<p class="rnote" style="margin-top:8px">Source: <a href="https://travel.state.gov" target="_blank">US Department of State — travel.state.gov</a>.</p>
+</div>
+</div>
 
-          <div class="rbox" id="dh-nearby">
-            <div class="rlbl" id="dh-nearby-lbl"></div>
-            <div id="dh-map" style="width:100%;height:320px;border-radius:10px;margin-bottom:12px;border:1px solid var(--g200);display:none"></div>
-            <div id="dh-hotel-list" style="margin-bottom:10px"></div>
-            <p class="rnote" id="dh-nearby-note"></p>
-          </div>
-          <div class="rbox" id="dh-res">
-            <div class="rlbl" id="dh-lbl"></div>
-            <div class="rrow">
-              <div class="rm"><div class="ml">High-end benchmark</div><div class="mv" id="dh-avg">—</div><div class="ms">per night (USD)</div></div>
-              <div class="rm"><div class="ml">Authorized nights</div><div class="mv" id="dh-n">—</div><div class="ms"></div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">GSA</div><div class="ms"><a href="https://www.gsa.gov/travel/plan-book/per-diem-rates" target="_blank">gsa.gov per diem</a></div></div>
-            </div>
-            <div class="ibox"><strong>M&amp;IE — $92/day domestic cap</strong>Domestic meals: actuals only up to $92/day — not a per diem. Receipts required. Cannot be exceeded under any circumstances.</div>
-            <p class="rnote" id="dh-note"></p>
-            <button class="pdf-btn" onclick="printTab('dom')" style="margin-top:10px">Save as PDF</button>
-          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
-          </div>        </div>
-
-        <!-- ═══ INTERNATIONAL ═══ -->
-        <div class="tp" id="tp-intl">
-
-          <!-- INTL FLIGHT RESULT (above button) -->
-
-          <div class="slbl">Flight</div>
-          <div class="g2">
-            <div class="f"><label>From</label>
-              <div class="ac-wrap"><input type="text" id="if-o" placeholder="San Francisco or SFO" autocomplete="off"><div class="ac-drop" id="if-o-drop"></div></div>
-            </div>
-            <div class="f"><label>To</label>
-              <div class="ac-wrap"><input type="text" id="if-d" placeholder="London or LHR" autocomplete="off"><div class="ac-drop" id="if-d-drop"></div></div>
-            </div>
-          </div>
-          <div class="g3">
-            <div class="f"><label>Authorized departure</label><input type="date" id="if-dep"></div>
-            <div class="f"><label>Return date</label><input type="date" id="if-ret"></div>
-            <div class="f"><label>Cabin class</label>
-              <select id="if-cab">
-                <option value="eco">Basic economy</option>
-                <option value="ecox" selected>Economy extra / comfort+</option>
-                <option value="biz">Business class</option>
-              </select>
-            </div>
-          </div>
-          <div class="f" style="margin-bottom:12px;max-width:220px"><label>Trip type</label>
-            <select id="if-type"><option value="rt">Round trip</option><option value="ow">One way</option></select>
-          </div>
-          <div class="errmsg" id="if-err"></div>
-          <button class="lbtn" onclick="lookFlight('if')">Look up flight benchmark</button>
-
-          <div class="rbox" id="if-res">
-            <div class="rlbl" id="if-lbl"></div>
-            <div class="rrow">
-              <div class="rm"><div class="ml">High-end benchmark</div><div class="mv" id="if-avg">—</div><div class="ms" id="if-sub"></div></div>
-              <div class="rm"><div class="ml">Cabin</div><div class="mv" id="if-cab-disp" style="font-size:.9rem">—</div><div class="ms">authorized class</div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">BTS-derived</div><div class="ms">Static table from <a href="https://www.bts.gov/air-fares" target="_blank">BTS</a> historical data</div></div>
-            </div>
-            <p class="rnote" id="if-note"></p>
-            <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
-          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
-          </div>
-          <div class="nf" id="if-nf">This route is not in our benchmark table. Please contact your campus travel office or Accounts Payable for an official fare comparison.</div>
-          <!-- INTL HOTEL RESULT (above button) -->
-
-          <!-- PER DIEM TABLE (above button) -->
-          <div class="pd-exp" id="pd-exp">
-            <h4>DoD per diem rates — <span id="pd-city">this destination</span></h4>
-            <table class="pdt">
-              <thead><tr><th>Component</th><th>Amount (USD)</th><th>How it works</th></tr></thead>
-              <tbody>
-                <tr><td>Maximum lodging</td><td id="pd-lodge">—</td><td>Nightly hotel cap. Claimed as actuals up to this limit.</td></tr>
-                <tr><td>Local meals (M&amp;IE)</td><td id="pd-mie">—</td><td>Full daily meals allowance. International = per diem — no receipts needed up to this rate.</td></tr>
-                <tr><td>Proportional meals</td><td id="pd-prop">—</td><td>For travel days (first/last day). ~75% of full M&amp;IE rate.</td></tr>
-                <tr><td>Local incidental</td><td id="pd-inc">—</td><td>Tips and small fees — included within M&amp;IE total.</td></tr>
-                <tr><td>Maximum per diem</td><td id="pd-tot">—</td><td>Lodging + M&amp;IE combined daily maximum.</td></tr>
-              </tbody>
-            </table>
-            <div class="pd-rule"><strong>Actuals vs per diem</strong>International: meals claimed as flat per diem — no receipts needed up to the daily rate. Lodging claimed as actuals up to the maximum lodging rate. Domestic is different: meals are actuals only up to $92/day, never a flat per diem.</div>
-          </div>
-
-          <div class="slbl">Hotel + DoD per diem</div>
-          <div class="g2" style="max-width:500px">
-            <div class="f"><label>City</label>
-              <div class="ac-wrap"><input type="text" id="ih-city" placeholder="e.g. London" autocomplete="off" oninput="triggerPD()"><div class="ac-drop" id="ih-city-drop"></div></div>
-            </div>
-            <div class="f"><label>Country</label>
-              <select id="ih-ctry" onchange="triggerPD()">
-                <option value="">Select country...</option>
-                <option value="GB">United Kingdom</option><option value="CA">Canada</option>
-                <option value="AU">Australia</option><option value="DE">Germany</option>
-                <option value="FR">France</option><option value="JP">Japan</option>
-                <option value="SG">Singapore</option><option value="CH">Switzerland</option>
-                <option value="NL">Netherlands</option><option value="AT">Austria</option>
-                <option value="BE">Belgium</option><option value="DK">Denmark</option>
-                <option value="FI">Finland</option><option value="GR">Greece</option>
-                <option value="IE">Ireland</option><option value="IT">Italy</option>
-                <option value="NO">Norway</option><option value="PT">Portugal</option>
-                <option value="ES">Spain</option><option value="SE">Sweden</option>
-                <option value="AE">UAE</option><option value="IL">Israel</option>
-                <option value="IN">India</option><option value="KR">South Korea</option>
-                <option value="CN">China</option><option value="HK">Hong Kong</option>
-                <option value="TW">Taiwan</option><option value="TH">Thailand</option>
-                <option value="MY">Malaysia</option><option value="NZ">New Zealand</option>
-                <option value="ZA">South Africa</option><option value="BR">Brazil</option>
-                <option value="MX">Mexico</option>
-              </select>
-            </div>
-          </div>
-          <div class="g2" style="max-width:500px;align-items:end">
-            <div class="f"><label>Authorized check-in (24hrs prior to first meeting)</label><input type="date" id="ih-in"></div>
-            <div class="f"><label>Authorized check-out</label><input type="date" id="ih-out"></div>
-          </div>
-          <div class="errmsg" id="ih-err"></div>
-          <button class="lbtn" onclick="lookIntlHotel()">Look up hotel + per diem</button>
-
-<div class="rbox" id="ih-res">
-            <div class="rlbl" id="ih-lbl"></div>
-            <div class="rrow">
-              <div class="rm"><div class="ml">High-end benchmark</div><div class="mv" id="ih-avg">—</div><div class="ms">per night (USD)</div></div>
-              <div class="rm"><div class="ml">Authorized nights</div><div class="mv" id="ih-n">—</div><div class="ms"></div></div>
-              <div class="rm"><div class="ml">Data source</div><div class="mv" style="font-size:.85rem">DoD</div><div class="ms"><a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">travel.dod.mil</a></div></div>
-            </div>
-            <p class="rnote" id="ih-note"></p>
-            <button class="pdf-btn" onclick="printTab('intl')" style="margin-top:10px">Save as PDF</button>
-          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
-          </div>
-
-<div class="pd-exp" id="pd-exp">
-            <h4>DoD per diem rates — <span id="pd-city">this destination</span></h4>
-            <table class="pdt">
-              <thead><tr><th>Component</th><th>Amount (USD)</th><th>How it works</th></tr></thead>
-              <tbody>
-                <tr><td>Maximum lodging</td><td id="pd-lodge">—</td><td>Nightly hotel cap. Claimed as actuals up to this limit.</td></tr>
-                <tr><td>Local meals (M&amp;IE)</td><td id="pd-mie">—</td><td>Full daily meals allowance. International = per diem — no receipts needed up to this rate.</td></tr>
-                <tr><td>Proportional meals</td><td id="pd-prop">—</td><td>For travel days (first/last day). ~75% of full M&amp;IE rate.</td></tr>
-                <tr><td>Local incidental</td><td id="pd-inc">—</td><td>Tips and small fees — included within M&amp;IE total.</td></tr>
-                <tr><td>Maximum per diem</td><td id="pd-tot">—</td><td>Lodging + M&amp;IE combined daily maximum.</td></tr>
-              </tbody>
-            </table>
-            <div class="pd-rule"><strong>Actuals vs per diem</strong>International: meals claimed as flat per diem — no receipts needed up to the daily rate. Lodging claimed as actuals up to the maximum lodging rate. Domestic is different: meals are actuals only up to $92/day, never a flat per diem.</div>
-          </div>
-
-
-
-                  </div>
-
-        <!-- ═══ GROUND TRANSPORT ═══ -->
-        <div class="tp" id="tp-gt">
-          <div class="ibox" style="margin-bottom:1rem"><strong>UCOP G-28 Transportation Policy</strong>"Transportation expenses shall be reimbursed based on the most economical mode of transportation and the most commonly traveled route consistent with the authorized purpose of the trip." If a traveler rented a car when a taxi or rideshare would have sufficed, reimbursement is capped at the taxi equivalent.</div>
-
-          <div class="g2">
-            <div class="f"><label>Pickup — address or place name</label><div class="ac-wrap"><input type="text" id="gt-from" placeholder="e.g. SFO Airport" autocomplete="off" oninput="gtGeo()"><div class="ac-drop" id="gt-from-drop"></div></div></div>
-            <div class="f"><label>Dropoff — address or place name</label><div class="ac-wrap"><input type="text" id="gt-to" placeholder="e.g. UCSF Mission Bay, San Francisco" autocomplete="off" oninput="gtGeo()"><div class="ac-drop" id="gt-to-drop"></div></div></div>
-          </div>
-          <div class="errmsg" id="gt-err"></div>
-          <button class="lbtn" id="gt-btn" onclick="calcGT()">Get fare estimates</button>
-
-          <!-- GT RESULTS (above button) -->
-
-
-
-          <div class="rbox" id="gt-res">
-            <div class="rlbl" id="gt-lbl"></div>
-            <div class="map-wrap" id="gt-map-wrap">
-              <iframe id="gt-map" src="" title="Route map"></iframe>
-            </div>
-            <div class="gt-tabs">
-              <button class="gt-tab on" onclick="gtTab('taxi',this)">Taxi</button>
-              <button class="gt-tab" onclick="gtTab('uber',this)">Uber X</button>
-              <button class="gt-tab" onclick="gtTab('lyft',this)">Lyft</button>
-            </div>
-            <div class="gt-panel on" id="gt-taxi-p">
-              <table class="ft"><tbody id="gt-taxi-rows"></tbody><tfoot><tr><td>Total estimated fare</td><td id="gt-taxi-tot">—</td></tr></tfoot></table>
-              <p class="rnote" style="margin-top:6px" id="gt-taxi-src"></p>
-            </div>
-            <div class="gt-panel" id="gt-uber-p">
-              <table class="ft"><tbody id="gt-uber-rows"></tbody><tfoot><tr><td>Total estimated fare</td><td id="gt-uber-tot">—</td></tr></tfoot></table>
-              <p class="rnote" style="margin-top:6px">Source: <a href="https://www.uber.com/us/en/price-estimate/" target="_blank">Uber published rate card</a>. UberX standard service. Surge pricing not included — use as a base estimate for compliance purposes.</p>
-            </div>
-            <div class="gt-panel" id="gt-lyft-p">
-              <table class="ft"><tbody id="gt-lyft-rows"></tbody><tfoot><tr><td>Total estimated fare</td><td id="gt-lyft-tot">—</td></tr></tfoot></table>
-              <p class="rnote" style="margin-top:6px">Source: <a href="https://www.lyft.com/rider/fare-estimate" target="_blank">Lyft published rate card</a>. Standard Lyft service. Use the lower of Uber X or Lyft as the G-28 reimbursement benchmark.</p>
-            </div>
-            <div class="gt-verdict">
-              <div class="gt-vt" id="gt-vt"></div>
-              <div class="gt-vb" id="gt-vb"></div>
-            <button class="pdf-btn" onclick="printTab('gt')" style="margin-top:10px">Save as PDF</button>
-          <div style="border-top:2px solid rgba(10,22,40,.12);margin:1.5rem 0 0"></div>
-            </div>
-          </div>        </div>
-
-        <!-- ═══ TRAVEL ADVISORIES ═══ -->
-        <div class="tp" id="tp-adv">
-          <p style="font-size:.875rem;color:var(--g600);line-height:1.7;margin-bottom:1rem">Look up the current US State Department travel advisory before approving international travel. Level 1 = normal precautions, Level 4 = Do Not Travel.</p>
-          <div class="aq-list">
-            <button class="aq" onclick="qa(this)">United Kingdom</button><button class="aq" onclick="qa(this)">France</button>
-            <button class="aq" onclick="qa(this)">Germany</button><button class="aq" onclick="qa(this)">Japan</button>
-            <button class="aq" onclick="qa(this)">Australia</button><button class="aq" onclick="qa(this)">Canada</button>
-            <button class="aq" onclick="qa(this)">Mexico</button><button class="aq" onclick="qa(this)">Singapore</button>
-            <button class="aq" onclick="qa(this)">Israel</button><button class="aq" onclick="qa(this)">China</button>
-            <button class="aq" onclick="qa(this)">India</button><button class="aq" onclick="qa(this)">Russia</button>
-          </div>
-          <div class="g2" style="max-width:500px">
-            <div class="f"><label>Country name</label><input type="text" id="adv-in" placeholder="e.g. Japan, France, Mexico" onkeydown="if(event.key==='Enter')lookAdv()"></div>
-            <div class="f" style="display:flex;align-items:flex-end"><button class="lbtn" style="margin-top:0" onclick="lookAdv()">Look up advisory</button></div>
-          </div>
-          <div class="errmsg" id="adv-err"></div>
-          <div id="adv-res" style="display:none;margin-top:1rem">
-            <div class="adv-card">
-              <div class="adv-hd" id="adv-hd"><div><div class="adv-cn" id="adv-cn"></div><div class="adv-lt" id="adv-lt"></div></div><div class="adv-badge" id="adv-badge"></div></div>
-              <div class="adv-bd"><div class="adv-msg" id="adv-msg"></div><a class="adv-lnk" id="adv-url" href="#" target="_blank">View full State Dept advisory →</a></div>
-            </div>
-            <p class="rnote" style="margin-top:8px">Source: <a href="https://travel.state.gov" target="_blank">US Department of State — travel.state.gov</a>. Always verify the current advisory before approving travel.</p>
-          </div>
-        </div>
-
-        <!-- ═══ ADMIN ═══ -->
-        <div class="tp" id="tp-adm">
-          <p style="font-size:.8rem;color:var(--g600);margin-bottom:.875rem">Update fare tables quarterly. Amounts in USD one-way economy extra. RT = round trip multiplier.</p>
-          <div style="overflow-x:auto"><table class="atbl"><thead><tr><th>From</th><th>To</th><th>Low</th><th>Mid</th><th>High</th><th>RT×</th><th></th></tr></thead><tbody id="adm-body"></tbody></table></div>
-          <div class="addrow">
-            <div><label>From</label><input id="nr-f" placeholder="SFO" maxlength="3" style="text-transform:uppercase"></div>
-            <div><label>To</label><input id="nr-t" placeholder="ORD" maxlength="3" style="text-transform:uppercase"></div>
-            <div><label>Low $</label><input type="number" id="nr-l" placeholder="280"></div>
-            <div><label>Mid $</label><input type="number" id="nr-m" placeholder="420"></div>
-            <div><label>High $</label><input type="number" id="nr-h" placeholder="650"></div>
-            <div><label>RT×</label><input type="number" id="nr-r" placeholder="1.7" step="0.1"></div>
-            <div><label>&nbsp;</label><button class="addbtn" onclick="addRoute()">Add</button></div>
-          </div>
-          <div class="errmsg" id="adm-err">Fill in all fields.</div>
-          <div class="exprow">
-            <button class="expbtn" onclick="exportData()">Export JSON</button>
-            <button class="expbtn" onclick="document.getElementById('imp').click()">Import JSON</button>
-            <input type="file" id="imp" accept=".json" style="display:none" onchange="importData(event)">
-          </div>
-          <p style="font-size:.72rem;color:var(--g400);margin-top:.5rem">Export before each quarterly update.</p>
-        </div>
-
-      </div>
-    </div>
-  </div>
+</div>
+</div>
+</div>
 </section>
 
 <footer>
-  <div class="fi">
-    <div>
-      <div class="flogo">Fair<span>Fares</span></div>
-      <div class="fcopy">© 2026 FairFares. Travel cost benchmarking. Data: BTS (bts.gov) · GSA (gsa.gov) · DoD (travel.dod.mil) · State Dept (travel.state.gov) &nbsp;|&nbsp; Institution and department collected only — no personal data.</div>
-    </div>
-    <div class="flinks">
-      <a href="mailto:hello@getfairfares.com">Contact</a>
-      <a href="#tool">Look up a fare</a>
-    </div>
-  </div>
+<div class="fi">
+<div>
+<div class="flogo">Fair<span>Fares</span></div>
+<div class="fcopy">© 2026 FairFares. Travel cost benchmarking. Data: Google Flights · DoD (travel.dod.mil) · State Dept (travel.state.gov) &nbsp;|&nbsp; Institution and department collected only — no personal data.</div>
+</div>
+<div class="flinks">
+<a href="mailto:hello@getfairfares.com">Contact</a>
+<a href="#tool">Look up a fare</a>
+</div>
+</div>
 </footer>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="data.js"></script>
 <script src="app.js"></script>
