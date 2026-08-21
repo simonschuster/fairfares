@@ -6,75 +6,32 @@ const fmt = n => '$' + Math.round(n).toLocaleString();
 const norm = s => (s||'').trim().toUpperCase();
 
 // ═══════════════════════════════════════════════
-// GOOGLE SHEET — Flight price data collected by Cowork
-// Sheet ID matches the one Cowork writes to daily
+// FLIGHT DATA — loaded from flights.js (static file updated daily by Cowork)
 // ═══════════════════════════════════════════════
-const SHEET_ID = '1jig4TNgqAHt_Z3FH6Mmjhc7IoYyqQKdDJv3prR3BMsI';
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json';
 
-let _sheetData = null; // cached after first load
-let _sheetLoading = false;
-let _sheetCallbacks = [];
-
-function loadSheetData(cb) {
-  if (_sheetData) { cb(_sheetData); return; }
-  _sheetCallbacks.push(cb);
-  if (_sheetLoading) return;
-  _sheetLoading = true;
-  fetch(SHEET_URL)
-    .then(r => r.text())
-    .then(text => {
-      // Google wraps response in /*O_o*/ google.visualization.Query.setResponse({...});
-      var json = text.replace(/^.*?google\.visualization\.Query\.setResponse\(/, '').replace(/\);?\s*$/, '');
-      var data = JSON.parse(json);
-      var rows = data.table.rows;
-      var parsed = rows.map(function(row) {
-        var c = row.c;
-        return {
-          dateSearched:  c[0] ? c[0].v : '',
-          origin:        c[1] ? c[1].v : '',
-          destination:   c[2] ? c[2].v : '',
-          destCode:      c[3] ? c[3].v : '',
-          departDate:    c[4] ? c[4].v : '',
-          returnDate:    c[5] ? c[5].v : '',
-          nights:        c[6] ? parseInt(c[6].v) : 0,
-          price:         c[7] ? parseFloat(c[7].v) : 0,
-          currency:      c[8] ? c[8].v : 'USD',
-          timestamp:     c[9] ? c[9].v : ''
-        };
-      }).filter(function(r) { return r.price > 0; });
-      _sheetData = parsed;
-      _sheetLoading = false;
-      _sheetCallbacks.forEach(function(fn) { fn(parsed); });
-      _sheetCallbacks = [];
-    })
-    .catch(function(e) {
-      _sheetLoading = false;
-      _sheetCallbacks.forEach(function(fn) { fn(null); });
-      _sheetCallbacks = [];
-    });
-}
-
-// ─── Build destination list from Sheet for autocomplete ───
-var SHEET_DESTINATIONS = []; // populated on load
-loadSheetData(function(data) {
-  if (!data) return;
+// Build destination list from FLIGHT_DATA (defined in flights.js)
+var SHEET_DESTINATIONS = (function() {
   var seen = {};
-  data.forEach(function(r) {
-    var key = (r.destination + '|' + r.destCode).toLowerCase();
+  var dests = [];
+  (FLIGHT_DATA || []).forEach(function(r) {
+    var key = r.destCode.toUpperCase();
     if (!seen[key] && r.destination && r.destCode) {
       seen[key] = true;
-      SHEET_DESTINATIONS.push({
+      dests.push({
         name: r.destination,
         code: r.destCode.toUpperCase(),
         display: r.destination + ' (' + r.destCode.toUpperCase() + ')'
       });
     }
   });
-  SHEET_DESTINATIONS.sort(function(a, b) { return a.name.localeCompare(b.name); });
-  // Re-init autocomplete now that data is loaded
-  setupSheetAC('fl-d');
-});
+  dests.sort(function(a, b) { return a.name.localeCompare(b.name); });
+  return dests;
+})();
+
+function loadSheetData(cb) {
+  // Data is already loaded from flights.js — just return it
+  cb(FLIGHT_DATA || []);
+}
 
 // ═══════════════════════════════════════════════
 // MODAL
