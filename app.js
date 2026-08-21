@@ -141,6 +141,8 @@ function setupSheetAC(inpId) {
   });
 }
 
+
+
 // Setup autocomplete for ground transport address fields
 function setupAddressAC(inpId){
   const inp=$(inpId), drop=$(inpId+'-drop');
@@ -192,6 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var fromEl = document.getElementById('fl-from');
   if (fromEl) fromEl.value = 'San Francisco (SFO)';
   setupSheetAC('fl-d');
+  setupCountryAC();
   ['gt-from','gt-to'].forEach(setupAddressAC);
 });
 
@@ -308,19 +311,62 @@ function lookFlight() {
 // ═══════════════════════════════════════════════
 // PER DIEM TAB
 // ═══════════════════════════════════════════════
-// City -> country auto-detection map
-var CITY_COUNTRY = {
-  'Amsterdam':'NL','Athens':'GR','Auckland':'NZ','Bangalore':'IN','Bangkok':'TH',
-  'Barcelona':'ES','Beijing':'CN','Berlin':'DE','Brussels':'BE','Cape Town':'ZA',
-  'Copenhagen':'DK','Delhi':'IN','Dubai':'AE','Dublin':'IE','Frankfurt':'DE',
-  'Geneva':'CH','Helsinki':'FI','Hong Kong':'HK','Johannesburg':'ZA',
-  'Kuala Lumpur':'MY','Lisbon':'PT','London':'GB','Madrid':'ES','Melbourne':'AU',
-  'Mexico City':'MX','Milan':'IT','Montreal':'CA','Mumbai':'IN','Munich':'DE',
-  'Osaka':'JP','Oslo':'NO','Paris':'FR','Rome':'IT','Sao Paulo':'BR',
-  'Seoul':'KR','Shanghai':'CN','Singapore':'SG','Stockholm':'SE','Sydney':'AU',
-  'Taipei':'TW','Tel Aviv':'IL','Tokyo':'JP','Toronto':'CA','Vancouver':'CA',
-  'Vienna':'AT','Zurich':'CH'
+
+// Country code -> name (for autocomplete)
+var COUNTRY_NAMES = {
+  'AE':'UAE','AT':'Austria','AU':'Australia','BE':'Belgium','BR':'Brazil',
+  'CA':'Canada','CH':'Switzerland','CN':'China','DE':'Germany','DK':'Denmark',
+  'ES':'Spain','FI':'Finland','FR':'France','GB':'United Kingdom','GR':'Greece',
+  'HK':'Hong Kong','IE':'Ireland','IL':'Israel','IN':'India','IT':'Italy',
+  'JP':'Japan','KR':'South Korea','MX':'Mexico','MY':'Malaysia','NL':'Netherlands',
+  'NO':'Norway','NZ':'New Zealand','PT':'Portugal','SE':'Sweden','SG':'Singapore',
+  'TH':'Thailand','TW':'Taiwan','ZA':'South Africa'
 };
+
+// Country code -> available cities
+var COUNTRY_CITIES = {
+  'AE': ['Dubai'],
+  'AT': ['Vienna'],
+  'AU': ['Melbourne', 'Sydney'],
+  'BE': ['Brussels'],
+  'BR': ['Sao Paulo'],
+  'CA': ['Montreal', 'Toronto', 'Vancouver'],
+  'CH': ['Geneva', 'Zurich'],
+  'CN': ['Beijing', 'Shanghai'],
+  'DE': ['Berlin', 'Frankfurt', 'Munich'],
+  'DK': ['Copenhagen'],
+  'ES': ['Barcelona', 'Madrid'],
+  'FI': ['Helsinki'],
+  'FR': ['Paris'],
+  'GB': ['London'],
+  'GR': ['Athens'],
+  'HK': ['Hong Kong'],
+  'IE': ['Dublin'],
+  'IL': ['Tel Aviv'],
+  'IN': ['Bangalore', 'Delhi', 'Mumbai'],
+  'IT': ['Milan', 'Rome'],
+  'JP': ['Osaka', 'Tokyo'],
+  'KR': ['Seoul'],
+  'MX': ['Mexico City'],
+  'MY': ['Kuala Lumpur'],
+  'NL': ['Amsterdam'],
+  'NO': ['Oslo'],
+  'NZ': ['Auckland'],
+  'PT': ['Lisbon'],
+  'SE': ['Stockholm'],
+  'SG': ['Singapore'],
+  'TH': ['Bangkok'],
+  'TW': ['Taipei'],
+  'ZA': ['Cape Town', 'Johannesburg']
+};
+
+// City -> country (for lookup)
+var CITY_COUNTRY = {};
+Object.keys(COUNTRY_CITIES).forEach(function(code) {
+  COUNTRY_CITIES[code].forEach(function(city) {
+    CITY_COUNTRY[city] = code;
+  });
+});
 function showDomesticPerDiem() {
   $('pd-domestic').style.display = 'block';
 }
@@ -333,36 +379,84 @@ function pdToggle(type, el) {
 }
 
 function triggerPD(){
-  var city=$('ih-city').value.trim();
-  if(!city) return;
-  // Auto-detect country from city name
-  var autoCountry = CITY_COUNTRY[city] || CITY_COUNTRY[city.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1).toLowerCase():'';}).join(' ')];
-  if(autoCountry){
-    var sel=$('ih-ctry');
-    sel.value=autoCountry;
-    sel.style.color='var(--navy)';
+  // Called when city select changes — look up rates immediately
+  var city = $('ih-city') ? $('ih-city').value.trim() : '';
+  if(city) lookIntlPerDiem();
+}
+
+function setupCountryAC() {
+  var inp = $('ih-ctry-text');
+  var drop = $('ih-ctry-drop');
+  if(!inp || !drop) return;
+  var countries = Object.keys(COUNTRY_NAMES).map(function(code) {
+    return { code: code, name: COUNTRY_NAMES[code] };
+  }).sort(function(a,b){ return a.name.localeCompare(b.name); });
+
+  inp.addEventListener('input', function() {
+    var q = inp.value.trim().toLowerCase();
+    drop.innerHTML = '';
+    if(q.length < 1) { drop.style.display='none'; return; }
+    var hits = countries.filter(function(c) {
+      return c.name.toLowerCase().startsWith(q) || c.name.toLowerCase().includes(q);
+    }).slice(0, 8);
+    if(!hits.length) { drop.style.display='none'; return; }
+    hits.forEach(function(c) {
+      var div = document.createElement('div');
+      div.className = 'ac-item';
+      div.textContent = c.name;
+      div.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        inp.value = c.name;
+        $('ih-ctry').value = c.code;
+        drop.style.display = 'none';
+        // Populate city dropdown
+        populateCityDropdown(c.code);
+      });
+      drop.appendChild(div);
+    });
+    drop.style.display = 'block';
+  });
+  inp.addEventListener('blur', function() {
+    setTimeout(function() { drop.style.display='none'; }, 200);
+  });
+  inp.addEventListener('focus', function() {
+    if(inp.value.trim().length > 0) inp.dispatchEvent(new Event('input'));
+  });
+}
+
+function populateCityDropdown(countryCode) {
+  var cities = COUNTRY_CITIES[countryCode] || [];
+  var sel = $('ih-city');
+  var field = $('ih-city-field');
+  if(!sel || !field) return;
+  sel.innerHTML = '<option value="">Select a city...</option>';
+  cities.forEach(function(city) {
+    var opt = document.createElement('option');
+    opt.value = city;
+    opt.textContent = city;
+    sel.appendChild(opt);
+  });
+  field.style.display = 'block';
+  // If only one city, auto-select it
+  if(cities.length === 1) {
+    sel.value = cities[0];
+    lookIntlPerDiem();
   }
-  var ctry=$('ih-ctry').value;
-  if(city&&ctry) lookIntlPerDiem();
 }
 
 function lookIntlPerDiem(){
-  var city=$('ih-city').value.trim();
-  // Auto-detect country if not selected
-  if(!$('ih-ctry').value && city){
-    var autoC = CITY_COUNTRY[city] || CITY_COUNTRY[city.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1).toLowerCase():'';}).join(' ')];
-    if(autoC){ $('ih-ctry').value=autoC; $('ih-ctry').style.color='var(--navy)'; }
-  }
-  var ctry=$('ih-ctry').value;
+  var cityEl = $('ih-city');
+  var city = cityEl ? cityEl.value.trim() : '';
+  var ctry = $('ih-ctry').value;
   var err=$('ih-err');
   err.style.display='none';
-  if(!city){err.textContent='Please enter a city.';err.style.display='block';return;}
-  if(!ctry){err.textContent='Country not recognised. Please select from the dropdown.';err.style.display='block';return;}
+  if(!city){err.textContent='Please select a city.';err.style.display='block';return;}
   var pd=INTL_HOTELS.find(function(h){return h.city.toUpperCase()===city.toUpperCase()&&h.country===ctry;});
   if(!pd){
-    err.textContent='City not in our table. Use the DoD per diem link below for exact rates.';
+    err.innerHTML = '<b>' + city + '</b> is not in our DoD per diem table.'
+      + ' For unlisted cities, the DoD uses the nearest listed location's rate.'
+      + ' <a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">Look up the exact rate on travel.dod.mil →</a>';
     err.style.display='block';
-    $('pd-exp').style.display='block';
     return;
   }
   var label=city.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1):'';}).join(' ');
