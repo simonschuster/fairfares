@@ -308,6 +308,19 @@ function lookFlight() {
 // ═══════════════════════════════════════════════
 // PER DIEM TAB
 // ═══════════════════════════════════════════════
+// City -> country auto-detection map
+var CITY_COUNTRY = {
+  'Amsterdam':'NL','Athens':'GR','Auckland':'NZ','Bangalore':'IN','Bangkok':'TH',
+  'Barcelona':'ES','Beijing':'CN','Berlin':'DE','Brussels':'BE','Cape Town':'ZA',
+  'Copenhagen':'DK','Delhi':'IN','Dubai':'AE','Dublin':'IE','Frankfurt':'DE',
+  'Geneva':'CH','Helsinki':'FI','Hong Kong':'HK','Johannesburg':'ZA',
+  'Kuala Lumpur':'MY','Lisbon':'PT','London':'GB','Madrid':'ES','Melbourne':'AU',
+  'Mexico City':'MX','Milan':'IT','Montreal':'CA','Mumbai':'IN','Munich':'DE',
+  'Osaka':'JP','Oslo':'NO','Paris':'FR','Rome':'IT','Sao Paulo':'BR',
+  'Seoul':'KR','Shanghai':'CN','Singapore':'SG','Stockholm':'SE','Sydney':'AU',
+  'Taipei':'TW','Tel Aviv':'IL','Tokyo':'JP','Toronto':'CA','Vancouver':'CA',
+  'Vienna':'AT','Zurich':'CH'
+};
 function showDomesticPerDiem() {
   $('pd-domestic').style.display = 'block';
 }
@@ -321,16 +334,30 @@ function pdToggle(type, el) {
 
 function triggerPD(){
   var city=$('ih-city').value.trim();
+  if(!city) return;
+  // Auto-detect country from city name
+  var autoCountry = CITY_COUNTRY[city] || CITY_COUNTRY[city.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1).toLowerCase():'';}).join(' ')];
+  if(autoCountry){
+    var sel=$('ih-ctry');
+    sel.value=autoCountry;
+    sel.style.color='var(--navy)';
+  }
   var ctry=$('ih-ctry').value;
   if(city&&ctry) lookIntlPerDiem();
 }
 
 function lookIntlPerDiem(){
   var city=$('ih-city').value.trim();
+  // Auto-detect country if not selected
+  if(!$('ih-ctry').value && city){
+    var autoC = CITY_COUNTRY[city] || CITY_COUNTRY[city.split(' ').map(function(w){return w?w[0].toUpperCase()+w.slice(1).toLowerCase():'';}).join(' ')];
+    if(autoC){ $('ih-ctry').value=autoC; $('ih-ctry').style.color='var(--navy)'; }
+  }
   var ctry=$('ih-ctry').value;
   var err=$('ih-err');
   err.style.display='none';
-  if(!city||!ctry){err.textContent='Please enter city and country.';err.style.display='block';return;}
+  if(!city){err.textContent='Please enter a city.';err.style.display='block';return;}
+  if(!ctry){err.textContent='Country not recognised. Please select from the dropdown.';err.style.display='block';return;}
   var pd=INTL_HOTELS.find(function(h){return h.city.toUpperCase()===city.toUpperCase()&&h.country===ctry;});
   if(!pd){
     err.textContent='City not in our table. Use the DoD per diem link below for exact rates.';
@@ -342,8 +369,6 @@ function lookIntlPerDiem(){
   $('pd-city').textContent=label;
   $('pd-lodge').textContent=fmt(pd.dl);
   $('pd-mie').textContent=fmt(pd.dm);
-  $('pd-prop').textContent=fmt(Math.round(pd.dm*0.75));
-  $('pd-inc').textContent=fmt(Math.round(pd.dm*0.14));
   $('pd-tot').textContent=fmt(pd.dl+pd.dm);
   $('pd-exp').style.display='block';
   logUse('Per diem',city+', '+ctry);

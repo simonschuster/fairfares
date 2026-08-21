@@ -110,7 +110,7 @@
 <div class="tw">
 <div class="ttabs">
 <button class="ttab on" onclick="tab('fl',this)">Flight lookup</button>
-<button class="ttab" onclick="tab('pd',this)">International per diem rates</button>
+<button class="ttab" onclick="tab('pd',this)">Per diem rates</button>
 <button class="ttab" onclick="tab('gt',this)">Ground transport</button>
 <button class="ttab" onclick="tab('adv',this)">Travel advisories</button>
 </div>
@@ -190,9 +190,9 @@
 <div class="f"><label>City</label>
 <div class="ac-wrap"><input type="text" id="ih-city" placeholder="e.g. London" autocomplete="off" oninput="triggerPD()"><div class="ac-drop" id="ih-city-drop"></div></div>
 </div>
-<div class="f"><label>Country</label>
-<select id="ih-ctry" onchange="triggerPD()">
-<option value="">Select country...</option>
+<div class="f"><label>Country <span style="font-weight:400;color:var(--g400)">(auto-detected)</span></label>
+<select id="ih-ctry" onchange="triggerPD()" style="color:var(--g400)">
+<option value="">Auto-detected from city</option>
 <option value="GB">United Kingdom</option><option value="CA">Canada</option>
 <option value="AU">Australia</option><option value="DE">Germany</option>
 <option value="FR">France</option><option value="JP">Japan</option>
@@ -221,10 +221,8 @@
 <table class="pdt">
 <thead><tr><th>Component</th><th>Amount (USD)</th><th>How it works</th></tr></thead>
 <tbody>
-<tr><td>Maximum lodging</td><td id="pd-lodge">—</td><td>Nightly hotel cap. Claimed as actuals up to this limit.</td></tr>
-<tr><td>Local meals (M&amp;IE)</td><td id="pd-mie">—</td><td>Full daily meals allowance. International = per diem — no receipts needed up to this rate.</td></tr>
-<tr><td>Proportional meals</td><td id="pd-prop">—</td><td>For travel days (first/last day). ~75% of full M&amp;IE rate.</td></tr>
-<tr><td>Local incidental</td><td id="pd-inc">—</td><td>Tips and small fees — included within M&amp;IE total.</td></tr>
+<tr><td>Maximum lodging</td><td id="pd-lodge">—</td><td>Nightly hotel cap. Claimed as actuals up to this limit. May exceed up to 300% with exceptional approver approval and receipts.</td></tr>
+<tr><td>Daily M&amp;IE</td><td id="pd-mie">—</td><td>Daily meals &amp; incidentals allowance. No receipts required when claiming per diem rate.</td></tr>
 <tr><td>Maximum per diem</td><td id="pd-tot">—</td><td>Lodging + M&amp;IE combined daily maximum.</td></tr>
 </tbody>
 </table>
