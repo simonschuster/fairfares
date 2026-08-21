@@ -124,6 +124,7 @@ function tab(t,el){
   el.classList.add('on');
   $('tp-'+t).classList.add('on');
   document.querySelectorAll('.tp input').forEach(inp=>{
+    if(inp.id==='fl-from') return; // always keep SFO
     if(inp.type==='date'||inp.type==='text'||inp.type==='number') inp.value='';
   });
   document.querySelectorAll('.tp select').forEach(sel=>sel.selectedIndex=0);
@@ -140,10 +141,20 @@ function tab(t,el){
 function setupSheetAC(inpId) {
   const inp = $(inpId), drop = $(inpId + '-drop');
   if (!inp || !drop) return;
-  inp.addEventListener('input', function() {
-    const q = inp.value.trim().toLowerCase();
+  // Remove old listeners by cloning
+  const newInp = inp.cloneNode(true);
+  inp.parentNode.replaceChild(newInp, inp);
+  const ni = $(inpId);
+  ni.addEventListener('input', function() {
+    const q = ni.value.trim().toLowerCase();
     drop.innerHTML = '';
     if (q.length < 1) { drop.style.display = 'none'; return; }
+    if (!SHEET_DESTINATIONS.length) {
+      // Data still loading — show a hint
+      drop.innerHTML = '<div class="ac-item" style="color:var(--g400);cursor:default">Loading destinations…</div>';
+      drop.style.display = 'block';
+      return;
+    }
     const hits = SHEET_DESTINATIONS.filter(function(d) {
       return d.name.toLowerCase().startsWith(q) ||
              d.code.toLowerCase().startsWith(q) ||
@@ -156,17 +167,20 @@ function setupSheetAC(inpId) {
       div.innerHTML = '<span>' + d.code + '</span> — ' + d.name;
       div.addEventListener('mousedown', function(e) {
         e.preventDefault();
-        inp.value = d.display;
-        inp.dataset.code = d.code;
-        inp.dataset.name = d.name;
+        ni.value = d.display;
+        ni.dataset.code = d.code;
+        ni.dataset.name = d.name;
         drop.style.display = 'none';
       });
       drop.appendChild(div);
     });
     drop.style.display = 'block';
   });
-  inp.addEventListener('blur', function() {
+  ni.addEventListener('blur', function() {
     setTimeout(function() { drop.style.display = 'none'; }, 200);
+  });
+  ni.addEventListener('focus', function() {
+    if (ni.value.trim().length > 0) ni.dispatchEvent(new Event('input'));
   });
 }
 
@@ -217,6 +231,9 @@ function setupAddressAC(inpId){
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Set SFO label in FROM field
+  var fromEl = document.getElementById('fl-from');
+  if (fromEl) fromEl.value = 'San Francisco (SFO)';
   setupSheetAC('fl-d');
   ['gt-from','gt-to'].forEach(setupAddressAC);
 });
