@@ -303,6 +303,7 @@ function lookFlight() {
             .sort(function(a,b){return a-b;}).join(', ') + '-night trips.';
       } else {
         nf.textContent = destName + ' is not in our current dataset. We add new destinations regularly.';
+        logUse('Flight lookup', 'SFO→' + destName + ' (not found)', nights);
       }
       return;
     }
