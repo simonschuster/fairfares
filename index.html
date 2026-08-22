@@ -232,8 +232,22 @@
 <button class="lbtn" id="gt-btn" onclick="calcGT()">Get fare estimates</button>
 <div class="rbox" id="gt-res">
 <div class="rlbl" id="gt-lbl"></div>
-<div class="map-wrap" id="gt-map-wrap">
-<iframe id="gt-map" src="" title="Route map"></iframe>
+<div id="gt-map-wrap" style="display:none;background:#f8f9fa;border:1.5px solid var(--g200);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1rem">
+  <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+    <div style="flex:1;min-width:120px">
+      <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--g400);margin-bottom:3px">From</div>
+      <div id="gt-route-from" style="font-weight:600;color:var(--navy);font-size:.95rem"></div>
+    </div>
+    <div style="font-size:1.4rem;color:var(--g300)">→</div>
+    <div style="flex:1;min-width:120px">
+      <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--g400);margin-bottom:3px">To</div>
+      <div id="gt-route-to" style="font-weight:600;color:var(--navy);font-size:.95rem"></div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--g400);margin-bottom:3px">Est. distance</div>
+      <div id="gt-route-miles" style="font-weight:600;color:var(--teal);font-size:.95rem"></div>
+    </div>
+  </div>
 </div>
 <div class="gt-tabs">
 <button class="gt-tab on" onclick="gtTab('taxi',this)">Taxi</button>
@@ -253,7 +267,7 @@
 <p class="rnote" style="margin-top:6px">Source: <a href="https://www.lyft.com/rider/fare-estimate" target="_blank">Lyft published rate card</a>. Use the lower of Uber X or Lyft as the G-28 reimbursement benchmark.</p>
 </div>
 <div class="gt-verdict">
-<div class="gt-vt" id="gt-vt"></div>
+<div class="gt-vt" id="gt-vt" style="font-weight:700;font-size:1rem;color:var(--navy);margin-bottom:.4rem"></div>
 <div class="gt-vb" id="gt-vb"></div>
 <button class="pdf-btn" onclick="printTab('gt')" style="margin-top:10px">Save as PDF</button>
 </div>
@@ -272,7 +286,7 @@
 <button class="aq" onclick="qa(this)">India</button><button class="aq" onclick="qa(this)">Russia</button>
 </div>
 <div class="g2" style="max-width:500px">
-<div class="f"><label>Country name</label><input type="text" id="adv-in" placeholder="e.g. Japan, France, Mexico" onkeydown="if(event.key==='Enter')lookAdv()"></div>
+<div class="f"><label>Country name</label><div class="ac-wrap"><input type="text" id="adv-in" placeholder="e.g. Japan, France, Mexico" autocomplete="off" onkeydown="if(event.key==='Enter')lookAdv()"><div class="ac-drop" id="adv-in-drop"></div></div></div>
 <div class="f" style="display:flex;align-items:flex-end"><button class="lbtn" style="margin-top:0" onclick="lookAdv()">Look up advisory</button></div>
 </div>
 <div class="errmsg" id="adv-err"></div>

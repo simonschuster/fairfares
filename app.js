@@ -195,6 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (fromEl) fromEl.value = 'San Francisco (SFO)';
   setupSheetAC('fl-d');
   setupCountryAC();
+  setupAdvAC();
   ['gt-from','gt-to'].forEach(setupAddressAC);
 });
 
@@ -582,13 +583,13 @@ async function calcGT(){
   $('gt-lyft-tot').textContent=fmt(lTotal);
   const lowest=Math.min(tTotal,uTotal,lTotal);
   const lowestName=lowest===tTotal?'Taxi':lowest===uTotal?'Uber X':'Lyft';
-  $('gt-vt').textContent='G-28 benchmark: '+fmt(lowest)+' ('+lowestName+')';
-  $('gt-vb').textContent='If a rental car was used, the total cost (rental + gas + parking + tolls) must be less than '+fmt(lowest)+' to be fully reimbursable.';
+  $('gt-vt').textContent='Benchmark range: '+fmt(Math.min(tTotal,uTotal,lTotal))+' – '+fmt(Math.max(tTotal,uTotal,lTotal));
+  $('gt-vb').textContent='Taxi, Uber, and Lyft are all acceptable. Use the lowest fare shown as the G-28 reimbursement benchmark. If a rental car was used, the total cost (rental + gas + parking + tolls) must not exceed the lowest fare shown above to be fully reimbursable.';
   $('gt-lbl').textContent=fromVal+' → '+toVal;
-  const lat1=gtFromCoord.lat,lon1=gtFromCoord.lon,lat2=gtToCoord.lat,lon2=gtToCoord.lon;
-  const minLat=Math.min(lat1,lat2)-0.02, maxLat=Math.max(lat1,lat2)+0.02;
-  const minLon=Math.min(lon1,lon2)-0.02, maxLon=Math.max(lon1,lon2)+0.02;
-  $('gt-map').src='https://www.openstreetmap.org/export/embed.html?bbox='+minLon+','+minLat+','+maxLon+','+maxLat+'&layer=mapnik&marker='+lat1+','+lon1;
+  // Simple route summary — no map iframe
+  $('gt-route-from').textContent = fromVal;
+  $('gt-route-to').textContent = toVal;
+  $('gt-route-miles').textContent = miles + ' mi · ~' + mins + ' min';
   $('gt-map-wrap').style.display='block';
   $('gt-res').classList.add('show');
   logUse('Ground transport',fromVal+' to '+toVal);
@@ -605,6 +606,40 @@ function gtTab(t,el){
 // ═══════════════════════════════════════════════
 // TRAVEL ADVISORIES
 // ═══════════════════════════════════════════════
+function setupAdvAC() {
+  var inp = document.getElementById('adv-in');
+  var drop = document.getElementById('adv-in-drop');
+  if(!inp || !drop) return;
+  var countries = Object.keys(ADV_DATA).map(function(k) {
+    return k.charAt(0).toUpperCase() + k.slice(1);
+  }).sort();
+  inp.addEventListener('input', function() {
+    var q = inp.value.trim().toLowerCase();
+    drop.innerHTML = '';
+    if(q.length < 1) { drop.style.display='none'; return; }
+    var hits = countries.filter(function(c) {
+      return c.toLowerCase().startsWith(q) || c.toLowerCase().includes(q);
+    }).slice(0, 8);
+    if(!hits.length) { drop.style.display='none'; return; }
+    hits.forEach(function(c) {
+      var div = document.createElement('div');
+      div.className = 'ac-item';
+      div.textContent = c;
+      div.addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        inp.value = c;
+        drop.style.display = 'none';
+        lookAdv();
+      });
+      drop.appendChild(div);
+    });
+    drop.style.display = 'block';
+  });
+  inp.addEventListener('blur', function() {
+    setTimeout(function() { drop.style.display='none'; }, 200);
+  });
+}
+
 function lookAdv(){
   var raw=document.getElementById('adv-in').value.trim();
   var input=raw.toLowerCase();
