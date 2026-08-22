@@ -454,7 +454,7 @@ function lookIntlPerDiem(){
   var pd=INTL_HOTELS.find(function(h){return h.city.toUpperCase()===city.toUpperCase()&&h.country===ctry;});
   if(!pd){
     err.innerHTML = '<b>' + city + '</b> is not in our DoD per diem table.'
-      + ' For unlisted cities, the DoD uses the nearest listed location's rate.'
+      + ' For unlisted cities, the DoD uses the nearest listed location\'s rate.'
       + ' <a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">Look up the exact rate on travel.dod.mil →</a>';
     err.style.display='block';
     return;
