@@ -202,13 +202,21 @@ document.addEventListener('DOMContentLoaded', function() {
 // ═══════════════════════════════════════════════
 // GOOGLE FORM LOGGING
 // ═══════════════════════════════════════════════
-const FORM='https://docs.google.com/forms/d/e/1FAIpQLSfkYiN7-jMuQePAfxmu4oGf0ieKLP--6F9KxvGdTyBZl-6GSA/formResponse';
-function logUse(type,route){
+const USAGE_LOG_ENDPOINT='https://script.google.com/macros/s/AKfycbzN2r9IVC27-KJkwLWSTSZkjdqwHe_gITjz5TVxfdh5m4Nc6sDHSio12Ji0k1J-I7r0/exec';
+
+function logUse(type,route,tripDuration){
   try{
-    const i=localStorage.getItem('ff_inst')||'Unknown';
-    const d=localStorage.getItem('ff_dept')||'Unknown';
-    const url=FORM+'?entry.966295239='+encodeURIComponent(i)+'&entry.145688488='+encodeURIComponent(d)+'&entry.1072801797='+encodeURIComponent(type)+'&entry.1974151503='+encodeURIComponent(route)+'&entry.553755023='+new Date().toISOString().split('T')[0];
-    fetch(url,{method:'POST',mode:'no-cors'}).catch(()=>{});
+    const inst=localStorage.getItem('ff_inst')||'Unknown';
+    const payload={
+      institution:inst,
+      lookupType:type,
+      destination:route,
+      tripDuration:tripDuration||''
+    };
+    fetch(USAGE_LOG_ENDPOINT,{
+      method:'POST',
+      body:JSON.stringify(payload)
+    }).catch(()=>{});
   }catch(e){}
 }
 
@@ -318,7 +326,7 @@ function lookFlight() {
       + '<br><small style="color:var(--g400)">Prices collected daily via automated search. Actual fares vary by booking date and availability.</small>';
 
     res.classList.add('show');
-    logUse('Flight lookup', 'SFO→' + best.destCode + ' ' + nights + 'n');
+    logUse('Flight lookup', 'SFO→' + best.destCode, nights);
   });
 }
 
