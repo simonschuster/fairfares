@@ -213,6 +213,19 @@ function logUse(type,route){
 }
 
 // ═══════════════════════════════════════════════
+// FEEDBACK FORM
+// ═══════════════════════════════════════════════
+function openFeedbackForm(destination) {
+  const inst = localStorage.getItem('ff_inst') || '';
+  const feedbackFormId = '1FAIpQLSdqsL2QOAZz5Cf6FAwosiqfbA1upYOwuh8jdMJg2944KeHUlQ';
+  const feedbackUrl = 'https://docs.google.com/forms/d/e/' + feedbackFormId + '/viewform?' +
+    'entry.467677869=' + encodeURIComponent(destination || '') +
+    '&entry.1640901322=' + encodeURIComponent('') +
+    '&entry.585384888=' + encodeURIComponent(inst);
+  window.open(feedbackUrl, '_blank');
+}
+
+// ═══════════════════════════════════════════════
 // FLIGHT LOOKUP — from Google Sheet
 // ═══════════════════════════════════════════════
 function lookFlight() {
