@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ═══════════════════════════════════════════════
 // GOOGLE FORM LOGGING
 // ═══════════════════════════════════════════════
-const USAGE_LOG_ENDPOINT='https://script.google.com/macros/s/AKfycbzN2r9IVC27-KJkwLWSTSZkjdqwHe_gITjz5TVxfdh5m4Nc6sDHSio12Ji0k1J-I7r0/exec';
+const USAGE_LOG_ENDPOINT='https://script.google.com/macros/s/AKfycbwDLCie-tqsC98cKMLxYsCYBVfLTm0gfJE-6i601ZlkBLRGcOo0AwRehTVu8x8RRoPy/exec';
 
 function logUse(type,route,tripDuration){
   try{
