@@ -29,43 +29,42 @@ nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;ju
 .hero{background:var(--navy);padding:3.5rem 2rem 2.5rem;text-align:center}
 .hero-label{font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem}
 .hero h1{font-family:var(--fd);font-size:clamp(2rem,4vw,3rem);color:var(--white);line-height:1.15;margin-bottom:1rem}
-.hero p{color:var(--g400);font-size:1rem;max-width:540px;margin:0 auto 2rem;line-height:1.7}
+.hero p{color:var(--g400);font-size:1rem;max-width:640px;margin:0 auto 2rem;line-height:1.7}
 .stats-row{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap}
 .stat{text-align:center}
 .stat-n{font-family:var(--fd);font-size:2.2rem;color:var(--teal);line-height:1}
 .stat-l{font-size:.75rem;color:var(--g400);text-transform:uppercase;letter-spacing:.08em;margin-top:.3rem}
 
-/* MAP SECTION */
-.map-section{padding:2.5rem 1.5rem}
-.section-head{text-align:center;margin-bottom:1.5rem}
-.section-head h2{font-family:var(--fd);font-size:1.75rem;color:var(--navy);margin-bottom:.4rem}
-.section-head p{color:var(--g600);font-size:.9rem}
+/* CONTENT SECTION */
+.content-section{padding:3rem 2rem;max-width:1200px;margin:0 auto}
+.section-title{font-family:var(--fd);font-size:1.5rem;color:var(--navy);margin-bottom:2rem;text-align:center}
 
-.legend{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
-.leg-item{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--g600)}
-.leg-dot{width:10px;height:10px;border-radius:50%}
-.leg-line{width:28px;height:2px;border-radius:2px}
+.destinations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:3rem}
+.dest-card{background:var(--white);border:1px solid var(--g200);border-radius:10px;padding:1.25rem;text-align:center;transition:all .2s}
+.dest-card:hover{border-color:var(--teal);box-shadow:0 4px 12px rgba(13,158,138,.12)}
+.dest-card-code{font-family:monospace;font-weight:600;color:var(--teal);font-size:1.2rem;margin-bottom:.4rem}
+.dest-card-name{color:var(--navy);font-size:.9rem;font-weight:500}
 
-#map-wrap{background:linear-gradient(160deg,#0a1628 0%,#0d2040 60%,#0a1a35 100%);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative;user-select:none}
-#map-canvas{width:100%;display:block;cursor:crosshair}
+.info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:3rem}
+.info-card{background:var(--white);border:1px solid var(--g200);border-radius:10px;padding:1.5rem}
+.info-card h3{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
+.info-card p{color:var(--g600);font-size:.9rem;line-height:1.6;margin-bottom:.8rem}
+.info-card p:last-child{margin-bottom:0}
+.info-card strong{color:var(--navy)}
 
-/* TOOLTIP */
-#tooltip{position:fixed;background:var(--navy);color:var(--white);padding:.6rem .9rem;border-radius:8px;font-size:.8rem;pointer-events:none;display:none;z-index:200;border:1px solid rgba(13,158,138,.4);max-width:220px;line-height:1.5}
-#tooltip strong{color:var(--teal)}
+.feature-list{display:flex;flex-direction:column;gap:.8rem}
+.feature{display:flex;align-items:flex-start;gap:1rem}
+.feature-icon{font-size:1.5rem;flex-shrink:0}
+.feature-text{font-size:.9rem;color:var(--g600);line-height:1.6}
+.feature-text strong{color:var(--navy)}
 
-/* INFO CARDS */
-.cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;max-width:1400px;margin:2rem auto 0;padding:0 1.5rem 3rem}@media(max-width:900px){.cards-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.cards-grid{grid-template-columns:1fr}}
-.card{background:var(--white);border-radius:12px;padding:1.5rem;border:1px solid var(--g200)}
-.card h3{font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
-.airline-list,.hotel-brand-list{display:flex;flex-wrap:wrap;gap:.5rem}
-.airline-chip,.brand-chip{background:var(--g50);border:1px solid var(--g200);border-radius:20px;padding:.3rem .75rem;font-size:.78rem;color:var(--g800)}
-.airline-chip.has-data,.brand-chip.has-data{background:#e6f7f5;border-color:#0D9E8A;color:var(--navy)}
-.campus-list{list-style:none}
-.campus-list li{display:flex;align-items:center;gap:.6rem;padding:.4rem 0;border-bottom:1px solid var(--g50);font-size:.875rem}
-.campus-list li:last-child{border-bottom:none}
-.campus-code{font-size:.7rem;font-weight:600;background:var(--navy);color:var(--white);border-radius:4px;padding:.15rem .4rem;font-family:monospace}
-.update-note{background:#e6f7f5;border-radius:8px;padding:.75rem 1rem;font-size:.8rem;color:#0a5c51;margin-top:1rem;display:flex;align-items:center;gap:.5rem}
-.update-note::before{content:"🔄";font-size:1rem}
+.note{background:#f0f9f8;border-left:3px solid var(--teal);border-radius:6px;padding:1rem 1.25rem;font-size:.85rem;color:#0a5c51;margin-top:2rem}
+.note strong{color:#0a3d38}
+
+/* FOOTER */
+footer{background:var(--navy);padding:2rem;text-align:center;color:var(--g400);font-size:.8rem}
+footer a{color:var(--teal);text-decoration:none}
+footer a:hover{color:var(--teal2)}
 </style>
 </head>
 <body>
@@ -81,478 +80,112 @@ nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;ju
 
 <div class="hero">
   <div class="hero-label">Data Coverage</div>
-  <h1>Worldwide flight and hotel coverage</h1>
-  <p>FairFares tracks 108 flight routes and 58 hotel cities worldwide, updated every 30 hours from live market data. Bright routes have observed price data — faded routes are actively being collected.</p>
+  <h1>Travel cost benchmarking for UC/UCSF</h1>
+  <p>FairFares tracks flight prices from SFO to 36 destinations, plus DoD per diem rates, ground transport estimates, and travel advisories. Data is collected daily and updated weekly.</p>
   <div class="stats-row">
-    <div class="stat"><div class="stat-n">108</div><div class="stat-l">Flight routes</div></div>
-    <div class="stat"><div class="stat-n">58</div><div class="stat-l">Hotel cities</div></div>
-    <div class="stat"><div class="stat-n">6</div><div class="stat-l">Origin airports</div></div>
-    <div class="stat"><div class="stat-n">30h</div><div class="stat-l">Update cycle</div></div>
+    <div class="stat"><div class="stat-n">36</div><div class="stat-l">Flight destinations</div></div>
+    <div class="stat"><div class="stat-n">1–7</div><div class="stat-l">Trip durations</div></div>
+    <div class="stat"><div class="stat-n">190+</div><div class="stat-l">Countries (advisory)</div></div>
+    <div class="stat"><div class="stat-n">Daily</div><div class="stat-l">Price collection</div></div>
   </div>
 </div>
 
-<div class="map-section">
-  <div class="section-head">
-    <h2>Route map</h2>
-    <p>Hover over any airport or route for details</p>
+<div class="content-section">
+  <h2 class="section-title">Flight destinations</h2>
+  <div class="destinations-grid">
+    <div class="dest-card"><div class="dest-card-code">ATL</div><div class="dest-card-name">Atlanta</div></div>
+    <div class="dest-card"><div class="dest-card-code">AUS</div><div class="dest-card-name">Austin</div></div>
+    <div class="dest-card"><div class="dest-card-code">BOS</div><div class="dest-card-name">Boston</div></div>
+    <div class="dest-card"><div class="dest-card-code">ORD</div><div class="dest-card-name">Chicago</div></div>
+    <div class="dest-card"><div class="dest-card-code">DEN</div><div class="dest-card-name">Denver</div></div>
+    <div class="dest-card"><div class="dest-card-code">DTW</div><div class="dest-card-name">Detroit</div></div>
+    <div class="dest-card"><div class="dest-card-code">DFW</div><div class="dest-card-name">Dallas/Fort Worth</div></div>
+    <div class="dest-card"><div class="dest-card-code">IAH</div><div class="dest-card-name">Houston</div></div>
+    <div class="dest-card"><div class="dest-card-code">HNL</div><div class="dest-card-name">Honolulu</div></div>
+    <div class="dest-card"><div class="dest-card-code">LAS</div><div class="dest-card-name">Las Vegas</div></div>
+    <div class="dest-card"><div class="dest-card-code">LAX</div><div class="dest-card-name">Los Angeles</div></div>
+    <div class="dest-card"><div class="dest-card-code">MIA</div><div class="dest-card-name">Miami</div></div>
+    <div class="dest-card"><div class="dest-card-code">MSP</div><div class="dest-card-name">Minneapolis</div></div>
+    <div class="dest-card"><div class="dest-card-code">MSY</div><div class="dest-card-name">New Orleans</div></div>
+    <div class="dest-card"><div class="dest-card-code">JFK</div><div class="dest-card-name">New York</div></div>
+    <div class="dest-card"><div class="dest-card-code">PHX</div><div class="dest-card-name">Phoenix</div></div>
+    <div class="dest-card"><div class="dest-card-code">PHL</div><div class="dest-card-name">Philadelphia</div></div>
+    <div class="dest-card"><div class="dest-card-code">PIT</div><div class="dest-card-name">Pittsburgh</div></div>
+    <div class="dest-card"><div class="dest-card-code">PDX</div><div class="dest-card-name">Portland</div></div>
+    <div class="dest-card"><div class="dest-card-code">SAN</div><div class="dest-card-name">San Diego</div></div>
+    <div class="dest-card"><div class="dest-card-code">SAT</div><div class="dest-card-name">San Antonio</div></div>
+    <div class="dest-card"><div class="dest-card-code">SEA</div><div class="dest-card-name">Seattle</div></div>
+    <div class="dest-card"><div class="dest-card-code">ANC</div><div class="dest-card-name">Anchorage</div></div>
+    <div class="dest-card"><div class="dest-card-code">LHR</div><div class="dest-card-name">London</div></div>
+    <div class="dest-card"><div class="dest-card-code">CDG</div><div class="dest-card-name">Paris</div></div>
+    <div class="dest-card"><div class="dest-card-code">AMS</div><div class="dest-card-name">Amsterdam</div></div>
+    <div class="dest-card"><div class="dest-card-code">BRU</div><div class="dest-card-name">Brussels</div></div>
+    <div class="dest-card"><div class="dest-card-code">VIE</div><div class="dest-card-name">Vienna</div></div>
+    <div class="dest-card"><div class="dest-card-code">PRG</div><div class="dest-card-name">Prague</div></div>
+    <div class="dest-card"><div class="dest-card-code">TXL</div><div class="dest-card-name">Berlin</div></div>
+    <div class="dest-card"><div class="dest-card-code">ZRH</div><div class="dest-card-name">Zurich</div></div>
+    <div class="dest-card"><div class="dest-card-code">ZRH</div><div class="dest-card-name">Geneva</div></div>
+    <div class="dest-card"><div class="dest-card-code">DUB</div><div class="dest-card-name">Dublin</div></div>
+    <div class="dest-card"><div class="dest-card-code">CPH</div><div class="dest-card-name">Copenhagen</div></div>
+    <div class="dest-card"><div class="dest-card-code">NRT</div><div class="dest-card-name">Tokyo</div></div>
+    <div class="dest-card"><div class="dest-card-code">SYD</div><div class="dest-card-name">Sydney</div></div>
   </div>
-  <div class="legend">
-    <div class="leg-item"><div class="leg-line" style="background:var(--teal)"></div>Route with live data</div>
-    <div class="leg-item"><div class="leg-line" style="background:rgba(255,255,255,.15)"></div>Data being collected</div>
-    <div class="leg-item"><div class="leg-dot" style="background:var(--teal)"></div>Origin airport</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(255,255,255,.4)"></div>Destination airport</div>
-    <div style="width:1px;background:rgba(255,255,255,.15);margin:0 .5rem"></div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(13,158,138,0.6);border-radius:2px"></div>Advisory L1</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(255,193,7,0.7);border-radius:2px"></div>Advisory L2</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(255,136,0,0.7);border-radius:2px"></div>Advisory L3</div>
-    <div class="leg-item"><div class="leg-dot" style="background:rgba(220,53,69,0.7);border-radius:2px"></div>Advisory L4</div>
-  </div>
-  <div id="map-wrap">
-    
-  </div>
-</div>
 
-<div id="tooltip"></div>
-
-<div class="cards-grid">
-  <div class="card">
-    <h3>Airlines tracked</h3>
-    <div class="airline-list">
-      <span class="airline-chip has-data">American</span>
-      <span class="airline-chip has-data">Delta</span>
-      <span class="airline-chip has-data">United</span>
-      <span class="airline-chip has-data">Alaska</span>
-      <span class="airline-chip has-data">JetBlue</span>
-      <span class="airline-chip has-data">British Airways</span>
-      <span class="airline-chip has-data">Virgin Atlantic</span>
-      <span class="airline-chip has-data">Air Canada</span>
-      <span class="airline-chip has-data">Aer Lingus</span>
-      <span class="airline-chip has-data">Frontier</span>
-      <span class="airline-chip">Southwest</span>
-      <span class="airline-chip">Lufthansa</span>
-      <span class="airline-chip">KLM</span>
-      <span class="airline-chip">Air France</span>
-      <span class="airline-chip">JAL</span>
-      <span class="airline-chip">ANA</span>
-      <span class="airline-chip">Singapore Airlines</span>
-      <span class="airline-chip">Qantas</span>
-      <span class="airline-chip">Air India</span>
+  <div class="info-cards">
+    <div class="info-card">
+      <h3>Flight pricing</h3>
+      <p><strong>Economy return fares from SFO</strong> to all listed destinations, collected daily from Google Flights.</p>
+      <p>Benchmarks cover <strong>1–7 night trips</strong>, capturing the most common UC/UCSF travel patterns.</p>
+      <p>Prices reflect <strong>round-trip economy fares</strong> for specified departure dates and return dates.</p>
     </div>
-    <div class="update-note">Teal = confirmed in live data. All carriers visible on Google Flights are captured.</div>
-  </div>
 
-  <div class="card">
-    <h3>Origin airports covered</h3>
-    <ul class="campus-list">
-      <li><span class="campus-code">SFO</span> San Francisco Bay Area — primary gateway</li>
-      <li><span class="campus-code">OAK</span> Oakland — East Bay alternate</li>
-      <li><span class="campus-code">LAX</span> Los Angeles — Southern California</li>
-      <li><span class="campus-code">SAN</span> San Diego</li>
-      <li><span class="campus-code">SMF</span> Sacramento — Central California</li>
-      <li><span class="campus-code">SNA</span> Orange County — Southern California alternate</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>Hotel brands tracked</h3>
-    <div class="hotel-brand-list">
-      <span class="brand-chip has-data">Marriott</span>
-      <span class="brand-chip has-data">JW Marriott</span>
-      <span class="brand-chip has-data">Westin</span>
-      <span class="brand-chip has-data">Hilton</span>
-      <span class="brand-chip has-data">Grand Hyatt</span>
-      <span class="brand-chip has-data">Hyatt Regency</span>
-      <span class="brand-chip has-data">Sheraton</span>
-      <span class="brand-chip has-data">Crowne Plaza</span>
-      <span class="brand-chip has-data">InterContinental</span>
-      <span class="brand-chip has-data">Le Méridien</span>
-      <span class="brand-chip has-data">Sofitel</span>
-      <span class="brand-chip has-data">Radisson</span>
-      <span class="brand-chip">Four Seasons</span>
-      <span class="brand-chip">Kimpton</span>
-      <span class="brand-chip">Renaissance</span>
+    <div class="info-card">
+      <h3>Per diem allowances</h3>
+      <p>FairFares integrates <strong>DoD Foreign Service Per Diem Rates</strong> for all countries worldwide.</p>
+      <p>Rates are <strong>updated quarterly</strong> and reflect official U.S. government allowances for lodging and meals.</p>
+      <p>Lookup by country to see the <strong>daily allowance breakdown</strong> for your destination.</p>
     </div>
-    <div class="update-note">4★ and 5★ only. Ranked by proximity to universities and conference venues.</div>
+
+    <div class="info-card">
+      <h3>Ground transport</h3>
+      <p>Estimate <strong>Uber, Lyft, and taxi fares</strong> between any two locations worldwide using OpenStreetMap geocoding.</p>
+      <p>Estimates include <strong>distance, time, and base fares</strong> specific to each city where available.</p>
+      <p>Useful for <strong>first/last mile costs</strong> and ground transport budget planning.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>Travel advisories</h3>
+      <p>Access <strong>current U.S. State Department travel advisories</strong> for every country, updated real-time.</p>
+      <p>Advisories show <strong>risk levels from L1 (exercise caution) to L4 (do not travel)</strong>.</p>
+      <p>Integrated into the tool to help travelers make <strong>informed policy decisions</strong> about destination safety.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>Data collection</h3>
+      <p>Flight data is <strong>collected daily</strong> via automated searches on Google Flights, starting 30 days in advance.</p>
+      <p>Each destination receives <strong>multiple data points per trip duration</strong> to capture price variance.</p>
+      <p>Usage data is logged to help identify <strong>underserved destinations</strong> for priority expansion.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>How it helps</h3>
+      <p>When UC/UCSF travelers deviate from authorized dates for personal reasons, they need <strong>the cost of a compliant flight for comparison</strong>.</p>
+      <p>FairFares pre-collects that benchmark data and makes it <strong>instantly available at lookup time</strong>, eliminating the need for retroactive research.</p>
+      <p>Supports <strong>travel policy compliance</strong> and transparent decision-making for institutional travel offices.</p>
+    </div>
   </div>
 
-  <div class="card">
-    <h3>Data methodology</h3>
-    <p style="font-size:.875rem;color:var(--g600);line-height:1.7">
-      Flight prices are sourced from <strong style="color:var(--navy)">Google Flights</strong> via automated daily scraping — the same data you see when searching manually. Hotel rates come from <strong style="color:var(--navy)">Booking.com</strong> filtered to 4★ and 5★ properties only.<br><br>
-      We capture the <strong style="color:var(--navy)">high-end benchmark</strong> — the upper range of available fares — because travel expense policies typically require the most economical reasonable fare, and a high-end benchmark gives reviewers a defensible ceiling.<br><br>
-      Data is collected every 30 hours. Because airfares and hotel rates change daily, we capture current market prices as a benchmark for what a trip <em>should have cost</em> — giving reviewers a defensible, up-to-date reference point for past travel.
-    </p>
+  <div class="note">
+    <strong>Data is growing:</strong> Missing a destination? Use the "Request a destination" button on the lookup page. High-demand routes are prioritized in our daily collection runs.
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/topojson@3.0.2/dist/topojson.min.js"></script>
-<script>
-const AIRPORTS = {
-  SFO:[37.6213,-122.379,'San Francisco'],OAK:[37.7213,-122.2208,'Oakland'],
-  LAX:[33.9425,-118.4081,'Los Angeles'],SAN:[32.7338,-117.1933,'San Diego'],
-  SMF:[38.6954,-121.5908,'Sacramento'],SNA:[33.6757,-117.8682,'Orange County'],
-  ORD:[41.9742,-87.9073,'Chicago'],JFK:[40.6413,-73.7781,'New York JFK'],
-  EWR:[40.6895,-74.1745,'New York Newark'],BOS:[42.3656,-71.0096,'Boston'],
-  DCA:[38.8521,-77.0377,'Washington DC'],IAD:[38.9531,-77.4565,'Washington Dulles'],
-  ATL:[33.6407,-84.4277,'Atlanta'],MIA:[25.7959,-80.287,'Miami'],
-  SEA:[47.4502,-122.3088,'Seattle'],DEN:[39.8561,-104.6737,'Denver'],
-  DFW:[32.8998,-97.0403,'Dallas'],IAH:[29.9902,-95.3368,'Houston'],
-  PHX:[33.4373,-112.0078,'Phoenix'],MSP:[44.8848,-93.2223,'Minneapolis'],
-  DTW:[42.2162,-83.3554,'Detroit'],PHL:[39.8744,-75.2424,'Philadelphia'],
-  RDU:[35.8776,-78.7875,'Raleigh Durham'],PDX:[45.5898,-122.5951,'Portland'],
-  SLC:[40.7884,-111.9778,'Salt Lake City'],STL:[38.7487,-90.37,'St Louis'],
-  MSY:[29.9934,-90.258,'New Orleans'],CLT:[35.214,-80.9431,'Charlotte'],
-  MCO:[28.4312,-81.3081,'Orlando'],TPA:[27.9755,-82.5332,'Tampa'],
-  LAS:[36.084,-115.1537,'Las Vegas'],HNL:[21.3245,-157.9251,'Honolulu'],
-  OGG:[20.8986,-156.4305,'Maui'],
-  LHR:[51.4775,-0.4614,'London Heathrow'],LGW:[51.1537,-0.1821,'London Gatwick'],
-  CDG:[49.0097,2.5479,'Paris'],FRA:[50.0379,8.5622,'Frankfurt'],
-  AMS:[52.3105,4.7683,'Amsterdam'],ZRH:[47.4582,8.5555,'Zurich'],
-  MUC:[48.3537,11.775,'Munich'],FCO:[41.8003,12.2389,'Rome'],
-  BCN:[41.2974,2.0833,'Barcelona'],MAD:[40.4983,-3.5676,'Madrid'],
-  CPH:[55.618,12.656,'Copenhagen'],ARN:[59.6519,17.9186,'Stockholm'],
-  DUB:[53.4213,-6.27,'Dublin'],VIE:[48.1103,16.5697,'Vienna'],
-  MXP:[45.6301,8.7231,'Milan'],
-  NRT:[35.772,140.3929,'Tokyo Narita'],HND:[35.5494,139.7798,'Tokyo Haneda'],
-  ICN:[37.4602,126.4407,'Seoul'],SIN:[1.3644,103.9915,'Singapore'],
-  SYD:[-33.9399,151.1753,'Sydney'],MEL:[-37.669,144.841,'Melbourne'],
-  BOM:[19.0896,72.8656,'Mumbai'],DEL:[28.5562,77.1,'Delhi'],
-  BLR:[13.1986,77.7066,'Bangalore'],TPE:[25.0777,121.2328,'Taipei'],
-  YYZ:[43.6777,-79.6248,'Toronto'],YVR:[49.1967,-123.1815,'Vancouver'],
-  YUL:[45.4706,-73.7408,'Montreal'],
-  MEX:[19.4363,-99.0721,'Mexico City'],GRU:[-23.4356,-46.4731,'Sao Paulo'],
-  DXB:[25.2532,55.3657,'Dubai'],TLV:[31.99,34.887,'Tel Aviv'],
-};
+<footer>
+  <div style="margin-bottom:1rem">
+    © 2026 FairFares. Built for UC/UCSF travel compliance. <a href="index.html">Look up a fare</a> • <a href="mailto:hello@getfairfares.com">Contact</a>
+  </div>
+  <div>Data sources: Google Flights · U.S. State Department (advisories) · DoD Foreign Service Per Diem Rates · OpenStreetMap</div>
+</footer>
 
-const UC_ORIGINS = new Set(['SFO','OAK','LAX','SAN','SMF','SNA']);
-
-const ROUTES = [
-  ['SFO','ORD',1],['SFO','JFK',1],['SFO','EWR',0],['SFO','BOS',0],
-  ['SFO','DCA',0],['SFO','IAD',0],['SFO','ATL',0],['SFO','MIA',0],
-  ['SFO','SEA',0],['SFO','DEN',0],['SFO','DFW',0],['SFO','IAH',0],
-  ['SFO','PHX',0],['SFO','MSP',0],['SFO','DTW',0],['SFO','PHL',0],
-  ['SFO','RDU',0],['SFO','PDX',0],['SFO','SLC',0],['SFO','STL',0],
-  ['SFO','MSY',0],['SFO','CLT',0],['SFO','MCO',0],['SFO','TPA',0],
-  ['SFO','LAS',0],['SFO','HNL',0],['SFO','OGG',0],
-  ['SFO','LHR',1],['SFO','LGW',0],['SFO','CDG',0],['SFO','FRA',0],
-  ['SFO','AMS',0],['SFO','ZRH',0],['SFO','MUC',0],['SFO','FCO',0],
-  ['SFO','BCN',0],['SFO','MAD',0],['SFO','CPH',0],['SFO','ARN',0],
-  ['SFO','DUB',0],['SFO','VIE',0],['SFO','MXP',0],
-  ['SFO','NRT',0],['SFO','HND',0],['SFO','ICN',0],['SFO','SIN',0],
-  ['SFO','SYD',0],['SFO','MEL',0],['SFO','BOM',0],['SFO','DEL',0],
-  ['SFO','BLR',0],['SFO','TPE',0],
-  ['SFO','YYZ',0],['SFO','YVR',0],['SFO','YUL',0],
-  ['SFO','MEX',0],['SFO','GRU',0],
-  ['LAX','ORD',0],['LAX','JFK',0],['LAX','BOS',0],['LAX','IAD',0],
-  ['LAX','DCA',0],['LAX','ATL',0],['LAX','MIA',0],['LAX','SEA',0],
-  ['LAX','DEN',0],['LAX','DFW',0],['LAX','IAH',0],['LAX','PHX',0],
-  ['LAX','MSP',0],['LAX','PHL',0],['LAX','RDU',0],
-  ['LAX','HNL',0],['LAX','OGG',0],
-  ['LAX','LHR',0],['LAX','CDG',0],['LAX','FRA',0],
-  ['LAX','NRT',0],['LAX','ICN',0],['LAX','SYD',0],
-  ['LAX','SIN',0],['LAX','MEX',0],['LAX','YYZ',0],
-  ['SAN','ORD',0],['SAN','JFK',0],['SAN','IAD',0],
-  ['SAN','BOS',0],['SAN','DFW',0],['SAN','ATL',0],
-  ['SAN','SEA',0],['SAN','HNL',0],
-  ['SMF','LAX',0],['SMF','ORD',0],['SMF','JFK',0],['SMF','IAD',0],['SMF','BOS',0],
-  ['SNA','ORD',0],['SNA','JFK',0],['SNA','IAD',0],['SNA','BOS',0],
-  ['OAK','ORD',0],['OAK','JFK',0],['OAK','LAX',0],
-  ['SFO','LAX',0],['SFO','SAN',0],['LAX','SFO',0],['SAN','SFO',0],['SAN','LAX',0],
-];
-
-const tooltip = document.getElementById('tooltip');
-let hoveredAirport = null, hoveredRoute = null;
-
-const wrap = document.getElementById('map-wrap');
-let W = wrap.clientWidth;
-let H = Math.round(W * 0.55);
-
-const svg = d3.select('#map-wrap')
-  .append('svg')
-  .attr('width', W)
-  .attr('height', H)
-  .style('display','block');
-
-// Natural Earth projection
-const projection = d3.geoNaturalEarth1()
-  .scale(W / 6.0)
-  .translate([W / 2, H / 2]);
-
-const path = d3.geoPath().projection(projection);
-
-// Load world topojson
-fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
-  .then(r => r.json())
-  .then(world => {
-    const countries = topojson.feature(world, world.objects.countries);
-    const graticule = d3.geoGraticule();
-
-
-// ── TRAVEL ADVISORY COLORS ───────────────────────────────────────
-// Keyed by ISO numeric country code (from world-atlas)
-// Level 1=green, 2=yellow, 3=orange, 4=red
-const ADVISORY = {
-  // Level 1 — Exercise Normal Precautions
-  36:'l1',   // Australia
-  124:'l1',  // Canada
-  392:'l1',  // Japan
-  554:'l1',  // New Zealand
-  756:'l1',  // Switzerland
-  372:'l1',  // Ireland
-  352:'l1',  // Iceland
-  578:'l1',  // Norway
-  752:'l1',  // Sweden
-  208:'l1',  // Denmark
-  246:'l1',  // Finland
-  528:'l1',  // Netherlands
-  40:'l1',   // Austria
-  // Level 2 — Exercise Increased Caution
-  276:'l2',  // Germany
-  250:'l2',  // France
-  380:'l2',  // Italy
-  724:'l2',  // Spain
-  826:'l2',  // United Kingdom
-  356:'l2',  // India
-  484:'l2',  // Mexico
-  702:'l2',  // Singapore
-  158:'l2',  // Taiwan
-  410:'l2',  // South Korea
-  191:'l2',  // Croatia
-  300:'l2',  // Greece
-  620:'l2',  // Portugal
-  32:'l2',   // Argentina
-  76:'l2',   // Brazil
-  152:'l2',  // Chile
-  170:'l2',  // Colombia
-  376:'l2',  // Israel
-  784:'l2',  // UAE (Dubai)
-  // Level 3 — Reconsider Travel
-  586:'l3',  // Pakistan
-  643:'l3',  // Russia
-  860:'l3',  // Uzbekistan
-  51:'l3',   // Armenia
-  368:'l3',  // Iraq
-  364:'l3',  // Iran
-  788:'l3',  // Tunisia
-  818:'l3',  // Egypt
-  218:'l3',  // Ecuador
-  591:'l3',  // Panama
-  // Level 4 — Do Not Travel
-  887:'l4',  // Yemen
-  760:'l4',  // Syria
-  504:'l4',  // Morocco — actually L2, correcting
-  729:'l4',  // Sudan
-  862:'l4',  // Venezuela
-  418:'l4',  // Laos — actually L1
-};
-// Corrections
-ADVISORY[504] = 'l2'; // Morocco = Level 2
-ADVISORY[418] = 'l1'; // Laos = Level 1
-
-const ADV_COLORS = {
-  l1:'rgba(13,158,138,0.35)',   // teal — normal
-  l2:'rgba(255,193,7,0.3)',     // amber — increased caution
-  l3:'rgba(255,136,0,0.35)',    // orange — reconsider
-  l4:'rgba(220,53,69,0.4)',     // red — do not travel
-  default:'rgba(255,255,255,0.07)' // default
-};
-const ADV_STROKE = {
-  l1:'rgba(13,158,138,0.4)',
-  l2:'rgba(255,193,7,0.4)',
-  l3:'rgba(255,136,0,0.45)',
-  l4:'rgba(220,53,69,0.5)',
-  default:'rgba(255,255,255,0.18)'
-};
-const ADV_LABELS = {
-  l1:'Level 1 — Normal precautions',
-  l2:'Level 2 — Exercise increased caution',
-  l3:'Level 3 — Reconsider travel',
-  l4:'Level 4 — Do Not Travel',
-};
-
-    // Graticule lines
-    svg.append('path')
-      .datum(graticule())
-      .attr('d', path)
-      .attr('fill','none')
-      .attr('stroke','rgba(255,255,255,0.04)')
-      .attr('stroke-width',0.5);
-
-    // Land — colored by travel advisory level
-    svg.append('g')
-      .selectAll('path')
-      .data(countries.features)
-      .enter().append('path')
-      .attr('d', path)
-      .attr('fill', d => ADV_COLORS[ADVISORY[+d.id]] || ADV_COLORS.default)
-      .attr('stroke', d => ADV_STROKE[ADVISORY[+d.id]] || ADV_STROKE.default)
-      .attr('stroke-width', d => ADVISORY[+d.id] ? 0.6 : 0.4)
-      .on('mouseover', function(event, d) {
-        const lvl = ADVISORY[+d.id];
-        if(lvl) {
-          tooltip.innerHTML = ADV_LABELS[lvl];
-          tooltip.style.display = 'block';
-        }
-      })
-      .on('mousemove', function(event) {
-        tooltip.style.left=(event.clientX+14)+'px';
-        tooltip.style.top=(event.clientY-10)+'px';
-      })
-      .on('mouseout', function() { tooltip.style.display='none'; });
-
-    // Routes layer
-    const routeG = svg.append('g').attr('class','routes');
-
-    // Draw routes as smooth great circle arcs
-    ROUTES.forEach(([from, to, hasData], idx) => {
-      const a = AIRPORTS[from], b = AIRPORTS[to];
-      if(!a || !b) return;
-
-      // Use 40 interpolated points for smooth great circle arc
-      const interp = d3.geoInterpolate([a[1],a[0]], [b[1],b[0]]);
-      const coords = d3.range(0,1.01,1/40).map(t => interp(t));
-      const line = {type:'LineString', coordinates: coords};
-
-      routeG.append('path')
-        .datum(line)
-        .attr('d', path)
-        .attr('fill','none')
-        .attr('stroke', hasData ? 'rgba(13,158,138,0.7)' : 'rgba(255,255,255,0.13)')
-        .attr('stroke-width', hasData ? 2 : 0.9)
-        .attr('stroke-linecap','round')
-        .style('filter', hasData ? 'drop-shadow(0 0 4px rgba(13,158,138,0.7))' : 'none')
-        .on('mouseover', function(event) {
-          d3.select(this)
-            .attr('stroke', hasData ? '#0bc4ac' : 'rgba(255,255,255,0.5)')
-            .attr('stroke-width', hasData ? 3 : 1.8);
-          tooltip.innerHTML = `<strong>${from} → ${to}</strong><br>${hasData
-            ? '<span style="color:#0bc4ac">✓ Live price data available</span>'
-            : '<span style="color:#adb5bd">Collecting data…</span>'}`;
-          tooltip.style.display = 'block';
-        })
-        .on('mousemove', function(event) {
-          tooltip.style.left = (event.clientX+14)+'px';
-          tooltip.style.top  = (event.clientY-10)+'px';
-        })
-        .on('mouseout', function() {
-          d3.select(this)
-            .attr('stroke', hasData ? 'rgba(13,158,138,0.7)' : 'rgba(255,255,255,0.13)')
-            .attr('stroke-width', hasData ? 2 : 0.9);
-          tooltip.style.display = 'none';
-        });
-    });
-
-    // Airport dots layer
-    const apG = svg.append('g').attr('class','airports');
-
-    Object.entries(AIRPORTS).forEach(([code,[lat,lon,name]]) => {
-      const [x,y] = projection([lon,lat]);
-      if(!x || !y) return;
-      const isOrigin = UC_ORIGINS.has(code);
-      const r = isOrigin ? 5 : 3;
-
-      const g = apG.append('g').attr('transform',`translate(${x},${y})`);
-
-      if(isOrigin) {
-        // Pulse ring
-        g.append('circle').attr('r',r+5)
-          .attr('fill','none')
-          .attr('stroke','rgba(13,158,138,0.25)')
-          .attr('stroke-width',1.5);
-      }
-
-      g.append('circle').attr('r',r)
-        .attr('fill', isOrigin ? '#0D9E8A' : 'rgba(255,255,255,0.4)')
-        .attr('stroke', isOrigin ? '#0bc4ac' : 'none')
-        .attr('stroke-width',1)
-        .style('cursor','pointer')
-        .on('mouseover', function(event) {
-          d3.select(this).attr('r', r+2).attr('fill', isOrigin ? '#0bc4ac' : 'rgba(255,255,255,0.9)');
-          tooltip.innerHTML = `<strong>${code}</strong> — ${name}${isOrigin ? ' <span style="color:#0bc4ac">● Origin airport</span>' : ''}`;
-          tooltip.style.display = 'block';
-          tooltip.style.left = (event.clientX+14)+'px';
-          tooltip.style.top  = (event.clientY-10)+'px';
-        })
-        .on('mousemove', function(event) {
-          tooltip.style.left = (event.clientX+14)+'px';
-          tooltip.style.top  = (event.clientY-10)+'px';
-        })
-        .on('mouseout', function() {
-          d3.select(this).attr('r',r).attr('fill', isOrigin ? '#0D9E8A' : 'rgba(255,255,255,0.4)');
-          tooltip.style.display = 'none';
-        });
-
-      if(isOrigin) {
-        g.append('text')
-          .attr('x', r+4).attr('y', 3)
-          .attr('fill','rgba(255,255,255,0.9)')
-          .attr('font-size','9px')
-          .attr('font-family','DM Sans,sans-serif')
-          .attr('font-weight','600')
-          .text(code);
-      }
-    });
-  });
-
-// ── ZOOM & PAN ──────────────────────────────────────────────────
-const zoom = d3.zoom()
-  .scaleExtent([1, 12])
-  .on('zoom', function(event) {
-    const {transform} = event;
-    svg.selectAll('g').attr('transform', transform);
-    // Scale dots inversely so they don't grow huge when zoomed in
-    const k = transform.k;
-    svg.selectAll('g.airports circle').attr('r', function() {
-      const base = d3.select(this.parentNode).datum() ? 3 : 3;
-      return (parseFloat(d3.select(this).attr('data-r')||3)) / Math.sqrt(k);
-    });
-    svg.selectAll('g.airports text').attr('font-size', 9/Math.sqrt(k)+'px');
-    // Update zoom level indicator
-    const pct = Math.round((k-1)/(12-1)*100);
-    const zoomEl = document.getElementById('zoom-level');
-    if(zoomEl) zoomEl.textContent = Math.round(k*100)+'%';
-  });
-
-svg.call(zoom);
-
-// Store base radius on each dot
-svg.selectAll('g.airports circle').attr('data-r', function() {
-  return d3.select(this).attr('r');
-});
-
-// Zoom controls
-const zoomBar = d3.select('#map-wrap').append('div')
-  .style('position','absolute').style('top','12px').style('right','12px')
-  .style('display','flex').style('flex-direction','column').style('gap','4px')
-  .style('z-index','10');
-
-['＋','－','⊙'].forEach((label,i) => {
-  zoomBar.append('button')
-    .text(label)
-    .attr('title', ['Zoom in','Zoom out','Reset'][i])
-    .style('width','30px').style('height','30px')
-    .style('background','rgba(10,22,40,0.85)').style('color','#0D9E8A')
-    .style('border','1px solid rgba(13,158,138,0.4)').style('border-radius','6px')
-    .style('cursor','pointer').style('font-size','16px').style('line-height','1')
-    .on('click', function() {
-      if(i===0) svg.transition().call(zoom.scaleBy, 2);
-      else if(i===1) svg.transition().call(zoom.scaleBy, 0.5);
-      else svg.transition().call(zoom.transform, d3.zoomIdentity);
-    });
-});
-
-// Hint text
-d3.select('#map-wrap').append('div')
-  .style('position','absolute').style('bottom','10px').style('left','50%')
-  .style('transform','translateX(-50%)')
-  .style('color','rgba(255,255,255,0.35)').style('font-size','11px')
-  .style('font-family','DM Sans,sans-serif').style('pointer-events','none')
-  .style('white-space','nowrap')
-  .text('Scroll to zoom · Drag to pan · Click +/− to zoom');
-
-// Handle resize
-window.addEventListener('resize', () => { location.reload(); });
-</script>
 </body>
 </html>
