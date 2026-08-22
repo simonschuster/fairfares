@@ -162,7 +162,7 @@
 
 <!-- Domestic -->
 <div id="pd-domestic">
-<div class="dom-pd-card">
+<div class="dom-pd-card" style="max-width:640px">
 <h4>Domestic per diem rates (UC policy)</h4>
 <div class="dom-pd-rows">
 <div class="dom-pd-item">
@@ -186,7 +186,7 @@
 <div id="pd-intl-section" style="display:none">
 <p style="font-size:.84rem;color:var(--g500);margin-bottom:1rem;line-height:1.6">International per diem rates from the US Department of Defense. Covers maximum lodging and daily meal allowance (M&amp;IE) by city.</p>
 
-<div style="max-width:340px">
+<div style="max-width:640px">
 <div class="f">
   <label>Country</label>
   <div class="ac-wrap">
@@ -206,14 +206,23 @@
 
 <div class="pd-exp" id="pd-exp" style="display:none">
 <h4>DoD per diem rates — <span id="pd-city">this destination</span></h4>
-<table class="pdt">
-<thead><tr><th>Component</th><th>Amount (USD)</th><th>How it works</th></tr></thead>
-<tbody>
-<tr><td>Maximum lodging</td><td id="pd-lodge">—</td><td>Nightly hotel cap. Claimed as actuals up to this limit. May exceed up to 300% with exceptional approver approval and receipts.</td></tr>
-<tr><td>Daily M&amp;IE</td><td id="pd-mie">—</td><td>Daily meals &amp; incidentals allowance. No receipts required when claiming per diem rate.</td></tr>
-<tr><td>Maximum per diem</td><td id="pd-tot">—</td><td>Lodging + M&amp;IE combined daily maximum.</td></tr>
-</tbody>
-</table>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-bottom:1rem">
+  <div style="background:#f8f9fa;border:1.5px solid var(--g200);border-radius:8px;padding:.9rem 1rem">
+    <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--g400);margin-bottom:4px">Maximum Lodging</div>
+    <div id="pd-lodge" style="font-size:1.6rem;font-weight:700;color:var(--navy);line-height:1.1">—</div>
+    <div style="font-size:.75rem;color:var(--g500);margin-top:4px">per night · actuals up to cap</div>
+  </div>
+  <div style="background:#f8f9fa;border:1.5px solid var(--g200);border-radius:8px;padding:.9rem 1rem">
+    <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--g400);margin-bottom:4px">Daily M&amp;IE</div>
+    <div id="pd-mie" style="font-size:1.6rem;font-weight:700;color:var(--navy);line-height:1.1">—</div>
+    <div style="font-size:.75rem;color:var(--g500);margin-top:4px">per day · no receipts at per diem rate</div>
+  </div>
+  <div style="background:var(--navy);border-radius:8px;padding:.9rem 1rem">
+    <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.6);margin-bottom:4px">Maximum Per Diem</div>
+    <div id="pd-tot" style="font-size:1.6rem;font-weight:700;color:#fff;line-height:1.1">—</div>
+    <div style="font-size:.75rem;color:rgba(255,255,255,.6);margin-top:4px">lodging + M&amp;IE combined</div>
+  </div>
+</div>
 <div class="pd-rule"><strong>Actuals vs per diem</strong> For international travel, M&amp;IE and lodging are separate elections. Travelers may use per diem for either, with no receipts required, or claim actual expenses. When claiming actuals, receipts are required for individual M&amp;IE expenses of $75 or more and for all lodging expenses. Foreign lodging may exceed the per diem rate in special circumstances, up to 300% of the applicable rate, with your school's exceptional approver's approval and receipts.</div>
 <p class="rnote" style="margin-top:8px">Source: <a href="https://www.travel.dod.mil/Travel-Transportation-Rates/Per-Diem/Per-Diem-Rate-Lookup/" target="_blank">US Department of Defense — travel.dod.mil</a>.</p>
 </div>
