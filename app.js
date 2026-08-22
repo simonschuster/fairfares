@@ -583,8 +583,9 @@ async function calcGT(){
   $('gt-lyft-tot').textContent=fmt(lTotal);
   const lowest=Math.min(tTotal,uTotal,lTotal);
   const lowestName=lowest===tTotal?'Taxi':lowest===uTotal?'Uber X':'Lyft';
-  $('gt-vt').textContent='Benchmark range: '+fmt(Math.min(tTotal,uTotal,lTotal))+' – '+fmt(Math.max(tTotal,uTotal,lTotal));
-  $('gt-vb').textContent='Taxi, Uber, and Lyft are all acceptable. Use the lowest fare shown as the G-28 reimbursement benchmark. If a rental car was used, the total cost (rental + gas + parking + tolls) must not exceed the lowest fare shown above to be fully reimbursable.';
+  // Store all totals for per-tab benchmark display
+  window._gtTotals = { taxi: tTotal, uber: uTotal, lyft: lTotal };
+  updateGTBenchmark('taxi'); // default to taxi tab
   $('gt-lbl').textContent=fromVal+' → '+toVal;
   // Simple route summary — no map iframe
   $('gt-route-from').textContent = fromVal;
@@ -601,6 +602,18 @@ function gtTab(t,el){
   document.querySelectorAll('.gt-panel').forEach(x=>x.classList.remove('on'));
   el.classList.add('on');
   $('gt-'+t+'-p').classList.add('on');
+  updateGTBenchmark(t);
+}
+
+function updateGTBenchmark(t) {
+  if(!window._gtTotals) return;
+  var totals = window._gtTotals;
+  var labels = { taxi:'Taxi', uber:'Uber X', lyft:'Lyft' };
+  var fare = totals[t];
+  var label = labels[t] || t;
+  if(!fare) return;
+  $('gt-vt').textContent = label + ' benchmark: ' + fmt(fare);
+  $('gt-vb').textContent = 'G-28 reimbursement benchmark for ' + label + '. Taxi, Uber X, and Lyft are all acceptable — use whichever mode the traveler used. If a rental car was used, the total cost (rental + gas + parking + tolls) must not exceed ' + fmt(fare) + ' to be fully reimbursable.';
 }
 
 // ═══════════════════════════════════════════════
@@ -722,6 +735,12 @@ function printTab(t){
   var now=new Date();
   var dateStr=now.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
   h.style.cssText="display:none";
+  var contextNote = {
+    'fl': 'The figures below are <strong>estimated market benchmarks</strong> based on current pricing data from <strong>Google Flights</strong>. They represent economy return fares for the dates and route shown — not the traveler\'s actual booked fare. For internal compliance review only.',
+    'gt': 'The figures below are <strong>estimated fare benchmarks</strong> based on published rate cards from taxi commissions and rideshare providers (Uber, Lyft). Calculated from straight-line distance with a road factor applied. For internal compliance review only.',
+    'pd': 'The figures below are <strong>official per diem rates</strong> from the US Department of Defense (international) and UCOP G-28 Travel Policy (domestic). For internal compliance review only.',
+    'adv': 'The advisory below is sourced from the <strong>US Department of State</strong> (travel.state.gov). For internal compliance review only.'
+  }[t] || 'For internal compliance review only.';
   h.innerHTML=`
     <div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:3px solid #0A1628;margin-bottom:10px">
       <div style="display:flex;flex-direction:column;gap:3px">
@@ -734,9 +753,7 @@ function printTab(t){
       </div>
     </div>
     <div style="font-size:8pt;color:#555;background:#f8f9fa;border-radius:4px;padding:6px 10px;margin-bottom:8px;line-height:1.5">
-      The figures below are <strong>estimated market benchmarks</strong> based on current pricing data from Google Flights.
-      They represent economy return fares for the dates and route shown — not the traveler's actual booked fare.
-      For internal compliance review only.
+      ${contextNote}
     </div>`;
   document.body.insertBefore(h,document.body.firstChild);
   var f=document.createElement("div");
