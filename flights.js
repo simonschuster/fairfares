@@ -1,391 +1,3591 @@
 // FairFares flight price data
-// Origin: SFO
+// Auto-generated — do not edit manually
 // Last updated: 2026-08-26
-// Rows: 55 destinations x up to 7 nights (1-7 night round trips), departing 2026-09-25
+// Source: Google Flights via Cowork daily collection
 
 const FLIGHT_DATA = [
-{ dateSearched: "2026-08-26", destination: "Los Angeles", destCode: "LAX", nights: 1, price: 108 },
-{ dateSearched: "2026-08-26", destination: "Los Angeles", destCode: "LAX", nights: 2, price: 129 },
-{ dateSearched: "2026-08-26", destination: "Los Angeles", destCode: "LAX", nights: 3, price: 76 },
-{ dateSearched: "2026-08-26", destination: "Los Angeles", destCode: "LAX", nights: 4, price: 70 },
-{ dateSearched: "2026-08-26", destination: "Los Angeles", destCode: "LAX", nights: 5, price: 70 },
-{ dateSearched: "2026-08-26", destination: "Los Angeles", destCode: "LAX", nights: 6, price: 84 },
-{ dateSearched: "2026-08-26", destination: "Los Angeles", destCode: "LAX", nights: 7, price: 81 },
-{ dateSearched: "2026-08-26", destination: "San Diego", destCode: "SAN", nights: 1, price: 69 },
-{ dateSearched: "2026-08-26", destination: "San Diego", destCode: "SAN", nights: 2, price: 116 },
-{ dateSearched: "2026-08-26", destination: "San Diego", destCode: "SAN", nights: 3, price: 82 },
-{ dateSearched: "2026-08-26", destination: "San Diego", destCode: "SAN", nights: 4, price: 77 },
-{ dateSearched: "2026-08-26", destination: "San Diego", destCode: "SAN", nights: 5, price: 70 },
-{ dateSearched: "2026-08-26", destination: "San Diego", destCode: "SAN", nights: 6, price: 82 },
-{ dateSearched: "2026-08-26", destination: "San Diego", destCode: "SAN", nights: 7, price: 87 },
-{ dateSearched: "2026-08-26", destination: "Sacramento", destCode: "SMF", nights: 1, price: 203 },
-{ dateSearched: "2026-08-26", destination: "Sacramento", destCode: "SMF", nights: 2, price: 269 },
-{ dateSearched: "2026-08-26", destination: "Sacramento", destCode: "SMF", nights: 3, price: 180 },
-{ dateSearched: "2026-08-26", destination: "Sacramento", destCode: "SMF", nights: 4, price: 203 },
-{ dateSearched: "2026-08-26", destination: "Sacramento", destCode: "SMF", nights: 5, price: 203 },
-{ dateSearched: "2026-08-26", destination: "Sacramento", destCode: "SMF", nights: 6, price: 203 },
-{ dateSearched: "2026-08-26", destination: "Sacramento", destCode: "SMF", nights: 7, price: 223 },
-{ dateSearched: "2026-08-26", destination: "Las Vegas", destCode: "LAS", nights: 1, price: 86 },
-{ dateSearched: "2026-08-26", destination: "Las Vegas", destCode: "LAS", nights: 2, price: 114 },
-{ dateSearched: "2026-08-26", destination: "Las Vegas", destCode: "LAS", nights: 3, price: 98 },
-{ dateSearched: "2026-08-26", destination: "Las Vegas", destCode: "LAS", nights: 4, price: 87 },
-{ dateSearched: "2026-08-26", destination: "Las Vegas", destCode: "LAS", nights: 5, price: 87 },
-{ dateSearched: "2026-08-26", destination: "Las Vegas", destCode: "LAS", nights: 6, price: 87 },
-{ dateSearched: "2026-08-26", destination: "Las Vegas", destCode: "LAS", nights: 7, price: 95 },
-{ dateSearched: "2026-08-26", destination: "Phoenix", destCode: "PHX", nights: 1, price: 181 },
-{ dateSearched: "2026-08-26", destination: "Phoenix", destCode: "PHX", nights: 2, price: 188 },
-{ dateSearched: "2026-08-26", destination: "Phoenix", destCode: "PHX", nights: 3, price: 140 },
-{ dateSearched: "2026-08-26", destination: "Phoenix", destCode: "PHX", nights: 4, price: 175 },
-{ dateSearched: "2026-08-26", destination: "Phoenix", destCode: "PHX", nights: 5, price: 143 },
-{ dateSearched: "2026-08-26", destination: "Phoenix", destCode: "PHX", nights: 6, price: 140 },
-{ dateSearched: "2026-08-26", destination: "Phoenix", destCode: "PHX", nights: 7, price: 165 },
-{ dateSearched: "2026-08-26", destination: "Salt Lake City", destCode: "SLC", nights: 1, price: 198 },
-{ dateSearched: "2026-08-26", destination: "Salt Lake City", destCode: "SLC", nights: 2, price: 220 },
-{ dateSearched: "2026-08-26", destination: "Salt Lake City", destCode: "SLC", nights: 3, price: 198 },
-{ dateSearched: "2026-08-26", destination: "Salt Lake City", destCode: "SLC", nights: 4, price: 189 },
-{ dateSearched: "2026-08-26", destination: "Salt Lake City", destCode: "SLC", nights: 5, price: 188 },
-{ dateSearched: "2026-08-26", destination: "Salt Lake City", destCode: "SLC", nights: 6, price: 203 },
-{ dateSearched: "2026-08-26", destination: "Salt Lake City", destCode: "SLC", nights: 7, price: 225 },
-{ dateSearched: "2026-08-26", destination: "Seattle", destCode: "SEA", nights: 1, price: 134 },
-{ dateSearched: "2026-08-26", destination: "Seattle", destCode: "SEA", nights: 3, price: 141 },
-{ dateSearched: "2026-08-26", destination: "Seattle", destCode: "SEA", nights: 4, price: 134 },
-{ dateSearched: "2026-08-26", destination: "Seattle", destCode: "SEA", nights: 5, price: 134 },
-{ dateSearched: "2026-08-26", destination: "Seattle", destCode: "SEA", nights: 6, price: 120 },
-{ dateSearched: "2026-08-26", destination: "Seattle", destCode: "SEA", nights: 7, price: 139 },
-{ dateSearched: "2026-08-26", destination: "Portland", destCode: "PDX", nights: 1, price: 134 },
-{ dateSearched: "2026-08-26", destination: "Portland", destCode: "PDX", nights: 2, price: 154 },
-{ dateSearched: "2026-08-26", destination: "Portland", destCode: "PDX", nights: 3, price: 134 },
-{ dateSearched: "2026-08-26", destination: "Portland", destCode: "PDX", nights: 4, price: 134 },
-{ dateSearched: "2026-08-26", destination: "Portland", destCode: "PDX", nights: 5, price: 134 },
-{ dateSearched: "2026-08-26", destination: "Portland", destCode: "PDX", nights: 6, price: 134 },
-{ dateSearched: "2026-08-26", destination: "Portland", destCode: "PDX", nights: 7, price: 151 },
-{ dateSearched: "2026-08-26", destination: "Denver", destCode: "DEN", nights: 1, price: 147 },
-{ dateSearched: "2026-08-26", destination: "Denver", destCode: "DEN", nights: 2, price: 195 },
-{ dateSearched: "2026-08-26", destination: "Denver", destCode: "DEN", nights: 3, price: 148 },
-{ dateSearched: "2026-08-26", destination: "Denver", destCode: "DEN", nights: 4, price: 137 },
-{ dateSearched: "2026-08-26", destination: "Denver", destCode: "DEN", nights: 5, price: 132 },
-{ dateSearched: "2026-08-26", destination: "Denver", destCode: "DEN", nights: 6, price: 136 },
-{ dateSearched: "2026-08-26", destination: "Denver", destCode: "DEN", nights: 7, price: 166 },
-{ dateSearched: "2026-08-26", destination: "Chicago", destCode: "ORD", nights: 1, price: 208 },
-{ dateSearched: "2026-08-26", destination: "Chicago", destCode: "ORD", nights: 2, price: 268 },
-{ dateSearched: "2026-08-26", destination: "Chicago", destCode: "ORD", nights: 3, price: 197 },
-{ dateSearched: "2026-08-26", destination: "Chicago", destCode: "ORD", nights: 4, price: 208 },
-{ dateSearched: "2026-08-26", destination: "Chicago", destCode: "ORD", nights: 5, price: 208 },
-{ dateSearched: "2026-08-26", destination: "Chicago", destCode: "ORD", nights: 6, price: 208 },
-{ dateSearched: "2026-08-26", destination: "Chicago", destCode: "ORD", nights: 7, price: 218 },
-{ dateSearched: "2026-08-26", destination: "Minneapolis", destCode: "MSP", nights: 1, price: 236 },
-{ dateSearched: "2026-08-26", destination: "Minneapolis", destCode: "MSP", nights: 2, price: 265 },
-{ dateSearched: "2026-08-26", destination: "Minneapolis", destCode: "MSP", nights: 3, price: 266 },
-{ dateSearched: "2026-08-26", destination: "Minneapolis", destCode: "MSP", nights: 4, price: 214 },
-{ dateSearched: "2026-08-26", destination: "Minneapolis", destCode: "MSP", nights: 5, price: 221 },
-{ dateSearched: "2026-08-26", destination: "Minneapolis", destCode: "MSP", nights: 6, price: 253 },
-{ dateSearched: "2026-08-26", destination: "Minneapolis", destCode: "MSP", nights: 7, price: 260 },
-{ dateSearched: "2026-08-26", destination: "Detroit", destCode: "DTW", nights: 1, price: 304 },
-{ dateSearched: "2026-08-26", destination: "Detroit", destCode: "DTW", nights: 2, price: 278 },
-{ dateSearched: "2026-08-26", destination: "Detroit", destCode: "DTW", nights: 3, price: 272 },
-{ dateSearched: "2026-08-26", destination: "Detroit", destCode: "DTW", nights: 4, price: 260 },
-{ dateSearched: "2026-08-26", destination: "Detroit", destCode: "DTW", nights: 5, price: 263 },
-{ dateSearched: "2026-08-26", destination: "Detroit", destCode: "DTW", nights: 6, price: 280 },
-{ dateSearched: "2026-08-26", destination: "Detroit", destCode: "DTW", nights: 7, price: 280 },
-{ dateSearched: "2026-08-26", destination: "Atlanta", destCode: "ATL", nights: 1, price: 263 },
-{ dateSearched: "2026-08-26", destination: "Atlanta", destCode: "ATL", nights: 2, price: 282 },
-{ dateSearched: "2026-08-26", destination: "Atlanta", destCode: "ATL", nights: 3, price: 284 },
-{ dateSearched: "2026-08-26", destination: "Atlanta", destCode: "ATL", nights: 4, price: 267 },
-{ dateSearched: "2026-08-26", destination: "Atlanta", destCode: "ATL", nights: 5, price: 256 },
-{ dateSearched: "2026-08-26", destination: "Atlanta", destCode: "ATL", nights: 6, price: 267 },
-{ dateSearched: "2026-08-26", destination: "Atlanta", destCode: "ATL", nights: 7, price: 274 },
-{ dateSearched: "2026-08-26", destination: "Miami", destCode: "MIA", nights: 1, price: 284 },
-{ dateSearched: "2026-08-26", destination: "Miami", destCode: "MIA", nights: 2, price: 240 },
-{ dateSearched: "2026-08-26", destination: "Miami", destCode: "MIA", nights: 3, price: 301 },
-{ dateSearched: "2026-08-26", destination: "Miami", destCode: "MIA", nights: 4, price: 240 },
-{ dateSearched: "2026-08-26", destination: "Miami", destCode: "MIA", nights: 5, price: 240 },
-{ dateSearched: "2026-08-26", destination: "Miami", destCode: "MIA", nights: 6, price: 240 },
-{ dateSearched: "2026-08-26", destination: "Miami", destCode: "MIA", nights: 7, price: 240 },
-{ dateSearched: "2026-08-26", destination: "Orlando", destCode: "MCO", nights: 1, price: 318 },
-{ dateSearched: "2026-08-26", destination: "Orlando", destCode: "MCO", nights: 2, price: 298 },
-{ dateSearched: "2026-08-26", destination: "Orlando", destCode: "MCO", nights: 3, price: 274 },
-{ dateSearched: "2026-08-26", destination: "Orlando", destCode: "MCO", nights: 4, price: 273 },
-{ dateSearched: "2026-08-26", destination: "Orlando", destCode: "MCO", nights: 5, price: 273 },
-{ dateSearched: "2026-08-26", destination: "Orlando", destCode: "MCO", nights: 6, price: 273 },
-{ dateSearched: "2026-08-26", destination: "Orlando", destCode: "MCO", nights: 7, price: 281 },
-{ dateSearched: "2026-08-26", destination: "Houston", destCode: "HOU", nights: 1, price: 247 },
-{ dateSearched: "2026-08-26", destination: "Houston", destCode: "HOU", nights: 2, price: 257 },
-{ dateSearched: "2026-08-26", destination: "Houston", destCode: "HOU", nights: 3, price: 216 },
-{ dateSearched: "2026-08-26", destination: "Houston", destCode: "HOU", nights: 4, price: 206 },
-{ dateSearched: "2026-08-26", destination: "Houston", destCode: "HOU", nights: 5, price: 207 },
-{ dateSearched: "2026-08-26", destination: "Houston", destCode: "HOU", nights: 6, price: 222 },
-{ dateSearched: "2026-08-26", destination: "Houston", destCode: "HOU", nights: 7, price: 254 },
-{ dateSearched: "2026-08-26", destination: "Austin", destCode: "AUS", nights: 1, price: 219 },
-{ dateSearched: "2026-08-26", destination: "Austin", destCode: "AUS", nights: 2, price: 254 },
-{ dateSearched: "2026-08-26", destination: "Austin", destCode: "AUS", nights: 3, price: 219 },
-{ dateSearched: "2026-08-26", destination: "Austin", destCode: "AUS", nights: 4, price: 213 },
-{ dateSearched: "2026-08-26", destination: "Austin", destCode: "AUS", nights: 5, price: 219 },
-{ dateSearched: "2026-08-26", destination: "Austin", destCode: "AUS", nights: 6, price: 219 },
-{ dateSearched: "2026-08-26", destination: "Austin", destCode: "AUS", nights: 7, price: 229 },
-{ dateSearched: "2026-08-26", destination: "New Orleans", destCode: "MSY", nights: 1, price: 329 },
-{ dateSearched: "2026-08-26", destination: "New Orleans", destCode: "MSY", nights: 2, price: 304 },
-{ dateSearched: "2026-08-26", destination: "New Orleans", destCode: "MSY", nights: 3, price: 282 },
-{ dateSearched: "2026-08-26", destination: "New Orleans", destCode: "MSY", nights: 4, price: 329 },
-{ dateSearched: "2026-08-26", destination: "New Orleans", destCode: "MSY", nights: 5, price: 329 },
-{ dateSearched: "2026-08-26", destination: "New Orleans", destCode: "MSY", nights: 6, price: 298 },
-{ dateSearched: "2026-08-26", destination: "New Orleans", destCode: "MSY", nights: 7, price: 286 },
-{ dateSearched: "2026-08-26", destination: "Nashville", destCode: "BNA", nights: 1, price: 297 },
-{ dateSearched: "2026-08-26", destination: "Nashville", destCode: "BNA", nights: 2, price: 383 },
-{ dateSearched: "2026-08-26", destination: "Nashville", destCode: "BNA", nights: 3, price: 303 },
-{ dateSearched: "2026-08-26", destination: "Nashville", destCode: "BNA", nights: 4, price: 297 },
-{ dateSearched: "2026-08-26", destination: "Nashville", destCode: "BNA", nights: 5, price: 258 },
-{ dateSearched: "2026-08-26", destination: "Nashville", destCode: "BNA", nights: 6, price: 272 },
-{ dateSearched: "2026-08-26", destination: "Nashville", destCode: "BNA", nights: 7, price: 303 },
-{ dateSearched: "2026-08-26", destination: "New York JFK", destCode: "JFK", nights: 1, price: 370 },
-{ dateSearched: "2026-08-26", destination: "New York JFK", destCode: "JFK", nights: 2, price: 417 },
-{ dateSearched: "2026-08-26", destination: "New York JFK", destCode: "JFK", nights: 3, price: 397 },
-{ dateSearched: "2026-08-26", destination: "New York JFK", destCode: "JFK", nights: 4, price: 330 },
-{ dateSearched: "2026-08-26", destination: "New York JFK", destCode: "JFK", nights: 5, price: 359 },
-{ dateSearched: "2026-08-26", destination: "New York JFK", destCode: "JFK", nights: 6, price: 370 },
-{ dateSearched: "2026-08-26", destination: "New York JFK", destCode: "JFK", nights: 7, price: 370 },
-{ dateSearched: "2026-08-26", destination: "Newark", destCode: "EWR", nights: 1, price: 304 },
-{ dateSearched: "2026-08-26", destination: "Newark", destCode: "EWR", nights: 2, price: 319 },
-{ dateSearched: "2026-08-26", destination: "Newark", destCode: "EWR", nights: 3, price: 315 },
-{ dateSearched: "2026-08-26", destination: "Newark", destCode: "EWR", nights: 4, price: 272 },
-{ dateSearched: "2026-08-26", destination: "Newark", destCode: "EWR", nights: 5, price: 265 },
-{ dateSearched: "2026-08-26", destination: "Newark", destCode: "EWR", nights: 6, price: 304 },
-{ dateSearched: "2026-08-26", destination: "Newark", destCode: "EWR", nights: 7, price: 272 },
-{ dateSearched: "2026-08-26", destination: "New York LaGuardia", destCode: "LGA", nights: 1, price: 377 },
-{ dateSearched: "2026-08-26", destination: "New York LaGuardia", destCode: "LGA", nights: 2, price: 345 },
-{ dateSearched: "2026-08-26", destination: "New York LaGuardia", destCode: "LGA", nights: 3, price: 335 },
-{ dateSearched: "2026-08-26", destination: "New York LaGuardia", destCode: "LGA", nights: 4, price: 296 },
-{ dateSearched: "2026-08-26", destination: "New York LaGuardia", destCode: "LGA", nights: 5, price: 302 },
-{ dateSearched: "2026-08-26", destination: "New York LaGuardia", destCode: "LGA", nights: 6, price: 335 },
-{ dateSearched: "2026-08-26", destination: "New York LaGuardia", destCode: "LGA", nights: 7, price: 335 },
-{ dateSearched: "2026-08-26", destination: "Boston", destCode: "BOS", nights: 1, price: 357 },
-{ dateSearched: "2026-08-26", destination: "Boston", destCode: "BOS", nights: 2, price: 377 },
-{ dateSearched: "2026-08-26", destination: "Boston", destCode: "BOS", nights: 3, price: 377 },
-{ dateSearched: "2026-08-26", destination: "Boston", destCode: "BOS", nights: 4, price: 325 },
-{ dateSearched: "2026-08-26", destination: "Boston", destCode: "BOS", nights: 5, price: 329 },
-{ dateSearched: "2026-08-26", destination: "Boston", destCode: "BOS", nights: 6, price: 357 },
-{ dateSearched: "2026-08-26", destination: "Boston", destCode: "BOS", nights: 7, price: 325 },
-{ dateSearched: "2026-08-26", destination: "Philadelphia", destCode: "PHL", nights: 1, price: 353 },
-{ dateSearched: "2026-08-26", destination: "Philadelphia", destCode: "PHL", nights: 2, price: 340 },
-{ dateSearched: "2026-08-26", destination: "Philadelphia", destCode: "PHL", nights: 3, price: 238 },
-{ dateSearched: "2026-08-26", destination: "Philadelphia", destCode: "PHL", nights: 4, price: 243 },
-{ dateSearched: "2026-08-26", destination: "Philadelphia", destCode: "PHL", nights: 5, price: 242 },
-{ dateSearched: "2026-08-26", destination: "Philadelphia", destCode: "PHL", nights: 6, price: 242 },
-{ dateSearched: "2026-08-26", destination: "Philadelphia", destCode: "PHL", nights: 7, price: 258 },
-{ dateSearched: "2026-08-26", destination: "Washington Reagan", destCode: "DCA", nights: 1, price: 294 },
-{ dateSearched: "2026-08-26", destination: "Washington Reagan", destCode: "DCA", nights: 2, price: 395 },
-{ dateSearched: "2026-08-26", destination: "Washington Reagan", destCode: "DCA", nights: 3, price: 294 },
-{ dateSearched: "2026-08-26", destination: "Washington Reagan", destCode: "DCA", nights: 4, price: 294 },
-{ dateSearched: "2026-08-26", destination: "Washington Reagan", destCode: "DCA", nights: 5, price: 294 },
-{ dateSearched: "2026-08-26", destination: "Washington Reagan", destCode: "DCA", nights: 6, price: 302 },
-{ dateSearched: "2026-08-26", destination: "Washington Reagan", destCode: "DCA", nights: 7, price: 308 },
-{ dateSearched: "2026-08-26", destination: "Washington Dulles", destCode: "IAD", nights: 1, price: 287 },
-{ dateSearched: "2026-08-26", destination: "Washington Dulles", destCode: "IAD", nights: 2, price: 292 },
-{ dateSearched: "2026-08-26", destination: "Washington Dulles", destCode: "IAD", nights: 3, price: 294 },
-{ dateSearched: "2026-08-26", destination: "Washington Dulles", destCode: "IAD", nights: 4, price: 287 },
-{ dateSearched: "2026-08-26", destination: "Washington Dulles", destCode: "IAD", nights: 5, price: 292 },
-{ dateSearched: "2026-08-26", destination: "Washington Dulles", destCode: "IAD", nights: 6, price: 294 },
-{ dateSearched: "2026-08-26", destination: "Washington Dulles", destCode: "IAD", nights: 7, price: 307 },
-{ dateSearched: "2026-08-26", destination: "Raleigh-Durham", destCode: "RDU", nights: 1, price: 254 },
-{ dateSearched: "2026-08-26", destination: "Raleigh-Durham", destCode: "RDU", nights: 2, price: 315 },
-{ dateSearched: "2026-08-26", destination: "Raleigh-Durham", destCode: "RDU", nights: 3, price: 247 },
-{ dateSearched: "2026-08-26", destination: "Raleigh-Durham", destCode: "RDU", nights: 4, price: 237 },
-{ dateSearched: "2026-08-26", destination: "Raleigh-Durham", destCode: "RDU", nights: 5, price: 254 },
-{ dateSearched: "2026-08-26", destination: "Raleigh-Durham", destCode: "RDU", nights: 6, price: 237 },
-{ dateSearched: "2026-08-26", destination: "Raleigh-Durham", destCode: "RDU", nights: 7, price: 270 },
-{ dateSearched: "2026-08-26", destination: "Charlotte", destCode: "CLT", nights: 1, price: 273 },
-{ dateSearched: "2026-08-26", destination: "Charlotte", destCode: "CLT", nights: 2, price: 346 },
-{ dateSearched: "2026-08-26", destination: "Charlotte", destCode: "CLT", nights: 3, price: 268 },
-{ dateSearched: "2026-08-26", destination: "Charlotte", destCode: "CLT", nights: 4, price: 268 },
-{ dateSearched: "2026-08-26", destination: "Charlotte", destCode: "CLT", nights: 5, price: 261 },
-{ dateSearched: "2026-08-26", destination: "Charlotte", destCode: "CLT", nights: 6, price: 266 },
-{ dateSearched: "2026-08-26", destination: "Charlotte", destCode: "CLT", nights: 7, price: 260 },
-{ dateSearched: "2026-08-26", destination: "Honolulu", destCode: "HNL", nights: 1, price: 374 },
-{ dateSearched: "2026-08-26", destination: "Honolulu", destCode: "HNL", nights: 2, price: 383 },
-{ dateSearched: "2026-08-26", destination: "Honolulu", destCode: "HNL", nights: 3, price: 373 },
-{ dateSearched: "2026-08-26", destination: "Honolulu", destCode: "HNL", nights: 4, price: 332 },
-{ dateSearched: "2026-08-26", destination: "Honolulu", destCode: "HNL", nights: 5, price: 332 },
-{ dateSearched: "2026-08-26", destination: "Honolulu", destCode: "HNL", nights: 6, price: 385 },
-{ dateSearched: "2026-08-26", destination: "Honolulu", destCode: "HNL", nights: 7, price: 420 },
-{ dateSearched: "2026-08-26", destination: "Maui", destCode: "OGG", nights: 1, price: 373 },
-{ dateSearched: "2026-08-26", destination: "Maui", destCode: "OGG", nights: 2, price: 383 },
-{ dateSearched: "2026-08-26", destination: "Maui", destCode: "OGG", nights: 3, price: 373 },
-{ dateSearched: "2026-08-26", destination: "Maui", destCode: "OGG", nights: 4, price: 322 },
-{ dateSearched: "2026-08-26", destination: "Maui", destCode: "OGG", nights: 5, price: 322 },
-{ dateSearched: "2026-08-26", destination: "Maui", destCode: "OGG", nights: 6, price: 391 },
-{ dateSearched: "2026-08-26", destination: "Maui", destCode: "OGG", nights: 7, price: 404 },
-{ dateSearched: "2026-08-26", destination: "Anchorage", destCode: "ANC", nights: 1, price: 451 },
-{ dateSearched: "2026-08-26", destination: "Anchorage", destCode: "ANC", nights: 2, price: 451 },
-{ dateSearched: "2026-08-26", destination: "Anchorage", destCode: "ANC", nights: 3, price: 457 },
-{ dateSearched: "2026-08-26", destination: "Anchorage", destCode: "ANC", nights: 4, price: 457 },
-{ dateSearched: "2026-08-26", destination: "Anchorage", destCode: "ANC", nights: 5, price: 457 },
-{ dateSearched: "2026-08-26", destination: "Anchorage", destCode: "ANC", nights: 6, price: 457 },
-{ dateSearched: "2026-08-26", destination: "Anchorage", destCode: "ANC", nights: 7, price: 457 },
-{ dateSearched: "2026-08-26", destination: "Vancouver", destCode: "YVR", nights: 1, price: 290 },
-{ dateSearched: "2026-08-26", destination: "Vancouver", destCode: "YVR", nights: 2, price: 260 },
-{ dateSearched: "2026-08-26", destination: "Vancouver", destCode: "YVR", nights: 3, price: 288 },
-{ dateSearched: "2026-08-26", destination: "Vancouver", destCode: "YVR", nights: 4, price: 282 },
-{ dateSearched: "2026-08-26", destination: "Vancouver", destCode: "YVR", nights: 5, price: 253 },
-{ dateSearched: "2026-08-26", destination: "Vancouver", destCode: "YVR", nights: 6, price: 249 },
-{ dateSearched: "2026-08-26", destination: "Vancouver", destCode: "YVR", nights: 7, price: 246 },
-{ dateSearched: "2026-08-26", destination: "Toronto", destCode: "YYZ", nights: 1, price: 405 },
-{ dateSearched: "2026-08-26", destination: "Toronto", destCode: "YYZ", nights: 2, price: 405 },
-{ dateSearched: "2026-08-26", destination: "Toronto", destCode: "YYZ", nights: 3, price: 410 },
-{ dateSearched: "2026-08-26", destination: "Toronto", destCode: "YYZ", nights: 4, price: 351 },
-{ dateSearched: "2026-08-26", destination: "Toronto", destCode: "YYZ", nights: 5, price: 370 },
-{ dateSearched: "2026-08-26", destination: "Toronto", destCode: "YYZ", nights: 6, price: 381 },
-{ dateSearched: "2026-08-26", destination: "Toronto", destCode: "YYZ", nights: 7, price: 386 },
-{ dateSearched: "2026-08-26", destination: "Mexico City", destCode: "MEX", nights: 1, price: 430 },
-{ dateSearched: "2026-08-26", destination: "Mexico City", destCode: "MEX", nights: 2, price: 441 },
-{ dateSearched: "2026-08-26", destination: "Mexico City", destCode: "MEX", nights: 3, price: 441 },
-{ dateSearched: "2026-08-26", destination: "Mexico City", destCode: "MEX", nights: 4, price: 377 },
-{ dateSearched: "2026-08-26", destination: "Mexico City", destCode: "MEX", nights: 5, price: 407 },
-{ dateSearched: "2026-08-26", destination: "Mexico City", destCode: "MEX", nights: 6, price: 446 },
-{ dateSearched: "2026-08-26", destination: "Mexico City", destCode: "MEX", nights: 7, price: 441 },
-{ dateSearched: "2026-08-26", destination: "London Heathrow", destCode: "LHR", nights: 1, price: 1278 },
-{ dateSearched: "2026-08-26", destination: "London Heathrow", destCode: "LHR", nights: 2, price: 940 },
-{ dateSearched: "2026-08-26", destination: "London Heathrow", destCode: "LHR", nights: 3, price: 919 },
-{ dateSearched: "2026-08-26", destination: "London Heathrow", destCode: "LHR", nights: 4, price: 886 },
-{ dateSearched: "2026-08-26", destination: "London Heathrow", destCode: "LHR", nights: 5, price: 919 },
-{ dateSearched: "2026-08-26", destination: "London Heathrow", destCode: "LHR", nights: 6, price: 877 },
-{ dateSearched: "2026-08-26", destination: "London Heathrow", destCode: "LHR", nights: 7, price: 956 },
-{ dateSearched: "2026-08-26", destination: "Paris", destCode: "CDG", nights: 1, price: 1007 },
-{ dateSearched: "2026-08-26", destination: "Paris", destCode: "CDG", nights: 2, price: 924 },
-{ dateSearched: "2026-08-26", destination: "Paris", destCode: "CDG", nights: 3, price: 925 },
-{ dateSearched: "2026-08-26", destination: "Paris", destCode: "CDG", nights: 4, price: 767 },
-{ dateSearched: "2026-08-26", destination: "Paris", destCode: "CDG", nights: 5, price: 868 },
-{ dateSearched: "2026-08-26", destination: "Paris", destCode: "CDG", nights: 6, price: 810 },
-{ dateSearched: "2026-08-26", destination: "Paris", destCode: "CDG", nights: 7, price: 763 },
-{ dateSearched: "2026-08-26", destination: "Frankfurt", destCode: "FRA", nights: 1, price: 1180 },
-{ dateSearched: "2026-08-26", destination: "Frankfurt", destCode: "FRA", nights: 2, price: 924 },
-{ dateSearched: "2026-08-26", destination: "Frankfurt", destCode: "FRA", nights: 3, price: 921 },
-{ dateSearched: "2026-08-26", destination: "Frankfurt", destCode: "FRA", nights: 4, price: 887 },
-{ dateSearched: "2026-08-26", destination: "Frankfurt", destCode: "FRA", nights: 5, price: 887 },
-{ dateSearched: "2026-08-26", destination: "Frankfurt", destCode: "FRA", nights: 6, price: 900 },
-{ dateSearched: "2026-08-26", destination: "Frankfurt", destCode: "FRA", nights: 7, price: 938 },
-{ dateSearched: "2026-08-26", destination: "Amsterdam", destCode: "AMS", nights: 1, price: 1037 },
-{ dateSearched: "2026-08-26", destination: "Amsterdam", destCode: "AMS", nights: 2, price: 950 },
-{ dateSearched: "2026-08-26", destination: "Amsterdam", destCode: "AMS", nights: 3, price: 866 },
-{ dateSearched: "2026-08-26", destination: "Amsterdam", destCode: "AMS", nights: 4, price: 901 },
-{ dateSearched: "2026-08-26", destination: "Amsterdam", destCode: "AMS", nights: 5, price: 852 },
-{ dateSearched: "2026-08-26", destination: "Amsterdam", destCode: "AMS", nights: 6, price: 899 },
-{ dateSearched: "2026-08-26", destination: "Amsterdam", destCode: "AMS", nights: 7, price: 901 },
-{ dateSearched: "2026-08-26", destination: "Zurich", destCode: "ZRH", nights: 1, price: 1257 },
-{ dateSearched: "2026-08-26", destination: "Zurich", destCode: "ZRH", nights: 2, price: 1026 },
-{ dateSearched: "2026-08-26", destination: "Zurich", destCode: "ZRH", nights: 3, price: 944 },
-{ dateSearched: "2026-08-26", destination: "Zurich", destCode: "ZRH", nights: 4, price: 792 },
-{ dateSearched: "2026-08-26", destination: "Zurich", destCode: "ZRH", nights: 5, price: 933 },
-{ dateSearched: "2026-08-26", destination: "Zurich", destCode: "ZRH", nights: 6, price: 765 },
-{ dateSearched: "2026-08-26", destination: "Zurich", destCode: "ZRH", nights: 7, price: 760 },
-{ dateSearched: "2026-08-26", destination: "Barcelona", destCode: "BCN", nights: 1, price: 950 },
-{ dateSearched: "2026-08-26", destination: "Barcelona", destCode: "BCN", nights: 2, price: 893 },
-{ dateSearched: "2026-08-26", destination: "Barcelona", destCode: "BCN", nights: 3, price: 802 },
-{ dateSearched: "2026-08-26", destination: "Barcelona", destCode: "BCN", nights: 4, price: 700 },
-{ dateSearched: "2026-08-26", destination: "Barcelona", destCode: "BCN", nights: 5, price: 802 },
-{ dateSearched: "2026-08-26", destination: "Barcelona", destCode: "BCN", nights: 6, price: 700 },
-{ dateSearched: "2026-08-26", destination: "Barcelona", destCode: "BCN", nights: 7, price: 696 },
-{ dateSearched: "2026-08-26", destination: "Vienna", destCode: "VIE", nights: 1, price: 1497 },
-{ dateSearched: "2026-08-26", destination: "Vienna", destCode: "VIE", nights: 2, price: 979 },
-{ dateSearched: "2026-08-26", destination: "Vienna", destCode: "VIE", nights: 3, price: 955 },
-{ dateSearched: "2026-08-26", destination: "Vienna", destCode: "VIE", nights: 4, price: 745 },
-{ dateSearched: "2026-08-26", destination: "Vienna", destCode: "VIE", nights: 5, price: 917 },
-{ dateSearched: "2026-08-26", destination: "Vienna", destCode: "VIE", nights: 6, price: 755 },
-{ dateSearched: "2026-08-26", destination: "Vienna", destCode: "VIE", nights: 7, price: 751 },
-{ dateSearched: "2026-08-26", destination: "Copenhagen", destCode: "CPH", nights: 1, price: 911 },
-{ dateSearched: "2026-08-26", destination: "Copenhagen", destCode: "CPH", nights: 2, price: 936 },
-{ dateSearched: "2026-08-26", destination: "Copenhagen", destCode: "CPH", nights: 3, price: 922 },
-{ dateSearched: "2026-08-26", destination: "Copenhagen", destCode: "CPH", nights: 4, price: 888 },
-{ dateSearched: "2026-08-26", destination: "Copenhagen", destCode: "CPH", nights: 5, price: 855 },
-{ dateSearched: "2026-08-26", destination: "Copenhagen", destCode: "CPH", nights: 6, price: 888 },
-{ dateSearched: "2026-08-26", destination: "Copenhagen", destCode: "CPH", nights: 7, price: 772 },
-{ dateSearched: "2026-08-26", destination: "Dublin", destCode: "DUB", nights: 1, price: 916 },
-{ dateSearched: "2026-08-26", destination: "Dublin", destCode: "DUB", nights: 2, price: 926 },
-{ dateSearched: "2026-08-26", destination: "Dublin", destCode: "DUB", nights: 3, price: 793 },
-{ dateSearched: "2026-08-26", destination: "Dublin", destCode: "DUB", nights: 4, price: 793 },
-{ dateSearched: "2026-08-26", destination: "Dublin", destCode: "DUB", nights: 5, price: 793 },
-{ dateSearched: "2026-08-26", destination: "Dublin", destCode: "DUB", nights: 6, price: 901 },
-{ dateSearched: "2026-08-26", destination: "Dublin", destCode: "DUB", nights: 7, price: 869 },
-{ dateSearched: "2026-08-26", destination: "Athens", destCode: "ATH", nights: 1, price: 1263 },
-{ dateSearched: "2026-08-26", destination: "Athens", destCode: "ATH", nights: 2, price: 1050 },
-{ dateSearched: "2026-08-26", destination: "Athens", destCode: "ATH", nights: 3, price: 982 },
-{ dateSearched: "2026-08-26", destination: "Athens", destCode: "ATH", nights: 4, price: 982 },
-{ dateSearched: "2026-08-26", destination: "Athens", destCode: "ATH", nights: 5, price: 914 },
-{ dateSearched: "2026-08-26", destination: "Athens", destCode: "ATH", nights: 6, price: 889 },
-{ dateSearched: "2026-08-26", destination: "Athens", destCode: "ATH", nights: 7, price: 1020 },
-{ dateSearched: "2026-08-26", destination: "Brussels", destCode: "BRU", nights: 1, price: 1213 },
-{ dateSearched: "2026-08-26", destination: "Brussels", destCode: "BRU", nights: 2, price: 954 },
-{ dateSearched: "2026-08-26", destination: "Brussels", destCode: "BRU", nights: 3, price: 856 },
-{ dateSearched: "2026-08-26", destination: "Brussels", destCode: "BRU", nights: 4, price: 836 },
-{ dateSearched: "2026-08-26", destination: "Brussels", destCode: "BRU", nights: 5, price: 887 },
-{ dateSearched: "2026-08-26", destination: "Brussels", destCode: "BRU", nights: 6, price: 863 },
-{ dateSearched: "2026-08-26", destination: "Brussels", destCode: "BRU", nights: 7, price: 766 },
-{ dateSearched: "2026-08-26", destination: "Dubai", destCode: "DXB", nights: 1, price: 4967 },
-{ dateSearched: "2026-08-26", destination: "Dubai", destCode: "DXB", nights: 2, price: 1206 },
-{ dateSearched: "2026-08-26", destination: "Dubai", destCode: "DXB", nights: 3, price: 1116 },
-{ dateSearched: "2026-08-26", destination: "Dubai", destCode: "DXB", nights: 4, price: 1041 },
-{ dateSearched: "2026-08-26", destination: "Dubai", destCode: "DXB", nights: 5, price: 1022 },
-{ dateSearched: "2026-08-26", destination: "Dubai", destCode: "DXB", nights: 6, price: 981 },
-{ dateSearched: "2026-08-26", destination: "Dubai", destCode: "DXB", nights: 7, price: 984 },
-{ dateSearched: "2026-08-26", destination: "Tel Aviv", destCode: "TLV", nights: 1, price: 1673 },
-{ dateSearched: "2026-08-26", destination: "Tel Aviv", destCode: "TLV", nights: 2, price: 1237 },
-{ dateSearched: "2026-08-26", destination: "Tel Aviv", destCode: "TLV", nights: 3, price: 1127 },
-{ dateSearched: "2026-08-26", destination: "Tel Aviv", destCode: "TLV", nights: 4, price: 1118 },
-{ dateSearched: "2026-08-26", destination: "Tel Aviv", destCode: "TLV", nights: 5, price: 1168 },
-{ dateSearched: "2026-08-26", destination: "Tel Aviv", destCode: "TLV", nights: 6, price: 1127 },
-{ dateSearched: "2026-08-26", destination: "Tel Aviv", destCode: "TLV", nights: 7, price: 1118 },
-{ dateSearched: "2026-08-26", destination: "Mumbai", destCode: "BOM", nights: 1, price: 1380 },
-{ dateSearched: "2026-08-26", destination: "Mumbai", destCode: "BOM", nights: 2, price: 947 },
-{ dateSearched: "2026-08-26", destination: "Mumbai", destCode: "BOM", nights: 3, price: 868 },
-{ dateSearched: "2026-08-26", destination: "Mumbai", destCode: "BOM", nights: 4, price: 868 },
-{ dateSearched: "2026-08-26", destination: "Mumbai", destCode: "BOM", nights: 5, price: 868 },
-{ dateSearched: "2026-08-26", destination: "Mumbai", destCode: "BOM", nights: 6, price: 962 },
-{ dateSearched: "2026-08-26", destination: "Mumbai", destCode: "BOM", nights: 7, price: 992 },
-{ dateSearched: "2026-08-26", destination: "New Delhi", destCode: "DEL", nights: 1, price: 1549 },
-{ dateSearched: "2026-08-26", destination: "New Delhi", destCode: "DEL", nights: 2, price: 1057 },
-{ dateSearched: "2026-08-26", destination: "New Delhi", destCode: "DEL", nights: 3, price: 1039 },
-{ dateSearched: "2026-08-26", destination: "New Delhi", destCode: "DEL", nights: 4, price: 992 },
-{ dateSearched: "2026-08-26", destination: "New Delhi", destCode: "DEL", nights: 5, price: 1057 },
-{ dateSearched: "2026-08-26", destination: "New Delhi", destCode: "DEL", nights: 6, price: 1009 },
-{ dateSearched: "2026-08-26", destination: "New Delhi", destCode: "DEL", nights: 7, price: 1009 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Narita", destCode: "NRT", nights: 1, price: 1027 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Narita", destCode: "NRT", nights: 2, price: 979 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Narita", destCode: "NRT", nights: 3, price: 957 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Narita", destCode: "NRT", nights: 4, price: 957 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Narita", destCode: "NRT", nights: 5, price: 993 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Narita", destCode: "NRT", nights: 6, price: 957 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Narita", destCode: "NRT", nights: 7, price: 933 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Haneda", destCode: "HND", nights: 1, price: 1306 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Haneda", destCode: "HND", nights: 2, price: 1180 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Haneda", destCode: "HND", nights: 3, price: 1070 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Haneda", destCode: "HND", nights: 4, price: 1070 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Haneda", destCode: "HND", nights: 5, price: 1057 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Haneda", destCode: "HND", nights: 6, price: 1049 },
-{ dateSearched: "2026-08-26", destination: "Tokyo Haneda", destCode: "HND", nights: 7, price: 1086 },
-{ dateSearched: "2026-08-26", destination: "Seoul", destCode: "ICN", nights: 1, price: 941 },
-{ dateSearched: "2026-08-26", destination: "Seoul", destCode: "ICN", nights: 2, price: 888 },
-{ dateSearched: "2026-08-26", destination: "Seoul", destCode: "ICN", nights: 3, price: 851 },
-{ dateSearched: "2026-08-26", destination: "Seoul", destCode: "ICN", nights: 4, price: 858 },
-{ dateSearched: "2026-08-26", destination: "Seoul", destCode: "ICN", nights: 5, price: 851 },
-{ dateSearched: "2026-08-26", destination: "Seoul", destCode: "ICN", nights: 6, price: 894 },
-{ dateSearched: "2026-08-26", destination: "Seoul", destCode: "ICN", nights: 7, price: 885 },
-{ dateSearched: "2026-08-26", destination: "Hong Kong", destCode: "HKG", nights: 1, price: 878 },
-{ dateSearched: "2026-08-26", destination: "Hong Kong", destCode: "HKG", nights: 2, price: 854 },
-{ dateSearched: "2026-08-26", destination: "Hong Kong", destCode: "HKG", nights: 3, price: 805 },
-{ dateSearched: "2026-08-26", destination: "Hong Kong", destCode: "HKG", nights: 4, price: 904 },
-{ dateSearched: "2026-08-26", destination: "Hong Kong", destCode: "HKG", nights: 5, price: 805 },
-{ dateSearched: "2026-08-26", destination: "Hong Kong", destCode: "HKG", nights: 6, price: 894 },
-{ dateSearched: "2026-08-26", destination: "Hong Kong", destCode: "HKG", nights: 7, price: 872 },
-{ dateSearched: "2026-08-26", destination: "Taipei", destCode: "TPE", nights: 1, price: 798 },
-{ dateSearched: "2026-08-26", destination: "Taipei", destCode: "TPE", nights: 2, price: 821 },
-{ dateSearched: "2026-08-26", destination: "Taipei", destCode: "TPE", nights: 3, price: 793 },
-{ dateSearched: "2026-08-26", destination: "Taipei", destCode: "TPE", nights: 4, price: 816 },
-{ dateSearched: "2026-08-26", destination: "Taipei", destCode: "TPE", nights: 5, price: 821 },
-{ dateSearched: "2026-08-26", destination: "Taipei", destCode: "TPE", nights: 6, price: 817 },
-{ dateSearched: "2026-08-26", destination: "Taipei", destCode: "TPE", nights: 7, price: 798 },
-{ dateSearched: "2026-08-26", destination: "Singapore", destCode: "SIN", nights: 1, price: 1019 },
-{ dateSearched: "2026-08-26", destination: "Singapore", destCode: "SIN", nights: 2, price: 879 },
-{ dateSearched: "2026-08-26", destination: "Singapore", destCode: "SIN", nights: 3, price: 807 },
-{ dateSearched: "2026-08-26", destination: "Singapore", destCode: "SIN", nights: 4, price: 824 },
-{ dateSearched: "2026-08-26", destination: "Singapore", destCode: "SIN", nights: 5, price: 825 },
-{ dateSearched: "2026-08-26", destination: "Singapore", destCode: "SIN", nights: 6, price: 840 },
-{ dateSearched: "2026-08-26", destination: "Singapore", destCode: "SIN", nights: 7, price: 879 }
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Atlanta",
+    "destCode": "ATL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 487
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Atlanta",
+    "destCode": "ATL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 487
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Atlanta",
+    "destCode": "ATL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 487
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Atlanta",
+    "destCode": "ATL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 487
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Atlanta",
+    "destCode": "ATL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 487
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Atlanta",
+    "destCode": "ATL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 467
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Atlanta",
+    "destCode": "ATL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 466
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Austin",
+    "destCode": "AUS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 473
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Austin",
+    "destCode": "AUS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 473
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Austin",
+    "destCode": "AUS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 473
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Austin",
+    "destCode": "AUS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 473
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Austin",
+    "destCode": "AUS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 473
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Austin",
+    "destCode": "AUS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 453
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Austin",
+    "destCode": "AUS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 443
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Nashville",
+    "destCode": "BNA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 674
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Nashville",
+    "destCode": "BNA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 674
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Nashville",
+    "destCode": "BNA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 663
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Nashville",
+    "destCode": "BNA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 680
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Nashville",
+    "destCode": "BNA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 674
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Nashville",
+    "destCode": "BNA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 669
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Nashville",
+    "destCode": "BNA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 650
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Boston",
+    "destCode": "BOS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 789
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Boston",
+    "destCode": "BOS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 572
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Boston",
+    "destCode": "BOS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 554
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Boston",
+    "destCode": "BOS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 572
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Boston",
+    "destCode": "BOS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 572
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Boston",
+    "destCode": "BOS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 554
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Boston",
+    "destCode": "BOS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 542
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Denver",
+    "destCode": "DEN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 360
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Denver",
+    "destCode": "DEN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 360
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Denver",
+    "destCode": "DEN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 360
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Denver",
+    "destCode": "DEN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 360
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Denver",
+    "destCode": "DEN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 360
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Denver",
+    "destCode": "DEN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 340
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Denver",
+    "destCode": "DEN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 330
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dallas",
+    "destCode": "DFW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 425
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dallas",
+    "destCode": "DFW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 425
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dallas",
+    "destCode": "DFW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 388
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dallas",
+    "destCode": "DFW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 425
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dallas",
+    "destCode": "DFW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 425
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dallas",
+    "destCode": "DFW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 388
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dallas",
+    "destCode": "DFW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 369
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Detroit",
+    "destCode": "DTW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 749
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Detroit",
+    "destCode": "DTW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 615
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Detroit",
+    "destCode": "DTW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 615
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Detroit",
+    "destCode": "DTW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 621
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Detroit",
+    "destCode": "DTW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 615
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Detroit",
+    "destCode": "DTW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 595
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Detroit",
+    "destCode": "DTW",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 595
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Newark",
+    "destCode": "EWR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 580
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Newark",
+    "destCode": "EWR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 580
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Newark",
+    "destCode": "EWR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 618
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Newark",
+    "destCode": "EWR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 593
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Newark",
+    "destCode": "EWR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 580
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Newark",
+    "destCode": "EWR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 555
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Newark",
+    "destCode": "EWR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 555
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "HOU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 733
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "HOU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 739
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "HOU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 699
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "HOU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 699
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "HOU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 699
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "HOU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 699
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "HOU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 624
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Washington",
+    "destCode": "IAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 661
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Washington",
+    "destCode": "IAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 760
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Washington",
+    "destCode": "IAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 760
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Washington",
+    "destCode": "IAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 760
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Washington",
+    "destCode": "IAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 760
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Washington",
+    "destCode": "IAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 740
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Washington",
+    "destCode": "IAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 730
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "IAH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "IAH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "IAH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "IAH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "IAH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "IAH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 420
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Houston",
+    "destCode": "IAH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 410
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "JFK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 856
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "JFK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 856
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "JFK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 749
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "JFK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 740
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "JFK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 740
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "JFK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 730
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "JFK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 708
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Los Angeles",
+    "destCode": "LAX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 453
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Los Angeles",
+    "destCode": "LAX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 453
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Los Angeles",
+    "destCode": "LAX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 437
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Los Angeles",
+    "destCode": "LAX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 489
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Los Angeles",
+    "destCode": "LAX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 459
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Los Angeles",
+    "destCode": "LAX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 391
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Los Angeles",
+    "destCode": "LAX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 436
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Las Vegas",
+    "destCode": "LAS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 740
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Las Vegas",
+    "destCode": "LAS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 740
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Las Vegas",
+    "destCode": "LAS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 739
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Las Vegas",
+    "destCode": "LAS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 739
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Las Vegas",
+    "destCode": "LAS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 739
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Las Vegas",
+    "destCode": "LAS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 739
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Las Vegas",
+    "destCode": "LAS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 862
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "LGA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 704
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "LGA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 603
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "LGA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 575
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "LGA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 668
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "LGA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 600
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "LGA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 575
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New York",
+    "destCode": "LGA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 575
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Miami",
+    "destCode": "MIA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 571
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Miami",
+    "destCode": "MIA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 484
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Miami",
+    "destCode": "MIA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 446
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Miami",
+    "destCode": "MIA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 484
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Miami",
+    "destCode": "MIA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 484
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Miami",
+    "destCode": "MIA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Miami",
+    "destCode": "MIA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Minneapolis",
+    "destCode": "MSP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Minneapolis",
+    "destCode": "MSP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Minneapolis",
+    "destCode": "MSP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 429
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Minneapolis",
+    "destCode": "MSP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Minneapolis",
+    "destCode": "MSP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Minneapolis",
+    "destCode": "MSP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 420
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Minneapolis",
+    "destCode": "MSP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 410
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Orleans",
+    "destCode": "MSY",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 570
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Orleans",
+    "destCode": "MSY",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 559
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Orleans",
+    "destCode": "MSY",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 559
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Orleans",
+    "destCode": "MSY",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 559
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Orleans",
+    "destCode": "MSY",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 570
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Orleans",
+    "destCode": "MSY",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 699
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Orleans",
+    "destCode": "MSY",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 634
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Chicago",
+    "destCode": "ORD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 508
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Chicago",
+    "destCode": "ORD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 444
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Chicago",
+    "destCode": "ORD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 430
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Chicago",
+    "destCode": "ORD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 444
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Chicago",
+    "destCode": "ORD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 444
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Chicago",
+    "destCode": "ORD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 430
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Chicago",
+    "destCode": "ORD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 430
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Portland",
+    "destCode": "PDX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 831
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Portland",
+    "destCode": "PDX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 750
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Portland",
+    "destCode": "PDX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 750
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Portland",
+    "destCode": "PDX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 756
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Portland",
+    "destCode": "PDX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 750
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Portland",
+    "destCode": "PDX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 730
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Portland",
+    "destCode": "PDX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 720
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Phoenix",
+    "destCode": "PHX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 443
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Phoenix",
+    "destCode": "PHX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 378
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Phoenix",
+    "destCode": "PHX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 392
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Phoenix",
+    "destCode": "PHX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 378
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Phoenix",
+    "destCode": "PHX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 378
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Phoenix",
+    "destCode": "PHX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 372
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Phoenix",
+    "destCode": "PHX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 362
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Philadelphia",
+    "destCode": "PHL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 508
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Philadelphia",
+    "destCode": "PHL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 508
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Philadelphia",
+    "destCode": "PHL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 486
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Philadelphia",
+    "destCode": "PHL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 508
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Philadelphia",
+    "destCode": "PHL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 508
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Philadelphia",
+    "destCode": "PHL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 486
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Philadelphia",
+    "destCode": "PHL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 486
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Diego",
+    "destCode": "SAN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 662
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Diego",
+    "destCode": "SAN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 607
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Diego",
+    "destCode": "SAN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 607
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Diego",
+    "destCode": "SAN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 607
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Diego",
+    "destCode": "SAN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 607
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Diego",
+    "destCode": "SAN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 615
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Diego",
+    "destCode": "SAN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 580
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Antonio",
+    "destCode": "SAT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 531
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Antonio",
+    "destCode": "SAT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 531
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Antonio",
+    "destCode": "SAT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 531
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Antonio",
+    "destCode": "SAT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 531
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Antonio",
+    "destCode": "SAT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 531
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Antonio",
+    "destCode": "SAT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 511
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "San Antonio",
+    "destCode": "SAT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 501
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seattle",
+    "destCode": "SEA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 994
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seattle",
+    "destCode": "SEA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 994
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seattle",
+    "destCode": "SEA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 862
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seattle",
+    "destCode": "SEA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 862
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seattle",
+    "destCode": "SEA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 862
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seattle",
+    "destCode": "SEA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 964
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seattle",
+    "destCode": "SEA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 922
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Salt Lake City",
+    "destCode": "SLC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 862
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Salt Lake City",
+    "destCode": "SLC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 750
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Salt Lake City",
+    "destCode": "SLC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 750
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Salt Lake City",
+    "destCode": "SLC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 750
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Salt Lake City",
+    "destCode": "SLC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 750
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Salt Lake City",
+    "destCode": "SLC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 730
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Salt Lake City",
+    "destCode": "SLC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 720
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sacramento",
+    "destCode": "SMF",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 1050
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sacramento",
+    "destCode": "SMF",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 905
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sacramento",
+    "destCode": "SMF",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 821
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sacramento",
+    "destCode": "SMF",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 821
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sacramento",
+    "destCode": "SMF",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 821
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sacramento",
+    "destCode": "SMF",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 821
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sacramento",
+    "destCode": "SMF",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 771
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Honolulu",
+    "destCode": "HNL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 945
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Honolulu",
+    "destCode": "HNL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 896
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Honolulu",
+    "destCode": "HNL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 896
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Honolulu",
+    "destCode": "HNL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 951
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Honolulu",
+    "destCode": "HNL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 896
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Honolulu",
+    "destCode": "HNL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 896
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Honolulu",
+    "destCode": "HNL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 896
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Anchorage",
+    "destCode": "ANC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 1140
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Anchorage",
+    "destCode": "ANC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1050
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Anchorage",
+    "destCode": "ANC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1050
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Anchorage",
+    "destCode": "ANC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1014
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Anchorage",
+    "destCode": "ANC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1014
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Anchorage",
+    "destCode": "ANC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Anchorage",
+    "destCode": "ANC",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Kahului",
+    "destCode": "OGG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 945
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Kahului",
+    "destCode": "OGG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 951
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Kahului",
+    "destCode": "OGG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 951
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Kahului",
+    "destCode": "OGG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 951
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Kahului",
+    "destCode": "OGG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 951
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Kahului",
+    "destCode": "OGG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 951
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Kahului",
+    "destCode": "OGG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 951
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vancouver",
+    "destCode": "YVR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 840
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vancouver",
+    "destCode": "YVR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 736
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vancouver",
+    "destCode": "YVR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 773
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vancouver",
+    "destCode": "YVR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 804
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vancouver",
+    "destCode": "YVR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 685
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vancouver",
+    "destCode": "YVR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 740
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vancouver",
+    "destCode": "YVR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 656
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Toronto",
+    "destCode": "YYZ",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 1310
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Toronto",
+    "destCode": "YYZ",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1260
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Toronto",
+    "destCode": "YYZ",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1210
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Toronto",
+    "destCode": "YYZ",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1250
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Toronto",
+    "destCode": "YYZ",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1190
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Toronto",
+    "destCode": "YYZ",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1110
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Toronto",
+    "destCode": "YYZ",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1160
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mexico City",
+    "destCode": "MEX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 905
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mexico City",
+    "destCode": "MEX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1080
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mexico City",
+    "destCode": "MEX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 990
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mexico City",
+    "destCode": "MEX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 995
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mexico City",
+    "destCode": "MEX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 995
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mexico City",
+    "destCode": "MEX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 990
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mexico City",
+    "destCode": "MEX",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 938
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Amsterdam",
+    "destCode": "AMS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Amsterdam",
+    "destCode": "AMS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 3513
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Amsterdam",
+    "destCode": "AMS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 2150
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Amsterdam",
+    "destCode": "AMS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1820
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Amsterdam",
+    "destCode": "AMS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1780
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Amsterdam",
+    "destCode": "AMS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1770
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Amsterdam",
+    "destCode": "AMS",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1770
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Athens",
+    "destCode": "ATH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Athens",
+    "destCode": "ATH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1450
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Athens",
+    "destCode": "ATH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1550
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Athens",
+    "destCode": "ATH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1290
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Athens",
+    "destCode": "ATH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1070
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Athens",
+    "destCode": "ATH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1040
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Athens",
+    "destCode": "ATH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1040
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Barcelona",
+    "destCode": "BCN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Barcelona",
+    "destCode": "BCN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1490
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Barcelona",
+    "destCode": "BCN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1610
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Barcelona",
+    "destCode": "BCN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1400
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Barcelona",
+    "destCode": "BCN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1280
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Barcelona",
+    "destCode": "BCN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1270
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Barcelona",
+    "destCode": "BCN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1240
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Berlin",
+    "destCode": "BER",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Berlin",
+    "destCode": "BER",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1650
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Berlin",
+    "destCode": "BER",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1670
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Berlin",
+    "destCode": "BER",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1250
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Berlin",
+    "destCode": "BER",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1460
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Berlin",
+    "destCode": "BER",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1350
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Berlin",
+    "destCode": "BER",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1540
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Brussels",
+    "destCode": "BRU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Brussels",
+    "destCode": "BRU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1500
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Brussels",
+    "destCode": "BRU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1460
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Brussels",
+    "destCode": "BRU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1080
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Brussels",
+    "destCode": "BRU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1020
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Brussels",
+    "destCode": "BRU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1020
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Brussels",
+    "destCode": "BRU",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1020
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Paris",
+    "destCode": "CDG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Paris",
+    "destCode": "CDG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 4520
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Paris",
+    "destCode": "CDG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 3670
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Paris",
+    "destCode": "CDG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 3020
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Paris",
+    "destCode": "CDG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 3020
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Paris",
+    "destCode": "CDG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 3530
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Paris",
+    "destCode": "CDG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 3530
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Copenhagen",
+    "destCode": "CPH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Copenhagen",
+    "destCode": "CPH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1520
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Copenhagen",
+    "destCode": "CPH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 897
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Copenhagen",
+    "destCode": "CPH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 897
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Copenhagen",
+    "destCode": "CPH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 847
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Copenhagen",
+    "destCode": "CPH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 846
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Copenhagen",
+    "destCode": "CPH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 842
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dublin",
+    "destCode": "DUB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dublin",
+    "destCode": "DUB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1420
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dublin",
+    "destCode": "DUB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1480
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dublin",
+    "destCode": "DUB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1110
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dublin",
+    "destCode": "DUB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1120
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dublin",
+    "destCode": "DUB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1070
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dublin",
+    "destCode": "DUB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1060
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Frankfurt",
+    "destCode": "FRA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Frankfurt",
+    "destCode": "FRA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1830
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Frankfurt",
+    "destCode": "FRA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1500
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Frankfurt",
+    "destCode": "FRA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1500
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Frankfurt",
+    "destCode": "FRA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1500
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Frankfurt",
+    "destCode": "FRA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1500
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Frankfurt",
+    "destCode": "FRA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1500
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Geneva",
+    "destCode": "GVA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Geneva",
+    "destCode": "GVA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 2210
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Geneva",
+    "destCode": "GVA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1510
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Geneva",
+    "destCode": "GVA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1090
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Geneva",
+    "destCode": "GVA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Geneva",
+    "destCode": "GVA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1230
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Geneva",
+    "destCode": "GVA",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1230
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "London",
+    "destCode": "LHR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "London",
+    "destCode": "LHR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1760
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "London",
+    "destCode": "LHR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1600
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "London",
+    "destCode": "LHR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1210
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "London",
+    "destCode": "LHR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1170
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "London",
+    "destCode": "LHR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1120
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "London",
+    "destCode": "LHR",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1120
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Madrid",
+    "destCode": "MAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Madrid",
+    "destCode": "MAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1670
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Madrid",
+    "destCode": "MAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1430
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Madrid",
+    "destCode": "MAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1430
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Madrid",
+    "destCode": "MAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1440
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Madrid",
+    "destCode": "MAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1340
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Madrid",
+    "destCode": "MAD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1340
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Milan",
+    "destCode": "MXP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Milan",
+    "destCode": "MXP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1300
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Milan",
+    "destCode": "MXP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1410
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Milan",
+    "destCode": "MXP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1070
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Milan",
+    "destCode": "MXP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1070
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Milan",
+    "destCode": "MXP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1070
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Milan",
+    "destCode": "MXP",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1070
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Prague",
+    "destCode": "PRG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Prague",
+    "destCode": "PRG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 2400
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Prague",
+    "destCode": "PRG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1020
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Prague",
+    "destCode": "PRG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1020
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Prague",
+    "destCode": "PRG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Prague",
+    "destCode": "PRG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Prague",
+    "destCode": "PRG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vienna",
+    "destCode": "VIE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vienna",
+    "destCode": "VIE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1810
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vienna",
+    "destCode": "VIE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1480
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vienna",
+    "destCode": "VIE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1090
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vienna",
+    "destCode": "VIE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1050
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vienna",
+    "destCode": "VIE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1020
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Vienna",
+    "destCode": "VIE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1020
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Zurich",
+    "destCode": "ZRH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Zurich",
+    "destCode": "ZRH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 3390
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Zurich",
+    "destCode": "ZRH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 3380
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Zurich",
+    "destCode": "ZRH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 2960
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Zurich",
+    "destCode": "ZRH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 2960
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Zurich",
+    "destCode": "ZRH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 2900
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Zurich",
+    "destCode": "ZRH",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 2900
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dubai",
+    "destCode": "DXB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dubai",
+    "destCode": "DXB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 2660
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dubai",
+    "destCode": "DXB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1930
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dubai",
+    "destCode": "DXB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1920
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dubai",
+    "destCode": "DXB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1460
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dubai",
+    "destCode": "DXB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1490
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Dubai",
+    "destCode": "DXB",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1580
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tel Aviv",
+    "destCode": "TLV",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tel Aviv",
+    "destCode": "TLV",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tel Aviv",
+    "destCode": "TLV",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tel Aviv",
+    "destCode": "TLV",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tel Aviv",
+    "destCode": "TLV",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tel Aviv",
+    "destCode": "TLV",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tel Aviv",
+    "destCode": "TLV",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Bangkok",
+    "destCode": "BKK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Bangkok",
+    "destCode": "BKK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 8140
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Bangkok",
+    "destCode": "BKK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 858
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Bangkok",
+    "destCode": "BKK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 850
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Bangkok",
+    "destCode": "BKK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 822
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Bangkok",
+    "destCode": "BKK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 822
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Bangkok",
+    "destCode": "BKK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 822
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Delhi",
+    "destCode": "DEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Delhi",
+    "destCode": "DEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 2380
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Delhi",
+    "destCode": "DEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1330
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Delhi",
+    "destCode": "DEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1330
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Delhi",
+    "destCode": "DEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1260
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Delhi",
+    "destCode": "DEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1290
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "New Delhi",
+    "destCode": "DEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1160
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mumbai",
+    "destCode": "BOM",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mumbai",
+    "destCode": "BOM",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 11000
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mumbai",
+    "destCode": "BOM",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1520
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mumbai",
+    "destCode": "BOM",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1520
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mumbai",
+    "destCode": "BOM",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1520
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mumbai",
+    "destCode": "BOM",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1390
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Mumbai",
+    "destCode": "BOM",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1380
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Hong Kong",
+    "destCode": "HKG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Hong Kong",
+    "destCode": "HKG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1140
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Hong Kong",
+    "destCode": "HKG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1240
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Hong Kong",
+    "destCode": "HKG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1240
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Hong Kong",
+    "destCode": "HKG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1090
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Hong Kong",
+    "destCode": "HKG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1090
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Hong Kong",
+    "destCode": "HKG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1090
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "HND",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "HND",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 5110
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "HND",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1390
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "HND",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1150
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "HND",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1150
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "HND",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1150
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "HND",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1320
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seoul",
+    "destCode": "ICN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seoul",
+    "destCode": "ICN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 772
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seoul",
+    "destCode": "ICN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 643
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seoul",
+    "destCode": "ICN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 643
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seoul",
+    "destCode": "ICN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 643
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seoul",
+    "destCode": "ICN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 643
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Seoul",
+    "destCode": "ICN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 643
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "NRT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "NRT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 1090
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "NRT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1060
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "NRT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1150
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "NRT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1150
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "NRT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1090
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Tokyo",
+    "destCode": "NRT",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1050
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Beijing",
+    "destCode": "PEK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Beijing",
+    "destCode": "PEK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 5680
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Beijing",
+    "destCode": "PEK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1650
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Beijing",
+    "destCode": "PEK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1360
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Beijing",
+    "destCode": "PEK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1120
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Beijing",
+    "destCode": "PEK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1120
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Beijing",
+    "destCode": "PEK",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1120
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Shanghai",
+    "destCode": "PVG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Shanghai",
+    "destCode": "PVG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 7100
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Shanghai",
+    "destCode": "PVG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 1300
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Shanghai",
+    "destCode": "PVG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1150
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Shanghai",
+    "destCode": "PVG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1100
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Shanghai",
+    "destCode": "PVG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1100
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Shanghai",
+    "destCode": "PVG",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1090
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sydney",
+    "destCode": "SYD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sydney",
+    "destCode": "SYD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 2250
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sydney",
+    "destCode": "SYD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 2030
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sydney",
+    "destCode": "SYD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 1910
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sydney",
+    "destCode": "SYD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 1900
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sydney",
+    "destCode": "SYD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1850
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Sydney",
+    "destCode": "SYD",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 1860
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Taipei",
+    "destCode": "TPE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Taipei",
+    "destCode": "TPE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 970
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Taipei",
+    "destCode": "TPE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 896
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Taipei",
+    "destCode": "TPE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 896
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Taipei",
+    "destCode": "TPE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 849
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Taipei",
+    "destCode": "TPE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 868
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Taipei",
+    "destCode": "TPE",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 849
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Singapore",
+    "destCode": "SIN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Singapore",
+    "destCode": "SIN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 697
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Singapore",
+    "destCode": "SIN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 697
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Singapore",
+    "destCode": "SIN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 697
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Singapore",
+    "destCode": "SIN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 697
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Singapore",
+    "destCode": "SIN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 697
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Singapore",
+    "destCode": "SIN",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 697
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Melbourne",
+    "destCode": "MEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-27",
+    "price": 0
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Melbourne",
+    "destCode": "MEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-28",
+    "price": 2460
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Melbourne",
+    "destCode": "MEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-29",
+    "price": 2150
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Melbourne",
+    "destCode": "MEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-30",
+    "price": 2140
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Melbourne",
+    "destCode": "MEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-08-31",
+    "price": 2100
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Melbourne",
+    "destCode": "MEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-01",
+    "price": 1820
+  },
+  {
+    "dateSearched": "2026-08-26",
+    "destination": "Melbourne",
+    "destCode": "MEL",
+    "departDate": "2026-08-26",
+    "returnDate": "2026-09-02",
+    "price": 2000
+  }
 ];
