@@ -281,15 +281,20 @@ function lookFlight() {
       return;
     }
 
-    // Find matching rows: destination + exact night count
+    // Convert user dates to YYYY-MM-DD format for matching
+    var userDepDate = new Date(dep).toISOString().split('T')[0];
+    var userRetDate = new Date(ret).toISOString().split('T')[0];
+
+    // Find matching rows: destination + exact departure date + exact return date
     var matches = data.filter(function(r) {
       var codeMatch = destCode && r.destCode.toUpperCase() === destCode.toUpperCase();
       var nameMatch = !destCode && r.destination.toLowerCase() === destName.toLowerCase();
-      return (codeMatch || nameMatch) && r.nights === nights;
+      var dateMatch = r.departDate === userDepDate && r.returnDate === userRetDate;
+      return (codeMatch || nameMatch) && dateMatch;
     });
 
     if (!matches.length) {
-      // Try without night filter — show closest available
+      // Try without date filter — show what trip durations are available
       var anyMatch = data.filter(function(r) {
         var codeMatch = destCode && r.destCode.toUpperCase() === destCode.toUpperCase();
         var nameMatch = !destCode && r.destination.toLowerCase() === destName.toLowerCase();
@@ -298,9 +303,12 @@ function lookFlight() {
       res.classList.remove('show');
       nf.style.display = 'block';
       if (anyMatch.length) {
-        nf.innerHTML = 'No data for a ' + nights + '-night trip to ' + destName + '. '
-          + 'We have data for ' + [...new Set(anyMatch.map(function(r){return r.nights;}))]
-            .sort(function(a,b){return a-b;}).join(', ') + '-night trips.';
+        // Show what dates we have data for instead of just trip durations
+        var availableDates = [...new Set(anyMatch.map(function(r) {
+          return r.departDate + ' to ' + r.returnDate;
+        }))].slice(0, 3); // Show first 3 date combos available
+        nf.innerHTML = 'No data for ' + destName + ' on ' + userDepDate + ' to ' + userRetDate + '. '
+          + 'Available dates include: ' + availableDates.join('; ') + '.';
       } else {
         nf.textContent = destName + ' is not in our current dataset. We add new destinations regularly.';
         logUse('Flight lookup', 'SFO→' + destName + ' (not found)', nights);
@@ -308,7 +316,7 @@ function lookFlight() {
       return;
     }
 
-    // Use the most recently collected price
+    // Use the most recently collected price for this exact date combo
     matches.sort(function(a, b) {
       return new Date(b.dateSearched) - new Date(a.dateSearched);
     });
@@ -321,6 +329,7 @@ function lookFlight() {
     $('fl-lbl').textContent = 'SFO → ' + best.destination + ' · Economy return · ' + nights + ' nights';
     $('fl-note').innerHTML = '<b>Economy return fare: ' + fmt(price) + '</b>'
       + '<br>Origin: San Francisco (SFO) &nbsp;|&nbsp; Destination: ' + best.destination + ' (' + best.destCode.toUpperCase() + ')'
+      + '<br>Depart: ' + userDepDate + ' &nbsp;|&nbsp; Return: ' + userRetDate
       + '<br>Trip duration: ' + nights + ' night' + (nights !== 1 ? 's' : '')
       + '<br>Source: <a href="https://www.google.com/travel/flights" target="_blank">Google Flights</a>'
       + ' — collected ' + dateCollected
