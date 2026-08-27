@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Coverage — FairFares</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:#0A1628; --teal:#0D9E8A; --teal2:#0bc4ac;
+  --white:#ffffff; --g50:#F8F9FA; --g200:#E9ECEF;
+  --g400:#ADB5BD; --g600:#6C757D; --g800:#343A40;
+  --fb:'DM Sans',sans-serif; --fd:'DM Serif Display',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--fb);background:var(--g50);color:var(--navy);min-height:100vh}
+
+/* NAV */
+nav{background:var(--navy);padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{font-family:var(--fd);font-size:1.4rem;color:var(--white);text-decoration:none}
+.logo span{color:var(--teal)}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{color:var(--g400);text-decoration:none;font-size:.875rem;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--white)}
+.nav-badge{background:var(--teal);color:var(--white);border-radius:20px;padding:.25rem .9rem;font-size:.8rem;font-weight:500}
+
+/* HERO */
+.hero{background:var(--navy);padding:3.5rem 2rem 2.5rem;text-align:center}
+.hero-label{font-size:.75rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem}
+.hero h1{font-family:var(--fd);font-size:clamp(2rem,4vw,3rem);color:var(--white);line-height:1.15;margin-bottom:1rem}
+.hero p{color:var(--g400);font-size:1rem;max-width:640px;margin:0 auto 2rem;line-height:1.7}
+.stats-row{display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-n{font-family:var(--fd);font-size:2.2rem;color:var(--teal);line-height:1}
+.stat-l{font-size:.75rem;color:var(--g400);text-transform:uppercase;letter-spacing:.08em;margin-top:.3rem}
+
+/* CONTENT SECTION */
+.content-section{padding:3rem 2rem;max-width:1200px;margin:0 auto}
+.section-title{font-family:var(--fd);font-size:1.5rem;color:var(--navy);margin-bottom:2rem;text-align:center}
+
+.region-section{margin-bottom:3rem}
+.region-label{font-family:var(--fd);font-size:1.1rem;color:var(--teal);margin-bottom:1rem;padding-left:.5rem;border-left:3px solid var(--teal);font-weight:500}
+
+.destinations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem}
+.dest-card{background:var(--white);border:1px solid var(--g200);border-radius:8px;padding:1rem;text-align:center;transition:all .2s}
+.dest-card:hover{border-color:var(--teal);box-shadow:0 4px 12px rgba(13,158,138,.12)}
+.dest-card-code{font-family:monospace;font-weight:600;color:var(--teal);font-size:1.1rem;margin-bottom:.4rem}
+.dest-card-name{color:var(--navy);font-size:.85rem;font-weight:500}
+
+.info-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:3rem}
+.info-card{background:var(--white);border:1px solid var(--g200);border-radius:10px;padding:1.5rem}
+.info-card h3{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
+.info-card p{color:var(--g600);font-size:.9rem;line-height:1.6;margin-bottom:.8rem}
+.info-card p:last-child{margin-bottom:0}
+.info-card strong{color:var(--navy)}
+
+.feature-list{display:flex;flex-direction:column;gap:.8rem}
+.feature{display:flex;align-items:flex-start;gap:1rem}
+.feature-icon{font-size:1.5rem;flex-shrink:0}
+.feature-text{font-size:.9rem;color:var(--g600);line-height:1.6}
+.feature-text strong{color:var(--navy)}
+
+.note{background:#f0f9f8;border-left:3px solid var(--teal);border-radius:6px;padding:1rem 1.25rem;font-size:.85rem;color:#0a5c51;margin-top:2rem}
+.note strong{color:#0a3d38}
+
+/* FOOTER */
+footer{background:var(--navy);padding:2rem;text-align:center;color:var(--g400);font-size:.8rem}
+footer a{color:var(--teal);text-decoration:none}
+footer a:hover{color:var(--teal2)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Fair<span>Fares</span></a>
+  <div class="nav-links">
+    <a href="index.html">Look up a fare</a>
+    <a href="coverage.html" class="active">Coverage</a>
+    <span class="nav-badge">● Live data</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Data Coverage</div>
+  <h1>Travel cost benchmarking</h1>
+  <p>FairFares tracks flight prices from SFO to 100 destinations, plus DoD per diem rates, ground transport estimates, and travel advisories. Data is collected daily and updated weekly.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n">100</div><div class="stat-l">Flight destinations</div></div>
+    <div class="stat"><div class="stat-n">1–7</div><div class="stat-l">Trip durations</div></div>
+    <div class="stat"><div class="stat-n">190+</div><div class="stat-l">Countries (advisory)</div></div>
+    <div class="stat"><div class="stat-n">Daily</div><div class="stat-l">Price collection</div></div>
+  </div>
+</div>
+
+<div class="content-section">
+  <h2 class="section-title">Flight destinations</h2>
+
+  <div class="region-section">
+    <div class="region-label">United States</div>
+    <div class="destinations-grid">
+      <div class="dest-card"><div class="dest-card-code">ANC</div><div class="dest-card-name">Anchorage</div></div>
+      <div class="dest-card"><div class="dest-card-code">ATL</div><div class="dest-card-name">Atlanta</div></div>
+      <div class="dest-card"><div class="dest-card-code">AUS</div><div class="dest-card-name">Austin</div></div>
+      <div class="dest-card"><div class="dest-card-code">BNA</div><div class="dest-card-name">Nashville</div></div>
+      <div class="dest-card"><div class="dest-card-code">BOS</div><div class="dest-card-name">Boston</div></div>
+      <div class="dest-card"><div class="dest-card-code">BWI</div><div class="dest-card-name">Baltimore</div></div>
+      <div class="dest-card"><div class="dest-card-code">CHS</div><div class="dest-card-name">Charleston</div></div>
+      <div class="dest-card"><div class="dest-card-code">CLE</div><div class="dest-card-name">Cleveland</div></div>
+      <div class="dest-card"><div class="dest-card-code">CLT</div><div class="dest-card-name">Charlotte</div></div>
+      <div class="dest-card"><div class="dest-card-code">CMH</div><div class="dest-card-name">Columbus</div></div>
+      <div class="dest-card"><div class="dest-card-code">CVG</div><div class="dest-card-name">Cincinnati</div></div>
+      <div class="dest-card"><div class="dest-card-code">DAL</div><div class="dest-card-name">Dallas (Love Field)</div></div>
+      <div class="dest-card"><div class="dest-card-code">DCA</div><div class="dest-card-name">Washington (Reagan)</div></div>
+      <div class="dest-card"><div class="dest-card-code">DEN</div><div class="dest-card-name">Denver</div></div>
+      <div class="dest-card"><div class="dest-card-code">DFW</div><div class="dest-card-name">Dallas-Fort Worth</div></div>
+      <div class="dest-card"><div class="dest-card-code">DTW</div><div class="dest-card-name">Detroit</div></div>
+      <div class="dest-card"><div class="dest-card-code">EWR</div><div class="dest-card-name">Newark</div></div>
+      <div class="dest-card"><div class="dest-card-code">FLL</div><div class="dest-card-name">Fort Lauderdale</div></div>
+      <div class="dest-card"><div class="dest-card-code">HNL</div><div class="dest-card-name">Honolulu</div></div>
+      <div class="dest-card"><div class="dest-card-code">HOU</div><div class="dest-card-name">Houston</div></div>
+      <div class="dest-card"><div class="dest-card-code">IAD</div><div class="dest-card-name">Washington (Dulles)</div></div>
+      <div class="dest-card"><div class="dest-card-code">IAH</div><div class="dest-card-name">Houston (Bush)</div></div>
+      <div class="dest-card"><div class="dest-card-code">IND</div><div class="dest-card-name">Indianapolis</div></div>
+      <div class="dest-card"><div class="dest-card-code">JFK</div><div class="dest-card-name">New York (JFK)</div></div>
+      <div class="dest-card"><div class="dest-card-code">KOA</div><div class="dest-card-name">Kona</div></div>
+      <div class="dest-card"><div class="dest-card-code">LAS</div><div class="dest-card-name">Las Vegas</div></div>
+      <div class="dest-card"><div class="dest-card-code">LAX</div><div class="dest-card-name">Los Angeles</div></div>
+      <div class="dest-card"><div class="dest-card-code">LGA</div><div class="dest-card-name">New York (LaGuardia)</div></div>
+      <div class="dest-card"><div class="dest-card-code">LIH</div><div class="dest-card-name">Lihue</div></div>
+      <div class="dest-card"><div class="dest-card-code">MCO</div><div class="dest-card-name">Orlando</div></div>
+      <div class="dest-card"><div class="dest-card-code">MCI</div><div class="dest-card-name">Kansas City</div></div>
+      <div class="dest-card"><div class="dest-card-code">MDW</div><div class="dest-card-name">Chicago (Midway)</div></div>
+      <div class="dest-card"><div class="dest-card-code">MIA</div><div class="dest-card-name">Miami</div></div>
+      <div class="dest-card"><div class="dest-card-code">MSP</div><div class="dest-card-name">Minneapolis</div></div>
+      <div class="dest-card"><div class="dest-card-code">MSY</div><div class="dest-card-name">New Orleans</div></div>
+      <div class="dest-card"><div class="dest-card-code">OGG</div><div class="dest-card-name">Maui</div></div>
+      <div class="dest-card"><div class="dest-card-code">ORD</div><div class="dest-card-name">Chicago (O'Hare)</div></div>
+      <div class="dest-card"><div class="dest-card-code">PDX</div><div class="dest-card-name">Portland</div></div>
+      <div class="dest-card"><div class="dest-card-code">PHL</div><div class="dest-card-name">Philadelphia</div></div>
+      <div class="dest-card"><div class="dest-card-code">PHX</div><div class="dest-card-name">Phoenix</div></div>
+      <div class="dest-card"><div class="dest-card-code">PIT</div><div class="dest-card-name">Pittsburgh</div></div>
+      <div class="dest-card"><div class="dest-card-code">RDU</div><div class="dest-card-name">Raleigh-Durham</div></div>
+      <div class="dest-card"><div class="dest-card-code">SAN</div><div class="dest-card-name">San Diego</div></div>
+      <div class="dest-card"><div class="dest-card-code">SAT</div><div class="dest-card-name">San Antonio</div></div>
+      <div class="dest-card"><div class="dest-card-code">SEA</div><div class="dest-card-name">Seattle</div></div>
+      <div class="dest-card"><div class="dest-card-code">SLC</div><div class="dest-card-name">Salt Lake City</div></div>
+      <div class="dest-card"><div class="dest-card-code">SMF</div><div class="dest-card-name">Sacramento</div></div>
+      <div class="dest-card"><div class="dest-card-code">SNA</div><div class="dest-card-name">Orange County</div></div>
+      <div class="dest-card"><div class="dest-card-code">STL</div><div class="dest-card-name">St. Louis</div></div>
+      <div class="dest-card"><div class="dest-card-code">TPA</div><div class="dest-card-name">Tampa</div></div>
+    </div>
+  </div>
+
+  <div class="region-section">
+    <div class="region-label">Canada</div>
+    <div class="destinations-grid">
+      <div class="dest-card"><div class="dest-card-code">YEG</div><div class="dest-card-name">Edmonton</div></div>
+      <div class="dest-card"><div class="dest-card-code">YOW</div><div class="dest-card-name">Ottawa</div></div>
+      <div class="dest-card"><div class="dest-card-code">YQB</div><div class="dest-card-name">Quebec City</div></div>
+      <div class="dest-card"><div class="dest-card-code">YUL</div><div class="dest-card-name">Montreal</div></div>
+      <div class="dest-card"><div class="dest-card-code">YVR</div><div class="dest-card-name">Vancouver</div></div>
+      <div class="dest-card"><div class="dest-card-code">YYC</div><div class="dest-card-name">Calgary</div></div>
+      <div class="dest-card"><div class="dest-card-code">YYZ</div><div class="dest-card-name">Toronto</div></div>
+    </div>
+  </div>
+
+  <div class="region-section">
+    <div class="region-label">Latin America & Caribbean</div>
+    <div class="destinations-grid">
+      <div class="dest-card"><div class="dest-card-code">CUN</div><div class="dest-card-name">Cancún</div></div>
+      <div class="dest-card"><div class="dest-card-code">GDL</div><div class="dest-card-name">Guadalajara</div></div>
+      <div class="dest-card"><div class="dest-card-code">MEX</div><div class="dest-card-name">Mexico City</div></div>
+      <div class="dest-card"><div class="dest-card-code">MTY</div><div class="dest-card-name">Monterrey</div></div>
+      <div class="dest-card"><div class="dest-card-code">PVR</div><div class="dest-card-name">Puerto Vallarta</div></div>
+      <div class="dest-card"><div class="dest-card-code">SJD</div><div class="dest-card-name">Los Cabos</div></div>
+    </div>
+  </div>
+
+  <div class="region-section">
+    <div class="region-label">Europe</div>
+    <div class="destinations-grid">
+      <div class="dest-card"><div class="dest-card-code">AMS</div><div class="dest-card-name">Amsterdam</div></div>
+      <div class="dest-card"><div class="dest-card-code">ARN</div><div class="dest-card-name">Stockholm</div></div>
+      <div class="dest-card"><div class="dest-card-code">BCN</div><div class="dest-card-name">Barcelona</div></div>
+      <div class="dest-card"><div class="dest-card-code">BER</div><div class="dest-card-name">Berlin</div></div>
+      <div class="dest-card"><div class="dest-card-code">BRU</div><div class="dest-card-name">Brussels</div></div>
+      <div class="dest-card"><div class="dest-card-code">CDG</div><div class="dest-card-name">Paris</div></div>
+      <div class="dest-card"><div class="dest-card-code">CPH</div><div class="dest-card-name">Copenhagen</div></div>
+      <div class="dest-card"><div class="dest-card-code">DUB</div><div class="dest-card-name">Dublin</div></div>
+      <div class="dest-card"><div class="dest-card-code">FCO</div><div class="dest-card-name">Rome</div></div>
+      <div class="dest-card"><div class="dest-card-code">FRA</div><div class="dest-card-name">Frankfurt</div></div>
+      <div class="dest-card"><div class="dest-card-code">GVA</div><div class="dest-card-name">Geneva</div></div>
+      <div class="dest-card"><div class="dest-card-code">LHR</div><div class="dest-card-name">London</div></div>
+      <div class="dest-card"><div class="dest-card-code">MAD</div><div class="dest-card-name">Madrid</div></div>
+      <div class="dest-card"><div class="dest-card-code">MUC</div><div class="dest-card-name">Munich</div></div>
+      <div class="dest-card"><div class="dest-card-code">MXP</div><div class="dest-card-name">Milan</div></div>
+      <div class="dest-card"><div class="dest-card-code">VIE</div><div class="dest-card-name">Vienna</div></div>
+      <div class="dest-card"><div class="dest-card-code">ZRH</div><div class="dest-card-name">Zurich</div></div>
+    </div>
+  </div>
+
+  <div class="region-section">
+    <div class="region-label">Middle East & South Asia</div>
+    <div class="destinations-grid">
+      <div class="dest-card"><div class="dest-card-code">AMM</div><div class="dest-card-name">Amman</div></div>
+      <div class="dest-card"><div class="dest-card-code">AUH</div><div class="dest-card-name">Abu Dhabi</div></div>
+      <div class="dest-card"><div class="dest-card-code">DEL</div><div class="dest-card-name">Delhi</div></div>
+      <div class="dest-card"><div class="dest-card-code">DOH</div><div class="dest-card-name">Doha</div></div>
+      <div class="dest-card"><div class="dest-card-code">DXB</div><div class="dest-card-name">Dubai</div></div>
+      <div class="dest-card"><div class="dest-card-code">IST</div><div class="dest-card-name">Istanbul</div></div>
+      <div class="dest-card"><div class="dest-card-code">RUH</div><div class="dest-card-name">Riyadh</div></div>
+      <div class="dest-card"><div class="dest-card-code">TLV</div><div class="dest-card-name">Tel Aviv</div></div>
+    </div>
+  </div>
+
+  <div class="region-section">
+    <div class="region-label">Asia-Pacific</div>
+    <div class="destinations-grid">
+      <div class="dest-card"><div class="dest-card-code">BKK</div><div class="dest-card-name">Bangkok</div></div>
+      <div class="dest-card"><div class="dest-card-code">HKG</div><div class="dest-card-name">Hong Kong</div></div>
+      <div class="dest-card"><div class="dest-card-code">HND</div><div class="dest-card-name">Tokyo (Haneda)</div></div>
+      <div class="dest-card"><div class="dest-card-code">ICN</div><div class="dest-card-name">Seoul</div></div>
+      <div class="dest-card"><div class="dest-card-code">KIX</div><div class="dest-card-name">Osaka (Kansai)</div></div>
+      <div class="dest-card"><div class="dest-card-code">MEL</div><div class="dest-card-name">Melbourne</div></div>
+      <div class="dest-card"><div class="dest-card-code">NRT</div><div class="dest-card-name">Tokyo (Narita)</div></div>
+      <div class="dest-card"><div class="dest-card-code">PEK</div><div class="dest-card-name">Beijing</div></div>
+      <div class="dest-card"><div class="dest-card-code">PVG</div><div class="dest-card-name">Shanghai</div></div>
+      <div class="dest-card"><div class="dest-card-code">SIN</div><div class="dest-card-name">Singapore</div></div>
+      <div class="dest-card"><div class="dest-card-code">SYD</div><div class="dest-card-name">Sydney</div></div>
+      <div class="dest-card"><div class="dest-card-code">TPE</div><div class="dest-card-name">Taipei</div></div>
+    </div>
+  </div>
+
+  <div class="info-cards">
+    <div class="info-card">
+      <h3>Flight pricing</h3>
+      <p><strong>Economy return fares from SFO</strong> to all listed destinations, collected daily from Google Flights.</p>
+      <p>Benchmarks cover <strong>1–7 night trips</strong>, capturing the most common travel patterns.</p>
+      <p>Prices reflect <strong>round-trip economy fares</strong> for specified departure dates and return dates.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>Per diem allowances</h3>
+      <p>FairFares integrates <strong>DoD Foreign Service Per Diem Rates</strong> for all countries worldwide.</p>
+      <p>Rates are <strong>updated quarterly</strong> and reflect official U.S. government allowances for lodging and meals.</p>
+      <p>Lookup by country to see the <strong>daily allowance breakdown</strong> for your destination.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>Ground transport</h3>
+      <p>Estimate <strong>Uber, Lyft, and taxi fares</strong> between any two locations worldwide using OpenStreetMap geocoding.</p>
+      <p>Estimates include <strong>distance, time, and base fares</strong> specific to each city where available.</p>
+      <p>Useful for <strong>first/last mile costs</strong> and ground transport budget planning.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>Travel advisories</h3>
+      <p>Access <strong>current U.S. State Department travel advisories</strong> for every country, updated real-time.</p>
+      <p>Advisories show <strong>risk levels from L1 (exercise caution) to L4 (do not travel)</strong>.</p>
+      <p>Integrated into the tool to help travelers make <strong>informed policy decisions</strong> about destination safety.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>Data collection</h3>
+      <p>Flight data is <strong>collected daily</strong> via automated searches on Google Flights, starting 30 days in advance.</p>
+      <p>Each destination receives <strong>multiple data points per trip duration</strong> to capture price variance.</p>
+      <p>Usage data is logged to help identify <strong>underserved destinations</strong> for priority expansion.</p>
+    </div>
+
+    <div class="info-card">
+      <h3>How it helps</h3>
+      <p>When travelers deviate from authorized dates for personal reasons, they need <strong>the cost of a compliant flight for comparison</strong>.</p>
+      <p>FairFares pre-collects that benchmark data and makes it <strong>instantly available at lookup time</strong>, eliminating the need for retroactive research.</p>
+      <p>Supports <strong>travel policy compliance</strong> and transparent decision-making for travel offices and individual travelers.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Data is growing:</strong> Missing a destination? Use the "Request a destination" button on the lookup page. High-demand routes are prioritized in our daily collection runs.
+  </div>
+</div>
+
+<footer>
+  <div style="margin-bottom:1rem">
+    © 2026 FairFares. Travel cost benchmarking built for everyone. <a href="index.html">Look up a fare</a> • <a href="mailto:hello@getfairfares.com">Contact</a>
+  </div>
+  <div>Data sources: Google Flights · U.S. State Department (advisories) · DoD Foreign Service Per Diem Rates · OpenStreetMap</div>
+</footer>
+
+</body>
+</html>
