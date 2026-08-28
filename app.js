@@ -513,11 +513,21 @@ function gtGeo(){
 
 async function geocode(query){
   try{
+    const cacheKey='geo_'+query.trim().toLowerCase().replace(/\s+/g,'_');
+    const cached=localStorage.getItem(cacheKey);
+    if(cached){
+      const obj=JSON.parse(cached);
+      return obj.result===null?null:{lat:obj.lat,lon:obj.lon,display:obj.display};
+    }
     const url='https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(query)+'&format=json&limit=1';
     const resp=await fetch(url,{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
     const data=await resp.json();
-    if(data&&data.length>0) return {lat:parseFloat(data[0].lat),lon:parseFloat(data[0].lon),display:data[0].display_name};
-    return null;
+    let result=null;
+    if(data&&data.length>0){
+      result={lat:parseFloat(data[0].lat),lon:parseFloat(data[0].lon),display:data[0].display_name};
+    }
+    localStorage.setItem(cacheKey,JSON.stringify(result?{lat:result.lat,lon:result.lon,display:result.display}:{result:null}));
+    return result;
   }catch(e){return null;}
 }
 
