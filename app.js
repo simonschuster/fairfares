@@ -6,31 +6,37 @@ const fmt = n => '$' + Math.round(n).toLocaleString();
 const norm = s => (s||'').trim().toUpperCase();
 
 // ═══════════════════════════════════════════════
-// FLIGHT DATA — loaded from flights.js (static file updated daily by Cowork)
+// FLIGHT DATA — loaded per departure month from data/YYYY-MM.json
+// Destinations, months available, and "data through" date come from data/index.json
 // ═══════════════════════════════════════════════
 
-// Build destination list from FLIGHT_DATA (defined in flights.js)
-var SHEET_DESTINATIONS = (function() {
-  var seen = {};
-  var dests = [];
-  (FLIGHT_DATA || []).forEach(function(r) {
-    var key = r.destCode.toUpperCase();
-    if (!seen[key] && r.destination && r.destCode) {
-      seen[key] = true;
-      dests.push({
-        name: r.destination,
-        code: r.destCode.toUpperCase(),
-        display: r.destination + ' (' + r.destCode.toUpperCase() + ')'
-      });
-    }
-  });
-  dests.sort(function(a, b) { return a.name.localeCompare(b.name); });
-  return dests;
-})();
+var SHEET_DESTINATIONS = [];
+var FF_INDEX = null;
+var FF_MONTH_CACHE = {};
 
-function loadSheetData(cb) {
-  // Data is already loaded from flights.js — just return it
-  cb(FLIGHT_DATA || []);
+fetch('data/index.json', {cache: 'no-cache'})
+  .then(function(r) { return r.ok ? r.json() : null; })
+  .then(function(idx) {
+    FF_INDEX = idx;
+    if (idx && idx.destinations) {
+      SHEET_DESTINATIONS = idx.destinations.map(function(d) {
+        return { name: d.name, code: d.code.toUpperCase(), display: d.name + ' (' + d.code.toUpperCase() + ')' };
+      }).sort(function(a, b) { return a.name.localeCompare(b.name); });
+    }
+  })
+  .catch(function() { FF_INDEX = null; });
+
+// Loads only the departure month the user asked about
+function loadSheetData(depISO, cb) {
+  var month = depISO.slice(0, 7);
+  if (FF_MONTH_CACHE[month]) { cb(FF_MONTH_CACHE[month]); return; }
+  fetch('data/' + month + '.json', {cache: 'no-cache'})
+    .then(function(r) { return r.ok ? r.json() : { rows: [] }; })
+    .then(function(j) {
+      FF_MONTH_CACHE[month] = j.rows || [];
+      cb(FF_MONTH_CACHE[month]);
+    })
+    .catch(function() { cb(null); });
 }
 
 // ═══════════════════════════════════════════════
@@ -275,7 +281,8 @@ function lookFlight() {
   $('fl-note').textContent = 'Loading price data…';
   res.classList.add('show');
 
-  loadSheetData(function(data) {
+  var depISO = new Date(dep).toISOString().split('T')[0];
+  loadSheetData(depISO, function(data) {
     if (!data) {
       $('fl-note').textContent = 'Unable to load price data. Please try again.';
       return;
@@ -309,6 +316,9 @@ function lookFlight() {
         }))].slice(0, 3); // Show first 3 date combos available
         nf.innerHTML = 'No data for ' + destName + ' on ' + userDepDate + ' to ' + userRetDate + '. '
           + 'Available dates include: ' + availableDates.join('; ') + '.';
+      } else if (SHEET_DESTINATIONS.some(function(d) { return d.code === destCode; })) {
+        nf.textContent = 'No price data for ' + destName + ' with departures in ' + depISO.slice(0, 7) + ' yet.';
+        logUse('Flight lookup', 'SFO→' + destName + ' (no data this month)', nights);
       } else {
         nf.textContent = destName + ' is not in our current dataset. We add new destinations regularly.';
         logUse('Flight lookup', 'SFO→' + destName + ' (not found)', nights);
@@ -332,7 +342,7 @@ function lookFlight() {
       + '<br>Depart: ' + userDepDate + ' &nbsp;|&nbsp; Return: ' + userRetDate
       + '<br>Trip duration: ' + nights + ' night' + (nights !== 1 ? 's' : '')
       + '<br>Source: <a href="https://www.google.com/travel/flights" target="_blank">Google Flights</a>'
-      + ' — collected ' + dateCollected
+      + ' — collected ' + dateCollected+ (FF_INDEX && FF_INDEX.dataThrough ? '<br>Data through: ' + FF_INDEX.dataThrough : '')
       + '<br><small style="color:var(--g400)">Prices collected daily via automated search. Actual fares vary by booking date and availability.</small>';
 
     res.classList.add('show');
@@ -513,21 +523,11 @@ function gtGeo(){
 
 async function geocode(query){
   try{
-    const cacheKey='geo_'+query.trim().toLowerCase().replace(/\s+/g,'_');
-    const cached=localStorage.getItem(cacheKey);
-    if(cached){
-      const obj=JSON.parse(cached);
-      return obj.result===null?null:{lat:obj.lat,lon:obj.lon,display:obj.display};
-    }
     const url='https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(query)+'&format=json&limit=1';
     const resp=await fetch(url,{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
     const data=await resp.json();
-    let result=null;
-    if(data&&data.length>0){
-      result={lat:parseFloat(data[0].lat),lon:parseFloat(data[0].lon),display:data[0].display_name};
-    }
-    localStorage.setItem(cacheKey,JSON.stringify(result?{lat:result.lat,lon:result.lon,display:result.display}:{result:null}));
-    return result;
+    if(data&&data.length>0) return {lat:parseFloat(data[0].lat),lon:parseFloat(data[0].lon),display:data[0].display_name};
+    return null;
   }catch(e){return null;}
 }
 
