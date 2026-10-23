@@ -149,50 +149,98 @@ function setupSheetAC(inpId) {
 
 
 
-// Setup autocomplete for ground transport address fields
-function setupAddressAC(inpId){
-  const inp=$(inpId), drop=$(inpId+'-drop');
-  if(!inp||!drop) return;
-  let timer=null;
-  inp.addEventListener('input',()=>{
-    clearTimeout(timer);
-    const q=inp.value.trim();
-    drop.innerHTML='';
-    if(q.length<3){drop.style.display='none';return;}
-    timer=setTimeout(async ()=>{
-      try{
-        const url='https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(q)
-          +'&format=json&limit=6&addressdetails=1';
-        const r=await fetch(url,{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
-        const results=await r.json();
-        drop.innerHTML='';
-        if(!results.length){drop.style.display='none';return;}
-        results.forEach(place=>{
-          const div=document.createElement('div');
-          div.className='ac-item';
-          const addr=place.address||{};
-          const parts=[
-            place.name||addr.amenity||addr.building||addr.road||'',
-            addr.city||addr.town||addr.village||addr.county||'',
-            addr.state||'',
-            addr.country_code?addr.country_code.toUpperCase():''
-          ].filter(Boolean);
-          div.textContent=parts.slice(0,3).join(', ');
-          div.addEventListener('mousedown',e=>{
-            e.preventDefault();
-            inp.value=div.textContent;
-            inp.dataset.lat=place.lat;
-            inp.dataset.lon=place.lon;
-            drop.style.display='none';
-            gtGeo();
-          });
-          drop.appendChild(div);
-        });
-        drop.style.display=results.length?'block':'none';
-      }catch(e){drop.style.display='none';}
-    },400);
+// ═══════════════════════════════════════════════
+// PLACES LOOKUP (Google Places API, New)
+// Replace PASTE_KEY_HERE with your restricted API key (see setup notes).
+// ═══════════════════════════════════════════════
+const PLACES_KEY = 'AIzaSyDT-F4hN0ESsavk0WISUPlny8rqx_le84o';
+const PLACES_CACHE_PREFIX = 'pl_';
+
+function placesReady(){
+  return PLACES_KEY && PLACES_KEY !== 'PASTE_KEY_HERE';
+}
+
+// Autocomplete suggestions as the user types
+async function placesSuggest(q){
+  if(!placesReady()) return [];
+  const r = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json', 'X-Goog-Api-Key': PLACES_KEY},
+    body: JSON.stringify({input: q})
   });
-  inp.addEventListener('blur',()=>setTimeout(()=>drop.style.display='none',200));
+  if(!r.ok) return [];
+  const j = await r.json();
+  return (j.suggestions || []).filter(function(s){ return s.placePrediction; }).map(function(s){
+    return {
+      placeId: s.placePrediction.placeId,
+      text: (s.placePrediction.text && s.placePrediction.text.text) || ''
+    };
+  });
+}
+
+// Coordinates for a chosen place. Successful results are cached per place.
+async function placesDetails(placeId){
+  const key = PLACES_CACHE_PREFIX + placeId;
+  try{
+    const cached = localStorage.getItem(key);
+    if(cached) return JSON.parse(cached);
+  }catch(e){}
+  if(!placesReady()) return null;
+  const r = await fetch('https://places.googleapis.com/v1/places/' + encodeURIComponent(placeId), {
+    headers: {'X-Goog-Api-Key': PLACES_KEY, 'X-Goog-FieldMask': 'id,displayName,formattedAddress,location'}
+  });
+  if(!r.ok) return null;
+  const j = await r.json();
+  if(!j.location) return null;
+  const name = (j.displayName && j.displayName.text) || '';
+  const out = {
+    lat: j.location.latitude,
+    lon: j.location.longitude,
+    display: (name ? name + ', ' : '') + (j.formattedAddress || '')
+  };
+  try{ localStorage.setItem(key, JSON.stringify(out)); }catch(e){}
+  return out;
+}
+
+// Dropdown for the ground transport address fields
+function setupAddressAC(inpId){
+  const inp = $(inpId), drop = $(inpId + '-drop');
+  if(!inp || !drop) return;
+  let timer = null, reqId = 0;
+  inp.addEventListener('input', function(){
+    clearTimeout(timer);
+    delete inp.dataset.lat;
+    delete inp.dataset.lon;
+    const q = inp.value.trim();
+    drop.innerHTML = '';
+    if(q.length < 3){ drop.style.display = 'none'; return; }
+    const myReq = ++reqId;
+    timer = setTimeout(async function(){
+      let list = [];
+      try{ list = await placesSuggest(q); }catch(e){}
+      if(myReq !== reqId) return;   // a newer keystroke superseded this request
+      drop.innerHTML = '';
+      if(!list.length){ drop.style.display = 'none'; return; }
+      list.slice(0, 6).forEach(function(s){
+        const div = document.createElement('div');
+        div.className = 'ac-item';
+        div.textContent = s.text;
+        div.addEventListener('mousedown', async function(e){
+          e.preventDefault();
+          drop.style.display = 'none';
+          inp.value = s.text;
+          const d = await placesDetails(s.placeId);
+          if(d){ inp.dataset.lat = d.lat; inp.dataset.lon = d.lon; }
+          gtGeo();
+        });
+        drop.appendChild(div);
+      });
+      drop.style.display = 'block';
+    }, 300);
+  });
+  inp.addEventListener('blur', function(){
+    setTimeout(function(){ drop.style.display = 'none'; }, 200);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -521,14 +569,13 @@ function gtGeo(){
   gtGeoTimer=setTimeout(doGeoLookup,800);
 }
 
+// Used when the user typed an address without choosing a suggestion
 async function geocode(query){
   try{
-    const url='https://nominatim.openstreetmap.org/search?q='+encodeURIComponent(query)+'&format=json&limit=1';
-    const resp=await fetch(url,{headers:{'Accept-Language':'en','User-Agent':'FairFares/1.0'}});
-    const data=await resp.json();
-    if(data&&data.length>0) return {lat:parseFloat(data[0].lat),lon:parseFloat(data[0].lon),display:data[0].display_name};
-    return null;
-  }catch(e){return null;}
+    const list = await placesSuggest(query);
+    if(!list.length) return null;
+    return await placesDetails(list[0].placeId);
+  }catch(e){ return null; }
 }
 
 async function doGeoLookup(){
